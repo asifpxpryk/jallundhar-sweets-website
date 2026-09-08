@@ -30,10 +30,15 @@ export default function CircleMenuGrid({
   flush = false,
 }: {
   items: CircleMenuEntry[];
-  columns?: 3 | 6;
+  columns?: 3 | 4 | 6;
   flush?: boolean;
 }) {
-  const colClass = columns === 6 ? "grid-cols-3 sm:grid-cols-6 sm:flex sm:justify-center" : "grid-cols-3";
+  const colClass =
+    columns === 6
+      ? "grid-cols-3 sm:grid-cols-6 sm:flex sm:justify-center"
+      : columns === 4
+        ? "grid-cols-2 sm:grid-cols-4"
+        : "grid-cols-3";
 
   return (
     <div className={flush ? "mt-6" : "mx-auto max-w-6xl px-3 py-2 sm:px-6 sm:py-3"}>

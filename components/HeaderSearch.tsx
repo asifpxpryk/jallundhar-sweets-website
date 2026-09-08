@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import { normalizeName } from "@/lib/sections";
 import { bakeryAisleForItem, getBakeryAisle } from "@/lib/bakeryAisles";
+import { sweetsAisleForItem, getSweetsAisle } from "@/lib/sweetsAisles";
 import { useCart } from "./CartContext";
 import ProductImage from "./ProductImage";
 
@@ -21,7 +22,9 @@ type Hit = {
 };
 
 function hitForItem(item: MenuItem, category: MenuCategory): Hit {
-  const aisle = category.slug === "bakery" ? bakeryAisleForItem(item.name) ?? undefined : undefined;
+  const bakeryAisle = category.slug === "bakery" ? bakeryAisleForItem(item.name) ?? undefined : undefined;
+  const sweetsAisle = category.slug === "sweets" ? sweetsAisleForItem(item.name) : undefined;
+  const aisle = bakeryAisle ?? sweetsAisle;
   return {
     id: item.id,
     cardId: item.id,
@@ -30,7 +33,9 @@ function hitForItem(item: MenuItem, category: MenuCategory): Hit {
     image_url: item.image_url,
     section: category.slug,
     aisle,
-    sectionName: aisle ? getBakeryAisle(aisle)?.name ?? category.name : category.name,
+    sectionName: aisle
+      ? (bakeryAisle ? getBakeryAisle(bakeryAisle)?.name : getSweetsAisle(aisle)?.name) ?? category.name
+      : category.name,
     item,
   };
 }

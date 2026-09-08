@@ -33,7 +33,7 @@ export default function CategoryProductGrid({
   items: MenuItem[];
   menuSlug?: string;
   hasExtra?: boolean;
-  aisleSection?: "general" | "beverage" | "bakery";
+  aisleSection?: "general" | "beverage" | "bakery" | "sweets";
   aisleSlug?: string;
 }) {
   const isAdmin = useIsAdmin();

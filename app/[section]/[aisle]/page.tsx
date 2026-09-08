@@ -8,11 +8,18 @@ import {
   getBakeryAisle,
   isBakeryAisle,
 } from "@/lib/bakeryAisles";
+import {
+  SWEETS_AISLES,
+  filterSweetsAisleItems,
+  getSweetsAisle,
+  isSweetsAisle,
+} from "@/lib/sweetsAisles";
 import { loadAisleItems, applyMenuOverrides } from "@/lib/loadAisleItems";
 import {
   isAisleHidden,
   isBakeryAisleHidden,
   isBeverageAisleHidden,
+  isSweetsAisleHidden,
   loadStoreVisibility,
 } from "@/lib/storeVisibility";
 import { loadMenu } from "@/lib/loadMenu";
@@ -25,6 +32,7 @@ export function generateStaticParams() {
     ...GENERAL_AISLES.map((aisle) => ({ section: "general", aisle: aisle.slug })),
     ...BEVERAGE_AISLES.map((aisle) => ({ section: "beverage", aisle: aisle.slug })),
     ...BAKERY_AISLES.map((aisle) => ({ section: "bakery", aisle: aisle.slug })),
+    ...SWEETS_AISLES.map((aisle) => ({ section: "sweets", aisle: aisle.slug })),
   ];
 }
 
@@ -54,6 +62,15 @@ export function generateMetadata({ params }: { params: { section: string; aisle:
         ? `${aisle.name} | Jallundhar Sweets & Bakers`
         : "Jallundhar Sweets & Bakers",
       alternates: { canonical: `/bakery/${params.aisle}` },
+    };
+  }
+  if (params.section === "sweets") {
+    const aisle = getSweetsAisle(params.aisle);
+    return {
+      title: aisle
+        ? `${aisle.name} | Jallundhar Sweets & Bakers`
+        : "Jallundhar Sweets & Bakers",
+      alternates: { canonical: `/sweets/${params.aisle}` },
     };
   }
   return { title: "Jallundhar Sweets & Bakers" };
@@ -118,6 +135,21 @@ export default async function NestedAislePage({
         items={filterBakeryAisleItems(bakery?.items ?? [], aisle.slug)}
         image={aisle.image}
         aisleSection="bakery"
+        aisleSlug={aisle.slug}
+      />
+    );
+  }
+
+  if (params.section === "sweets" && isSweetsAisle(params.aisle)) {
+    if (isSweetsAisleHidden(visibility, params.aisle)) notFound();
+    const aisle = getSweetsAisle(params.aisle)!;
+    const sweets = menu.find((category) => category.slug === "sweets");
+    return (
+      <CategoryProducts
+        name={aisle.name}
+        items={filterSweetsAisleItems(sweets?.items ?? [], aisle.slug)}
+        image={aisle.image}
+        aisleSection="sweets"
         aisleSlug={aisle.slug}
       />
     );

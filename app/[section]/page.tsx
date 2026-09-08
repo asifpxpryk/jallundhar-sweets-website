@@ -5,6 +5,7 @@ import { loadMenu } from "@/lib/loadMenu";
 import GeneralAisleNav from "@/components/GeneralAisleNav";
 import BeverageAisleNav from "@/components/BeverageAisleNav";
 import BakeryAisleNav from "@/components/BakeryAisleNav";
+import SweetsAisleNav from "@/components/SweetsAisleNav";
 import { bakeryItemsOutsideAisles } from "@/lib/bakeryAisles";
 import { isSectionHidden, loadStoreVisibility } from "@/lib/storeVisibility";
 
@@ -33,7 +34,11 @@ export default async function SectionPage({ params }: { params: { section: strin
   const categories = await loadMenu();
   const category = categories.find((c) => c.slug === meta.slug);
   const items =
-    meta.slug === "bakery" ? bakeryItemsOutsideAisles(category?.items ?? []) : category?.items ?? [];
+    meta.slug === "bakery"
+      ? bakeryItemsOutsideAisles(category?.items ?? [])
+      : meta.slug === "sweets"
+        ? []
+        : category?.items ?? [];
 
   return (
     <CategoryProducts
@@ -47,6 +52,8 @@ export default async function SectionPage({ params }: { params: { section: strin
           <BeverageAisleNav />
         ) : meta.slug === "bakery" ? (
           <BakeryAisleNav />
+        ) : meta.slug === "sweets" ? (
+          <SweetsAisleNav />
         ) : undefined
       }
       menuSlug={meta.slug}

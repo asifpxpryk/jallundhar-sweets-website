@@ -19,7 +19,7 @@ export default function CategoryProducts({
   image?: string;
   extra?: ReactNode;
   menuSlug?: string;
-  aisleSection?: "general" | "beverage" | "bakery";
+  aisleSection?: "general" | "beverage" | "bakery" | "sweets";
   aisleSlug?: string;
 }) {
   return (

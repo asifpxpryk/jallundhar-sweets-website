@@ -5,6 +5,7 @@ import { loadAisleItems, applyMenuOverrides } from "@/lib/loadAisleItems";
 import { isGeneralAisle } from "@/lib/generalAisles";
 import { isBeverageAisle } from "@/lib/beverageAisles";
 import { bakeryItemsOutsideAisles, filterBakeryAisleItems, isBakeryAisle } from "@/lib/bakeryAisles";
+import { filterSweetsAisleItems, isSweetsAisle } from "@/lib/sweetsAisles";
 import { loadStoreVisibilityUncached } from "@/lib/storeVisibility";
 import { isSectionSlug } from "@/lib/sections";
 
@@ -55,12 +56,20 @@ export async function GET(request: Request) {
       });
     }
 
+    if (aisle && section === "sweets" && isSweetsAisle(aisle)) {
+      const categories = await loadMenuIncludingHiddenUncached();
+      const sweets = categories.find((entry) => entry.slug === "sweets");
+      return NextResponse.json({
+        items: filterSweetsAisleItems(sweets?.items ?? [], aisle),
+      });
+    }
+
     if (section && isSectionSlug(section)) {
       const categories = await loadMenuIncludingHiddenUncached();
       const category = categories.find((entry) => entry.slug === section);
       const items = category?.items ?? [];
       return NextResponse.json({
-        items: section === "bakery" ? bakeryItemsOutsideAisles(items) : items,
+        items: section === "bakery" ? bakeryItemsOutsideAisles(items) : section === "sweets" ? [] : items,
       });
     }
 

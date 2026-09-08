@@ -6,6 +6,7 @@ import { SECTIONS, isSectionSlug } from "@/lib/sections";
 import { GENERAL_AISLES, isGeneralAisle } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES, isBeverageAisle } from "@/lib/beverageAisles";
 import { BAKERY_AISLES, isBakeryAisle } from "@/lib/bakeryAisles";
+import { SWEETS_AISLES, isSweetsAisle } from "@/lib/sweetsAisles";
 import fallback from "@/data/store-visibility.json";
 
 export type CategoryKind = "section" | "aisle";
@@ -80,7 +81,10 @@ function applyRows(base: StoreVisibility, rows: VisibilityRow[]): StoreVisibilit
     }
     if (
       row.kind === "aisle" &&
-      (isGeneralAisle(row.slug) || isBeverageAisle(row.slug) || isBakeryAisle(row.slug))
+      (isGeneralAisle(row.slug) ||
+        isBeverageAisle(row.slug) ||
+        isBakeryAisle(row.slug) ||
+        isSweetsAisle(row.slug))
     ) {
       if (row.hidden) aisles.add(row.slug);
       else aisles.delete(row.slug);
@@ -187,6 +191,10 @@ export function isBakeryAisleHidden(vis: StoreVisibility, slug: string) {
   return vis.hiddenAisles.includes(slug) || vis.hiddenSections.includes("bakery");
 }
 
+export function isSweetsAisleHidden(vis: StoreVisibility, slug: string) {
+  return vis.hiddenAisles.includes(slug) || vis.hiddenSections.includes("sweets");
+}
+
 export function visibleSections(vis: StoreVisibility) {
   return SECTIONS.filter((section) => !isSectionHidden(vis, section.slug));
 }
@@ -204,6 +212,11 @@ export function visibleBeverageAisles(vis: StoreVisibility) {
 export function visibleBakeryAisles(vis: StoreVisibility) {
   if (isSectionHidden(vis, "bakery")) return [];
   return BAKERY_AISLES.filter((aisle) => !vis.hiddenAisles.includes(aisle.slug));
+}
+
+export function visibleSweetsAisles(vis: StoreVisibility) {
+  if (isSectionHidden(vis, "sweets")) return [];
+  return SWEETS_AISLES.filter((aisle) => !vis.hiddenAisles.includes(aisle.slug));
 }
 
 export function applyBestsellerToggle(vis: StoreVisibility, id: string, on: boolean): StoreVisibility {
