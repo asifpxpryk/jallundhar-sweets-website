@@ -3376,5 +3376,1849 @@
       "is_available": true,
       "sort_order": 95
     }
+  ],
+  "noodles": [
+    {
+      "id": "noodles-samyang-ramen-extra-spicy-soup-type-instant-noodles-korean-noodles-halal-120g",
+      "category_id": "general",
+      "name": "Samyang Ramen Extra Spicy Soup Type Instant Noodles, Korean Noodles, Halal, 120g",
+      "description": null,
+      "price": 450,
+      "image_url": "/products/noodles/samyang-ramen-extra-spicy-soup-type-instant-noodles-korean-noodles-halal-120g.png",
+      "is_available": true,
+      "sort_order": 0
+    },
+    {
+      "id": "noodles-samyang-ramen-noodles-kimchi-cup-70g",
+      "category_id": "general",
+      "name": "SAMYANG RAMEN NOODLES KIMCHI CUP 70G",
+      "description": null,
+      "price": 550,
+      "image_url": "/products/noodles/samyang-ramen-noodles-kimchi-cup-70g.jpg",
+      "is_available": true,
+      "sort_order": 1
+    },
+    {
+      "id": "noodles-samyang-buldak-spicy-chicken-carbonara-instant-noodle-soup-cup-80-g",
+      "category_id": "general",
+      "name": "Samyang Buldak Spicy Chicken Carbonara Instant Noodle Soup Cup, 80 g",
+      "description": null,
+      "price": 550,
+      "image_url": "/products/noodles/samyang-buldak-spicy-chicken-carbonara-instant-noodle-soup-cup-80-g.png",
+      "is_available": true,
+      "sort_order": 2
+    },
+    {
+      "id": "noodles-mr-noodles-chicken-flavour-cup-60gm",
+      "category_id": "general",
+      "name": "Mr.Noodles Chicken Flavour Cup  (60gm)",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/mr-noodles-chicken-flavour-cup-60gm.png",
+      "is_available": true,
+      "sort_order": 3
+    },
+    {
+      "id": "noodles-mr-noodles-instant-cup-noodles-korean-super-spicy-60-g",
+      "category_id": "general",
+      "name": "MR. Noodles Instant Cup Noodles Korean Super Spicy 60 g",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/mr-noodles-instant-cup-noodles-korean-super-spicy-60-g.png",
+      "is_available": true,
+      "sort_order": 4
+    },
+    {
+      "id": "noodles-pran-veggie-instant-cup-noodles-original-vegetable-flavour-60gm",
+      "category_id": "general",
+      "name": "PRAN Veggie Instant Cup Noodles Original Vegetable Flavour - 60gm",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/pran-veggie-instant-cup-noodles-original-vegetable-flavour-60gm.jpg",
+      "is_available": true,
+      "sort_order": 5
+    },
+    {
+      "id": "noodles-kai-kimchi-flavor-instant-ramen-noodles-cup-72g",
+      "category_id": "general",
+      "name": "KAI KIMCHI FLAVOR INSTANT RAMEN NOODLES CUP 72G",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/kai-kimchi-flavor-instant-ramen-noodles-cup-72g.png",
+      "is_available": true,
+      "sort_order": 6
+    },
+    {
+      "id": "noodles-kolson-spicy-mala-flavour-instant-ramen-noodle-72g",
+      "category_id": "general",
+      "name": "KAI SPICY MALA FLAVOR INSTANT RAMEN NOODLES CUP 72G",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/kolson-spicy-mala-flavour-instant-ramen-noodle-72g.webp",
+      "is_available": true,
+      "sort_order": 7
+    },
+    {
+      "id": "noodles-samyang-hot-chicken-raman-bowl-korean-noodles-105g",
+      "category_id": "general",
+      "name": "Samyang Hot Chicken Raman Bowl Korean noodles 105g",
+      "description": null,
+      "price": 600,
+      "image_url": "/products/noodles/samyang-hot-chicken-raman-bowl-korean-noodles-105g.jpg",
+      "is_available": true,
+      "sort_order": 8
+    },
+    {
+      "id": "noodles-samyang-buldak-hot-chicken-flavor-ramen-big-cup-105g",
+      "category_id": "general",
+      "name": "Samyang Buldak Hot Chicken Flavor Ramen Big Cup 105g",
+      "description": null,
+      "price": 600,
+      "image_url": "/products/noodles/samyang-buldak-hot-chicken-flavor-ramen-big-cup-105g.webp",
+      "is_available": true,
+      "sort_order": 9
+    },
+    {
+      "id": "noodles-shoop-spicy-chicken-flavour-instant-noodle-110g",
+      "category_id": "general",
+      "name": "Shoop Spicy Chicken Flavour Instant Noodle 110g",
+      "description": null,
+      "price": 90,
+      "image_url": "/products/noodles/shoop-spicy-chicken-flavour-instant-noodle-110g.webp",
+      "is_available": true,
+      "sort_order": 10
+    },
+    {
+      "id": "noodles-shan-shoop-noodles-chattpata-50g",
+      "category_id": "general",
+      "name": "Shan Shoop Noodles Chattpata 50g",
+      "description": null,
+      "price": 45,
+      "image_url": "/products/noodles/shan-shoop-noodles-chattpata-50g.webp",
+      "is_available": true,
+      "sort_order": 11
+    },
+    {
+      "id": "noodles-shan-shoop-chicken-flavor-50gm",
+      "category_id": "general",
+      "name": "Shan Shoop Chicken Flavor -50gm",
+      "description": null,
+      "price": 45,
+      "image_url": "/products/noodles/shan-shoop-chicken-flavor-50gm.jpg",
+      "is_available": true,
+      "sort_order": 12
+    },
+    {
+      "id": "noodles-samyang-hot-chicken-ramen-stir-fried-noodle-140g",
+      "category_id": "general",
+      "name": "Samyang Hot Chicken Ramen Stir-Fried Noodle, 140g",
+      "description": null,
+      "price": 450,
+      "image_url": "/products/noodles/samyang-hot-chicken-ramen-stir-fried-noodle-140g.jpg",
+      "is_available": true,
+      "sort_order": 13
+    },
+    {
+      "id": "noodles-samyang-buldak-noodles-stew-tipe-hot-chicken-145gm",
+      "category_id": "general",
+      "name": "SAMYANG BULDAK NOODLES STEW TIPE HOT CHICKEN 145GM",
+      "description": null,
+      "price": 450,
+      "image_url": "/products/noodles/samyang-buldak-noodles-stew-tipe-hot-chicken-145gm.webp",
+      "is_available": true,
+      "sort_order": 14
+    },
+    {
+      "id": "noodles-buldak-ramen-carbonara-130g",
+      "category_id": "general",
+      "name": "Buldak Ramen Carbonara 130g",
+      "description": null,
+      "price": 430,
+      "image_url": "/products/noodles/buldak-ramen-carbonara-130g.webp",
+      "is_available": true,
+      "sort_order": 15
+    },
+    {
+      "id": "noodles-samyang-buldak-cream-carbonara-hot-chicken-flavor-ramen-stir-fired-noodle-140g",
+      "category_id": "general",
+      "name": "SamYang Buldak Cream Carbonara | Hot Chicken Flavor Ramen | Stir-Fired Noodle 140g",
+      "description": null,
+      "price": 450,
+      "image_url": "/products/noodles/samyang-buldak-cream-carbonara-hot-chicken-flavor-ramen-stir-fired-noodle-140g.webp",
+      "is_available": true,
+      "sort_order": 16
+    },
+    {
+      "id": "noodles-samyang-buldak-halal-spicy-korean-noodles-original-imported-140g",
+      "category_id": "general",
+      "name": "Samyang Buldak Halal Spicy Korean Noodles – Original Imported 140g",
+      "description": null,
+      "price": 450,
+      "image_url": "/products/noodles/samyang-buldak-halal-spicy-korean-noodles-original-imported-140g.webp",
+      "is_available": true,
+      "sort_order": 17
+    },
+    {
+      "id": "noodles-samyang-jjajang-hot-chicken-flavor-noodles-140g",
+      "category_id": "general",
+      "name": "Samyang Jjajang Hot Chicken Flavor Noodles 140g",
+      "description": null,
+      "price": 450,
+      "image_url": "/products/noodles/samyang-jjajang-hot-chicken-flavor-noodles-140g.png",
+      "is_available": true,
+      "sort_order": 18
+    },
+    {
+      "id": "noodles-samyang-buldak-hot-chicken-flavour-ramen-noodle-135g",
+      "category_id": "general",
+      "name": "Samyang Buldak Hot Chicken Flavour Ramen Noodle 135g",
+      "description": null,
+      "price": 430,
+      "image_url": "/products/noodles/samyang-buldak-hot-chicken-flavour-ramen-noodle-135g.jpg",
+      "is_available": true,
+      "sort_order": 19
+    },
+    {
+      "id": "noodles-samyang-buldak-hot-chicken-ramen-3x-spicy-140gm",
+      "category_id": "general",
+      "name": "SAMYANG BULDAK HOT CHICKEN RAMEN 3X SPICY 140GM",
+      "description": null,
+      "price": 450,
+      "image_url": "/products/noodles/samyang-buldak-hot-chicken-ramen-3x-spicy-140gm.jpg",
+      "is_available": true,
+      "sort_order": 20
+    },
+    {
+      "id": "noodles-shoop-spicy-chicken-flavour-instant-noodle-family-pack-4-pieces-1",
+      "category_id": "general",
+      "name": "Shoop Spicy Chicken Flavour Instant Noodle Family Pack 4 Pieces",
+      "description": null,
+      "price": 180,
+      "image_url": "/products/noodles/shoop-spicy-chicken-flavour-instant-noodle-family-pack-4-pieces-1.jpg",
+      "is_available": true,
+      "sort_order": 21
+    },
+    {
+      "id": "noodles-shan-shoop-noodles-chicken-saver-pack-4-packs",
+      "category_id": "general",
+      "name": "SHAN SHOOP NOODLES CHICKEN SAVER PACK 4 Pieces",
+      "description": null,
+      "price": 180,
+      "image_url": "/products/noodles/shan-shoop-noodles-chicken-saver-pack-4-packs.webp",
+      "is_available": true,
+      "sort_order": 22
+    },
+    {
+      "id": "noodles-ndomie-instant-noodles-full-meal-chicken-chatkhara-flavour-120-g",
+      "category_id": "general",
+      "name": "ndomie Instant Noodles Full Meal Chicken Chatkhara Flavour 120 g",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/noodles/ndomie-instant-noodles-full-meal-chicken-chatkhara-flavour-120-g.jpg",
+      "is_available": true,
+      "sort_order": 23
+    },
+    {
+      "id": "noodles-indomie-noodles-lemon-tarka-120g",
+      "category_id": "general",
+      "name": "indomie noodles lemon tarka 120g",
+      "description": null,
+      "price": 90,
+      "image_url": "/products/noodles/indomie-noodles-lemon-tarka-120g.jpg",
+      "is_available": true,
+      "sort_order": 24
+    },
+    {
+      "id": "noodles-rich-black-bean-flavour-a-spicy-korean-twist-meet-volcano-jjajang-120-g",
+      "category_id": "general",
+      "name": "Rich black bean flavour. A spicy Korean twist. Meet Volcano Jjajang 120 g",
+      "description": null,
+      "price": 320,
+      "image_url": "/products/noodles/rich-black-bean-flavour-a-spicy-korean-twist-meet-volcano-jjajang-120-g.png",
+      "is_available": true,
+      "sort_order": 25
+    },
+    {
+      "id": "noodles-noody-valcano-cheese-2x-spicy-noodles-120gm",
+      "category_id": "general",
+      "name": "NOODY VALCANO CHEESE 2X SPICY NOODLES 120GM",
+      "description": null,
+      "price": 390,
+      "image_url": "/products/noodles/noody-valcano-cheese-2x-spicy-noodles-120gm.png",
+      "is_available": true,
+      "sort_order": 26
+    },
+    {
+      "id": "noodles-indomie-chicken-flavour-instant-noodles-70g",
+      "category_id": "general",
+      "name": "Indomie Chicken Flavour Instant Noodles, 70g",
+      "description": null,
+      "price": 65,
+      "image_url": "/products/noodles/indomie-chicken-flavour-instant-noodles-70g.png",
+      "is_available": true,
+      "sort_order": 27
+    },
+    {
+      "id": "noodles-pack-of-1-indomie-lemon-flavor-noodles-70-g",
+      "category_id": "general",
+      "name": "Pack of 1 indomie Lemon flavor noodles- 70 g",
+      "description": null,
+      "price": 65,
+      "image_url": "/products/noodles/pack-of-1-indomie-lemon-flavor-noodles-70-g.png",
+      "is_available": true,
+      "sort_order": 28
+    },
+    {
+      "id": "noodles-abc-selera-pedas-mi-instan-hot-semur-chicken-flavour-instant-noodles-70g",
+      "category_id": "general",
+      "name": "ABC Selera Pedas Mi Instan  Hot Semur Chicken Flavour Instant Noodles – 70g",
+      "description": null,
+      "price": 130,
+      "image_url": "/products/noodles/abc-selera-pedas-mi-instan-hot-semur-chicken-flavour-instant-noodles-70g.webp",
+      "is_available": true,
+      "sort_order": 29
+    },
+    {
+      "id": "noodles-mi-abc-fried-instant-groreng-noodle-70-gr",
+      "category_id": "general",
+      "name": "Mi Abc Fried Instant groreng Noodle 70 gr",
+      "description": null,
+      "price": 130,
+      "image_url": "/products/noodles/mi-abc-fried-instant-groreng-noodle-70-gr.webp",
+      "is_available": true,
+      "sort_order": 30
+    },
+    {
+      "id": "noodles-abc-fried-noodle-super-spicy-chicken-80gm",
+      "category_id": "general",
+      "name": "ABC FRIED NOODLE SUPER SPICY CHICKEN 80GM",
+      "description": null,
+      "price": 180,
+      "image_url": "/products/noodles/abc-fried-noodle-super-spicy-chicken-80gm.gif",
+      "is_available": true,
+      "sort_order": 31
+    },
+    {
+      "id": "noodles-shan-shoop-full-meal-beef-flavour-noodles-110g",
+      "category_id": "general",
+      "name": "Shan Shoop Full Meal Beef Flavour Noodles 110g",
+      "description": null,
+      "price": 130,
+      "image_url": "/products/noodles/shan-shoop-full-meal-beef-flavour-noodles-110g.webp",
+      "is_available": true,
+      "sort_order": 32
+    },
+    {
+      "id": "noodles-noody-volcano-spicy-korean-chicken-ramen-lime-120g",
+      "category_id": "general",
+      "name": "Noody Volcano Spicy Korean Chicken Ramen Lime 120g",
+      "description": null,
+      "price": 390,
+      "image_url": "/products/noodles/noody-volcano-spicy-korean-chicken-ramen-lime-120g.png",
+      "is_available": true,
+      "sort_order": 33
+    },
+    {
+      "id": "noodles-noody-hot-spicy-chicken-fettuccine-2x-spicy-black-114g",
+      "category_id": "general",
+      "name": "Noody Hot Spicy Chicken Fettuccine (2x Spicy) Black 114g",
+      "description": null,
+      "price": 390,
+      "image_url": "/products/noodles/noody-hot-spicy-chicken-fettuccine-2x-spicy-black-114g.png",
+      "is_available": true,
+      "sort_order": 34
+    },
+    {
+      "id": "noodles-noody-valcano-carbonara-2x-spicy-noodles-120gm",
+      "category_id": "general",
+      "name": "NOODY VALCANO CARBONARA 2X SPICY NOODLES 120GM",
+      "description": null,
+      "price": 390,
+      "image_url": "/products/noodles/noody-valcano-carbonara-2x-spicy-noodles-120gm.png",
+      "is_available": true,
+      "sort_order": 35
+    },
+    {
+      "id": "noodles-noody-volcano-korean-chicken-noodle-raman-black-120g",
+      "category_id": "general",
+      "name": "NOODY VOLCANO KOREAN CHICKEN NOODLE RAMAN BLACK 120G",
+      "description": null,
+      "price": 390,
+      "image_url": "/products/noodles/noody-volcano-korean-chicken-noodle-raman-black-120g.png",
+      "is_available": true,
+      "sort_order": 36
+    },
+    {
+      "id": "noodles-indomie-instant-noodles-meat-masala-120g",
+      "category_id": "general",
+      "name": "Indomie Instant Noodles Meat Masala",
+      "description": null,
+      "price": 65,
+      "image_url": "/products/noodles/indomie-instant-noodles-meat-masala-120g.png",
+      "is_available": true,
+      "sort_order": 37
+    },
+    {
+      "id": "noodles-shan-shoop-firey-hot-carbonara-flavour-korean-noodles-140g",
+      "category_id": "general",
+      "name": "Shan Shoop Firey Hot Carbonara Flavour Korean Noodles 140g",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/shan-shoop-firey-hot-carbonara-flavour-korean-noodles-140g.webp",
+      "is_available": true,
+      "sort_order": 38
+    },
+    {
+      "id": "noodles-shoop-korean-chilli-blast-140g",
+      "category_id": "general",
+      "name": "Shoop Korean Chilli Blast 140g",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/shoop-korean-chilli-blast-140g.jpg",
+      "is_available": true,
+      "sort_order": 39
+    },
+    {
+      "id": "noodles-shoop-noodles-fiery-hot-cheese-140g",
+      "category_id": "general",
+      "name": "shoop noodles fiery hot cheese 140g",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/noodles/shoop-noodles-fiery-hot-cheese-140g.webp",
+      "is_available": true,
+      "sort_order": 40
+    },
+    {
+      "id": "noodles-noody-korean-hot-pot-flavour-2x-spicy-red",
+      "category_id": "general",
+      "name": "NOODY KOREAN HOT POT FLAVOUR 2X SPICY RED",
+      "description": null,
+      "price": 390,
+      "image_url": "/products/noodles/noody-korean-hot-pot-flavour-2x-spicy-red.jpg",
+      "is_available": true,
+      "sort_order": 41
+    },
+    {
+      "id": "noodles-kolson-instant-noodles-chatpata-family-pack",
+      "category_id": "general",
+      "name": "Kolson Instant Noodles Chatpata Family Pack",
+      "description": null,
+      "price": 210,
+      "image_url": "/products/noodles/kolson-instant-noodles-chatpata-family-pack.jpg",
+      "is_available": true,
+      "sort_order": 42
+    },
+    {
+      "id": "noodles-kolson-noodle-doodle-instant-noodles-family-pack-chicken-4-ps",
+      "category_id": "general",
+      "name": "Kolson Noodle Doodle Instant Noodles Family Pack (Chicken) 4 Packs Inside",
+      "description": null,
+      "price": 210,
+      "image_url": "/products/noodles/kolson-noodle-doodle-instant-noodles-family-pack-chicken-4-ps.jpg",
+      "is_available": true,
+      "sort_order": 43
+    },
+    {
+      "id": "noodles-shoop-spicy-chicken-flavour-instant-noodle-family-pack-4-pieces",
+      "category_id": "general",
+      "name": "Shoop Spicy Chicken Flavour Instant Noodle Family Pack 4 Pieces",
+      "description": null,
+      "price": 180,
+      "image_url": "/products/noodles/shoop-spicy-chicken-flavour-instant-noodle-family-pack-4-pieces.webp",
+      "is_available": true,
+      "sort_order": 44
+    },
+    {
+      "id": "noodles-knorr-noodles-50g-chicken",
+      "category_id": "general",
+      "name": "KNORR NOODLES 50G CHICKEN",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/noodles/knorr-noodles-50g-chicken.webp",
+      "is_available": true,
+      "sort_order": 45
+    },
+    {
+      "id": "noodles-knorr-chatt-patta-noodles-50gm",
+      "category_id": "general",
+      "name": "KNORR CHATT PATTA NOODLES 50GM",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/noodles/knorr-chatt-patta-noodles-50gm.webp",
+      "is_available": true,
+      "sort_order": 46
+    },
+    {
+      "id": "noodles-knorr-noodle-chatt-patta-31g",
+      "category_id": "general",
+      "name": "Knorr Noodle Chatt Patta 31g",
+      "description": null,
+      "price": 35,
+      "image_url": "/products/noodles/knorr-noodle-chatt-patta-31g.webp",
+      "is_available": true,
+      "sort_order": 47
+    },
+    {
+      "id": "noodles-knorr-noodle-chicken-31g",
+      "category_id": "general",
+      "name": "Knorr Noodle Chicken 31g",
+      "description": null,
+      "price": 35,
+      "image_url": "/products/noodles/knorr-noodle-chicken-31g.webp",
+      "is_available": true,
+      "sort_order": 48
+    },
+    {
+      "id": "noodles-knorr-chatt-patta-noodle-110g",
+      "category_id": "general",
+      "name": "Knorr Chatt Patta Noodle 110g",
+      "description": null,
+      "price": 99,
+      "image_url": "/products/noodles/knorr-chatt-patta-noodle-110g.webp",
+      "is_available": true,
+      "sort_order": 49
+    },
+    {
+      "id": "noodles-knorr-chicken-noodle-110g",
+      "category_id": "general",
+      "name": "Knorr Chicken Noodle 110g",
+      "description": null,
+      "price": 99,
+      "image_url": "/products/noodles/knorr-chicken-noodle-110g.webp",
+      "is_available": true,
+      "sort_order": 50
+    },
+    {
+      "id": "noodles-knorr-spicy-beef-noodles-110-5g",
+      "category_id": "general",
+      "name": "Knorr Spicy Beef Noodles 110.5g",
+      "description": null,
+      "price": 175,
+      "image_url": "/products/noodles/knorr-spicy-beef-noodles-110-5g.webp",
+      "is_available": true,
+      "sort_order": 51
+    },
+    {
+      "id": "noodles-knorr-2xspicier-blazin-flavored-instant-noodles-110-g",
+      "category_id": "general",
+      "name": "Knorr 2x spicier Blazin Flavored Instant Noodles 110 g",
+      "description": null,
+      "price": 175,
+      "image_url": "/products/noodles/knorr-2xspicier-blazin-flavored-instant-noodles-110-g.webp",
+      "is_available": true,
+      "sort_order": 52
+    },
+    {
+      "id": "noodles-knorr-noodles-chicken-party-pack-6-packs-inside",
+      "category_id": "general",
+      "name": "Knorr Noodles Chicken Party Pack, , 6-Packs Inside",
+      "description": null,
+      "price": 275,
+      "image_url": "/products/noodles/knorr-noodles-chicken-party-pack-6-packs-inside.jpg",
+      "is_available": true,
+      "sort_order": 53
+    },
+    {
+      "id": "noodles-knorr-noodles-chatpatta-promo-pack-1x6-270-gm",
+      "category_id": "general",
+      "name": "KNORR NOODLES CHATPATTA PROMO PACK 1X6 270 GM",
+      "description": null,
+      "price": 275,
+      "image_url": "/products/noodles/knorr-noodles-chatpatta-promo-pack-1x6-270-gm.webp",
+      "is_available": true,
+      "sort_order": 54
+    },
+    {
+      "id": "noodles-knorr-noodles-chatt-patta-family-pack-4-pack-inside-180g",
+      "category_id": "general",
+      "name": "Knorr Noodles Chatt Patta, Family Pack, 4-Pack Inside 180g",
+      "description": null,
+      "price": 185,
+      "image_url": "/products/noodles/knorr-noodles-chatt-patta-family-pack-4-pack-inside-180g.jpg",
+      "is_available": true,
+      "sort_order": 55
+    },
+    {
+      "id": "noodles-knorr-family-pack-chicken-noodle-180g",
+      "category_id": "general",
+      "name": "Knorr Family Pack Chicken Noodle 180g",
+      "description": null,
+      "price": 185,
+      "image_url": "/products/noodles/knorr-family-pack-chicken-noodle-180g.webp",
+      "is_available": true,
+      "sort_order": 56
+    }
+  ],
+  "snacks": [
+    {
+      "id": "snacks-super-crisp-catty-chins-cheese-30rs",
+      "category_id": "general",
+      "name": "super crisp catty chins cheese 30rs",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/super-crisp-catty-chins-cheese-30rs.jpg",
+      "is_available": true,
+      "sort_order": 0
+    },
+    {
+      "id": "snacks-slanty-chips-salted-rs-30",
+      "category_id": "general",
+      "name": "Slanty Chips Salted Rs. 30",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/slanty-chips-salted-rs-30.webp",
+      "is_available": true,
+      "sort_order": 1
+    },
+    {
+      "id": "snacks-kolson-twich-classic-50rs",
+      "category_id": "general",
+      "name": "kolson twich classic 50rs",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-twich-classic-50rs.jpg",
+      "is_available": true,
+      "sort_order": 2
+    },
+    {
+      "id": "snacks-lays-classic-chips-30-rs",
+      "category_id": "general",
+      "name": "Lays Classic Chips 30 RS",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/lays-classic-chips-30-rs.jpg",
+      "is_available": true,
+      "sort_order": 3
+    },
+    {
+      "id": "snacks-doritos-roasted-corn-120-gm",
+      "category_id": "general",
+      "name": "DORITOS ROASTED CORN 120 GM",
+      "description": null,
+      "price": 950,
+      "image_url": "/products/snacks/doritos-roasted-corn-120-gm.webp",
+      "is_available": true,
+      "sort_order": 4
+    },
+    {
+      "id": "snacks-doritos-chips-nacho-cheese-63-g",
+      "category_id": "general",
+      "name": "Doritos Chips Nacho Cheese  63 g",
+      "description": null,
+      "price": 800,
+      "image_url": "/products/snacks/doritos-chips-nacho-cheese-63-g.webp",
+      "is_available": true,
+      "sort_order": 5
+    },
+    {
+      "id": "snacks-doritos-chips-sambal-salsa-120g-indonesia",
+      "category_id": "general",
+      "name": "Doritos Chips Sambal Salsa 120g",
+      "description": null,
+      "price": 950,
+      "image_url": "/products/snacks/doritos-chips-sambal-salsa-120g-indonesia.jpg",
+      "is_available": true,
+      "sort_order": 6
+    },
+    {
+      "id": "snacks-shahi-chips-salted-100-rs",
+      "category_id": "general",
+      "name": "Shahi Chips Salted 100 Rs",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/shahi-chips-salted-100-rs.webp",
+      "is_available": true,
+      "sort_order": 7
+    },
+    {
+      "id": "snacks-shahi-chips-100-rs",
+      "category_id": "general",
+      "name": "Shahi Chips  100 Rs",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/shahi-chips-100-rs.png",
+      "is_available": true,
+      "sort_order": 8
+    },
+    {
+      "id": "snacks-shahi-chips-black-pepper-100-rs",
+      "category_id": "general",
+      "name": "Shahi Chips Black Pepper 100 Rs",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/shahi-chips-black-pepper-100-rs.webp",
+      "is_available": true,
+      "sort_order": 9
+    },
+    {
+      "id": "snacks-shahi-chips-chilli-50-rs",
+      "category_id": "general",
+      "name": "Shahi Chips Chilli 50 Rs",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/shahi-chips-chilli-50-rs.jpg",
+      "is_available": true,
+      "sort_order": 10
+    },
+    {
+      "id": "snacks-shahi-chips-salted-50-rs",
+      "category_id": "general",
+      "name": "Shahi Chips Salted 50 Rs",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/shahi-chips-salted-50-rs.webp",
+      "is_available": true,
+      "sort_order": 11
+    },
+    {
+      "id": "snacks-korneez-butter-scotch-popcorn",
+      "category_id": "general",
+      "name": "Korneez Butter Scotch Popcorn",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-butter-scotch-popcorn.jpg",
+      "is_available": true,
+      "sort_order": 12
+    },
+    {
+      "id": "snacks-korneez-pufferz-cheese-puffs",
+      "category_id": "general",
+      "name": "KORNEEZ Pufferz Cheese Puffs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-pufferz-cheese-puffs.webp",
+      "is_available": true,
+      "sort_order": 13
+    },
+    {
+      "id": "snacks-korneez-chocolate-popcorn-120-rs",
+      "category_id": "general",
+      "name": "KORNEEZ CHOCOLATE POPCORN 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-chocolate-popcorn-120-rs.webp",
+      "is_available": true,
+      "sort_order": 14
+    },
+    {
+      "id": "snacks-korneez-toffee-popcorn-120-rs-1",
+      "category_id": "general",
+      "name": "KORNEEZ TOFFEE POPCORN 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-toffee-popcorn-120-rs-1.webp",
+      "is_available": true,
+      "sort_order": 15
+    },
+    {
+      "id": "snacks-go-royale-salted-potato-sticks",
+      "category_id": "general",
+      "name": "Go Royale Salted Potato Sticks,",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/go-royale-salted-potato-sticks.png",
+      "is_available": true,
+      "sort_order": 16
+    },
+    {
+      "id": "snacks-korneez-cheese-popcorn-120-rs",
+      "category_id": "general",
+      "name": "Korneez Cheese Popcorn 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-cheese-popcorn-120-rs.jpg",
+      "is_available": true,
+      "sort_order": 17
+    },
+    {
+      "id": "snacks-korneez-caramel-peanut-popcorn-120-rs",
+      "category_id": "general",
+      "name": "Korneez Caramel Peanut Popcorn, 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-caramel-peanut-popcorn-120-rs.jpg",
+      "is_available": true,
+      "sort_order": 18
+    },
+    {
+      "id": "snacks-korneez-champs-popcorn-mix-sweet-and-salted-120-rs-1",
+      "category_id": "general",
+      "name": "KORNEEZ CHAMPS POPCORN MIX SWEET AND SALTED 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-champs-popcorn-mix-sweet-and-salted-120-rs-1.jpg",
+      "is_available": true,
+      "sort_order": 19
+    },
+    {
+      "id": "snacks-korneez-pop-corn-plain-salted-120-rs",
+      "category_id": "general",
+      "name": "Korneez Pop Corn Plain Salted, 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-pop-corn-plain-salted-120-rs.jpg",
+      "is_available": true,
+      "sort_order": 20
+    },
+    {
+      "id": "snacks-korneez-pufferz-cheese-puffs-120-rs",
+      "category_id": "general",
+      "name": "Korneez Pufferz Cheese Puffs 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-pufferz-cheese-puffs-120-rs.png",
+      "is_available": true,
+      "sort_order": 21
+    },
+    {
+      "id": "snacks-korneez-champs-popcorn-mix-sweet-and-salted-120-rs",
+      "category_id": "general",
+      "name": "KORNEEZ CHAMPS POPCORN MIX SWEET AND SALTED 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-champs-popcorn-mix-sweet-and-salted-120-rs.webp",
+      "is_available": true,
+      "sort_order": 22
+    },
+    {
+      "id": "snacks-korneez-toffee-popcorn-120-rs",
+      "category_id": "general",
+      "name": "Korneez Toffee Popcorn, 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-toffee-popcorn-120-rs.jpg",
+      "is_available": true,
+      "sort_order": 23
+    },
+    {
+      "id": "snacks-korneez-bbq-popcorn-120-rs",
+      "category_id": "general",
+      "name": "Korneez BBQ Popcorn, 120 Rs",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/snacks/korneez-bbq-popcorn-120-rs.jpg",
+      "is_available": true,
+      "sort_order": 24
+    },
+    {
+      "id": "snacks-zia-toster-roller-snack-cream-herb-flavoured-snack-50-rs",
+      "category_id": "general",
+      "name": "Zia Toster Roller Snack Cream & Herb Flavoured Snack 50 Rs",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/zia-toster-roller-snack-cream-herb-flavoured-snack-50-rs.jpg",
+      "is_available": true,
+      "sort_order": 25
+    },
+    {
+      "id": "snacks-zia-toster-snacks-roller-green-chilli-50-rs",
+      "category_id": "general",
+      "name": "Zia Toster Snacks Roller Green Chilli 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/zia-toster-snacks-roller-green-chilli-50-rs.webp",
+      "is_available": true,
+      "sort_order": 26
+    },
+    {
+      "id": "snacks-zia-any-time-snacks-salty-50-rs",
+      "category_id": "general",
+      "name": "zia any time snacks salty 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/zia-any-time-snacks-salty-50-rs.webp",
+      "is_available": true,
+      "sort_order": 27
+    },
+    {
+      "id": "snacks-kolson-slanty-jalapeno-rs-31",
+      "category_id": "general",
+      "name": "Kolson Slanty Jalapeno Rs. 30",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/kolson-slanty-jalapeno-rs-31.jpg",
+      "is_available": true,
+      "sort_order": 28
+    },
+    {
+      "id": "snacks-zia-crunchy-cuts-salona-classic-chicken-flavor-crispy-corn-snack",
+      "category_id": "general",
+      "name": "Zia Crunchy Cuts Salona – Classic Chicken Flavor | Crispy Corn Snack",
+      "description": null,
+      "price": 20,
+      "image_url": "/products/snacks/zia-crunchy-cuts-salona-classic-chicken-flavor-crispy-corn-snack.jpg",
+      "is_available": true,
+      "sort_order": 29
+    },
+    {
+      "id": "snacks-kitchen-cuisine-hand-cooked-kettle-chips-peri-peri-flavor-thick-cut-crispy-potato-chips",
+      "category_id": "general",
+      "name": "Kitchen Cuisine Hand Cooked Kettle Chips – Peri Peri Flavor | Thick Cut Crispy Potato Chips",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/kitchen-cuisine-hand-cooked-kettle-chips-peri-peri-flavor-thick-cut-crispy-potato-chips.png",
+      "is_available": true,
+      "sort_order": 30
+    },
+    {
+      "id": "snacks-zia-salona-crunchy-cuts-crispy-tomato-flavored-corn-snacks",
+      "category_id": "general",
+      "name": "Zia Salona Crunchy Cuts – Crispy Tomato Flavored Corn Snacks",
+      "description": null,
+      "price": 20,
+      "image_url": "/products/snacks/zia-salona-crunchy-cuts-crispy-tomato-flavored-corn-snacks.png",
+      "is_available": true,
+      "sort_order": 31
+    },
+    {
+      "id": "snacks-zia-any-time-hot-masala-snacks-spicy-crispy-corn-snacks",
+      "category_id": "general",
+      "name": "Zia Any Time Hot Masala Snacks – Spicy Crispy Corn Snacks",
+      "description": null,
+      "price": 20,
+      "image_url": "/products/snacks/zia-any-time-hot-masala-snacks-spicy-crispy-corn-snacks.png",
+      "is_available": true,
+      "sort_order": 32
+    },
+    {
+      "id": "snacks-zia-polo-rings-cheese-20-rs",
+      "category_id": "general",
+      "name": "Zia Polo Rings Cheese 20 rs",
+      "description": null,
+      "price": 20,
+      "image_url": "/products/snacks/zia-polo-rings-cheese-20-rs.jpg",
+      "is_available": true,
+      "sort_order": 33
+    },
+    {
+      "id": "snacks-kitchen-cuisine-hand-cooked-kettle-chips-cheese-with-jalapeno-100-rs",
+      "category_id": "general",
+      "name": "Kitchen Cuisine Hand Cooked Kettle Chips Cheese With Jalapeno 100 Rs",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/kitchen-cuisine-hand-cooked-kettle-chips-cheese-with-jalapeno-100-rs.webp",
+      "is_available": true,
+      "sort_order": 34
+    },
+    {
+      "id": "snacks-kc-himalyan-salt-rs-100",
+      "category_id": "general",
+      "name": "KC HIMALYAN SALT RS 100",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/kc-himalyan-salt-rs-100.webp",
+      "is_available": true,
+      "sort_order": 35
+    },
+    {
+      "id": "snacks-kc-lemon-chilli-rs-100",
+      "category_id": "general",
+      "name": "KC LEMON CHILLI RS 100",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/kc-lemon-chilli-rs-100.webp",
+      "is_available": true,
+      "sort_order": 36
+    },
+    {
+      "id": "snacks-peri-peri-kettle-chips-crispy-spicy-potato-chips",
+      "category_id": "general",
+      "name": "Peri Peri Kettle Chips – Crispy & Spicy Potato Chips",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/peri-peri-kettle-chips-crispy-spicy-potato-chips.webp",
+      "is_available": true,
+      "sort_order": 37
+    },
+    {
+      "id": "snacks-honey-bbq-kettle-chips-crispy-smoky-potato-chips-100-rs",
+      "category_id": "general",
+      "name": "Honey BBQ Kettle Chips – Crispy & Smoky Potato Chips 100 RS",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/honey-bbq-kettle-chips-crispy-smoky-potato-chips-100-rs.webp",
+      "is_available": true,
+      "sort_order": 38
+    },
+    {
+      "id": "snacks-kc-sweet-thai-chilli-rs-100",
+      "category_id": "general",
+      "name": "KC SWEET THAI CHILLI RS 100",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/kc-sweet-thai-chilli-rs-100.webp",
+      "is_available": true,
+      "sort_order": 39
+    },
+    {
+      "id": "snacks-kc-sea-salt-cider-vinegar-rs-200",
+      "category_id": "general",
+      "name": "KC SEA SALT&CIDER VINEGAR RS 200",
+      "description": null,
+      "price": 200,
+      "image_url": "/products/snacks/kc-sea-salt-cider-vinegar-rs-200.png",
+      "is_available": true,
+      "sort_order": 40
+    },
+    {
+      "id": "snacks-kc-smoked-chilli-cheese-rs-200",
+      "category_id": "general",
+      "name": "KC SMOKED CHILLI CHEESE RS 200",
+      "description": null,
+      "price": 200,
+      "image_url": "/products/snacks/kc-smoked-chilli-cheese-rs-200.webp",
+      "is_available": true,
+      "sort_order": 41
+    },
+    {
+      "id": "snacks-premium-hand-cooked-kettle-chips-60-rs",
+      "category_id": "general",
+      "name": "Premium Hand Cooked Kettle Chips 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/premium-hand-cooked-kettle-chips-60-rs.png",
+      "is_available": true,
+      "sort_order": 42
+    },
+    {
+      "id": "snacks-kc-sour-cream-onion-rs60",
+      "category_id": "general",
+      "name": "KC SOUR CREAM&ONION RS60",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/kc-sour-cream-onion-rs60.webp",
+      "is_available": true,
+      "sort_order": 43
+    },
+    {
+      "id": "snacks-kc-smoked-chilli-cheese-rs60",
+      "category_id": "general",
+      "name": "KC SMOKED CHILLI CHEESE RS60",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/kc-smoked-chilli-cheese-rs60.webp",
+      "is_available": true,
+      "sort_order": 44
+    },
+    {
+      "id": "snacks-premium-hand-cooked-kettle-chips-85g",
+      "category_id": "general",
+      "name": "Premium Hand Cooked Kettle Chips 85g",
+      "description": null,
+      "price": 200,
+      "image_url": "/products/snacks/premium-hand-cooked-kettle-chips-85g.png",
+      "is_available": true,
+      "sort_order": 45
+    },
+    {
+      "id": "snacks-kitchen-cuisine-honey-bbq-hand-cooked-kettle-chips-85g",
+      "category_id": "general",
+      "name": "Kitchen Cuisine Honey BBQ Hand Cooked Kettle Chips 85g",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/kitchen-cuisine-honey-bbq-hand-cooked-kettle-chips-85g.webp",
+      "is_available": true,
+      "sort_order": 46
+    },
+    {
+      "id": "snacks-kolson-potato-sticks-ultra-pepper-salt-snacks-50-rs-1",
+      "category_id": "general",
+      "name": "Kolson Potato Sticks Ultra Pepper & Salt Snacks,50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-potato-sticks-ultra-pepper-salt-snacks-50-rs-1.jpg",
+      "is_available": true,
+      "sort_order": 47
+    },
+    {
+      "id": "snacks-kolson-slanty-jalapeno-rs-30",
+      "category_id": "general",
+      "name": "Kolson Slanty Jalapeno Rs. 30",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/kolson-slanty-jalapeno-rs-30.jpg",
+      "is_available": true,
+      "sort_order": 48
+    },
+    {
+      "id": "snacks-slanty-chips-vegetable-rs-30",
+      "category_id": "general",
+      "name": "Slanty Chips Vegetable Rs. 30",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/slanty-chips-vegetable-rs-30.webp",
+      "is_available": true,
+      "sort_order": 49
+    },
+    {
+      "id": "snacks-kolson-slanty-sour-cream-onion-rs-50",
+      "category_id": "general",
+      "name": "Kolson Slanty Sour Cream & Onion Rs. 50",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-slanty-sour-cream-onion-rs-50.webp",
+      "is_available": true,
+      "sort_order": 50
+    },
+    {
+      "id": "snacks-kolson-slanty-vegetable-rs-50",
+      "category_id": "general",
+      "name": "Kolson Slanty Vegetable Rs. 50",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-slanty-vegetable-rs-50.jpg",
+      "is_available": true,
+      "sort_order": 51
+    },
+    {
+      "id": "snacks-lotte-rice-chips-flaming-hot-50-rs",
+      "category_id": "general",
+      "name": "Lotte Rice Chips Flaming Hot 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lotte-rice-chips-flaming-hot-50-rs.jpg",
+      "is_available": true,
+      "sort_order": 52
+    },
+    {
+      "id": "snacks-lotte-chips-rice-smoked-paprika-rs50",
+      "category_id": "general",
+      "name": "Lotte Chips Rice Smoked Paprika 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lotte-chips-rice-smoked-paprika-rs50.jpg",
+      "is_available": true,
+      "sort_order": 53
+    },
+    {
+      "id": "snacks-kolson-snackers-pizza-50-rs",
+      "category_id": "general",
+      "name": "kolson snackers pizza 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-snackers-pizza-50-rs.webp",
+      "is_available": true,
+      "sort_order": 54
+    },
+    {
+      "id": "snacks-kolson-slanty-salt-50-rs",
+      "category_id": "general",
+      "name": "Kolson Slanty Salt 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-slanty-salt-50-rs.png",
+      "is_available": true,
+      "sort_order": 55
+    },
+    {
+      "id": "snacks-kolson-snackers-hot-masala-flavor-50-rs",
+      "category_id": "general",
+      "name": "Kolson Snackers Hot Masala Flavor 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-snackers-hot-masala-flavor-50-rs.jpg",
+      "is_available": true,
+      "sort_order": 56
+    },
+    {
+      "id": "snacks-noms-nachos-chilli-lemon-150-rs",
+      "category_id": "general",
+      "name": "Noms Nachos Chilli Lemon 150 RS",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/noms-nachos-chilli-lemon-150-rs.webp",
+      "is_available": true,
+      "sort_order": 57
+    },
+    {
+      "id": "snacks-noms-nachos-thai-sweet-chili-150rs",
+      "category_id": "general",
+      "name": "noms nachos thai sweet chili 150rs",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/noms-nachos-thai-sweet-chili-150rs.webp",
+      "is_available": true,
+      "sort_order": 58
+    },
+    {
+      "id": "snacks-noms-nachos-cream-herb-80g",
+      "category_id": "general",
+      "name": "Noms Nachos Cream & Herb 80g",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-cream-herb-80g.webp",
+      "is_available": true,
+      "sort_order": 59
+    },
+    {
+      "id": "snacks-noms-nachos-chilli-lemon-80-rs",
+      "category_id": "general",
+      "name": "Noms Nachos Chilli Lemon 80 RS",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-chilli-lemon-80-rs.webp",
+      "is_available": true,
+      "sort_order": 60
+    },
+    {
+      "id": "snacks-noms-nachos-pink-salt-pepper-150-rs-1",
+      "category_id": "general",
+      "name": "Noms Nachos Pink Salt & Pepper 150 RS",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-pink-salt-pepper-150-rs-1.webp",
+      "is_available": true,
+      "sort_order": 61
+    },
+    {
+      "id": "snacks-noms-nachos-thai-sweet-shili-80-rs",
+      "category_id": "general",
+      "name": "Noms Nachos Thai Sweet Shili 80 RS",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-thai-sweet-shili-80-rs.webp",
+      "is_available": true,
+      "sort_order": 62
+    },
+    {
+      "id": "snacks-noms-nachos-smoky-bbq-80",
+      "category_id": "general",
+      "name": "Noms Nachos Smoky BBQ 80",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-smoky-bbq-80.jpg",
+      "is_available": true,
+      "sort_order": 63
+    },
+    {
+      "id": "snacks-noms-nachos-cheddar-jalapeno-80rs",
+      "category_id": "general",
+      "name": "noms nachos cheddar jalapeno 80rs",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-cheddar-jalapeno-80rs.jpg",
+      "is_available": true,
+      "sort_order": 64
+    },
+    {
+      "id": "snacks-top-pops-chicken-40-rs",
+      "category_id": "general",
+      "name": "Top Pops Chicken 40 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/top-pops-chicken-40-rs.webp",
+      "is_available": true,
+      "sort_order": 65
+    },
+    {
+      "id": "snacks-ding-dong-mixed-nuts-hot-and-spicy-300-rs",
+      "category_id": "general",
+      "name": "DING DONG MIXED NUTS HOT AND SPICY 300 RS",
+      "description": null,
+      "price": 300,
+      "image_url": "/products/snacks/ding-dong-mixed-nuts-hot-and-spicy-300-rs.webp",
+      "is_available": true,
+      "sort_order": 66
+    },
+    {
+      "id": "snacks-pop-star-classic-cheese-flavored-20-rs",
+      "category_id": "general",
+      "name": "Pop Star Classic Cheese Flavored 20 RS",
+      "description": null,
+      "price": 20,
+      "image_url": "/products/snacks/pop-star-classic-cheese-flavored-20-rs.avif",
+      "is_available": true,
+      "sort_order": 67
+    },
+    {
+      "id": "snacks-super-crisp-bar-b-q-chips-60-rs",
+      "category_id": "general",
+      "name": "Super Crisp Bar.b.q Chips 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/super-crisp-bar-b-q-chips-60-rs.webp",
+      "is_available": true,
+      "sort_order": 68
+    },
+    {
+      "id": "snacks-super-crisp-nimko-mix-spicy-60-rs",
+      "category_id": "general",
+      "name": "Super Crisp Nimko Mix Spicy 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/super-crisp-nimko-mix-spicy-60-rs.webp",
+      "is_available": true,
+      "sort_order": 69
+    },
+    {
+      "id": "snacks-super-crisp-dal-moong-60-rs",
+      "category_id": "general",
+      "name": "Super Crisp Dal Moong 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/super-crisp-dal-moong-60-rs.jpg",
+      "is_available": true,
+      "sort_order": 70
+    },
+    {
+      "id": "snacks-super-crisp-catty-chins-cheese-corn-bites-40-rs",
+      "category_id": "general",
+      "name": "Super Crisp Catty Chins Cheese Corn Bites 40 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/super-crisp-catty-chins-cheese-corn-bites-40-rs.jpg",
+      "is_available": true,
+      "sort_order": 71
+    },
+    {
+      "id": "snacks-super-crisp-catty-chins-cheese-60-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CATTY CHINS CHEESE 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/super-crisp-catty-chins-cheese-60-rs.webp",
+      "is_available": true,
+      "sort_order": 72
+    },
+    {
+      "id": "snacks-super-crisp-salted-flavor-40-rs",
+      "category_id": "general",
+      "name": "Super Crisp Salted Flavor 40 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/super-crisp-salted-flavor-40-rs.jpg",
+      "is_available": true,
+      "sort_order": 73
+    },
+    {
+      "id": "snacks-super-crisp-chips-barbecue-50-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CHIPS BARBECUE 50 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/super-crisp-chips-barbecue-50-rs.webp",
+      "is_available": true,
+      "sort_order": 74
+    },
+    {
+      "id": "snacks-super-crisp-chips-sweet-chili-40-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CHIPS SWEET CHILI 40 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/super-crisp-chips-sweet-chili-40-rs.webp",
+      "is_available": true,
+      "sort_order": 75
+    },
+    {
+      "id": "snacks-super-crisp-chips-masala-40-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CHIPS MASALA 40 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/super-crisp-chips-masala-40-rs.webp",
+      "is_available": true,
+      "sort_order": 76
+    },
+    {
+      "id": "snacks-super-crisp-chips-barbecue-60-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CHIPS BARBECUE 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/super-crisp-chips-barbecue-60-rs.webp",
+      "is_available": true,
+      "sort_order": 77
+    },
+    {
+      "id": "snacks-super-crisp-chips-masala-60-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CHIPS MASALA 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/super-crisp-chips-masala-60-rs.webp",
+      "is_available": true,
+      "sort_order": 78
+    },
+    {
+      "id": "snacks-super-crisp-cheese-flavour-60-rs",
+      "category_id": "general",
+      "name": "Super Crisp Cheese Flavour 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/super-crisp-cheese-flavour-60-rs.jpg",
+      "is_available": true,
+      "sort_order": 79
+    },
+    {
+      "id": "snacks-super-crisp-chips-masala-100-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CHIPS MASALA 100 RS",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/super-crisp-chips-masala-100-rs.webp",
+      "is_available": true,
+      "sort_order": 80
+    },
+    {
+      "id": "snacks-super-crisp-chips-barbecue-100-rs",
+      "category_id": "general",
+      "name": "SUPER CRISP CHIPS BARBECUE  100 RS",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/super-crisp-chips-barbecue-100-rs.jpg",
+      "is_available": true,
+      "sort_order": 81
+    },
+    {
+      "id": "snacks-super-crisp-rs-100-cheese",
+      "category_id": "general",
+      "name": "SUPER CRISP CHEESE RS.100",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/super-crisp-rs-100-cheese.webp",
+      "is_available": true,
+      "sort_order": 82
+    },
+    {
+      "id": "snacks-noms-nachos-pink-salt-pepper-150-rs",
+      "category_id": "general",
+      "name": "Noms Nachos Pink salt & Pepper 150 RS",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/noms-nachos-pink-salt-pepper-150-rs.webp",
+      "is_available": true,
+      "sort_order": 83
+    },
+    {
+      "id": "snacks-noms-nachos-thai-sweet-chilli-150-rs",
+      "category_id": "general",
+      "name": "NOMS NACHOS THAI SWEET CHILLI 80 RS",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-thai-sweet-chilli-150-rs.webp",
+      "is_available": true,
+      "sort_order": 84
+    },
+    {
+      "id": "snacks-noms-nachos-cream-herb-150-rs",
+      "category_id": "general",
+      "name": "Noms Nachos Cream & Herb 150 RS",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/noms-nachos-cream-herb-150-rs.webp",
+      "is_available": true,
+      "sort_order": 85
+    },
+    {
+      "id": "snacks-noms-nachos-smoky-bbq-150-rs",
+      "category_id": "general",
+      "name": "Noms Nachos Smoky BBQ 150 RS",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/noms-nachos-smoky-bbq-150-rs.webp",
+      "is_available": true,
+      "sort_order": 86
+    },
+    {
+      "id": "snacks-noms-nachos-cheddar-jalapeno-80-rs",
+      "category_id": "general",
+      "name": "noms nachos cheddar jalapeno 80 RS",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/snacks/noms-nachos-cheddar-jalapeno-80-rs.webp",
+      "is_available": true,
+      "sort_order": 87
+    },
+    {
+      "id": "snacks-lays-yogurt-herb-chips-rs30",
+      "category_id": "general",
+      "name": "Lays Yogurt & Herb Chips Rs30",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/lays-yogurt-herb-chips-rs30.jpg",
+      "is_available": true,
+      "sort_order": 88
+    },
+    {
+      "id": "snacks-lays-wavy-masala-twist-30-rs",
+      "category_id": "general",
+      "name": "Lay's Wavy Masala Twist 30 RS",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/lays-wavy-masala-twist-30-rs.avif",
+      "is_available": true,
+      "sort_order": 89
+    },
+    {
+      "id": "snacks-lays-french-cheese-chips-30-rs",
+      "category_id": "general",
+      "name": "Lays French Cheese Chips 30 RS",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/lays-french-cheese-chips-30-rs.jpg",
+      "is_available": true,
+      "sort_order": 90
+    },
+    {
+      "id": "snacks-lays-wavy-yogurt-herb-rs-30",
+      "category_id": "general",
+      "name": "Lay's Wavy Yogurt & Herb Rs. 30",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/lays-wavy-yogurt-herb-rs-30.webp",
+      "is_available": true,
+      "sort_order": 91
+    },
+    {
+      "id": "snacks-lays-wavy-masala-twist-50-rs",
+      "category_id": "general",
+      "name": "LAYS WAVY MASALA TWIST 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-wavy-masala-twist-50-rs.jpg",
+      "is_available": true,
+      "sort_order": 92
+    },
+    {
+      "id": "snacks-lays-wavy-yogurt-herb-50-rs-1",
+      "category_id": "general",
+      "name": "Lay's Wavy Yogurt & Herb, 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-wavy-yogurt-herb-50-rs-1.jpg",
+      "is_available": true,
+      "sort_order": 93
+    },
+    {
+      "id": "snacks-lays-wavy-flavor-50-rs",
+      "category_id": "general",
+      "name": "LAY'S WAVY FLAVOR 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-wavy-flavor-50-rs.webp",
+      "is_available": true,
+      "sort_order": 94
+    },
+    {
+      "id": "snacks-lays-chips-french-cheese-rs-50",
+      "category_id": "general",
+      "name": "Lay's Chips French Cheese Rs. 50",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-chips-french-cheese-rs-50.webp",
+      "is_available": true,
+      "sort_order": 95
+    },
+    {
+      "id": "snacks-lays-chips-paprika-rs-51",
+      "category_id": "general",
+      "name": "Lay's Chips Paprika Rs. 50",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-chips-paprika-rs-51.jpg",
+      "is_available": true,
+      "sort_order": 96
+    },
+    {
+      "id": "snacks-lays-wavy-masala-twist-70-rs",
+      "category_id": "general",
+      "name": "LAYS WAVY MASALA TWIST 70 RS",
+      "description": null,
+      "price": 70,
+      "image_url": "/products/snacks/lays-wavy-masala-twist-70-rs.webp",
+      "is_available": true,
+      "sort_order": 97
+    },
+    {
+      "id": "snacks-lays-wavy-texas-bbq-rs-70",
+      "category_id": "general",
+      "name": "Lays Wavy Texas BBQ Rs. 70",
+      "description": null,
+      "price": 70,
+      "image_url": "/products/snacks/lays-wavy-texas-bbq-rs-70.jpg",
+      "is_available": true,
+      "sort_order": 98
+    },
+    {
+      "id": "snacks-lays-chips-masala-rs-70",
+      "category_id": "general",
+      "name": "Lay's Chips Masala Rs. 70",
+      "description": null,
+      "price": 70,
+      "image_url": "/products/snacks/lays-chips-masala-rs-70.jpg",
+      "is_available": true,
+      "sort_order": 99
+    },
+    {
+      "id": "snacks-lays-yogurt-herb-chips-45g",
+      "category_id": "general",
+      "name": "Lays Yogurt & Herb Chips 45g",
+      "description": null,
+      "price": 70,
+      "image_url": "/products/snacks/lays-yogurt-herb-chips-45g.jpg",
+      "is_available": true,
+      "sort_order": 100
+    },
+    {
+      "id": "snacks-lays-masala-chips-50-rs",
+      "category_id": "general",
+      "name": "Lays Masala Chips 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-masala-chips-50-rs.webp",
+      "is_available": true,
+      "sort_order": 101
+    },
+    {
+      "id": "snacks-lays-maxx-spicy-kimchi-flavored-chips-100-rs",
+      "category_id": "general",
+      "name": "Lays Maxx Spicy Kimchi Flavored Chips 100 RS",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/lays-maxx-spicy-kimchi-flavored-chips-100-rs.webp",
+      "is_available": true,
+      "sort_order": 102
+    },
+    {
+      "id": "snacks-lays-maxx-spicy-kimchi-rs-70",
+      "category_id": "general",
+      "name": "Lay's Maxx Spicy Kimchi Rs. 70",
+      "description": null,
+      "price": 70,
+      "image_url": "/products/snacks/lays-maxx-spicy-kimchi-rs-70.webp",
+      "is_available": true,
+      "sort_order": 103
+    },
+    {
+      "id": "snacks-lays-chips-paprika-70-rs",
+      "category_id": "general",
+      "name": "Lay's Chips Paprika 70 RS",
+      "description": null,
+      "price": 70,
+      "image_url": "/products/snacks/lays-chips-paprika-70-rs.jpg",
+      "is_available": true,
+      "sort_order": 104
+    },
+    {
+      "id": "snacks-lays-salt-chips-50-rs",
+      "category_id": "general",
+      "name": "LAYS SALT CHIPS 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-salt-chips-50-rs.webp",
+      "is_available": true,
+      "sort_order": 105
+    },
+    {
+      "id": "snacks-lays-chips-paprika-rs-50",
+      "category_id": "general",
+      "name": "Lay's Chips Paprika Rs. 50",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-chips-paprika-rs-50.jpg",
+      "is_available": true,
+      "sort_order": 106
+    },
+    {
+      "id": "snacks-lays-wavy-bbq-potato-chips-70-rs",
+      "category_id": "general",
+      "name": "Lay's Wavy BBQ Potato Chips, 70 RS",
+      "description": null,
+      "price": 70,
+      "image_url": "/products/snacks/lays-wavy-bbq-potato-chips-70-rs.png",
+      "is_available": true,
+      "sort_order": 107
+    },
+    {
+      "id": "snacks-lays-maxx-signature-cheese-flavored-chips-rs-100",
+      "category_id": "general",
+      "name": "Lays Maxx Signature Cheese Flavored Chips Rs 100",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/snacks/lays-maxx-signature-cheese-flavored-chips-rs-100.jpg",
+      "is_available": true,
+      "sort_order": 108
+    },
+    {
+      "id": "snacks-lays-masala-chips-120g",
+      "category_id": "general",
+      "name": "Lays Masala Chips 120g",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/lays-masala-chips-120g.webp",
+      "is_available": true,
+      "sort_order": 109
+    },
+    {
+      "id": "snacks-lays-french-cheese-chips-150-rs",
+      "category_id": "general",
+      "name": "LAYS FRENCH CHEESE CHIPS 150 RS",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/lays-french-cheese-chips-150-rs.webp",
+      "is_available": true,
+      "sort_order": 110
+    },
+    {
+      "id": "snacks-lays-yogurt-herb-rs-150",
+      "category_id": "general",
+      "name": "Lays Yogurt & Herb Rs. 150",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/lays-yogurt-herb-rs-150.jpg",
+      "is_available": true,
+      "sort_order": 111
+    },
+    {
+      "id": "snacks-lays-classic-150-rs",
+      "category_id": "general",
+      "name": "Lays Classic 150 RS",
+      "description": null,
+      "price": 150,
+      "image_url": "/products/snacks/lays-classic-150-rs.webp",
+      "is_available": true,
+      "sort_order": 112
+    },
+    {
+      "id": "snacks-lays-yogurt-herb-chips-50-rs",
+      "category_id": "general",
+      "name": "Lays Yogurt & Herb Chips 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-yogurt-herb-chips-50-rs.webp",
+      "is_available": true,
+      "sort_order": 113
+    },
+    {
+      "id": "snacks-lays-wavy-yogurt-herb-50-rs",
+      "category_id": "general",
+      "name": "Lay's Wavy Yogurt & Herb, 50 rs",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/lays-wavy-yogurt-herb-50-rs.jpg",
+      "is_available": true,
+      "sort_order": 114
+    },
+    {
+      "id": "snacks-kurkure-toofaani-mirch-chips-40-rs",
+      "category_id": "general",
+      "name": "Kurkure Toofaani Mirch Chips, 40 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/kurkure-toofaani-mirch-chips-40-rs.jpg",
+      "is_available": true,
+      "sort_order": 115
+    },
+    {
+      "id": "snacks-kurkure-chutney-chaska-chips-40-rs",
+      "category_id": "general",
+      "name": "Kurkure Chutney Chaska Chips, 40 RS",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/kurkure-chutney-chaska-chips-40-rs.jpg",
+      "is_available": true,
+      "sort_order": 116
+    },
+    {
+      "id": "snacks-kolson-potato-sticks-ultra-pepper-salt-snacks-50-rs",
+      "category_id": "general",
+      "name": "Kolson Potato Sticks Ultra Pepper & Salt Snacks, 50 RS",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/kolson-potato-sticks-ultra-pepper-salt-snacks-50-rs.jpg",
+      "is_available": true,
+      "sort_order": 117
+    },
+    {
+      "id": "snacks-kurkure-chilli-jhatka-extra-value-pack-60-rs",
+      "category_id": "general",
+      "name": "Kurkure Chilli Jhatka Extra Value Pack 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/kurkure-chilli-jhatka-extra-value-pack-60-rs.jpg",
+      "is_available": true,
+      "sort_order": 118
+    },
+    {
+      "id": "snacks-kurkure-chutney-chaska-60-rs",
+      "category_id": "general",
+      "name": "KURKURE CHUTNEY CHASKA 60 RS",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/kurkure-chutney-chaska-60-rs.png",
+      "is_available": true,
+      "sort_order": 119
+    },
+    {
+      "id": "snacks-kurkure-red-chilli-jhatka-34g",
+      "category_id": "general",
+      "name": "Kurkure Red Chilli Jhatka",
+      "description": null,
+      "price": 40,
+      "image_url": "/products/snacks/kurkure-red-chilli-jhatka-34g.webp",
+      "is_available": true,
+      "sort_order": 120
+    },
+    {
+      "id": "snacks-kurkure-red-chilli-jhatka",
+      "category_id": "general",
+      "name": "Kurkure Red Chilli Jhatka",
+      "description": null,
+      "price": 20,
+      "image_url": "/products/snacks/kurkure-red-chilli-jhatka.webp",
+      "is_available": true,
+      "sort_order": 121
+    },
+    {
+      "id": "snacks-kurkure-toofaani-mirch-chips-56g",
+      "category_id": "general",
+      "name": "Kurkure Toofaani Mirch Chips, 56g",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/snacks/kurkure-toofaani-mirch-chips-56g.jpg",
+      "is_available": true,
+      "sort_order": 122
+    },
+    {
+      "id": "snacks-cheetos-ocean-safari-cheese-11g",
+      "category_id": "general",
+      "name": "Cheetos Ocean Safari Cheese, 11g",
+      "description": null,
+      "price": 20,
+      "image_url": "/products/snacks/cheetos-ocean-safari-cheese-11g.jpg",
+      "is_available": true,
+      "sort_order": 123
+    },
+    {
+      "id": "snacks-cheetos-vegetable-bites-21g",
+      "category_id": "general",
+      "name": "Cheetos Vegetable Bites 21g",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/cheetos-vegetable-bites-21g.jpg",
+      "is_available": true,
+      "sort_order": 124
+    },
+    {
+      "id": "snacks-kurkure-masala-puff-balls-18g",
+      "category_id": "general",
+      "name": "Kurkure Masala Puff Balls, 18g",
+      "description": null,
+      "price": 30,
+      "image_url": "/products/snacks/kurkure-masala-puff-balls-18g.jpg",
+      "is_available": true,
+      "sort_order": 125
+    },
+    {
+      "id": "snacks-cheetos-bites-vegetable-chips-31g",
+      "category_id": "general",
+      "name": "Cheetos Bites Vegetable Chips, 31g",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/snacks/cheetos-bites-vegetable-chips-31g.jpg",
+      "is_available": true,
+      "sort_order": 126
+    }
   ]
 }
