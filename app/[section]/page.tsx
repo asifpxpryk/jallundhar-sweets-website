@@ -5,6 +5,7 @@ import { loadMenu } from "@/lib/loadMenu";
 import GeneralAisleNav from "@/components/GeneralAisleNav";
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return SECTIONS.map((section) => ({ section: section.slug }));
