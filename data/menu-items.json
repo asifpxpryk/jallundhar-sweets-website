@@ -2015,5 +2015,170 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 323
+  },
+  {
+    "id": "dry-cake-fudge",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "FUDGE CAKE",
+    "description": null,
+    "price": 2000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 400
+  },
+  {
+    "id": "dry-cake-lotus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "LOTUS CAKE",
+    "description": null,
+    "price": 2000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 401
+  },
+  {
+    "id": "dry-cake-sponge",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "SPONGE CAKE",
+    "description": null,
+    "price": 300,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 402
+  },
+  {
+    "id": "dry-cake-cup",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "CUP CAKE",
+    "description": null,
+    "price": 30,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 403
+  },
+  {
+    "id": "dry-cake-fruit-large",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "FRUIT CAKE LARGE",
+    "description": null,
+    "price": 400,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 404
+  },
+  {
+    "id": "dry-cake-fruit-piece",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "FRUIT CAKE PIECE",
+    "description": null,
+    "price": 1300,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 405
+  },
+  {
+    "id": "dry-cake-fruit-small",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "FRUIT CAKE SMALL",
+    "description": null,
+    "price": 250,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 406
+  },
+  {
+    "id": "dry-cake-marbel",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "MARBEL CAKE",
+    "description": null,
+    "price": 400,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 407
+  },
+  {
+    "id": "dry-cake-muffin-cup",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "MUFFIN CUP CAKE",
+    "description": null,
+    "price": 100,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 408
+  },
+  {
+    "id": "dry-cake-plain-large",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "PLAIN CAKE LARGE",
+    "description": null,
+    "price": 380,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 409
+  },
+  {
+    "id": "dry-cake-plain-small",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-dry-cake"
+    ],
+    "name": "PLAIN CAKE SMALL",
+    "description": null,
+    "price": 240,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 410
   }
 ]

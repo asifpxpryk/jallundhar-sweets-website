@@ -26,7 +26,11 @@ export function bakeryAisleForItem(name: string): BakeryAisleSlug | null {
   if (/\bpastr(y|ies)\b/.test(n)) return "pastries";
   if (/\brusk\b/.test(n)) return "rusks";
   if (/\b\d+\s*pound\b/.test(n) || /\b2 in 1 cake\b/.test(n)) return "cream-cakes";
-  if (/\bdry cake|\bdoller cake|\bdollar cake|\bcup cake\b/.test(n)) {
+  if (
+    /\bdry cake|\bdoller cake|\bdollar cake|\bcup cake\b|\bfudge cake|\blotus cake|\bsponge cake|\bfruit cake|\bmarbel cake|\bmarble cake|\bplain cake|\bmuffin/.test(
+      n
+    )
+  ) {
     return "dry-cakes";
   }
   if (/\bcream cake|\bbirthday cake|\bevent cake|\bfresh cream|\bicing cake/.test(n)) {
