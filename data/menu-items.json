@@ -1431,5 +1431,589 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 92
+  },
+  {
+    "id": "pastry-arcika",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "ARCIKA PASTRY",
+    "description": null,
+    "price": 160,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 200
+  },
+  {
+    "id": "pastry-black-forest",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "BLACK FOREST PASTRY",
+    "description": null,
+    "price": 120,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 201
+  },
+  {
+    "id": "pastry-caramel",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "CARAMEL PASTRY",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 202
+  },
+  {
+    "id": "pastry-check",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "CHECK PASTRY",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 203
+  },
+  {
+    "id": "pastry-chocolate",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "CHOCOLATE PASTRY",
+    "description": null,
+    "price": 130,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 204
+  },
+  {
+    "id": "pastry-coffee",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "COFFEE PASTRY",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 205
+  },
+  {
+    "id": "pastry-cup-fruit-trifle",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "CUP PASTRY FRUIT TRIFLE",
+    "description": null,
+    "price": 350,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 206
+  },
+  {
+    "id": "pastry-honey",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "HONEY PASTRY",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 207
+  },
+  {
+    "id": "pastry-kitkat",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "KITKAT PASTRY",
+    "description": null,
+    "price": 200,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 208
+  },
+  {
+    "id": "pastry-lotus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "LOTUS PASTRY",
+    "description": null,
+    "price": 250,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 209
+  },
+  {
+    "id": "pastry-mud",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "MUD PASTRY",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 210
+  },
+  {
+    "id": "pastry-oreo",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "OREO PASTRY",
+    "description": null,
+    "price": 250,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 211
+  },
+  {
+    "id": "pastry-pineapple",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "PINEAPPLE PASTRY",
+    "description": null,
+    "price": 120,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 212
+  },
+  {
+    "id": "pastry-red-velvet",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "RED VELVET PASTRY",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 213
+  },
+  {
+    "id": "pastry-mango",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "MANGO PASTRY",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 214
+  },
+  {
+    "id": "pastry-refflow",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "REFFLOW PASTRY",
+    "description": null,
+    "price": 250,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 215
+  },
+  {
+    "id": "cream-cake-3-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "3 POUND CAKE",
+    "description": null,
+    "price": 2450,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 300
+  },
+  {
+    "id": "cream-cake-black-forest-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "BLACK FOREST 2 POUND",
+    "description": null,
+    "price": 1700,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 301
+  },
+  {
+    "id": "cream-cake-black-forest-1-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "BLACK FOREST CAKE 1 POUND",
+    "description": null,
+    "price": 850,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 302
+  },
+  {
+    "id": "cream-cake-caramel-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "CARAMEL CAKE 2 POUND",
+    "description": null,
+    "price": 1700,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 303
+  },
+  {
+    "id": "cream-cake-chocolate-1-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "CHOCOLATE CAKE 1 POUND",
+    "description": null,
+    "price": 850,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 304
+  },
+  {
+    "id": "cream-cake-chocolate-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "CHOCOLATE CAKE 2 POUND",
+    "description": null,
+    "price": 1700,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 305
+  },
+  {
+    "id": "cream-cake-coffee-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "COFEE CAKE 2 POUND",
+    "description": null,
+    "price": 1700,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 306
+  },
+  {
+    "id": "cream-cake-coffee-1-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "COFEE CAKE 1 POUND",
+    "description": null,
+    "price": 850,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 307
+  },
+  {
+    "id": "cream-cake-dairy-milk-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "DAIRY MILK 2 POUND",
+    "description": null,
+    "price": 1800,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 308
+  },
+  {
+    "id": "cream-cake-dry-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "DRY CAKE 2 POUND",
+    "description": null,
+    "price": 1800,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 309
+  },
+  {
+    "id": "cream-cake-dry-1-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "DRY CAKE 1 POUND",
+    "description": null,
+    "price": 900,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 310
+  },
+  {
+    "id": "cream-cake-ferraro-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "FERRARO CAKE 2 POUND",
+    "description": null,
+    "price": 2000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 311
+  },
+  {
+    "id": "cream-cake-kitkat-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "KITKAT CAKE 2 POUND",
+    "description": null,
+    "price": 2000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 312
+  },
+  {
+    "id": "cream-cake-loutus-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "LOUTUS CAKE 2 POUND",
+    "description": null,
+    "price": 2000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 313
+  },
+  {
+    "id": "cream-cake-oreo-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "OREO CAKE 2 POUND",
+    "description": null,
+    "price": 2000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 314
+  },
+  {
+    "id": "cream-cake-pineapple-1-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "PINEAPPLE CAKE 1 POUND",
+    "description": null,
+    "price": 800,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 315
+  },
+  {
+    "id": "cream-cake-pineapple-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "PINEAPPLE CAKE 2 POUND",
+    "description": null,
+    "price": 1600,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 316
+  },
+  {
+    "id": "cream-cake-raffalo-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "RAFFALO CAKE 2 POUND",
+    "description": null,
+    "price": 2000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 317
+  },
+  {
+    "id": "cream-cake-red-velvet-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "RED VELVET CAKE 2 POUND",
+    "description": null,
+    "price": 1700,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 318
+  },
+  {
+    "id": "cream-cake-three-milk-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "THREE MILK CAKE 2 POUND",
+    "description": null,
+    "price": 1800,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 319
+  },
+  {
+    "id": "cream-cake-pista-1-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "PISTA CAKE 1 POUND",
+    "description": null,
+    "price": 800,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 320
+  },
+  {
+    "id": "cream-cake-pista-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "PISTA CAKE 2 POUND",
+    "description": null,
+    "price": 1600,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 321
+  },
+  {
+    "id": "cream-cake-mango-1-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "MANGO CAKE 1 POUND",
+    "description": null,
+    "price": 800,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 322
+  },
+  {
+    "id": "cream-cake-2-in-1-2-pound",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "2 IN 1 CAKE 2 POUND",
+    "description": null,
+    "price": 1700,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 323
   }
 ]
