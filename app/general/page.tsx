@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
 import GeneralAisleNav from "@/components/GeneralAisleNav";
 import { getSection } from "@/lib/sections";
-import { loadStorefrontMenu } from "@/lib/loadMenu";
+import { loadMenu } from "@/lib/loadMenu";
 import { isSectionHidden, loadStoreVisibility } from "@/lib/storeVisibility";
 
 export const revalidate = 60;
@@ -15,7 +15,7 @@ export default async function GeneralPage() {
   const visibility = await loadStoreVisibility();
   if (isSectionHidden(visibility, "general")) notFound();
   const meta = getSection("general");
-  const categories = await loadStorefrontMenu();
+  const categories = await loadMenu();
   const category = categories.find((c) => c.slug === "general");
 
   return (

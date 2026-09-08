@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import type { MenuItem } from "@/lib/types";
 import BackLink from "./BackLink";
 import HashScroll from "./HashScroll";
@@ -23,12 +24,16 @@ export default function CategoryProducts({
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex items-center gap-3 sm:gap-4">
           {image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={encodeURI(image)}
-              alt={name}
-              className="h-20 w-20 rounded-full bg-[#fff8f0] object-contain p-[3px] shadow-md ring-2 ring-gold-200"
-            />
+            <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full bg-[#fff8f0] shadow-md ring-2 ring-gold-200">
+              <Image
+                src={image.split("?")[0]}
+                alt={name}
+                fill
+                sizes="80px"
+                quality={70}
+                className="object-contain p-[3px]"
+              />
+            </span>
           )}
           <h1 className="min-w-0 flex-1 font-display text-2xl font-bold text-maroon-800 sm:text-3xl">{name}</h1>
           <BackLink />

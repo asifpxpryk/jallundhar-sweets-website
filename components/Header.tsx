@@ -6,16 +6,12 @@ import { useCart } from "./CartContext";
 import { SECTIONS } from "@/lib/sections";
 import HeaderSearch from "./HeaderSearch";
 import { logoutAdmin } from "@/app/admin/actions";
+import { useIsAdmin } from "./AdminSessionContext";
 
-export default function Header({
-  hiddenSections = [],
-  isAdmin = false,
-}: {
-  hiddenSections?: string[];
-  isAdmin?: boolean;
-}) {
+export default function Header({ hiddenSections = [] }: { hiddenSections?: string[] }) {
   const { count, open } = useCart();
   const pathname = usePathname();
+  const isAdmin = useIsAdmin();
   const hidden = new Set(hiddenSections);
   const navLinks = [
     ...SECTIONS.filter((section) => !hidden.has(section.slug)).map((section) => ({

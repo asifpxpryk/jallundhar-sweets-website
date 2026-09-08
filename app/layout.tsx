@@ -1,21 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import StorefrontShell from "@/components/StorefrontShell";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
-import { isAdminSession } from "@/lib/adminAuth";
-
-const urdu = Noto_Nastaliq_Urdu({
-  subsets: ["arabic"],
-  weight: ["400"],
-  variable: "--font-urdu",
-});
 
 export const metadata: Metadata = {
   title: "Jallundhar Sweets & Bakers | Shahi Road, Rahim Yar Khan",
   description:
-    "From Sweet to Savory, All Your Cravings, One Place. Order mithai, bakery, cakes, pizza, burgers & more from Jallundhar Sweets & Bakers, Shahi Road, Rahim Yar Khan.",
+    "From Sweet to Savory, All Your Cravings, One Place. Order mithai, bakery, custom cakes, pizza, burgers & more from Jallundhar Sweets & Bakers, Shahi Road, Rahim Yar Khan.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -45,13 +37,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [visibility, isAdmin] = await Promise.all([loadStoreVisibility(), isAdminSession()]);
+  const visibility = await loadStoreVisibility();
   return (
-    <html lang="en" className={urdu.variable}>
+    <html lang="en">
       <body className="font-display text-maroon-900 antialiased">
-        <StorefrontShell hiddenSections={visibility.hiddenSections} isAdmin={isAdmin}>
-          {children}
-        </StorefrontShell>
+        <StorefrontShell hiddenSections={visibility.hiddenSections}>{children}</StorefrontShell>
         <ServiceWorkerRegister />
       </body>
     </html>

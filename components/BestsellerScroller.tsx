@@ -21,8 +21,8 @@ export default function BestsellerScroller({ items }: { items: MenuItem[] }) {
         </Link>
       </div>
       <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 pt-1 scrollbar-hide sm:gap-4">
-        {items.map((item) => (
-          <ScrollProductCard key={item.id} item={item} />
+        {items.map((item, index) => (
+          <ScrollProductCard key={item.id} item={item} priority={index < 4} />
         ))}
       </div>
     </section>

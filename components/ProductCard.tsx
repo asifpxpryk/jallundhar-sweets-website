@@ -7,6 +7,7 @@ import { useCart } from "./CartContext";
 import { useIsAdmin } from "./AdminSessionContext";
 import { saveStorefrontItem } from "@/app/admin/actions";
 import { isSectionSlug, assignSection } from "@/lib/sections";
+import ProductImage from "./ProductImage";
 
 function itemSection(item: MenuItem) {
   if (isSectionSlug(item.category_id)) return item.category_id;
@@ -16,9 +17,11 @@ function itemSection(item: MenuItem) {
 export default function ProductCard({
   item,
   compact = false,
+  priority = false,
 }: {
   item: MenuItem;
   compact?: boolean;
+  priority?: boolean;
 }) {
   const { add } = useCart();
   const isAdmin = useIsAdmin();
@@ -55,15 +58,12 @@ export default function ProductCard({
     >
       <div className="relative aspect-square w-full overflow-hidden bg-gold-50">
         {item.image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <ProductImage
             src={item.image_url}
             alt={item.name}
-            loading="lazy"
-            className="h-full w-full object-cover"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
+            sizes={compact ? "176px" : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"}
+            className="object-cover"
+            priority={priority}
           />
         ) : null}
         {isAdmin && item.is_hidden ? (

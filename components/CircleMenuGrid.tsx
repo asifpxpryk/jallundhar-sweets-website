@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export type CircleMenuEntry = {
   href: string;
   name: string;
@@ -8,10 +10,9 @@ export function CircleMenuItem({ href, name, image }: CircleMenuEntry) {
   return (
     <a href={href} className="relative z-10 flex cursor-pointer flex-col items-center gap-1 text-center">
       <span className="flex h-24 w-24 items-center justify-center rounded-full bg-[#fff8f0] p-[3px] shadow-sm ring-1 ring-gold-300 transition hover:ring-gold-500 sm:h-24 sm:w-24 lg:h-28 lg:w-28">
-        <span className="flex h-full w-full items-center justify-center overflow-hidden rounded-full ring-1 ring-gold-200">
+        <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full ring-1 ring-gold-200">
           {image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={encodeURI(image)} alt="" className="h-full w-full object-contain" />
+            <Image src={image.split("?")[0]} alt="" fill sizes="112px" quality={70} className="object-contain" />
           ) : (
             <span className="h-full w-full rounded-full bg-cream" />
           )}

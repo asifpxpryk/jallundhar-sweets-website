@@ -11,11 +11,9 @@ import { AdminSessionProvider } from "./AdminSessionContext";
 export default function StorefrontShell({
   children,
   hiddenSections = [],
-  isAdmin = false,
 }: {
   children: React.ReactNode;
   hiddenSections?: string[];
-  isAdmin?: boolean;
 }) {
   const pathname = usePathname();
   if (pathname.startsWith("/admin")) {
@@ -24,8 +22,8 @@ export default function StorefrontShell({
 
   return (
     <CartProvider>
-      <AdminSessionProvider isAdmin={isAdmin}>
-        <Header hiddenSections={hiddenSections} isAdmin={isAdmin} />
+      <AdminSessionProvider>
+        <Header hiddenSections={hiddenSections} />
         <div className="pb-20 xl:pb-0">
           {children}
           {pathname.startsWith("/account") ? null : <Footer />}

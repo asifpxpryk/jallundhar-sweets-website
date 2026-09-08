@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import CategoryNav from "@/components/CategoryNav";
 import BestsellerScroller from "@/components/BestsellerScroller";
 import GiftPromoCard from "@/components/GiftPromoCard";
-import { loadStorefrontMenu } from "@/lib/loadMenu";
+import { loadMenu } from "@/lib/loadMenu";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 
 export const revalidate = 60;
@@ -29,7 +29,7 @@ function pickBestsellers(categories: MenuCategory[]): MenuItem[] {
 }
 
 export default async function Home() {
-  const categories = await loadStorefrontMenu();
+  const categories = await loadMenu();
   const bestsellers = pickBestsellers(categories);
 
   return (

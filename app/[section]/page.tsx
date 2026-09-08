@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
 import { SECTIONS, isSectionSlug } from "@/lib/sections";
-import { loadStorefrontMenu } from "@/lib/loadMenu";
+import { loadMenu } from "@/lib/loadMenu";
 import GeneralAisleNav from "@/components/GeneralAisleNav";
 import BeverageAisleNav from "@/components/BeverageAisleNav";
 import { isSectionHidden, loadStoreVisibility } from "@/lib/storeVisibility";
@@ -27,7 +27,7 @@ export default async function SectionPage({ params }: { params: { section: strin
   const visibility = await loadStoreVisibility();
   if (isSectionHidden(visibility, params.section)) notFound();
   const meta = SECTIONS.find((s) => s.slug === params.section)!;
-  const categories = await loadStorefrontMenu();
+  const categories = await loadMenu();
   const category = categories.find((c) => c.slug === meta.slug);
 
   return (

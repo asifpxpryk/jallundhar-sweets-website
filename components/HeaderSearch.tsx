@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import { normalizeName } from "@/lib/sections";
 import { useCart } from "./CartContext";
+import ProductImage from "./ProductImage";
 
 type Hit = {
   id: string;
@@ -67,7 +68,7 @@ export default function HeaderSearch() {
   useEffect(() => {
     if (!open || loaded) return;
     let cancelled = false;
-    fetch("/api/menu", { cache: "no-store" })
+    fetch("/api/menu")
       .then((res) => res.json())
       .then((data: MenuCategory[]) => {
         if (!cancelled && Array.isArray(data)) {
@@ -164,8 +165,14 @@ export default function HeaderSearch() {
                         className="flex min-w-0 flex-1 items-center gap-2 text-left"
                       >
                         {hit.image_url ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={hit.image_url} alt="" className="h-10 w-10 shrink-0 rounded-lg object-cover" />
+                          <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+                            <ProductImage
+                              src={hit.image_url}
+                              alt=""
+                              sizes="40px"
+                              className="object-cover"
+                            />
+                          </span>
                         ) : (
                           <span className="h-10 w-10 shrink-0 rounded-lg bg-gold-50" />
                         )}

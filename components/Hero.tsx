@@ -8,7 +8,7 @@ export default function Hero() {
         className="relative overflow-hidden rounded-3xl bg-maroon-800 text-cream"
         style={{
           backgroundImage:
-            "linear-gradient(115deg, rgba(30,8,10,0.97) 0%, rgba(30,8,10,0.94) 48%, rgba(30,8,10,0.7) 68%, rgba(30,8,10,0.35) 100%), url('https://cdn.shopify.com/s/files/1/0663/6208/1508/files/IMG_15.webp?v=1741607299')",
+            "linear-gradient(115deg, rgba(30,8,10,0.97) 0%, rgba(30,8,10,0.94) 48%, rgba(30,8,10,0.7) 68%, rgba(30,8,10,0.35) 100%), url('/hero.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
