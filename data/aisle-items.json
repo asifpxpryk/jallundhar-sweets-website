@@ -9269,6 +9269,36 @@
   ],
   "beverage:drinking-water": [
     {
+      "id": "drinking-water-jallundhar-pure-water-600ml",
+      "category_id": "beverage",
+      "name": "Jallundhar Pure Water 600ml",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/drinking-water/jallundhar-pure-water-600ml.jpg",
+      "is_available": true,
+      "sort_order": 0
+    },
+    {
+      "id": "drinking-water-jallundhar-pure-water-1-5-l",
+      "category_id": "beverage",
+      "name": "Jallundhar Pure Water 1.5 L",
+      "description": null,
+      "price": 90,
+      "image_url": "/products/drinking-water/jallundhar-pure-water-1-5-l.jpg",
+      "is_available": true,
+      "sort_order": 1
+    },
+    {
+      "id": "drinking-water-jallundhar-pure-water-5-l",
+      "category_id": "beverage",
+      "name": "Jallundhar Pure Water 5 L",
+      "description": null,
+      "price": 250,
+      "image_url": "/products/drinking-water/jallundhar-pure-water-5-l.jpg",
+      "is_available": true,
+      "sort_order": 2
+    },
+    {
       "id": "drinking-water-aqua-fina-water-330ml",
       "category_id": "beverage",
       "name": "Aqua Fina Water, 330ml",
