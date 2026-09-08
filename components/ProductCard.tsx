@@ -75,51 +75,13 @@ export default function ProductCard({
         ) : null}
       </div>
       <div className="flex flex-1 flex-col p-3">
-        <h3 className="line-clamp-2 min-h-[2.5rem] font-display text-sm font-semibold leading-tight text-maroon-900">
-          {item.name}
-        </h3>
-        {item.description ? (
-          <p className="mt-1 line-clamp-2 text-xs text-maroon-700/70">{item.description}</p>
-        ) : null}
-        <div className="flex min-h-8 flex-1 items-center">
-          {variants && variants.length > 0 ? (
-            <div className="flex flex-wrap gap-1">
-              {variants.map((variant) => (
-                <button
-                  key={variant.id}
-                  type="button"
-                  onClick={() => setSelectedId(variant.id)}
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition ${
-                    selectedId === variant.id
-                      ? "bg-maroon-700 text-white"
-                      : "bg-gold-50 text-maroon-800 ring-1 ring-gold-200"
-                  }`}
-                >
-                  {variant.label}
-                </button>
-              ))}
-            </div>
-          ) : null}
-        </div>
-        <p className="text-sm text-maroon-700/70">Rs. {price.toLocaleString()}</p>
-        <button
-          type="button"
-          onClick={handleAdd}
-          disabled={!inStock}
-          className={`mt-3 min-h-11 w-full rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition ${
-            inStock ? "bg-maroon-800 hover:bg-maroon-900" : "cursor-not-allowed bg-maroon-300"
-          }`}
-        >
-          {inStock ? "Add to Cart" : "Out of stock"}
-        </button>
         {isAdmin ? (
           <form
-            className="mt-3 space-y-2 border-t border-gold-100 pt-2"
+            className="flex min-h-0 flex-1 flex-col"
             key={selectedId}
             action={async (formData) => {
               const variant = variants?.find((v) => v.id === selectedId);
               formData.set("id", variant?.id ?? item.id);
-              formData.set("name", variant ? `${item.name} ${variant.label}` : item.name);
               formData.set("category_id", itemSection(item));
               formData.set("description", item.description ?? "");
               formData.set("image_url", item.image_url ?? "");
@@ -138,7 +100,34 @@ export default function ProductCard({
               router.refresh();
             }}
           >
-            <label className="block text-[11px] text-maroon-800">
+            <label className="flex min-h-0 flex-1 flex-col text-[11px] text-maroon-800">
+              Name
+              <textarea
+                name="name"
+                defaultValue={selected ? `${item.name} ${selected.label}` : item.name}
+                rows={4}
+                className="mt-0.5 min-h-[4.5rem] w-full flex-1 resize-none rounded-lg border border-gold-200 px-2 py-1.5 font-display text-sm font-semibold leading-tight text-maroon-900"
+              />
+            </label>
+            {variants && variants.length > 0 ? (
+              <div className="mt-2 flex flex-wrap gap-1">
+                {variants.map((variant) => (
+                  <button
+                    key={variant.id}
+                    type="button"
+                    onClick={() => setSelectedId(variant.id)}
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition ${
+                      selectedId === variant.id
+                        ? "bg-maroon-700 text-white"
+                        : "bg-gold-50 text-maroon-800 ring-1 ring-gold-200"
+                    }`}
+                  >
+                    {variant.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            <label className="mt-2 block text-[11px] text-maroon-800">
               Price
               <input
                 name="price"
@@ -149,7 +138,7 @@ export default function ProductCard({
                 className="mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm"
               />
             </label>
-            <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
+            <label className="mt-2 flex items-center gap-1.5 text-[11px] text-maroon-800">
               <input
                 name="is_hidden"
                 type="checkbox"
@@ -170,7 +159,7 @@ export default function ProductCard({
             <button
               type="submit"
               disabled={status === "saving"}
-              className={`w-full rounded-lg py-1.5 text-[11px] font-semibold text-white ${
+              className={`mt-2 w-full rounded-lg py-1.5 text-[11px] font-semibold text-white ${
                 status === "saved"
                   ? "bg-emerald-600"
                   : status === "error"
@@ -188,7 +177,47 @@ export default function ProductCard({
             </button>
             {error ? <p className="text-[11px] text-red-700">{error}</p> : null}
           </form>
-        ) : null}
+        ) : (
+          <>
+            <h3 className="line-clamp-2 min-h-[2.5rem] font-display text-sm font-semibold leading-tight text-maroon-900">
+              {item.name}
+            </h3>
+            {item.description ? (
+              <p className="mt-1 line-clamp-2 text-xs text-maroon-700/70">{item.description}</p>
+            ) : null}
+            <div className="flex min-h-8 flex-1 items-center">
+              {variants && variants.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {variants.map((variant) => (
+                    <button
+                      key={variant.id}
+                      type="button"
+                      onClick={() => setSelectedId(variant.id)}
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition ${
+                        selectedId === variant.id
+                          ? "bg-maroon-700 text-white"
+                          : "bg-gold-50 text-maroon-800 ring-1 ring-gold-200"
+                      }`}
+                    >
+                      {variant.label}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            <p className="text-sm text-maroon-700/70">Rs. {price.toLocaleString()}</p>
+            <button
+              type="button"
+              onClick={handleAdd}
+              disabled={!inStock}
+              className={`mt-3 min-h-11 w-full rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition ${
+                inStock ? "bg-maroon-800 hover:bg-maroon-900" : "cursor-not-allowed bg-maroon-300"
+              }`}
+            >
+              {inStock ? "Add to Cart" : "Out of stock"}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
