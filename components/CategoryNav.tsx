@@ -1,29 +1,36 @@
-const CATEGORIES = [
-  { href: "#mithai", label: "Mithai", emoji: "🍬" },
-  { href: "#bakery", label: "Bakery", emoji: "🥐" },
-  { href: "#cakes", label: "Cakes", emoji: "🎂" },
-  { href: "#cafe", label: "Cafe", emoji: "🍕" },
-  { href: "#store", label: "Store", emoji: "🥤" },
-  { href: "#deals", label: "Deals", emoji: "🏷️" },
-];
+import Link from "next/link";
+import { SECTIONS } from "@/lib/sections";
 
 export default function CategoryNav() {
   return (
-    <div className="mx-auto max-w-6xl px-3 py-6 sm:px-6">
-      <div className="grid grid-cols-6 gap-1 sm:flex sm:justify-center sm:gap-8">
-        {CATEGORIES.map((cat) => (
-          <a
-            key={cat.href}
-            href={cat.href}
-            className="flex flex-col items-center gap-1.5 text-center sm:gap-2"
+    <div className="mx-auto max-w-6xl px-3 py-2 sm:px-6 sm:py-3" id="categories">
+      <div className="grid grid-cols-3 gap-x-3 gap-y-2 sm:grid-cols-6 sm:flex sm:justify-center sm:gap-x-8 sm:gap-y-3">
+        {SECTIONS.map((cat) => (
+          <Link
+            key={cat.slug}
+            href={`/${cat.slug}`}
+            className="flex flex-col items-center gap-1 text-center"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-50 text-lg shadow-sm ring-1 ring-gold-100 transition hover:bg-gold-100 sm:h-16 sm:w-16 sm:text-2xl">
-              {cat.emoji}
+            <span className="flex h-[4.35rem] w-[4.35rem] items-center justify-center overflow-hidden rounded-full bg-[#fff8f0] text-3xl shadow-sm ring-1 ring-gold-100 transition hover:ring-gold-300 sm:h-24 sm:w-24 sm:text-4xl">
+              {"image" in cat && cat.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className={
+                    cat.slug === "sweets"
+                      ? "h-full w-full object-cover"
+                      : "h-[92%] w-[92%] object-contain"
+                  }
+                />
+              ) : (
+                cat.emoji
+              )}
             </span>
-            <span className="text-[0.65rem] font-medium leading-tight text-maroon-700 sm:text-sm">
-              {cat.label}
+            <span className="text-sm font-semibold leading-tight text-maroon-700 sm:text-base">
+              {cat.name}
             </span>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

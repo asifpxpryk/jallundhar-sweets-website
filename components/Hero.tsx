@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 sm:pt-6">
@@ -11,28 +13,27 @@ export default function Hero() {
           backgroundPosition: "center",
         }}
       >
-        <div className="flex flex-col gap-4 px-6 py-12 sm:px-10 sm:py-16">
-          <span className="w-fit rounded-full bg-gold-500/20 px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-gold-300 sm:text-xs">
+        <div className="flex flex-col gap-2 px-5 py-5 sm:px-8 sm:py-7">
+          <span className="w-fit rounded-full bg-gold-500/20 px-3 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-gold-300 sm:text-xs">
             Tradition in Every Bite · Since 1959
           </span>
-          <h1 className="max-w-md font-display text-2xl font-bold leading-tight sm:text-4xl">
+          <h1 className="max-w-md font-display text-xl font-bold leading-tight sm:text-3xl">
             Bringing Sweetness to Your Moments
           </h1>
-          <p className="max-w-sm text-sm text-cream/80 sm:text-base">
-            Premium mithai, fresh bakery, custom cakes, ready to eat pizza, burgers &amp;
-            more — Order Now.
+          <p className="max-w-sm text-xs text-cream/80 sm:text-sm">
+            Premium mithai, fresh bakery, custom cakes, pizza, burgers &amp; more — Order Now.
           </p>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <a
-              href="#mithai"
-              className="inline-flex items-center gap-2 rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-maroon-900 shadow-lg shadow-gold-900/20 transition hover:bg-gold-400"
+          <div className="flex flex-wrap gap-2 pt-1">
+            <Link
+              href="/sweets"
+              className="inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2 text-sm font-semibold text-maroon-900 shadow-lg shadow-gold-900/20 transition hover:bg-gold-400"
             >
               Shop Now
               <span aria-hidden>→</span>
-            </a>
+            </Link>
             <a
               href="tel:03001538440"
-              className="rounded-full border border-cream/30 px-6 py-3 text-sm font-semibold text-cream transition hover:bg-cream/10"
+              className="rounded-full border border-cream/30 px-5 py-2 text-sm font-semibold text-cream transition hover:bg-cream/10"
             >
               Call: 0300 153 8440
             </a>

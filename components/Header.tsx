@@ -1,65 +1,62 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCart } from "./CartContext";
+import { SECTIONS } from "@/lib/sections";
 
 const NAV_LINKS = [
-  { href: "#mithai", label: "Mithai" },
-  { href: "#bakery", label: "Bakery" },
-  { href: "#cakes", label: "Cakes" },
-  { href: "#cafe", label: "Cafe" },
-  { href: "#store", label: "Store" },
-  { href: "#deals", label: "Deals" },
-  { href: "#contact", label: "Visit" },
+  ...SECTIONS.map((section) => ({ href: `/${section.slug}`, label: section.name })),
+  { href: "/#contact", label: "Visit" },
 ];
 
 export default function Header() {
   const { count, open } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-40 border-b border-gold-200 bg-cream/95 backdrop-blur">
-      <div className="relative mx-auto flex max-w-6xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6">
-        <div className="flex-1" />
-
-        <a href="#top" className="flex flex-shrink-0 items-center gap-2">
+      <div className="relative mx-auto flex max-w-6xl items-center px-4 py-3 sm:px-6">
+        <Link href="/" className="flex min-w-0 items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://jallundharmain.com/wp-content/uploads/2021/07/jallundhar-logo.png"
             alt="Jallundhar Sweets & Bakers"
-            className="h-7 w-7 flex-shrink-0 rounded-full object-contain sm:h-9 sm:w-9"
+            className="h-9 w-9 flex-shrink-0 rounded-full object-contain"
             onError={(e) => {
               e.currentTarget.style.display = "none";
             }}
           />
-          <div className="flex flex-col items-center leading-tight">
-            <span
-              className="whitespace-nowrap font-display font-bold tracking-tight text-maroon-800"
-              style={{ fontSize: "clamp(0.68rem, 3.2vw, 1.1rem)" }}
-            >
+          <div className="flex min-w-0 flex-col items-center justify-center text-center">
+            <span className="whitespace-nowrap font-display text-[15px] font-bold leading-5 tracking-tight text-maroon-800">
               Jallundhar <span className="text-gold-600">Sweets &amp; Bakers</span>
             </span>
-            <span
-              className="whitespace-nowrap font-medium text-maroon-700/60"
-              style={{ fontSize: "clamp(0.5rem, 2vw, 0.68rem)" }}
-            >
+            <span className="whitespace-nowrap text-[11px] font-medium leading-4 text-maroon-700/60">
               Shahi Road, Rahim Yar Khan
             </span>
           </div>
-        </a>
+        </Link>
 
-        <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium text-maroon-700 lg:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-4 text-sm font-medium text-maroon-700 xl:flex">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className="transition hover:text-gold-600">
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`transition hover:text-gold-600 ${
+                pathname === link.href ? "font-semibold text-gold-600" : ""
+              }`}
+            >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <div className="flex flex-1 flex-shrink-0 items-center justify-end gap-2">
+        <div className="ml-auto flex flex-shrink-0 items-center gap-2">
           <button
             onClick={open}
-            className="relative flex items-center gap-2 rounded-full bg-maroon-700 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-maroon-800 sm:px-4"
+            className="relative flex h-9 items-center gap-2 rounded-full bg-maroon-700 px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-maroon-800 sm:px-4"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="9" cy="21" r="1" />
@@ -78,7 +75,7 @@ export default function Header() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menu"
             aria-expanded={menuOpen}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-gold-300 text-maroon-700 lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-gold-300 text-maroon-700 xl:hidden"
           >
             {menuOpen ? (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -94,21 +91,18 @@ export default function Header() {
 
         {menuOpen && (
           <>
-            <div
-              className="fixed inset-0 z-40 lg:hidden"
-              onClick={() => setMenuOpen(false)}
-            />
-            <nav className="absolute left-1/2 top-full z-50 mt-2 w-48 -translate-x-1/2 overflow-hidden rounded-2xl border border-gold-200 bg-white p-2 shadow-xl lg:hidden">
+            <div className="fixed inset-0 z-40 xl:hidden" onClick={() => setMenuOpen(false)} />
+            <nav className="absolute right-4 top-full z-50 mt-2 w-48 overflow-hidden rounded-2xl border border-gold-200 bg-white p-2 shadow-xl sm:right-6 xl:hidden">
               <ul className="flex flex-col gap-0.5">
                 {NAV_LINKS.map((link) => (
                   <li key={link.href}>
-                    <a
+                    <Link
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
                       className="block rounded-lg px-3 py-2 text-center text-sm font-medium text-maroon-700 transition hover:bg-gold-50 hover:text-gold-600"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

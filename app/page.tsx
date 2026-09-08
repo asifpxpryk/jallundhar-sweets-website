@@ -1,33 +1,41 @@
-import { supabase } from "@/lib/supabase";
-import type { MenuCategory } from "@/lib/types";
-import StorefrontApp from "@/components/StorefrontApp";
+import Hero from "@/components/Hero";
+import CategoryNav from "@/components/CategoryNav";
+import BestsellerScroller from "@/components/BestsellerScroller";
+import GiftPromoCard from "@/components/GiftPromoCard";
+import { loadMenu } from "@/lib/loadMenu";
+import type { MenuCategory, MenuItem } from "@/lib/types";
 
-export const revalidate = 60;
+function pickBestsellers(categories: MenuCategory[]): MenuItem[] {
+  const all = categories.flatMap((c) => c.items);
+  const preferred = ["gulab", "barfi", "jaman", "cham cham", "halwa", "pairay", "laddu", "ladu"];
+  const withImage = all.filter((i) => i.image_url);
+  const rest = all.filter((i) => !i.image_url);
+  const ranked = [...withImage].sort((a, b) => {
+    const score = (name: string) => (preferred.some((p) => name.toLowerCase().includes(p)) ? 0 : 1);
+    return score(a.name) - score(b.name);
+  });
 
-async function getCategories(): Promise<MenuCategory[]> {
-  const { data: categories, error: catError } = await supabase
-    .from("menu_categories")
-    .select("id, slug, name, sort_order")
-    .order("sort_order");
-
-  const { data: items, error: itemError } = await supabase
-    .from("menu_items")
-    .select("id, category_id, name, description, price, image_url, is_available, sort_order")
-    .eq("is_available", true)
-    .order("sort_order");
-
-  if (catError || itemError || !categories) {
-    return [];
+  const picked: MenuItem[] = [];
+  const seen = new Set<string>();
+  for (const item of [...ranked, ...rest]) {
+    if (seen.has(item.id)) continue;
+    seen.add(item.id);
+    picked.push(item);
+    if (picked.length >= 12) break;
   }
-
-  return categories.map((c) => ({
-    ...c,
-    items: (items || []).filter((i) => i.category_id === c.id),
-  }));
+  return picked;
 }
 
 export default async function Home() {
-  const categories = await getCategories();
+  const categories = await loadMenu();
+  const bestsellers = pickBestsellers(categories);
 
-  return <StorefrontApp categories={categories} />;
+  return (
+    <>
+      <Hero />
+      <CategoryNav />
+      <BestsellerScroller items={bestsellers} />
+      <GiftPromoCard />
+    </>
+  );
 }
