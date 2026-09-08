@@ -1,0 +1,791 @@
+[
+  {
+    "id": "5851",
+    "category_id": "general",
+    "woo_category_slugs": [],
+    "name": "Chicken Leg Piece",
+    "description": null,
+    "price": 0,
+    "image_url": "/products/5851.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/chicken-leg-large.png",
+    "is_available": true,
+    "sort_order": 0
+  },
+  {
+    "id": "5891",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Egg Boti Pizza Large",
+    "description": null,
+    "price": 420,
+    "image_url": "/products/5891.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/egg-boti-pizza-new.png",
+    "is_available": true,
+    "sort_order": 1
+  },
+  {
+    "id": "5889",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Cheese Pizza Small",
+    "description": null,
+    "price": 340,
+    "image_url": "/products/5889.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/cheese-pizza-new.png",
+    "is_available": true,
+    "sort_order": 2
+  },
+  {
+    "id": "5887",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Cheese Pizza Medium",
+    "description": null,
+    "price": 440,
+    "image_url": "/products/5887.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/cheese-pizza-new.png",
+    "is_available": true,
+    "sort_order": 3
+  },
+  {
+    "id": "5885",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Cheese Pizza Large",
+    "description": null,
+    "price": 550,
+    "image_url": "/products/5885.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/cheese-pizza-new.png",
+    "is_available": true,
+    "sort_order": 4
+  },
+  {
+    "id": "5883",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Pizza Slice",
+    "description": null,
+    "price": 180,
+    "image_url": "/products/5883.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Pizza-Slice-new.png",
+    "is_available": true,
+    "sort_order": 5
+  },
+  {
+    "id": "5881",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Tikka Sandwich",
+    "description": null,
+    "price": 180,
+    "image_url": "/products/5881.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Tikka-sandwitch-new.png",
+    "is_available": true,
+    "sort_order": 6
+  },
+  {
+    "id": "5879",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Boti Sandwich",
+    "description": null,
+    "price": 180,
+    "image_url": "/products/5879.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Boti-sandwich-new.png",
+    "is_available": true,
+    "sort_order": 7
+  },
+  {
+    "id": "5877",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Tikka Pastry 1 pc",
+    "description": null,
+    "price": 100,
+    "image_url": "/products/5877.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/tikka-pastery-new.png",
+    "is_available": true,
+    "sort_order": 8
+  },
+  {
+    "id": "5875",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Pizza Pastry",
+    "description": null,
+    "price": 90,
+    "image_url": "/products/5875.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Pizza-Pastery-new.png",
+    "is_available": true,
+    "sort_order": 9
+  },
+  {
+    "id": "5873",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Chicken Croissant",
+    "description": null,
+    "price": 70,
+    "image_url": "/products/5873.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Chicken-corocent-new.png",
+    "is_available": true,
+    "sort_order": 10
+  },
+  {
+    "id": "5871",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Cheese Club Sandwich",
+    "description": null,
+    "price": 140,
+    "image_url": "/products/5871.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/cheese-club-sandwich.png",
+    "is_available": true,
+    "sort_order": 11
+  },
+  {
+    "id": "5869",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Egg Sandwich",
+    "description": null,
+    "price": 100,
+    "image_url": "/products/5869.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Egg-Sandwich-new.png",
+    "is_available": true,
+    "sort_order": 12
+  },
+  {
+    "id": "5866",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Fried Sandwich",
+    "description": null,
+    "price": 100,
+    "image_url": "/products/5866.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Fried-Sandwich.png",
+    "is_available": true,
+    "sort_order": 13
+  },
+  {
+    "id": "5864",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Two in one Burger Half",
+    "description": null,
+    "price": 160,
+    "image_url": "/products/5864.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Two-in-one-Burger-Half-new.png",
+    "is_available": true,
+    "sort_order": 14
+  },
+  {
+    "id": "5862",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Chicken Boti Burger",
+    "description": null,
+    "price": 180,
+    "image_url": "/products/5862.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/long-burger-new-2.png",
+    "is_available": true,
+    "sort_order": 15
+  },
+  {
+    "id": "5860",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Chicken Chapli 1 Pc",
+    "description": null,
+    "price": 80,
+    "image_url": "/products/5860.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/chicken-chapli-new-2.png",
+    "is_available": true,
+    "sort_order": 16
+  },
+  {
+    "id": "5858",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Chicken Shami Kabab",
+    "description": null,
+    "price": 70,
+    "image_url": "/products/5858.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Chicken-Shami-Kabab-new.png",
+    "is_available": true,
+    "sort_order": 17
+  },
+  {
+    "id": "5856",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Chicken Punch",
+    "description": null,
+    "price": 80,
+    "image_url": "/products/5856.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/chicken-punch-new.png",
+    "is_available": true,
+    "sort_order": 18
+  },
+  {
+    "id": "5854",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Chicken Shashlik Stick 4 boti",
+    "description": null,
+    "price": 120,
+    "image_url": "/products/5854.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/Shashlic-Stick-new.png",
+    "is_available": true,
+    "sort_order": 19
+  },
+  {
+    "id": "5852",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Chicken Leg Piece",
+    "description": null,
+    "price": 250,
+    "image_url": "/products/5852.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/chicken-leg-large.png",
+    "is_available": true,
+    "sort_order": 20
+  },
+  {
+    "id": "5849",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Dhaka Stick",
+    "description": null,
+    "price": 140,
+    "image_url": "/products/5849.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/fried-boti.png",
+    "is_available": true,
+    "sort_order": 21
+  },
+  {
+    "id": "5845",
+    "category_id": "cafe,fast-food",
+    "woo_category_slugs": [
+      "cafe",
+      "fast-food"
+    ],
+    "name": "French Fries",
+    "description": null,
+    "price": 0,
+    "image_url": "/products/5845.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/fries.png",
+    "is_available": true,
+    "sort_order": 22
+  },
+  {
+    "id": "4743",
+    "category_id": "all-products,dairy-essential",
+    "woo_category_slugs": [
+      "all-products",
+      "dairy-essential"
+    ],
+    "name": "PACKED YOGURT",
+    "description": null,
+    "price": 140,
+    "image_url": "/products/4743.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Packed-Yougert-1.webp",
+    "is_available": true,
+    "sort_order": 23
+  },
+  {
+    "id": "4740",
+    "category_id": "all-products,dairy-essential",
+    "woo_category_slugs": [
+      "all-products",
+      "dairy-essential"
+    ],
+    "name": "Plain Bread",
+    "description": null,
+    "price": 100,
+    "image_url": "/products/4740.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Plain-Bred-1.webp",
+    "is_available": true,
+    "sort_order": 24
+  },
+  {
+    "id": "4736",
+    "category_id": "all-products,dairy-essential",
+    "woo_category_slugs": [
+      "all-products",
+      "dairy-essential"
+    ],
+    "name": "Milky Bread",
+    "description": null,
+    "price": 100,
+    "image_url": "/products/4736.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Milky-Bread-1.webp",
+    "is_available": true,
+    "sort_order": 25
+  },
+  {
+    "id": "4732",
+    "category_id": "all-products,dairy-essential",
+    "woo_category_slugs": [
+      "all-products",
+      "dairy-essential"
+    ],
+    "name": "Brown Bread",
+    "description": null,
+    "price": 150,
+    "image_url": "/products/4732.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Brown-Bran-Bread-1.webp",
+    "is_available": true,
+    "sort_order": 26
+  },
+  {
+    "id": "4728",
+    "category_id": "all-products,dairy-essential",
+    "woo_category_slugs": [
+      "all-products",
+      "dairy-essential"
+    ],
+    "name": "Special Desi Ghee (half kg)",
+    "description": null,
+    "price": 1250,
+    "image_url": "/products/4728.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Special-desi-ghee-1.webp2_-1.webp",
+    "is_available": true,
+    "sort_order": 27
+  },
+  {
+    "id": "4725",
+    "category_id": "all-products,plain-biscuits",
+    "woo_category_slugs": [
+      "all-products",
+      "plain-biscuits"
+    ],
+    "name": "Mix NIMKO 1 kg",
+    "description": null,
+    "price": 1000,
+    "image_url": "/products/4725.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Mix-Nimko-1.webp",
+    "is_available": true,
+    "sort_order": 28
+  },
+  {
+    "id": "4719",
+    "category_id": "all-products,premium-dollar-cup-cake",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-dollar-cup-cake"
+    ],
+    "name": "DOLLER CAKE",
+    "description": null,
+    "price": 150,
+    "image_url": "/products/4719.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Doller-Cake-2-1.webp",
+    "is_available": true,
+    "sort_order": 29
+  },
+  {
+    "id": "4707",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "Chocolate Barfi Rolls",
+    "description": null,
+    "price": 1050,
+    "image_url": "/products/4707.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/chocolate-barfi-Rolls-1.webp",
+    "is_available": true,
+    "sort_order": 30
+  },
+  {
+    "id": "4703",
+    "category_id": "all-products,premium-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets"
+    ],
+    "name": "Chocolate Barfi Plain",
+    "description": null,
+    "price": 1150,
+    "image_url": "/products/4703.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Chocolate-Barfi-Plain-1.webp",
+    "is_available": true,
+    "sort_order": 31
+  },
+  {
+    "id": "4693",
+    "category_id": "all-products,plain-biscuits",
+    "woo_category_slugs": [
+      "all-products",
+      "plain-biscuits"
+    ],
+    "name": "BASIN PAKORYIA",
+    "description": "200 Grams Pack",
+    "price": 90,
+    "image_url": "/products/4693.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/basin-pakorian-1.webp",
+    "is_available": true,
+    "sort_order": 32
+  },
+  {
+    "id": "4686",
+    "category_id": "all-products,premium-dry-cake",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-dry-cake"
+    ],
+    "name": "DRY CAKES",
+    "description": null,
+    "price": 800,
+    "image_url": "/products/4686.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Dry-Cake-1.webp2_-1.webp",
+    "is_available": true,
+    "sort_order": 33
+  },
+  {
+    "id": "4683",
+    "category_id": "all-products,premium-rusk",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-rusk"
+    ],
+    "name": "LAHORI BUTTER RUSK",
+    "description": null,
+    "price": 280,
+    "image_url": "/products/4683.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Lahori-Butter-rusk-2.webp",
+    "is_available": true,
+    "sort_order": 34
+  },
+  {
+    "id": "4679",
+    "category_id": "all-products,premium-rusk",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-rusk"
+    ],
+    "name": "BABY RUSK",
+    "description": null,
+    "price": 250,
+    "image_url": "/products/4679.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/baby-rusk-3-1.webp",
+    "is_available": true,
+    "sort_order": 35
+  },
+  {
+    "id": "4677",
+    "category_id": "all-products,plain-biscuits,premium-biscuits",
+    "woo_category_slugs": [
+      "all-products",
+      "plain-biscuits",
+      "premium-biscuits"
+    ],
+    "name": "Special Butter Biscuits",
+    "description": null,
+    "price": 850,
+    "image_url": "/products/4677.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Special-Butter-Buiscuit-1.webp",
+    "is_available": true,
+    "sort_order": 36
+  },
+  {
+    "id": "4675",
+    "category_id": "all-products,plain-biscuits,premium-biscuits",
+    "woo_category_slugs": [
+      "all-products",
+      "plain-biscuits",
+      "premium-biscuits"
+    ],
+    "name": "MIX BUTTER BISCUIT",
+    "description": null,
+    "price": 1300,
+    "image_url": "/products/4675.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Mix-Butter-Biscuit-1.webp",
+    "is_available": true,
+    "sort_order": 37
+  },
+  {
+    "id": "4668",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "BESAN PAIRAY Desi",
+    "description": null,
+    "price": 1000,
+    "image_url": "/products/4668.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Besan-paira-desi-ghee-1-1.webp",
+    "is_available": true,
+    "sort_order": 38
+  },
+  {
+    "id": "4667",
+    "category_id": "all-products,plain-biscuits,premium-biscuits,premium-rusk",
+    "woo_category_slugs": [
+      "all-products",
+      "plain-biscuits",
+      "premium-biscuits",
+      "premium-rusk"
+    ],
+    "name": "BAKARKHANI NAMKEEN",
+    "description": null,
+    "price": 850,
+    "image_url": "/products/4667.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Bakar-khani-namkeen-1.webp",
+    "is_available": true,
+    "sort_order": 39
+  },
+  {
+    "id": "4661",
+    "category_id": "all-products,premium-sohan-halwa,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sohan-halwa",
+      "assorted-sweets"
+    ],
+    "name": "AKHROTI SOHAN HALWA",
+    "description": null,
+    "price": 1600,
+    "image_url": "/products/4661.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/sohn-halwa-6.webp",
+    "is_available": true,
+    "sort_order": 40
+  },
+  {
+    "id": "4655",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "KHOYA CHAM CHAM",
+    "description": null,
+    "price": 1050,
+    "image_url": "/products/4655.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Khoya-cham-cham-1.webp",
+    "is_available": true,
+    "sort_order": 41
+  },
+  {
+    "id": "4653",
+    "category_id": "all-products,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "assorted-sweets"
+    ],
+    "name": "PHANIYAN 1 KG",
+    "description": null,
+    "price": 700,
+    "image_url": "/products/4653.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Phaniyan-1.webp",
+    "is_available": true,
+    "sort_order": 42
+  },
+  {
+    "id": "4646",
+    "category_id": "all-products,assorted-sweets,traditional-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "CHAM CHAM",
+    "description": null,
+    "price": 1050,
+    "image_url": "/products/4646.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Khoya-cham-cham-1.webp",
+    "is_available": true,
+    "sort_order": 43
+  },
+  {
+    "id": "4638",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "KHOYA JAMAN",
+    "description": null,
+    "price": 1050,
+    "image_url": "/products/4638.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Khoya-jaman-1.webp",
+    "is_available": true,
+    "sort_order": 44
+  },
+  {
+    "id": "4633",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "DESI GHEE BALU SHAHI",
+    "description": null,
+    "price": 1050,
+    "image_url": "/products/4633.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Desi-Ghee-Balu-shahi-1.webp",
+    "is_available": true,
+    "sort_order": 45
+  },
+  {
+    "id": "4629",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "Badaam BARFI",
+    "description": null,
+    "price": 1150,
+    "image_url": "/products/4629.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/badam-barfi-2-2.webp",
+    "is_available": true,
+    "sort_order": 46
+  },
+  {
+    "id": "4624",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "EGG MASU Desi Ghee",
+    "description": null,
+    "price": 1400,
+    "image_url": "/products/4624.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Egg-Masu-Desi-Ghee-1.webp2_-1.webp",
+    "is_available": true,
+    "sort_order": 47
+  },
+  {
+    "id": "4620",
+    "category_id": "all-products,premium-sweets,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sweets",
+      "assorted-sweets"
+    ],
+    "name": "SPECIAL LAHORI LADU | Moti Choor Laddu",
+    "description": null,
+    "price": 850,
+    "image_url": "/products/4620.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Special-Lahori-ladu-1.webp",
+    "is_available": true,
+    "sort_order": 48
+  },
+  {
+    "id": "4615",
+    "category_id": "all-products,assorted-sweets,traditional-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PLAIN BARFI | SADA BARFI",
+    "description": null,
+    "price": 575,
+    "image_url": "/products/4615.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/sada-barfi-3.webp",
+    "is_available": true,
+    "sort_order": 49
+  },
+  {
+    "id": "4609",
+    "category_id": "all-products,assorted-sweets,traditional-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "MIX SPECIAL SWEETS",
+    "description": null,
+    "price": 500,
+    "image_url": "/products/4609.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Mix-Special-Sweets-2-1.webp",
+    "is_available": true,
+    "sort_order": 50
+  },
+  {
+    "id": "4605",
+    "category_id": "all-products,assorted-sweets,traditional-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "GULAB JAMAN",
+    "description": null,
+    "price": 500,
+    "image_url": "/products/4605.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Gulab-Jamun-2.webp",
+    "is_available": true,
+    "sort_order": 51
+  },
+  {
+    "id": "4599",
+    "category_id": "all-products,premium-sohan-halwa,assorted-sweets",
+    "woo_category_slugs": [
+      "all-products",
+      "premium-sohan-halwa",
+      "assorted-sweets"
+    ],
+    "name": "SOHAN HALWA DESI GHEE",
+    "description": null,
+    "price": 800,
+    "image_url": "/products/4599.webp",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Sohn-halwa-desi-ghee-1-1.webp",
+    "is_available": true,
+    "sort_order": 52
+  }
+]

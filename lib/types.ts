@@ -7,6 +7,7 @@ export type MenuItem = {
   image_url: string | null;
   is_available: boolean;
   sort_order: number;
+  variants?: { id: string; label: string; price: number }[];
 };
 
 export type MenuCategory = {

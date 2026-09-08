@@ -1,10 +1,20 @@
 import BackLink from "@/components/BackLink";
+import OwnerLoginForm from "@/components/OwnerLoginForm";
+import AdminPanel from "@/app/admin/AdminPanel";
+import { isAdminPinConfigured, isAdminSession } from "@/lib/adminAuth";
+import { hasSupabaseSecret } from "@/lib/supabaseAdmin";
+import { loadAllMenuItems } from "@/lib/loadMenu";
 
 export const metadata = {
   title: "Account | Jallundhar Sweets & Bakers",
 };
 
-export default function AccountPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AccountPage() {
+  const owner = await isAdminSession();
+  const items = owner ? await loadAllMenuItems() : [];
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div className="flex items-center gap-3">
@@ -12,7 +22,7 @@ export default function AccountPage() {
         <BackLink />
       </div>
       <p className="mt-2 text-sm text-maroon-700/70">
-        Order ke liye call ya WhatsApp karein. Login zaroori nahi.
+        Order ke liye call ya WhatsApp karein. Customer login zaroori nahi.
       </p>
       <div className="mt-6 space-y-3 rounded-2xl border border-gold-200 bg-white p-5">
         <p className="font-display font-semibold text-maroon-800">Jallundhar Sweets &amp; Bakers</p>
@@ -29,6 +39,22 @@ export default function AccountPage() {
           WhatsApp Order
         </a>
       </div>
+
+      {owner ? (
+        <div className="mt-8">
+          <AdminPanel items={items} needsSecret={!hasSupabaseSecret()} />
+        </div>
+      ) : (
+        <div className="mt-8 max-w-sm">
+          {isAdminPinConfigured() ? (
+            <OwnerLoginForm />
+          ) : (
+            <p className="rounded-2xl border border-gold-200 bg-white p-5 text-sm text-maroon-800">
+              Owner login ke liye <code className="font-mono">ADMIN_PIN</code> .env.local mein set karo.
+            </p>
+          )}
+        </div>
+      )}
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import type { MenuItem } from "@/lib/types";
 import ProductCard from "./ProductCard";
 import BackLink from "./BackLink";
+import HashScroll from "./HashScroll";
 
 export default function CategoryProducts({
   name,
@@ -13,6 +14,7 @@ export default function CategoryProducts({
 }) {
   return (
     <section className="py-10">
+      <HashScroll />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex items-center gap-3 sm:gap-4">
           {image && (
