@@ -18,10 +18,12 @@ export default function ProductCard({
   item,
   compact = false,
   priority = false,
+  onSaved,
 }: {
   item: MenuItem;
   compact?: boolean;
   priority?: boolean;
+  onSaved?: () => void;
 }) {
   const { add } = useCart();
   const isAdmin = useIsAdmin();
@@ -128,6 +130,7 @@ export default function ProductCard({
                 return;
               }
               setStatus("saved");
+              onSaved?.();
               router.refresh();
             }}
           >

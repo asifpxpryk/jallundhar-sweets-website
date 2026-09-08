@@ -11,12 +11,16 @@ export default function CategoryProducts({
   image,
   extra,
   menuSlug,
+  aisleSection,
+  aisleSlug,
 }: {
   name: string;
   items: MenuItem[];
   image?: string;
   extra?: ReactNode;
   menuSlug?: string;
+  aisleSection?: "general" | "beverage";
+  aisleSlug?: string;
 }) {
   return (
     <section className="py-10">
@@ -39,7 +43,13 @@ export default function CategoryProducts({
           <BackLink />
         </div>
         {extra}
-        <CategoryProductGrid items={items} menuSlug={menuSlug} hasExtra={Boolean(extra)} />
+        <CategoryProductGrid
+          items={items}
+          menuSlug={menuSlug}
+          hasExtra={Boolean(extra)}
+          aisleSection={aisleSection}
+          aisleSlug={aisleSlug}
+        />
       </div>
     </section>
   );

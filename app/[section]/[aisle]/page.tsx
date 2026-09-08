@@ -59,6 +59,8 @@ export default async function NestedAislePage({
           visibility.hiddenItemIds
         )}
         image={aisle.image}
+        aisleSection="general"
+        aisleSlug={aisle.slug}
       />
     );
   }
@@ -76,6 +78,8 @@ export default async function NestedAislePage({
           visibility.hiddenItemIds
         )}
         image={aisle.image}
+        aisleSection="beverage"
+        aisleSlug={aisle.slug}
       />
     );
   }
