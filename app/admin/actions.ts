@@ -8,6 +8,7 @@ import { GENERAL_AISLES } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
 import {
   applyVisibilityToggle,
+  itemVisibilitySlug,
   loadStoreVisibility,
   refreshStoreVisibility,
   writeStoreVisibilityFallback,
@@ -15,6 +16,7 @@ import {
 } from "@/lib/storeVisibility";
 import {
   ADMIN_COOKIE,
+  ADMIN_UI_COOKIE,
   adminCookieValue,
   isAdminSession,
   verifyAdminPin,
@@ -49,6 +51,38 @@ async function requireAdmin() {
   }
 }
 
+function isMissingHiddenColumn(message: string) {
+  return /is_hidden/i.test(message);
+}
+
+async function syncItemHiddenFlag(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  id: string,
+  hidden: boolean,
+  columnExists: boolean
+) {
+  const slug = itemVisibilitySlug(id);
+  if (columnExists) {
+    await supabase.from("store_visibility").delete().eq("kind", "aisle").eq("slug", slug);
+    return;
+  }
+
+  const { error } = await supabase.from("store_visibility").upsert(
+    { kind: "aisle", slug, hidden },
+    { onConflict: "kind,slug" }
+  );
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  try {
+    const next = applyVisibilityToggle(await loadStoreVisibility(), "aisle", slug, hidden);
+    await writeStoreVisibilityFallback(next);
+  } catch {
+    /* Vercel filesystem is ephemeral */
+  }
+}
+
 export async function loginAdmin(_prev: { error?: string } | null, formData: FormData) {
   const pin = String(formData.get("pin") || "");
   if (!verifyAdminPin(pin)) {
@@ -65,11 +99,19 @@ export async function loginAdmin(_prev: { error?: string } | null, formData: For
     maxAge: 60 * 60 * 24 * 14,
     secure: process.env.NODE_ENV === "production",
   });
+  cookies().set(ADMIN_UI_COOKIE, "1", {
+    httpOnly: false,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 14,
+    secure: process.env.NODE_ENV === "production",
+  });
   redirect("/account");
 }
 
 export async function logoutAdmin() {
   cookies().set(ADMIN_COOKIE, "", { httpOnly: true, path: "/", maxAge: 0 });
+  cookies().set(ADMIN_UI_COOKIE, "", { httpOnly: false, path: "/", maxAge: 0 });
   redirect("/");
 }
 
@@ -109,21 +151,22 @@ export async function saveMenuItem(formData: FormData) {
     category_id,
   };
   if (photo.url) payload.image_url = photo.url;
+  let columnExists = true;
   let { error } = await supabase.from("menu_items").update(payload).eq("id", id);
 
-  if (error && /is_hidden/i.test(error.message)) {
-    if (is_hidden) {
-      return {
-        error:
-          "Run data/menu-hidden.sql in the Supabase SQL Editor, then save again.",
-      };
-    }
+  if (error && isMissingHiddenColumn(error.message)) {
+    columnExists = false;
     const { is_hidden: _hidden, ...withoutHidden } = payload;
     const retry = await supabase.from("menu_items").update(withoutHidden).eq("id", id);
     error = retry.error;
   }
 
   if (error) return { error: error.message };
+  try {
+    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Could not hide this item." };
+  }
   refreshStorefront();
   return { error: "" };
 }
@@ -162,15 +205,11 @@ export async function saveStorefrontItem(formData: FormData) {
     category_id,
   };
 
+  let columnExists = true;
   let { data, error } = await supabase.from("menu_items").update(payload).eq("id", id).select("id");
 
-  if (error && /is_hidden/i.test(error.message)) {
-    if (is_hidden) {
-      return {
-        error:
-          "Run data/menu-hidden.sql in the Supabase SQL Editor, then save again.",
-      };
-    }
+  if (error && isMissingHiddenColumn(error.message)) {
+    columnExists = false;
     const { is_hidden: _hidden, ...withoutHidden } = payload;
     const retry = await supabase.from("menu_items").update(withoutHidden).eq("id", id).select("id");
     error = retry.error;
@@ -187,11 +226,18 @@ export async function saveStorefrontItem(formData: FormData) {
       sort_order: 0,
     };
     let inserted = await supabase.from("menu_items").insert(insertRow);
-    if (inserted.error && /is_hidden/i.test(inserted.error.message)) {
+    if (inserted.error && isMissingHiddenColumn(inserted.error.message)) {
+      columnExists = false;
       const { is_hidden: _hidden, ...withoutHidden } = insertRow;
       inserted = await supabase.from("menu_items").insert(withoutHidden);
     }
     if (inserted.error) return { error: inserted.error.message };
+  }
+
+  try {
+    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Could not hide this item." };
   }
 
   refreshStorefront();
@@ -239,14 +285,21 @@ export async function addMenuItem(formData: FormData) {
     is_hidden: false,
     sort_order: (last?.sort_order ?? 0) + 1,
   };
+  let columnExists = true;
   let { error } = await supabase.from("menu_items").insert(row);
-  if (error && /is_hidden/i.test(error.message)) {
+  if (error && isMissingHiddenColumn(error.message)) {
+    columnExists = false;
     const { is_hidden: _hidden, ...withoutHidden } = row;
     const retry = await supabase.from("menu_items").insert(withoutHidden);
     error = retry.error;
   }
 
   if (error) return { error: error.message };
+  try {
+    await syncItemHiddenFlag(supabase, id, false, columnExists);
+  } catch {
+    /* new items start visible */
+  }
   refreshStorefront();
   return { error: "" };
 }

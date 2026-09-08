@@ -24,7 +24,7 @@ export default function StorefrontShell({
     <CartProvider>
       <AdminSessionProvider>
         <Header hiddenSections={hiddenSections} />
-        <div className="pb-20 xl:pb-0">
+        <div className="overflow-x-clip pb-20 xl:pb-0">
           {children}
           {pathname.startsWith("/account") ? null : <Footer />}
         </div>

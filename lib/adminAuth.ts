@@ -46,3 +46,4 @@ export function adminCookieValue() {
 }
 
 export const ADMIN_COOKIE = COOKIE;
+export { ADMIN_UI_COOKIE } from "@/lib/site";

@@ -9,6 +9,7 @@ export const revalidate = 60;
 
 export const metadata = {
   title: "General | Jallundhar Sweets & Bakers",
+  alternates: { canonical: "/general" },
 };
 
 export default async function GeneralPage() {

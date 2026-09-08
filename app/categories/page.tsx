@@ -3,6 +3,7 @@ import BackLink from "@/components/BackLink";
 
 export const metadata = {
   title: "Categories | Jallundhar Sweets & Bakers",
+  alternates: { canonical: "/categories" },
 };
 
 export default function CategoriesPage() {

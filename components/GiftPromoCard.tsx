@@ -7,7 +7,7 @@ export default function GiftPromoCard() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/gift-banner.jpg"
-          alt=""
+          alt="Gift packs from Jallundhar Sweets & Bakers"
           className="absolute inset-0 h-full w-full object-cover object-[78%_center]"
         />
         <div

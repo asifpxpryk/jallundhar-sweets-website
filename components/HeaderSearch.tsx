@@ -111,7 +111,7 @@ export default function HeaderSearch() {
         aria-label="Search"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-gold-300 text-maroon-700"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-300 text-maroon-700"
       >
         {open ? (
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -168,7 +168,7 @@ export default function HeaderSearch() {
                           <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
                             <ProductImage
                               src={hit.image_url}
-                              alt=""
+                              alt={hit.name}
                               sizes="40px"
                               className="object-cover"
                             />

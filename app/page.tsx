@@ -7,6 +7,10 @@ import type { MenuCategory, MenuItem } from "@/lib/types";
 
 export const revalidate = 60;
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 function pickBestsellers(categories: MenuCategory[]): MenuItem[] {
   const all = categories.flatMap((c) => c.items);
   const preferred = ["gulab", "barfi", "jaman", "cham cham", "halwa", "pairay", "laddu", "ladu"];

@@ -4,12 +4,10 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
 body {
   background-color: #fff8f0;
-  overflow-x: hidden;
 }
 
 .scrollbar-hide {

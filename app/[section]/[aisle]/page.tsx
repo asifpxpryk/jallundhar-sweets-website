@@ -23,6 +23,7 @@ export function generateMetadata({ params }: { params: { section: string; aisle:
       title: aisle
         ? `${aisle.name} | Jallundhar Sweets & Bakers`
         : "Jallundhar Sweets & Bakers",
+      alternates: { canonical: `/general/${params.aisle}` },
     };
   }
   if (params.section === "beverage") {
@@ -31,6 +32,7 @@ export function generateMetadata({ params }: { params: { section: string; aisle:
       title: aisle
         ? `${aisle.name} | Jallundhar Sweets & Bakers`
         : "Jallundhar Sweets & Bakers",
+      alternates: { canonical: `/beverage/${params.aisle}` },
     };
   }
   return { title: "Jallundhar Sweets & Bakers" };
@@ -50,7 +52,12 @@ export default async function NestedAislePage({
     return (
       <CategoryProducts
         name={aisle.name}
-        items={applyMenuOverrides(loadAisleItems(aisle.slug), overrides, false)}
+        items={applyMenuOverrides(
+          loadAisleItems(aisle.slug),
+          overrides,
+          false,
+          visibility.hiddenItemIds
+        )}
         image={aisle.image}
       />
     );
@@ -62,7 +69,12 @@ export default async function NestedAislePage({
     return (
       <CategoryProducts
         name={aisle.name}
-        items={applyMenuOverrides(loadAisleItems(`beverage:${aisle.slug}`), overrides, false)}
+        items={applyMenuOverrides(
+          loadAisleItems(`beverage:${aisle.slug}`),
+          overrides,
+          false,
+          visibility.hiddenItemIds
+        )}
         image={aisle.image}
       />
     );

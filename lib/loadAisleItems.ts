@@ -16,17 +16,22 @@ export function loadAisleItems(aisle: string): MenuItem[] {
 export function applyMenuOverrides(
   items: MenuItem[],
   overrides: MenuItem[],
-  includeHidden: boolean
+  includeHidden: boolean,
+  hiddenItemIds: string[] = []
 ): MenuItem[] {
   const byId = new Map(overrides.map((item) => [item.id, item]));
+  const hiddenIds = new Set(hiddenItemIds);
   const merged = items.map((item) => {
     const override = byId.get(item.id);
-    if (!override) return item;
+    const hidden = Boolean(override?.is_hidden) || hiddenIds.has(item.id);
+    if (!override) {
+      return { ...item, is_hidden: hidden };
+    }
     return {
       ...item,
       price: Number(override.price),
       is_available: override.is_available,
-      is_hidden: Boolean(override.is_hidden),
+      is_hidden: hidden,
     };
   });
   if (includeHidden) return merged;

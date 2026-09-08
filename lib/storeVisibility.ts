@@ -12,7 +12,14 @@ export type CategoryKind = "section" | "aisle";
 export type StoreVisibility = {
   hiddenSections: string[];
   hiddenAisles: string[];
+  hiddenItemIds: string[];
 };
+
+export const ITEM_VISIBILITY_PREFIX = "item:";
+
+export function itemVisibilitySlug(id: string) {
+  return `${ITEM_VISIBILITY_PREFIX}${id}`;
+}
 
 type VisibilityRow = {
   kind: CategoryKind;
@@ -29,6 +36,7 @@ function parseVisibility(raw: unknown): StoreVisibility {
   return {
     hiddenSections: [...asSet(data.hiddenSections ?? [])],
     hiddenAisles: [...asSet(data.hiddenAisles ?? [])],
+    hiddenItemIds: [...asSet(data.hiddenItemIds ?? [])],
   };
 }
 
@@ -48,10 +56,19 @@ async function loadFallback(): Promise<StoreVisibility> {
 function applyRows(base: StoreVisibility, rows: VisibilityRow[]): StoreVisibility {
   const sections = asSet(base.hiddenSections);
   const aisles = asSet(base.hiddenAisles);
+  const items = asSet(base.hiddenItemIds);
   for (const row of rows) {
     if (row.kind === "section" && isSectionSlug(row.slug)) {
       if (row.hidden) sections.add(row.slug);
       else sections.delete(row.slug);
+    }
+    if (row.kind === "aisle" && row.slug.startsWith(ITEM_VISIBILITY_PREFIX)) {
+      const id = row.slug.slice(ITEM_VISIBILITY_PREFIX.length);
+      if (id) {
+        if (row.hidden) items.add(id);
+        else items.delete(id);
+      }
+      continue;
     }
     if (row.kind === "aisle" && (isGeneralAisle(row.slug) || isBeverageAisle(row.slug))) {
       if (row.hidden) aisles.add(row.slug);
@@ -61,6 +78,7 @@ function applyRows(base: StoreVisibility, rows: VisibilityRow[]): StoreVisibilit
   return {
     hiddenSections: [...sections],
     hiddenAisles: [...aisles],
+    hiddenItemIds: [...items],
   };
 }
 
@@ -87,7 +105,7 @@ async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
 
 export const loadStoreVisibility = unstable_cache(
   loadStoreVisibilityUncached,
-  ["jallundhar-store-visibility-v1"],
+  ["jallundhar-store-visibility-v2"],
   { revalidate: 60, tags: ["store-visibility"] }
 );
 
@@ -138,6 +156,7 @@ export async function writeStoreVisibilityFallback(vis: StoreVisibility) {
       {
         hiddenSections: vis.hiddenSections,
         hiddenAisles: vis.hiddenAisles,
+        hiddenItemIds: vis.hiddenItemIds,
       },
       null,
       2

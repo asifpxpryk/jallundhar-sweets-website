@@ -15,11 +15,12 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { section: string } }) {
   const meta = SECTIONS.find((s) => s.slug === params.section);
-  return {
-    title: meta
-      ? `${meta.name} | Jallundhar Sweets & Bakers`
-      : "Jallundhar Sweets & Bakers",
-  };
+    return {
+      title: meta
+        ? `${meta.name} | Jallundhar Sweets & Bakers`
+        : "Jallundhar Sweets & Bakers",
+      alternates: { canonical: `/${params.section}` },
+    };
 }
 
 export default async function SectionPage({ params }: { params: { section: string } }) {

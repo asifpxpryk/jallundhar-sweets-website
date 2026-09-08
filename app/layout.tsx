@@ -2,17 +2,33 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import StorefrontShell from "@/components/StorefrontShell";
+import LocalBusinessJsonLd from "@/components/LocalBusinessJsonLd";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Jallundhar Sweets & Bakers | Shahi Road, Rahim Yar Khan",
-  description:
-    "From Sweet to Savory, All Your Cravings, One Place. Order mithai, bakery, custom cakes, pizza, burgers & more from Jallundhar Sweets & Bakers, Shahi Road, Rahim Yar Khan.",
+  description: SITE_DESCRIPTION,
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "Jallundhar",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_PK",
+    siteName: SITE_NAME,
+    title: "Jallundhar Sweets & Bakers | Shahi Road, Rahim Yar Khan",
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/hero.webp", width: 1200, height: 630, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jallundhar Sweets & Bakers | Shahi Road, Rahim Yar Khan",
+    description: SITE_DESCRIPTION,
+    images: ["/hero.webp"],
   },
   icons: {
     icon: [
@@ -41,6 +57,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="font-display text-maroon-900 antialiased">
+        <LocalBusinessJsonLd />
         <StorefrontShell hiddenSections={visibility.hiddenSections}>{children}</StorefrontShell>
         <ServiceWorkerRegister />
       </body>

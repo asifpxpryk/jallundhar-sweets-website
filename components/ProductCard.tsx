@@ -102,7 +102,7 @@ export default function ProductCard({
           type="button"
           onClick={handleAdd}
           disabled={!inStock}
-          className={`mt-3 w-full rounded-lg py-2 text-xs font-semibold text-white transition ${
+          className={`mt-3 min-h-11 w-full rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition ${
             inStock ? "bg-maroon-800 hover:bg-maroon-900" : "cursor-not-allowed bg-maroon-300"
           }`}
         >
