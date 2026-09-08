@@ -775,5 +775,605 @@
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Sohn-halwa-desi-ghee-1-1.webp",
     "is_available": true,
     "sort_order": 52
+  },
+  {
+    "id": "sweet-akhrot-pak",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "AKHROT PAK",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 53
+  },
+  {
+    "id": "sweet-akhrooti-badam-pattees",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "AKHROOTI/BADAM PATTEES",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 54
+  },
+  {
+    "id": "sweet-anjeer-barfi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "ANJEER BARFI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 55
+  },
+  {
+    "id": "sweet-arabic-sweets",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "ARABIC SWEETS",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 56
+  },
+  {
+    "id": "sweet-asghar-shahi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "ASGHAR SHAHI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 57
+  },
+  {
+    "id": "sweet-badam-pak",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "BADAM PAK",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 58
+  },
+  {
+    "id": "sweet-badam-jaman",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "BADAM JAMAN",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 59
+  },
+  {
+    "id": "sweet-badam-crunch",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "BADAM CRUNCH",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 60
+  },
+  {
+    "id": "sweet-badam-khjoor-pak",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "BADAM / KHJOOR PAK",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 61
+  },
+  {
+    "id": "sweet-besan-berfi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "BESAN BERFI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 62
+  },
+  {
+    "id": "sweet-berfi-para",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "BERFI PARA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 63
+  },
+  {
+    "id": "sweet-beson-pakroi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "BESON PAKROI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 64
+  },
+  {
+    "id": "sweet-dodh-mesu",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "DODH MESU",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 65
+  },
+  {
+    "id": "sweet-dorangi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "DORANGI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 66
+  },
+  {
+    "id": "sweet-falsa-sweets",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "FALSA SWEETS",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 67
+  },
+  {
+    "id": "sweet-gari-badam-wala-jamun",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "GARI BADAM WALA JAMUN",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 68
+  },
+  {
+    "id": "sweet-ghotki-pairay",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "GHOTKI PAIRAY",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 69
+  },
+  {
+    "id": "sweet-kaju-barfi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "KAJU BARFI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 70
+  },
+  {
+    "id": "sweet-kaju-pak",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "KAJU PAK",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 71
+  },
+  {
+    "id": "sweet-khjoor-barfi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "KHJOOR BARFI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 72
+  },
+  {
+    "id": "sweet-khoya-kalaqand",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "KHOYA KALAQAND",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 73
+  },
+  {
+    "id": "sweet-khoya-pairy",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "KHOYA PAIRY",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 74
+  },
+  {
+    "id": "sweet-lacha-rabri",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "LACHA RABRI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 75
+  },
+  {
+    "id": "sweet-milky-patisa",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "MILKY PATISA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 76
+  },
+  {
+    "id": "sweet-namak-pary",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "NAMAK PARY",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 77
+  },
+  {
+    "id": "sweet-paitha",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PAITHA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 78
+  },
+  {
+    "id": "sweet-patisa",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PATISA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 79
+  },
+  {
+    "id": "sweet-patisa-amrti",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PATISA AMRTI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 80
+  },
+  {
+    "id": "sweet-patisa-cup-large",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PATISA CUP LARGE",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 81
+  },
+  {
+    "id": "sweet-patisa-cup-small",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PATISA CUP SMALL",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 82
+  },
+  {
+    "id": "sweet-pattees",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PATTEES",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 83
+  },
+  {
+    "id": "sweet-pheeka-khoya",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PHEEKA KHOYA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 84
+  },
+  {
+    "id": "sweet-pista-barfi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PISTA BARFI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 85
+  },
+  {
+    "id": "sweet-pista-pak",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "PISTA PAK",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 86
+  },
+  {
+    "id": "sweet-rainbow-qalaqand",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "RAINBOW QALAQAND",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 87
+  },
+  {
+    "id": "sweet-roll-barfi",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "ROLL BARFI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 88
+  },
+  {
+    "id": "sweet-sada-khoya",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "SADA KHOYA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 89
+  },
+  {
+    "id": "sweet-shahi-tukra",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "SHAHI TUKRA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 90
+  },
+  {
+    "id": "sweet-special-lacha-patisa",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "SPECIAL LACHA PATISA",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 91
+  },
+  {
+    "id": "sweet-till-shikri",
+    "category_id": "sweets",
+    "woo_category_slugs": [
+      "assorted-sweets",
+      "traditional-sweets"
+    ],
+    "name": "TILL SHIKRI",
+    "description": null,
+    "price": 1000,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 92
   }
 ]
