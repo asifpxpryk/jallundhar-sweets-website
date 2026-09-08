@@ -2465,5 +2465,215 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 518
+  },
+  {
+    "id": "rusk-baby-rus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BABY RUS",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 600
+  },
+  {
+    "id": "rusk-brown-rus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BROWN RUS",
+    "description": null,
+    "price": 240,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 601
+  },
+  {
+    "id": "rusk-butter-bakar-khani",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BUTTER BAKAR KHANI",
+    "description": null,
+    "price": 1300,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 602
+  },
+  {
+    "id": "rusk-butter-cake-rus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BUTTER CAKE RUS",
+    "description": null,
+    "price": 1500,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 603
+  },
+  {
+    "id": "rusk-butter-biscuite",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BUTTER BISCUITE",
+    "description": null,
+    "price": 1500,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 604
+  },
+  {
+    "id": "rusk-burger-rus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BURGER RUS",
+    "description": null,
+    "price": 240,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 605
+  },
+  {
+    "id": "rusk-butter-stick",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BUTTER STICK",
+    "description": null,
+    "price": 1500,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 606
+  },
+  {
+    "id": "rusk-butter-rus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "BUTTER RUS",
+    "description": null,
+    "price": 280,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 607
+  },
+  {
+    "id": "rusk-cut-rus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "CUT RUS",
+    "description": null,
+    "price": 240,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 608
+  },
+  {
+    "id": "rusk-fruit-cake-rus-simple",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "FRUIT CAKE RUS SIMPLE",
+    "description": null,
+    "price": 1100,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 609
+  },
+  {
+    "id": "rusk-gol-burger-bun-2",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "GOL BURGER BUN 2PCS",
+    "description": null,
+    "price": 60,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 610
+  },
+  {
+    "id": "rusk-gol-burger-bun-4",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "GOL BURGER BUN 4 PCS",
+    "description": null,
+    "price": 120,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 611
+  },
+  {
+    "id": "rusk-gol-rus",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "GOL RUS",
+    "description": null,
+    "price": 240,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 612
+  },
+  {
+    "id": "rusk-meji-rusk",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "premium-rusk"
+    ],
+    "name": "MEJI RUSK",
+    "description": null,
+    "price": 200,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 613
   }
 ]
