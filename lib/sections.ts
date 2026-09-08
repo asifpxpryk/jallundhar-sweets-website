@@ -35,6 +35,25 @@ const SNACK_ITEMS = [
   "Chicken Shashlik Stick 4 boti",
   "Chicken Leg Piece",
   "Dhaka Stick",
+  "Bar Bq Sandwich",
+  "Boti Pizza Small",
+  "Boti Pizza Medium",
+  "Boti Pizza Large",
+  "Cheese Fry Sandwich",
+  "Chicken Bread",
+  "Chicken Boti",
+  "Chicken Burger",
+  "Chicken Pizza Small",
+  "Chicken Pizza Medium",
+  "Chicken Pizza Large",
+  "Chicken Patties",
+  "Drum Stick",
+  "Fried Wing",
+  "Imli Chatni",
+  "Leg Piece Large",
+  "Russian Roll",
+  "Shaslik Roll",
+  "Shwarma Roll",
 ];
 
 export function normalizeName(value: string): string {
@@ -140,6 +159,8 @@ const PIZZA_SIZES = ["small", "medium", "large"] as const;
 const PIZZA_SIZE_GROUPS = [
   { id: "cheese-pizza", name: "Cheese Pizza", prefix: "cheese pizza" },
   { id: "egg-boti-pizza", name: "Egg Boti Pizza", prefix: "egg boti pizza" },
+  { id: "boti-pizza", name: "Boti Pizza", prefix: "boti pizza" },
+  { id: "chicken-pizza", name: "Chicken Pizza", prefix: "chicken pizza" },
 ];
 
 function collapsePizzaGroup(

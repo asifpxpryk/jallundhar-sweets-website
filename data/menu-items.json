@@ -2180,5 +2180,290 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 410
+  },
+  {
+    "id": "snack-bar-bq-sandwich",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "BAR BQ SANDWICH",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 500
+  },
+  {
+    "id": "snack-boti-pizza-small",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "BOTI PIZZA SMALL",
+    "description": null,
+    "price": 340,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 501
+  },
+  {
+    "id": "snack-boti-pizza-large",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "BOTI PIZZA LARGE",
+    "description": null,
+    "price": 550,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 502
+  },
+  {
+    "id": "snack-boti-pizza-medium",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "BOTI PIZZA MEDIUM",
+    "description": null,
+    "price": 440,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 503
+  },
+  {
+    "id": "snack-cheese-fry-sandwich",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHEESE FRY SANDWICH",
+    "description": null,
+    "price": 140,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 504
+  },
+  {
+    "id": "snack-chicken-bread",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHICKEN BREAD",
+    "description": null,
+    "price": 160,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 505
+  },
+  {
+    "id": "snack-chicken-boti",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHICKEN BOTI",
+    "description": null,
+    "price": 30,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 506
+  },
+  {
+    "id": "snack-chicken-burger",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHICKEN BURGER",
+    "description": null,
+    "price": 180,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 507
+  },
+  {
+    "id": "snack-chicken-pizza-large",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHICKEN PIZZA LARGE",
+    "description": null,
+    "price": 420,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 508
+  },
+  {
+    "id": "snack-chicken-patties",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHICKEN PATTIES",
+    "description": null,
+    "price": 110,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 509
+  },
+  {
+    "id": "snack-chicken-pizza-small",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHICKEN PIZZA SMALL",
+    "description": null,
+    "price": 300,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 510
+  },
+  {
+    "id": "snack-chicken-pizza-medium",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "CHICKEN PIZZA MEDIUM",
+    "description": null,
+    "price": 380,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 511
+  },
+  {
+    "id": "snack-drum-stick",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "DRUM STICK",
+    "description": null,
+    "price": 120,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 512
+  },
+  {
+    "id": "snack-fried-wing",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "FRIED WING",
+    "description": null,
+    "price": 60,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 513
+  },
+  {
+    "id": "snack-imli-chatni",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "IMLI CHATNI",
+    "description": null,
+    "price": 600,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 514
+  },
+  {
+    "id": "snack-leg-piece-large",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "LEG PIECE LARGE",
+    "description": null,
+    "price": 300,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 515
+  },
+  {
+    "id": "snack-russian-roll",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "RUSSIAN ROLL",
+    "description": null,
+    "price": 300,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 516
+  },
+  {
+    "id": "snack-shaslik-roll",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "SHASLIK ROLL",
+    "description": null,
+    "price": 130,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 517
+  },
+  {
+    "id": "snack-shwarma-roll",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks",
+      "fast-food"
+    ],
+    "name": "SHWARMA ROLL",
+    "description": null,
+    "price": 130,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 518
   }
 ]
