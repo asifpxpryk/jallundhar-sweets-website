@@ -7,7 +7,13 @@ import CartDrawer from "./CartDrawer";
 import Footer from "./Footer";
 import BottomNav from "./BottomNav";
 
-export default function StorefrontShell({ children }: { children: React.ReactNode }) {
+export default function StorefrontShell({
+  children,
+  hiddenSections = [],
+}: {
+  children: React.ReactNode;
+  hiddenSections?: string[];
+}) {
   const pathname = usePathname();
   if (pathname.startsWith("/admin")) {
     return <>{children}</>;
@@ -15,10 +21,10 @@ export default function StorefrontShell({ children }: { children: React.ReactNod
 
   return (
     <CartProvider>
-      <Header />
+      <Header hiddenSections={hiddenSections} />
       <div className="pb-20 xl:pb-0">
         {children}
-        {pathname !== "/account" ? <Footer /> : null}
+        {pathname.startsWith("/account") ? null : <Footer />}
       </div>
       <CartDrawer />
       <BottomNav />

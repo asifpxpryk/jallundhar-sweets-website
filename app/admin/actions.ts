@@ -4,6 +4,15 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { SECTIONS, isSectionSlug } from "@/lib/sections";
+import { GENERAL_AISLES } from "@/lib/generalAisles";
+import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
+import {
+  applyVisibilityToggle,
+  loadStoreVisibility,
+  refreshStoreVisibility,
+  writeStoreVisibilityFallback,
+  type CategoryKind,
+} from "@/lib/storeVisibility";
 import {
   ADMIN_COOKIE,
   adminCookieValue,
@@ -17,10 +26,20 @@ import { storeProductPhoto } from "@/lib/storeProductPhoto";
 
 function refreshStorefront() {
   refreshMenuCache();
+  refreshStoreVisibility();
   revalidatePath("/account");
+  revalidatePath("/account/categories");
   revalidatePath("/", "layout");
+  revalidatePath("/categories");
+  revalidatePath("/general");
   for (const section of SECTIONS) {
     revalidatePath(`/${section.slug}`);
+  }
+  for (const aisle of GENERAL_AISLES) {
+    revalidatePath(`/general/${aisle.slug}`);
+  }
+  for (const aisle of BEVERAGE_AISLES) {
+    revalidatePath(`/beverage/${aisle.slug}`);
   }
 }
 
@@ -158,6 +177,64 @@ export async function addMenuItem(formData: FormData) {
   }
 
   if (error) return { error: error.message };
+  refreshStorefront();
+  return { error: "" };
+}
+
+export async function setCategoryHidden(formData: FormData) {
+  await requireAdmin();
+  if (!hasSupabaseSecret()) {
+    return { error: "SUPABASE_SECRET_KEY missing hai." };
+  }
+
+  const kind = String(formData.get("kind") || "") as CategoryKind;
+  const slug = String(formData.get("slug") || "").trim();
+  const hidden = String(formData.get("hidden") || "") === "true";
+
+  if (kind !== "section" && kind !== "aisle") {
+    return { error: "Category kind galat hai." };
+  }
+  if (kind === "section" && !isSectionSlug(slug)) {
+    return { error: "Section galat hai." };
+  }
+  if (
+    kind === "aisle" &&
+    !GENERAL_AISLES.some((aisle) => aisle.slug === slug) &&
+    !BEVERAGE_AISLES.some((aisle) => aisle.slug === slug)
+  ) {
+    return { error: "Aisle galat hai." };
+  }
+
+  const next = applyVisibilityToggle(await loadStoreVisibility(), kind, slug, hidden);
+
+  const supabase = createSupabaseAdmin();
+  const { error } = await supabase.from("store_visibility").upsert(
+    { kind, slug, hidden },
+    { onConflict: "kind,slug" }
+  );
+
+  if (error) {
+    if (/store_visibility|schema cache|does not exist|relation/i.test(error.message)) {
+      try {
+        await writeStoreVisibilityFallback(next);
+        refreshStorefront();
+        return { error: "" };
+      } catch {
+        return {
+          error:
+            "Category hide/show ke liye Supabase SQL Editor mein data/store-visibility.sql chalao, phir dubara save karo.",
+        };
+      }
+    }
+    return { error: error.message };
+  }
+
+  try {
+    await writeStoreVisibilityFallback(next);
+  } catch {
+    /* Vercel filesystem is ephemeral */
+  }
+
   refreshStorefront();
   return { error: "" };
 }

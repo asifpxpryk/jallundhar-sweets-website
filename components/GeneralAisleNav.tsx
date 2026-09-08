@@ -1,11 +1,12 @@
 import CircleMenuGrid from "./CircleMenuGrid";
-import { GENERAL_AISLES } from "@/lib/generalAisles";
+import { loadStoreVisibility, visibleAisles } from "@/lib/storeVisibility";
 
-export default function GeneralAisleNav() {
+export default async function GeneralAisleNav() {
+  const visibility = await loadStoreVisibility();
   return (
     <CircleMenuGrid
       flush
-      items={GENERAL_AISLES.map((aisle) => ({
+      items={visibleAisles(visibility).map((aisle) => ({
         href: `/general/${aisle.slug}`,
         name: aisle.name,
         image: aisle.image,

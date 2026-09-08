@@ -3,6 +3,7 @@ import { Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import StorefrontShell from "@/components/StorefrontShell";
+import { loadStoreVisibility } from "@/lib/storeVisibility";
 
 const urdu = Noto_Nastaliq_Urdu({
   subsets: ["arabic"],
@@ -38,15 +39,16 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const visibility = await loadStoreVisibility();
   return (
     <html lang="en" className={urdu.variable}>
       <body className="font-display text-maroon-900 antialiased">
-        <StorefrontShell>
+        <StorefrontShell hiddenSections={visibility.hiddenSections}>
           {children}
         </StorefrontShell>
         <ServiceWorkerRegister />

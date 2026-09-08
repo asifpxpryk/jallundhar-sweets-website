@@ -4,8 +4,9 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AdminOrder, MenuItem } from "@/lib/types";
 import { SECTIONS, isSectionSlug, assignSection, normalizeName } from "@/lib/sections";
-import { addMenuItem, logoutAdmin } from "./actions";
+import { addMenuItem } from "./actions";
 import AdminItemForm from "./AdminItemForm";
+import AdminNav from "./AdminNav";
 import PhotoPicker from "./PhotoPicker";
 import { withCompressedPhoto } from "@/lib/compressImage";
 
@@ -51,16 +52,10 @@ export default function AdminPanel({
 
   return (
     <div className="mx-auto max-w-3xl">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-xl font-bold text-maroon-800">Manage menu</h2>
-          <p className="text-sm text-maroon-700/70">{items.length} items</p>
-        </div>
-        <form action={logoutAdmin}>
-          <button className="rounded-xl border border-gold-200 bg-white px-3 py-2 text-sm font-medium text-maroon-800">
-            Logout
-          </button>
-        </form>
+      <AdminNav active="menu" />
+      <div className="mt-4">
+        <h2 className="font-display text-xl font-bold text-maroon-800">Manage menu</h2>
+        <p className="text-sm text-maroon-700/70">{items.length} items</p>
       </div>
 
       {needsSecret ? (

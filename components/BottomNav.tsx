@@ -12,7 +12,7 @@ export default function BottomNav() {
   const isHome = pathname === "/";
   const isCategories =
     pathname === "/categories" || SECTIONS.some((s) => pathname === `/${s.slug}`);
-  const isAccount = pathname === "/account";
+  const isAccount = pathname === "/account" || pathname.startsWith("/account/");
 
   const itemClass = (active: boolean) =>
     `flex flex-1 flex-col items-center gap-0.5 py-2 text-[11px] font-medium ${

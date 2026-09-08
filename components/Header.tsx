@@ -6,14 +6,17 @@ import { useCart } from "./CartContext";
 import { SECTIONS } from "@/lib/sections";
 import HeaderSearch from "./HeaderSearch";
 
-const NAV_LINKS = [
-  ...SECTIONS.map((section) => ({ href: `/${section.slug}`, label: section.name })),
-  { href: "/#contact", label: "Visit" },
-];
-
-export default function Header() {
+export default function Header({ hiddenSections = [] }: { hiddenSections?: string[] }) {
   const { count, open } = useCart();
   const pathname = usePathname();
+  const hidden = new Set(hiddenSections);
+  const navLinks = [
+    ...SECTIONS.filter((section) => !hidden.has(section.slug)).map((section) => ({
+      href: `/${section.slug}`,
+      label: section.name,
+    })),
+    { href: "/#contact", label: "Visit" },
+  ];
 
   return (
     <header className="sticky top-0 z-40 overflow-x-hidden border-b border-gold-200 bg-cream/95 backdrop-blur">
@@ -43,7 +46,7 @@ export default function Header() {
         </Link>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-4 text-sm font-medium text-maroon-700 xl:flex">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

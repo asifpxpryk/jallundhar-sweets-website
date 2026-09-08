@@ -1,12 +1,13 @@
 import CircleMenuGrid from "./CircleMenuGrid";
-import { SECTIONS } from "@/lib/sections";
+import { visibleSections, loadStoreVisibility } from "@/lib/storeVisibility";
 
-export default function CategoryNav() {
+export default async function CategoryNav() {
+  const visibility = await loadStoreVisibility();
   return (
     <div id="categories">
       <CircleMenuGrid
         columns={6}
-        items={SECTIONS.map((cat) => ({
+        items={visibleSections(visibility).map((cat) => ({
           href: `/${cat.slug}`,
           name: cat.name,
           image: cat.image,
