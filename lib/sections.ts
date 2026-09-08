@@ -154,42 +154,47 @@ export function assignSection(name: string, categorySlugs: string[] = []): Secti
   return "general";
 }
 
-const PIZZA_SIZES = ["small", "medium", "large"] as const;
-
-const PIZZA_SIZE_GROUPS = [
-  { id: "cheese-pizza", name: "Cheese Pizza", prefix: "cheese pizza" },
-  { id: "egg-boti-pizza", name: "Egg Boti Pizza", prefix: "egg boti pizza" },
-  { id: "boti-pizza", name: "Boti Pizza", prefix: "boti pizza" },
-  { id: "chicken-pizza", name: "Chicken Pizza", prefix: "chicken pizza" },
+const SIZE_GROUPS = [
+  { id: "cheese-pizza", name: "Cheese Pizza", prefix: "cheese pizza", sizes: ["small", "medium", "large"] },
+  { id: "egg-boti-pizza", name: "Egg Boti Pizza", prefix: "egg boti pizza", sizes: ["small", "medium", "large"] },
+  { id: "boti-pizza", name: "Boti Pizza", prefix: "boti pizza", sizes: ["small", "medium", "large"] },
+  { id: "chicken-pizza", name: "Chicken Pizza", prefix: "chicken pizza", sizes: ["small", "medium", "large"] },
+  { id: "plain-bread", name: "Plain Bread", prefix: "plain bread", sizes: ["half", "full"] },
+  { id: "milky-bread", name: "Milky Bread", prefix: "milky bread", sizes: ["half", "full"] },
 ];
 
-function collapsePizzaGroup(
+function collapseSizeGroup(
   items: MenuItem[],
-  group: (typeof PIZZA_SIZE_GROUPS)[number]
+  group: (typeof SIZE_GROUPS)[number]
 ): MenuItem[] {
   const isSize = (name: string) =>
-    PIZZA_SIZES.some((size) => normalizeName(name) === `${group.prefix} ${size}`);
+    group.sizes.some((size) => normalizeName(name) === `${group.prefix} ${size}`);
 
   const sizes = items.filter((item) => isSize(item.name));
   if (sizes.length < 2) return items;
 
   const rest = items.filter((item) => !isSize(item.name));
-  const variants = PIZZA_SIZES.map((size) => {
-    const match = sizes.find((item) => normalizeName(item.name).endsWith(` ${size}`));
-    if (!match) return null;
-    return {
-      id: match.id,
-      label: size.charAt(0).toUpperCase() + size.slice(1),
-      price: match.price,
-      is_available: match.is_available !== false,
-    };
-  }).filter(
-    (v): v is { id: string; label: string; price: number; is_available: boolean } => v !== null
-  );
+  const variants = group.sizes
+    .map((size) => {
+      const match = sizes.find((item) => normalizeName(item.name).endsWith(` ${size}`));
+      if (!match) return null;
+      return {
+        id: match.id,
+        label: size.charAt(0).toUpperCase() + size.slice(1),
+        price: match.price,
+        is_available: match.is_available !== false,
+      };
+    })
+    .filter(
+      (v): v is { id: string; label: string; price: number; is_available: boolean } => v !== null
+    );
 
   if (variants.length < 2) return items;
 
-  const defaultVariant = variants.find((v) => v.label === "Medium") ?? variants[0];
+  const defaultVariant =
+    variants.find((v) => v.label === "Medium") ??
+    variants.find((v) => v.label === "Full") ??
+    variants[0];
   const grouped: MenuItem = {
     id: group.id,
     category_id: sizes[0].category_id,
@@ -208,5 +213,5 @@ function collapsePizzaGroup(
 }
 
 export function collapseCheesePizzas(items: MenuItem[]): MenuItem[] {
-  return PIZZA_SIZE_GROUPS.reduce((next, group) => collapsePizzaGroup(next, group), items);
+  return SIZE_GROUPS.reduce((next, group) => collapseSizeGroup(next, group), items);
 }

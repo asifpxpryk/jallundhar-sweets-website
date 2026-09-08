@@ -27,7 +27,10 @@ export default function ProductCard({
   const { add } = useCart();
   const isAdmin = useIsAdmin() && !compact;
   const variants = item.variants;
-  const defaultVariant = variants?.find((v) => v.label === "Medium") ?? variants?.[0];
+  const defaultVariant =
+    variants?.find((v) => v.label === "Medium") ??
+    variants?.find((v) => v.label === "Full") ??
+    variants?.[0];
   const [selectedId, setSelectedId] = useState(defaultVariant?.id ?? item.id);
   const selected = variants?.find((v) => v.id === selectedId);
   const price = selected?.price ?? item.price;

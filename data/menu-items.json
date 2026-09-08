@@ -381,12 +381,12 @@
   },
   {
     "id": "4740",
-    "category_id": "all-products,dairy-essential",
+    "category_id": "bakery",
     "woo_category_slugs": [
       "all-products",
       "dairy-essential"
     ],
-    "name": "Plain Bread",
+    "name": "Plain Bread Full",
     "description": null,
     "price": 100,
     "image_url": "/products/4740.webp",
@@ -396,12 +396,12 @@
   },
   {
     "id": "4736",
-    "category_id": "all-products,dairy-essential",
+    "category_id": "bakery",
     "woo_category_slugs": [
       "all-products",
       "dairy-essential"
     ],
-    "name": "Milky Bread",
+    "name": "Milky Bread Full",
     "description": null,
     "price": 100,
     "image_url": "/products/4736.webp",
@@ -2820,5 +2820,33 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 804
+  },
+  {
+    "id": "bread-plain-half",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "Plain Bread Half",
+    "description": null,
+    "price": 60,
+    "image_url": "/products/4740.webp",
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 24
+  },
+  {
+    "id": "bread-milky-half",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "Milky Bread Half",
+    "description": null,
+    "price": 60,
+    "image_url": "/products/4736.webp",
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 25
   }
 ]
