@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
 import { useIsAdmin } from "./AdminSessionContext";
@@ -27,7 +26,6 @@ export default function ProductCard({
 }) {
   const { add } = useCart();
   const isAdmin = useIsAdmin() && !compact;
-  const router = useRouter();
   const variants = item.variants;
   const defaultVariant = variants?.find((v) => v.label === "Medium") ?? variants?.[0];
   const [selectedId, setSelectedId] = useState(defaultVariant?.id ?? item.id);
@@ -99,7 +97,6 @@ export default function ProductCard({
               }
               setStatus("saved");
               onSaved?.();
-              router.refresh();
             }}
           >
             <label className="flex min-h-0 flex-1 flex-col text-[11px] text-maroon-800">

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { SECTIONS, isSectionSlug } from "@/lib/sections";
 import { GENERAL_AISLES } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
+import { BAKERY_AISLES } from "@/lib/bakeryAisles";
 import {
   applyBestsellerToggle,
   applyVisibilityToggle,
@@ -44,6 +45,9 @@ function refreshStorefront() {
   }
   for (const aisle of BEVERAGE_AISLES) {
     revalidatePath(`/beverage/${aisle.slug}`);
+  }
+  for (const aisle of BAKERY_AISLES) {
+    revalidatePath(`/bakery/${aisle.slug}`);
   }
 }
 
@@ -350,7 +354,8 @@ export async function setCategoryHidden(formData: FormData) {
   if (
     kind === "aisle" &&
     !GENERAL_AISLES.some((aisle) => aisle.slug === slug) &&
-    !BEVERAGE_AISLES.some((aisle) => aisle.slug === slug)
+    !BEVERAGE_AISLES.some((aisle) => aisle.slug === slug) &&
+    !BAKERY_AISLES.some((aisle) => aisle.slug === slug)
   ) {
     return { error: "Aisle is invalid." };
   }

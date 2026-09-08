@@ -5,6 +5,7 @@ import { unstable_cache, revalidateTag } from "next/cache";
 import { SECTIONS, isSectionSlug } from "@/lib/sections";
 import { GENERAL_AISLES, isGeneralAisle } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES, isBeverageAisle } from "@/lib/beverageAisles";
+import { BAKERY_AISLES, isBakeryAisle } from "@/lib/bakeryAisles";
 import fallback from "@/data/store-visibility.json";
 
 export type CategoryKind = "section" | "aisle";
@@ -77,7 +78,10 @@ function applyRows(base: StoreVisibility, rows: VisibilityRow[]): StoreVisibilit
       }
       continue;
     }
-    if (row.kind === "aisle" && (isGeneralAisle(row.slug) || isBeverageAisle(row.slug))) {
+    if (
+      row.kind === "aisle" &&
+      (isGeneralAisle(row.slug) || isBeverageAisle(row.slug) || isBakeryAisle(row.slug))
+    ) {
       if (row.hidden) aisles.add(row.slug);
       else aisles.delete(row.slug);
     }
@@ -179,6 +183,10 @@ export function isBeverageAisleHidden(vis: StoreVisibility, slug: string) {
   return vis.hiddenAisles.includes(slug) || vis.hiddenSections.includes("beverage");
 }
 
+export function isBakeryAisleHidden(vis: StoreVisibility, slug: string) {
+  return vis.hiddenAisles.includes(slug) || vis.hiddenSections.includes("bakery");
+}
+
 export function visibleSections(vis: StoreVisibility) {
   return SECTIONS.filter((section) => !isSectionHidden(vis, section.slug));
 }
@@ -191,6 +199,11 @@ export function visibleAisles(vis: StoreVisibility) {
 export function visibleBeverageAisles(vis: StoreVisibility) {
   if (isSectionHidden(vis, "beverage")) return [];
   return BEVERAGE_AISLES.filter((aisle) => !vis.hiddenAisles.includes(aisle.slug));
+}
+
+export function visibleBakeryAisles(vis: StoreVisibility) {
+  if (isSectionHidden(vis, "bakery")) return [];
+  return BAKERY_AISLES.filter((aisle) => !vis.hiddenAisles.includes(aisle.slug));
 }
 
 export function applyBestsellerToggle(vis: StoreVisibility, id: string, on: boolean): StoreVisibility {

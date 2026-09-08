@@ -1,12 +1,27 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import ProductCard from "./ProductCard";
 import BestsellerScroller from "./BestsellerScroller";
 import { useIsAdmin } from "./AdminSessionContext";
 
 const PAGE_SIZE = 24;
+
+function catalogKey(
+  aisleSection?: string,
+  aisleSlug?: string,
+  menuSlug?: string
+) {
+  if (aisleSection && aisleSlug) return `${aisleSection}:${aisleSlug}`;
+  return menuSlug ?? "";
+}
+
+function readVisibleCount(key: string) {
+  if (!key || typeof window === "undefined") return PAGE_SIZE;
+  const stored = Number(sessionStorage.getItem(`admin-grid-visible:${key}`));
+  return Number.isFinite(stored) && stored > 0 ? stored : PAGE_SIZE;
+}
 
 export default function CategoryProductGrid({
   items,
@@ -18,10 +33,11 @@ export default function CategoryProductGrid({
   items: MenuItem[];
   menuSlug?: string;
   hasExtra?: boolean;
-  aisleSection?: "general" | "beverage";
+  aisleSection?: "general" | "beverage" | "bakery";
   aisleSlug?: string;
 }) {
   const isAdmin = useIsAdmin();
+  const pageKey = catalogKey(aisleSection, aisleSlug, menuSlug);
   const [list, setList] = useState(items);
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [filter, setFilter] = useState<"all" | "hidden">("all");
@@ -48,9 +64,25 @@ export default function CategoryProductGrid({
       });
   }, [aisleSection, aisleSlug, isAdmin, menuSlug]);
 
+  const skipVisiblePersist = useRef(true);
+
+  useEffect(() => {
+    skipVisiblePersist.current = true;
+    setVisible(readVisibleCount(pageKey));
+    setFilter("all");
+  }, [pageKey]);
+
+  useEffect(() => {
+    if (!pageKey) return;
+    if (skipVisiblePersist.current) {
+      skipVisiblePersist.current = false;
+      return;
+    }
+    sessionStorage.setItem(`admin-grid-visible:${pageKey}`, String(visible));
+  }, [pageKey, visible]);
+
   useEffect(() => {
     setList(items);
-    setVisible(PAGE_SIZE);
     if (isAdmin) {
       setLoading(false);
       loadAdminCatalog();

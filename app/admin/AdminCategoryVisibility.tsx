@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SECTIONS } from "@/lib/sections";
 import { GENERAL_AISLES } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
+import { BAKERY_AISLES } from "@/lib/bakeryAisles";
 import type { StoreVisibility } from "@/lib/storeVisibility";
 import { setCategoryHidden } from "./actions";
 import AdminNav from "./AdminNav";
@@ -75,6 +76,32 @@ export default function AdminCategoryVisibility({
         <h3 className="text-sm font-semibold text-maroon-800">General aisles</h3>
         <ul className="mt-2 space-y-2">
           {GENERAL_AISLES.map((aisle) => {
+            const hidden = hiddenAisles.has(aisle.slug);
+            return (
+              <li key={aisle.slug} className="flex items-center justify-between gap-3 rounded-xl border border-gold-100 px-3 py-2">
+                <span className="text-sm text-maroon-800">
+                  {aisle.name}
+                  {hidden ? <span className="ml-2 text-xs text-maroon-700/60">hidden</span> : null}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggle("aisle", aisle.slug, hidden)}
+                  className={`rounded-full px-3 py-1 text-sm font-medium ${
+                    hidden ? "bg-maroon-700 text-white" : "border border-gold-200 bg-white text-maroon-800"
+                  }`}
+                >
+                  {hidden ? "Show" : "Hide"}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section className="mt-4 rounded-2xl border border-gold-200 bg-white p-4">
+        <h3 className="text-sm font-semibold text-maroon-800">Bakery aisles</h3>
+        <ul className="mt-2 space-y-2">
+          {BAKERY_AISLES.map((aisle) => {
             const hidden = hiddenAisles.has(aisle.slug);
             return (
               <li key={aisle.slug} className="flex items-center justify-between gap-3 rounded-xl border border-gold-100 px-3 py-2">
