@@ -5,14 +5,35 @@ const FACEBOOK_URL = "https://facebook.com/jallundharshahiroad";
 const PHONE_TEL = "tel:03001538440";
 const PHONE_LABEL = "0300 153 8440";
 
-const linkClass =
-  "text-sm text-cream/90 transition hover:text-gold-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300";
+function GoldLine() {
+  return <span className="h-px w-8 bg-gold-400/80" aria-hidden />;
+}
 
-function IconPin() {
+function Ornament() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-      <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z" />
-      <circle cx="12" cy="10" r="2.2" />
+    <div className="flex items-center justify-center gap-2 text-gold-400" aria-hidden>
+      <span className="h-px w-8 bg-gold-400/70" />
+      <span className="h-1.5 w-1.5 rotate-45 border border-gold-400/90" />
+      <span className="h-px w-8 bg-gold-400/70" />
+    </div>
+  );
+}
+
+function IconHome() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5Z" />
+    </svg>
+  );
+}
+
+function IconGrid() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <rect x="3" y="3" width="8" height="8" rx="1.5" />
+      <rect x="13" y="3" width="8" height="8" rx="1.5" />
+      <rect x="3" y="13" width="8" height="8" rx="1.5" />
+      <rect x="13" y="13" width="8" height="8" rx="1.5" />
     </svg>
   );
 }
@@ -25,6 +46,15 @@ function IconPhone() {
   );
 }
 
+function IconPin({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z" />
+      <circle cx="12" cy="10" r="2.2" />
+    </svg>
+  );
+}
+
 function IconWhatsApp() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -33,91 +63,219 @@ function IconWhatsApp() {
   );
 }
 
+function IconFacebook() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.6l.4-3H13v-2c0-.6.4-1 1-1Z" />
+    </svg>
+  );
+}
+
+const desktopLinkClass =
+  "inline-flex items-center gap-2 text-sm text-cream/90 transition hover:text-gold-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300";
+
+const mobileLinkClass =
+  "text-sm text-cream/90 transition hover:text-gold-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300";
+
+function MobileFooter() {
+  return (
+    <div className="relative mx-auto flex max-w-lg flex-col items-center px-5 py-8 text-center sm:px-8 md:hidden">
+      <div className="flex items-center gap-3 text-gold-400" aria-hidden>
+        <span className="h-px w-8 bg-gold-400/70" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+          <path d="M6 8h12l-1 11H7L6 8Z" />
+          <path d="M9 8V7a3 3 0 0 1 6 0v1" />
+          <path d="M6 8H4M20 8h-2" />
+        </svg>
+        <span className="h-px w-8 bg-gold-400/70" />
+      </div>
+
+      <p className="mt-3 font-display text-3xl font-bold tracking-tight text-cream">Jallundhar</p>
+      <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-300">
+        Sweets &amp; Bakers
+      </p>
+
+      <p className="mt-4 flex items-center justify-center gap-1.5 text-sm text-cream/90">
+        <span className="text-gold-400">
+          <IconPin size={14} />
+        </span>
+        Shahi Road, Rahim Yar Khan
+      </p>
+
+      <nav aria-label="Footer" className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+        <Link href="/" className={mobileLinkClass}>
+          Home
+        </Link>
+        <Link href="/categories" className={mobileLinkClass}>
+          Categories
+        </Link>
+        <a href="/#contact" className={mobileLinkClass}>
+          Contact
+        </a>
+      </nav>
+
+      <a href={PHONE_TEL} className={`${mobileLinkClass} mt-5 inline-flex items-center gap-2 text-base`} aria-label="Call 0300 153 8440">
+        <span className="text-gold-400">
+          <IconPhone />
+        </span>
+        {PHONE_LABEL}
+      </a>
+
+      <a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-4 inline-flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded-full bg-gold-200 px-5 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300"
+      >
+        <span className="text-maroon-800">
+          <IconWhatsApp />
+        </span>
+        WhatsApp Order
+        <span aria-hidden>›</span>
+      </a>
+
+      <a
+        href={FACEBOOK_URL}
+        target="_blank"
+        rel="noreferrer"
+        className={`${mobileLinkClass} mt-4 inline-flex items-center gap-2`}
+      >
+        <span
+          className="flex h-7 w-7 items-center justify-center rounded-full border border-gold-400/80 text-[12px] font-bold leading-none text-gold-300"
+          aria-hidden
+        >
+          f
+        </span>
+        Facebook
+      </a>
+
+      <div className="mt-6 w-full border-t border-gold-400/30 pt-4">
+        <p className="text-[11px] text-cream/60">© 2026 Jallundhar Sweets &amp; Bakers</p>
+      </div>
+    </div>
+  );
+}
+
+function DesktopFooter() {
+  return (
+    <div className="relative mx-auto hidden max-w-6xl px-5 py-8 sm:px-8 md:block lg:px-12 lg:py-10">
+      <div className="grid grid-cols-3 gap-0">
+        <div className="flex flex-col items-center px-6 text-center">
+          <div className="flex items-center gap-3" aria-hidden>
+            <GoldLine />
+            <svg width="22" height="18" viewBox="0 0 24 20" fill="none" className="text-gold-400">
+              <path d="M4 8h16l-1.2 9.2A2 2 0 0 1 16.82 19H7.18a2 2 0 0 1-1.98-1.8L4 8Z" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M8 8V6.2A4 4 0 0 1 12 2a4 4 0 0 1 4 4.2V8" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+            <GoldLine />
+          </div>
+          <p className="mt-3 font-display text-3xl font-bold tracking-tight text-cream sm:text-4xl">
+            Jallundhar
+          </p>
+          <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-300">
+            Sweets &amp; Bakers
+          </p>
+          <div className="mt-3">
+            <Ornament />
+          </div>
+          <p className="mt-4 flex items-start justify-center gap-2 text-sm leading-snug text-cream/90">
+            <span className="mt-0.5 text-gold-400">
+              <IconPin />
+            </span>
+            <span>
+              Shahi Road
+              <br />
+              Rahim Yar Khan
+            </span>
+          </p>
+          <p className="mt-4 flex items-center gap-2 text-xs italic text-gold-300">
+            <span className="h-px w-6 bg-gold-400/70" aria-hidden />
+            Making Life Sweeter
+            <span className="h-px w-6 bg-gold-400/70" aria-hidden />
+          </p>
+        </div>
+
+        <div className="flex flex-col items-start border-l border-gold-400/25 px-8 text-left">
+          <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-gold-300">Quick Links</h2>
+          <nav aria-label="Footer" className="mt-4 flex flex-col items-start gap-3">
+            <Link href="/" className={desktopLinkClass}>
+              <span className="text-gold-400">
+                <IconHome />
+              </span>
+              Home
+            </Link>
+            <Link href="/categories" className={desktopLinkClass}>
+              <span className="text-gold-400">
+                <IconGrid />
+              </span>
+              Categories
+            </Link>
+            <a href="/#contact" className={desktopLinkClass}>
+              <span className="text-gold-400">
+                <IconPhone />
+              </span>
+              Contact
+            </a>
+          </nav>
+        </div>
+
+        <div className="flex flex-col items-start border-l border-gold-400/25 px-8 text-left">
+          <h2 className="font-display text-2xl font-semibold text-cream">Contact</h2>
+          <a href={PHONE_TEL} className={`${desktopLinkClass} mt-4 text-base`} aria-label="Call 0300 153 8440">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-gold-400/70 text-gold-300">
+              <IconPhone />
+            </span>
+            {PHONE_LABEL}
+          </a>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 inline-flex min-h-12 w-auto items-center justify-center gap-2 rounded-full bg-gold-200 px-5 py-3 text-sm font-semibold text-maroon-900 shadow-sm transition hover:bg-gold-100 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300"
+          >
+            <span className="text-maroon-800">
+              <IconWhatsApp />
+            </span>
+            WhatsApp Order
+            <span aria-hidden className="text-maroon-800">
+              ›
+            </span>
+          </a>
+          <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" className={`${desktopLinkClass} mt-4`}>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold-400 text-maroon-900">
+              <IconFacebook />
+            </span>
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      <div className="mt-8 border-t border-gold-400/30 pt-4">
+        <div className="flex items-center justify-between text-left">
+          <p className="text-[11px] text-cream/60">© 2026 Jallundhar Sweets &amp; Bakers. All rights reserved.</p>
+          <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-400">
+            <span className="h-px w-6 bg-gold-400/70" aria-hidden />
+            Sweet Moments. Brighter Days.
+            <span className="h-px w-6 bg-gold-400/70" aria-hidden />
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Footer() {
   return (
     <footer id="contact" className="relative scroll-mt-20 overflow-hidden bg-maroon-900 text-cream">
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.16]"
+        className="pointer-events-none absolute inset-0 opacity-[0.18]"
         style={{
           background:
-            "radial-gradient(ellipse at center top, rgba(227,169,52,0.14), transparent 55%)",
+            "radial-gradient(ellipse at left top, rgba(227,169,52,0.16), transparent 42%), radial-gradient(ellipse at right bottom, rgba(227,169,52,0.12), transparent 40%)",
         }}
       />
-
-      <div className="relative mx-auto flex max-w-lg flex-col items-center px-5 py-8 text-center sm:px-8">
-        <div className="flex items-center gap-3 text-gold-400" aria-hidden>
-          <span className="h-px w-8 bg-gold-400/70" />
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-            <path d="M6 8h12l-1 11H7L6 8Z" />
-            <path d="M9 8V7a3 3 0 0 1 6 0v1" />
-            <path d="M6 8H4M20 8h-2" />
-          </svg>
-          <span className="h-px w-8 bg-gold-400/70" />
-        </div>
-
-        <p className="mt-3 font-display text-3xl font-bold tracking-tight text-cream">Jallundhar</p>
-        <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-300">
-          Sweets &amp; Bakers
-        </p>
-
-        <p className="mt-4 flex items-center justify-center gap-1.5 text-sm text-cream/90">
-          <span className="text-gold-400">
-            <IconPin />
-          </span>
-          Shahi Road, Rahim Yar Khan
-        </p>
-
-        <nav aria-label="Footer" className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          <Link href="/" className={linkClass}>
-            Home
-          </Link>
-          <Link href="/categories" className={linkClass}>
-            Categories
-          </Link>
-          <a href="/#contact" className={linkClass}>
-            Contact
-          </a>
-        </nav>
-
-        <a href={PHONE_TEL} className={`${linkClass} mt-5 inline-flex items-center gap-2 text-base`} aria-label="Call 0300 153 8440">
-          <span className="text-gold-400">
-            <IconPhone />
-          </span>
-          {PHONE_LABEL}
-        </a>
-
-        <a
-          href={WHATSAPP_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-4 inline-flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded-full bg-gold-200 px-5 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300"
-        >
-          <span className="text-maroon-800">
-            <IconWhatsApp />
-          </span>
-          WhatsApp Order
-          <span aria-hidden>›</span>
-        </a>
-
-        <a
-          href={FACEBOOK_URL}
-          target="_blank"
-          rel="noreferrer"
-          className={`${linkClass} mt-4 inline-flex items-center gap-2`}
-        >
-          <span
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-gold-400/80 text-[12px] font-bold leading-none text-gold-300"
-            aria-hidden
-          >
-            f
-          </span>
-          Facebook
-        </a>
-
-        <div className="mt-6 w-full border-t border-gold-400/30 pt-4">
-          <p className="text-[11px] text-cream/60">© 2026 Jallundhar Sweets &amp; Bakers</p>
-        </div>
-      </div>
+      <MobileFooter />
+      <DesktopFooter />
     </footer>
   );
 }
