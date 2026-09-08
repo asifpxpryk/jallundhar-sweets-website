@@ -3,7 +3,7 @@ import { unstable_cache, revalidateTag } from "next/cache";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import { SECTIONS, assignSection, isHiddenMenuItem, collapseCheesePizzas, isSectionSlug, normalizeName, type SectionSlug } from "@/lib/sections";
 import { isAdminSession } from "@/lib/adminAuth";
-import { loadStoreVisibility, isVisibilityConfigId } from "@/lib/storeVisibility";
+import { loadStoreVisibilityUncached, isVisibilityConfigId } from "@/lib/storeVisibility";
 import localMenu from "@/data/menu-items.json";
 import aisleCatalog from "@/data/aisle-items.json";
 
@@ -66,6 +66,10 @@ function groupItems(
     sort_order: i,
     items: collapseCheesePizzas(grouped.get(section.slug) || []).map((item) => ({
       ...item,
+      is_hidden:
+        Boolean(item.is_hidden) ||
+        hiddenIds.has(item.id) ||
+        Boolean(item.variants?.length && item.variants.every((variant) => hiddenIds.has(variant.id))),
       is_bestseller:
         Boolean(item.is_bestseller) ||
         bestIds.has(item.id) ||
@@ -152,7 +156,7 @@ function withHiddenFlags(
 }
 
 async function loadMenuUncached(): Promise<MenuCategory[]> {
-  const vis = await loadStoreVisibility();
+  const vis = await loadStoreVisibilityUncached();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (url && key) {
@@ -166,7 +170,7 @@ async function loadMenuUncached(): Promise<MenuCategory[]> {
 }
 
 export async function loadAllMenuItems(): Promise<MenuItem[]> {
-  const vis = await loadStoreVisibility();
+  const vis = await loadStoreVisibilityUncached();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (url && key) {
@@ -176,8 +180,8 @@ export async function loadAllMenuItems(): Promise<MenuItem[]> {
   return withHiddenFlags(localMenu as StoredMenuItem[], vis.hiddenItemIds, vis.bestsellerIds);
 }
 
-async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]> {
-  const vis = await loadStoreVisibility();
+export async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]> {
+  const vis = await loadStoreVisibilityUncached();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (url && key) {
@@ -191,7 +195,7 @@ async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]> {
 
 export const loadMenuIncludingHidden = unstable_cache(
   loadMenuIncludingHiddenUncached,
-  ["jallundhar-menu-v22-admin"],
+  ["jallundhar-menu-v23-admin"],
   { revalidate: 60, tags: ["menu"] }
 );
 
@@ -204,7 +208,7 @@ export function refreshMenuCache() {
   revalidateTag("menu");
 }
 
-export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v22"], {
+export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v23"], {
   revalidate: 60,
   tags: ["menu"],
 });

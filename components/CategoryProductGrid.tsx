@@ -54,7 +54,7 @@ export default function CategoryProductGrid({
     } else {
       return;
     }
-    fetch(`/api/admin-catalog?${params.toString()}`)
+    fetch(`/api/admin-catalog?${params.toString()}`, { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
       .then((data: { items?: MenuItem[] } | null) => {
         if (Array.isArray(data?.items)) setList(data.items);
@@ -82,12 +82,14 @@ export default function CategoryProductGrid({
   }, [pageKey, visible]);
 
   useEffect(() => {
+    if (!isAdmin) return;
+    setLoading(false);
+    loadAdminCatalog();
+  }, [isAdmin, loadAdminCatalog, pageKey]);
+
+  useEffect(() => {
+    if (isAdmin) return;
     setList(items);
-    if (isAdmin) {
-      setLoading(false);
-      loadAdminCatalog();
-      return;
-    }
     if (items.length > 0 || !menuSlug || hasExtra) {
       setLoading(false);
       return;
@@ -110,7 +112,7 @@ export default function CategoryProductGrid({
     return () => {
       cancelled = true;
     };
-  }, [hasExtra, isAdmin, items, loadAdminCatalog, menuSlug]);
+  }, [hasExtra, isAdmin, items, menuSlug]);
 
   const hiddenCount = list.filter((item) => item.is_hidden).length;
   const filtered =

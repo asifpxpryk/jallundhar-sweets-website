@@ -11,11 +11,12 @@ import {
   applyBestsellerToggle,
   applyVisibilityToggle,
   itemVisibilitySlug,
-  loadStoreVisibility,
+  loadStoreVisibilityUncached,
   refreshStoreVisibility,
   visibilityConfigRow,
   writeStoreVisibilityFallback,
   type CategoryKind,
+  type StoreVisibility,
 } from "@/lib/storeVisibility";
 import {
   ADMIN_COOKIE,
@@ -67,7 +68,7 @@ function isMissingVisibilityTable(message: string) {
 
 async function writeVisibilityConfig(
   supabase: ReturnType<typeof createSupabaseAdmin>,
-  vis: Awaited<ReturnType<typeof loadStoreVisibility>>
+  vis: StoreVisibility
 ) {
   try {
     await writeStoreVisibilityFallback(vis);
@@ -83,27 +84,26 @@ async function syncItemHiddenFlag(
   hidden: boolean,
   columnExists: boolean,
   is_bestseller = false,
-  catalogId = id
+  catalogId = id,
+  relatedIds: string[] = []
 ) {
-  const slug = itemVisibilitySlug(id);
-  let vis = applyVisibilityToggle(await loadStoreVisibility(), "aisle", slug, columnExists ? false : hidden);
+  const ids = [...new Set([id, catalogId, ...relatedIds].filter(Boolean))];
+  let vis = await loadStoreVisibilityUncached();
+  for (const itemId of ids) {
+    vis = applyVisibilityToggle(vis, "aisle", itemVisibilitySlug(itemId), hidden);
+  }
   vis = applyBestsellerToggle(vis, catalogId, is_bestseller);
 
-  if (columnExists) {
-    const written = await writeVisibilityConfig(supabase, vis);
-    if (written.error && is_bestseller) {
-      throw new Error(written.error.message);
+  if (!columnExists) {
+    for (const itemId of ids) {
+      const { error } = await supabase.from("store_visibility").upsert(
+        { kind: "aisle", slug: itemVisibilitySlug(itemId), hidden },
+        { onConflict: "kind,slug" }
+      );
+      if (error && !isMissingVisibilityTable(error.message)) {
+        throw new Error(error.message);
+      }
     }
-    return;
-  }
-
-  const { error } = await supabase.from("store_visibility").upsert(
-    { kind: "aisle", slug, hidden },
-    { onConflict: "kind,slug" }
-  );
-
-  if (error && !isMissingVisibilityTable(error.message)) {
-    throw new Error(error.message);
   }
 
   const written = await writeVisibilityConfig(supabase, vis);
@@ -212,6 +212,10 @@ export async function saveStorefrontItem(formData: FormData) {
   const is_hidden = formData.get("is_hidden") === "on" || formData.get("is_hidden") === "true";
   const is_bestseller = formData.get("is_bestseller") === "on" || formData.get("is_bestseller") === "true";
   const catalogId = String(formData.get("catalog_id") || id).trim() || id;
+  const relatedIds = String(formData.get("variant_ids") || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
   const is_available = !(
     formData.get("is_out_of_stock") === "on" || formData.get("is_out_of_stock") === "true"
   );
@@ -265,8 +269,25 @@ export async function saveStorefrontItem(formData: FormData) {
     if (inserted.error) return { error: inserted.error.message };
   }
 
+  const siblingIds = [...new Set([catalogId, ...relatedIds].filter((itemId) => itemId !== id))];
+  if (columnExists && siblingIds.length) {
+    await Promise.all(
+      siblingIds.map((itemId) =>
+        supabase.from("menu_items").update({ is_hidden }).eq("id", itemId)
+      )
+    );
+  }
+
   try {
-    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists, is_bestseller, catalogId);
+    await syncItemHiddenFlag(
+      supabase,
+      id,
+      is_hidden,
+      columnExists,
+      is_bestseller,
+      catalogId,
+      relatedIds
+    );
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not hide this item." };
   }
@@ -360,7 +381,7 @@ export async function setCategoryHidden(formData: FormData) {
     return { error: "Aisle is invalid." };
   }
 
-  const next = applyVisibilityToggle(await loadStoreVisibility(), kind, slug, hidden);
+  const next = applyVisibilityToggle(await loadStoreVisibilityUncached(), kind, slug, hidden);
 
   const supabase = createSupabaseAdmin();
   const { error } = await supabase.from("store_visibility").upsert(

@@ -84,6 +84,10 @@ export default function ProductCard({
               const variant = variants?.find((v) => v.id === selectedId);
               formData.set("id", variant?.id ?? item.id);
               formData.set("catalog_id", item.id);
+              formData.set(
+                "variant_ids",
+                variants?.map((entry) => entry.id).join(",") ?? ""
+              );
               formData.set("category_id", itemSection(item));
               formData.set("description", item.description ?? "");
               formData.set("image_url", item.image_url ?? "");

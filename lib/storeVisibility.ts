@@ -145,25 +145,25 @@ export function visibilityConfigRow(vis: StoreVisibility) {
   };
 }
 
-async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
+export async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
   const base = await loadFallback();
-  const rows = await loadFromSupabase();
-  if (rows) return applyRows(base, rows);
   const config = await loadConfigFromMenuItems();
   if (config) {
     return {
       hiddenSections: config.hiddenSections.length ? config.hiddenSections : base.hiddenSections,
       hiddenAisles: config.hiddenAisles.length ? config.hiddenAisles : base.hiddenAisles,
-      hiddenItemIds: config.hiddenItemIds,
-      bestsellerIds: config.bestsellerIds,
+      hiddenItemIds: [...asSet([...base.hiddenItemIds, ...config.hiddenItemIds])],
+      bestsellerIds: [...asSet([...base.bestsellerIds, ...config.bestsellerIds])],
     };
   }
+  const rows = await loadFromSupabase();
+  if (rows) return applyRows(base, rows);
   return base;
 }
 
 export const loadStoreVisibility = unstable_cache(
   loadStoreVisibilityUncached,
-  ["jallundhar-store-visibility-v4"],
+  ["jallundhar-store-visibility-v5"],
   { revalidate: 60, tags: ["store-visibility"] }
 );
 
