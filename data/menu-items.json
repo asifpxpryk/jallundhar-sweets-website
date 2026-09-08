@@ -2745,5 +2745,80 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 704
+  },
+  {
+    "id": "cream-cake-caramel-1-pond",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "CARAMEL CAKE 1 POND",
+    "description": null,
+    "price": 850,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 800
+  },
+  {
+    "id": "cream-cake-nutila-chocolate",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "NUTILA CHOCOLATE CAKE",
+    "description": null,
+    "price": 2500,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 801
+  },
+  {
+    "id": "cream-cake-order-special-chocolate",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "ORDER CAKE SPECIAL CHOCOLATE",
+    "description": null,
+    "price": 902,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 802
+  },
+  {
+    "id": "cream-cake-order-spercial-pineapple",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "ORDER CAKE SPERCIAL PINEAPPLE",
+    "description": null,
+    "price": 853,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 803
+  },
+  {
+    "id": "cream-cake-three-milk",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery",
+      "event-cakes"
+    ],
+    "name": "THREE MILK CAKE",
+    "description": null,
+    "price": 1600,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 804
   }
 ]
