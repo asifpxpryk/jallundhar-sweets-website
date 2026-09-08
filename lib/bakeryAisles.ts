@@ -25,7 +25,7 @@ export function bakeryAisleForItem(name: string): BakeryAisleSlug | null {
 
   if (/\bpastr(y|ies)\b/.test(n)) return "pastries";
   if (
-    /\brusk\b|\brus\b|\bbakar khani|\bbakarkhani|\bbutter stick|\bbutter biscuit|\bgol burger bun/.test(n)
+    /\brusk\b|\brus\b|\bbutter bakar khani|\bbutter stick|\bbutter biscuite|\bgol burger bun/.test(n)
   ) {
     return "rusks";
   }
