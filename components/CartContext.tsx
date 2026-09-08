@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { CartLine, MenuItem } from "@/lib/types";
+
+const STORAGE_KEY = "jallundhar-cart-v1";
 
 type CartContextValue = {
   lines: CartLine[];
@@ -18,9 +20,44 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+function readStoredLines(): CartLine[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (line): line is CartLine =>
+        Boolean(line) &&
+        typeof line.id === "string" &&
+        typeof line.name === "string" &&
+        typeof line.price === "number" &&
+        typeof line.quantity === "number" &&
+        line.quantity > 0
+    );
+  } catch {
+    return [];
+  }
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setLines(readStoredLines());
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
+    } catch {
+      // Ignore quota / private-mode failures.
+    }
+  }, [lines, ready]);
 
   function add(item: MenuItem) {
     setLines((prev) => {
