@@ -6,6 +6,7 @@ import GeneralAisleNav from "@/components/GeneralAisleNav";
 import BeverageAisleNav from "@/components/BeverageAisleNav";
 import BakeryAisleNav from "@/components/BakeryAisleNav";
 import SweetsAisleNav from "@/components/SweetsAisleNav";
+import GheePromoBanner from "@/components/GheePromoBanner";
 import { bakeryItemsOutsideAisles } from "@/lib/bakeryAisles";
 import { isSectionHidden, loadStoreVisibility } from "@/lib/storeVisibility";
 
@@ -53,7 +54,12 @@ export default async function SectionPage({ params }: { params: { section: strin
         ) : meta.slug === "bakery" ? (
           <BakeryAisleNav />
         ) : meta.slug === "sweets" ? (
-          <SweetsAisleNav />
+          <>
+            <SweetsAisleNav />
+            <div className="mt-8">
+              <GheePromoBanner />
+            </div>
+          </>
         ) : undefined
       }
       menuSlug={meta.slug}

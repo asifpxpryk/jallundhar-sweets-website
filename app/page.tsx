@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import CategoryNav from "@/components/CategoryNav";
 import BestsellerScroller from "@/components/BestsellerScroller";
 import GiftPromoCard from "@/components/GiftPromoCard";
+import GheePromoBanner from "@/components/GheePromoBanner";
 import { loadMenu } from "@/lib/loadMenu";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 
@@ -42,6 +43,9 @@ export default async function Home() {
       <CategoryNav />
       <BestsellerScroller items={bestsellers} />
       <GiftPromoCard />
+      <div className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
+        <GheePromoBanner />
+      </div>
     </>
   );
 }
