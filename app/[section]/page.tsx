@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
 import { SECTIONS, isSectionSlug } from "@/lib/sections";
 import { loadMenu } from "@/lib/loadMenu";
+import GeneralAisleNav from "@/components/GeneralAisleNav";
 
 export const revalidate = 300;
 
@@ -29,6 +30,7 @@ export default async function SectionPage({ params }: { params: { section: strin
       name={meta.name}
       items={category?.items ?? []}
       image={meta.image}
+      extra={meta.slug === "general" ? <GeneralAisleNav /> : undefined}
     />
   );
 }
