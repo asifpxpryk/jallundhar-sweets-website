@@ -26,3 +26,20 @@ export type CartLine = {
 };
 
 export type PaymentMethod = "cod" | "advance";
+
+export type SavedOrder = {
+  id: string;
+  created_at: string;
+  customer_name: string;
+  phone: string;
+  address: string;
+  location: string;
+  payment_method: PaymentMethod;
+  notes: string;
+  total: number;
+  items: { name: string; quantity: number; unit_price: number }[];
+};
+
+export type AdminOrder = SavedOrder & {
+  order_number: number | null;
+};

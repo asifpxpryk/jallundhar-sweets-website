@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import type { MenuItem } from "@/lib/types";
+import type { AdminOrder, MenuItem } from "@/lib/types";
 import { SECTIONS, isSectionSlug, assignSection } from "@/lib/sections";
 import { addMenuItem, logoutAdmin, saveMenuItem, toggleAvailable } from "./actions";
 
@@ -13,9 +13,11 @@ function itemSection(item: MenuItem) {
 
 export default function AdminPanel({
   items,
+  orders,
   needsSecret,
 }: {
   items: MenuItem[];
+  orders: AdminOrder[];
   needsSecret: boolean;
 }) {
   const router = useRouter();
@@ -216,6 +218,37 @@ export default function AdminPanel({
           </li>
         ))}
       </ul>
+
+      <section className="mt-10">
+        <h2 className="font-display text-xl font-bold text-maroon-800">All orders</h2>
+        <p className="text-sm text-maroon-700/70">{orders.length} records</p>
+        {orders.length === 0 ? (
+          <p className="mt-3 text-sm text-maroon-700/70">
+            Abhi koi order nahi, ya orders table / secret key missing hai. SQL: data/orders.sql
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-3">
+            {orders.map((order) => (
+              <li key={order.id} className="rounded-2xl border border-gold-200 bg-white p-4 text-sm">
+                <p className="font-semibold text-maroon-800">
+                  {order.order_number ? `#${order.order_number} · ` : ""}
+                  {order.customer_name || "Customer"} · {order.phone}
+                </p>
+                <p className="text-maroon-700/70">{order.address}</p>
+                {order.location ? <p className="text-maroon-700/70">{order.location}</p> : null}
+                <p className="mt-1 text-maroon-700">Rs. {order.total.toLocaleString()}</p>
+                <ul className="mt-2 text-maroon-700/80">
+                  {order.items.map((item, i) => (
+                    <li key={i}>
+                      {item.name} × {item.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }

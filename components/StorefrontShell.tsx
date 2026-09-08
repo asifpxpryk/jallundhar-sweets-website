@@ -18,7 +18,7 @@ export default function StorefrontShell({ children }: { children: React.ReactNod
       <Header />
       <div className="pb-20 xl:pb-0">
         {children}
-        <Footer />
+        {pathname !== "/account" ? <Footer /> : null}
       </div>
       <CartDrawer />
       <BottomNav />

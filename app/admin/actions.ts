@@ -10,6 +10,7 @@ import {
   isAdminSession,
   verifyAdminPin,
 } from "@/lib/adminAuth";
+import type { AdminOrder, PaymentMethod } from "@/lib/types";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 import { refreshMenuCache } from "@/lib/loadMenu";
 
@@ -137,4 +138,38 @@ export async function toggleAvailable(id: string, is_available: boolean) {
   if (error) return { error: error.message };
   refreshStorefront();
   return { error: "" };
+}
+
+export async function loadAdminOrders(): Promise<AdminOrder[]> {
+  if (!(await isAdminSession()) || !hasSupabaseSecret()) return [];
+  const supabase = createSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("orders")
+    .select(
+      "id, order_number, customer_name, phone, address, location, payment_method, notes, total, created_at, order_items(item_name, quantity, unit_price)"
+    )
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error || !data) return [];
+
+  return data.map((row) => ({
+    id: String(row.id),
+    order_number: row.order_number ?? null,
+    created_at: row.created_at,
+    customer_name: row.customer_name ?? "",
+    phone: row.phone ?? "",
+    address: row.address ?? "",
+    location: row.location ?? "",
+    payment_method: (row.payment_method as PaymentMethod) || "cod",
+    notes: row.notes ?? "",
+    total: Number(row.total ?? 0),
+    items: ((row.order_items ?? []) as { item_name: string; quantity: number; unit_price: number }[]).map(
+      (item) => ({
+        name: item.item_name,
+        quantity: item.quantity,
+        unit_price: Number(item.unit_price ?? 0),
+      })
+    ),
+  }));
 }

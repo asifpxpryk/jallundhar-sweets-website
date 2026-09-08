@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
 import { supabase } from "@/lib/supabase";
 import type { PaymentMethod } from "@/lib/types";
+import { loadProfile, saveLocalOrder, saveProfile } from "@/lib/customerStore";
 
 type Step = "cart" | "checkout" | "success";
 
@@ -18,9 +19,23 @@ export default function CartDrawer() {
     customer_name: "",
     phone: "",
     address: "",
+    location: "",
     payment_method: "cod" as PaymentMethod,
     notes: "",
   });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const profile = loadProfile();
+    if (!profile) return;
+    setForm((f) => ({
+      ...f,
+      customer_name: f.customer_name || profile.name,
+      phone: f.phone || profile.phone,
+      address: f.address || profile.address,
+      location: f.location || profile.location,
+    }));
+  }, [isOpen]);
 
   function handleClose() {
     close();
@@ -41,6 +56,7 @@ export default function CartDrawer() {
       form.customer_name.trim() ? `👤 Naam: ${form.customer_name.trim()}` : null,
       `📞 Number: ${form.phone.trim()}`,
       `📍 Address: ${form.address.trim()}`,
+      form.location.trim() ? `📌 Location: ${form.location.trim()}` : null,
       `💳 Payment: ${form.payment_method === "cod" ? "Cash on Delivery" : "Advance Payment"}`,
       "",
       "*Items:*",
@@ -69,6 +85,30 @@ export default function CartDrawer() {
     const waWindow = window.open("", "_blank");
 
     let orderNo: number | null = null;
+    const localId = `local-${Date.now()}`;
+    saveLocalOrder({
+      id: localId,
+      created_at: new Date().toISOString(),
+      customer_name: form.customer_name.trim(),
+      phone: form.phone.trim(),
+      address: form.address.trim(),
+      location: form.location.trim(),
+      payment_method: form.payment_method,
+      notes: form.notes.trim(),
+      total: subtotal,
+      items: lines.map((l) => ({
+        name: l.name,
+        quantity: l.quantity,
+        unit_price: l.price,
+      })),
+    });
+    saveProfile({
+      name: form.customer_name.trim(),
+      phone: form.phone.trim(),
+      address: form.address.trim(),
+      location: form.location.trim(),
+    });
+
     try {
       const { data: order, error: orderError } = await supabase
         .from("orders")
@@ -76,6 +116,7 @@ export default function CartDrawer() {
           customer_name: form.customer_name.trim() || null,
           phone: form.phone.trim(),
           address: form.address.trim(),
+          location: form.location.trim() || null,
           payment_method: form.payment_method,
           notes: form.notes.trim() || null,
           subtotal,
@@ -212,6 +253,15 @@ export default function CartDrawer() {
                   value={form.address}
                   onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
                   placeholder="Ghar/office ka pura pata, Rahim Yar Khan"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-maroon-800">Location (optional)</label>
+                <input
+                  className="mt-1 w-full rounded-lg border border-gold-200 px-3 py-2 focus:border-maroon-600 focus:outline-none"
+                  value={form.location}
+                  onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
+                  placeholder="Area ya GPS"
                 />
               </div>
               <div>
