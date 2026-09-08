@@ -53,14 +53,11 @@ export default function Header({ hiddenSections = [] }: { hiddenSections?: strin
           <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://jallundharmain.com/wp-content/uploads/2021/07/jallundhar-logo.png"
+              src="/logo.png"
               alt="Jallundhar Sweets & Bakers"
               width={36}
               height={36}
               className="h-9 w-9 max-h-9 max-w-9 object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
             />
           </span>
           <div className="flex min-w-0 flex-col items-center justify-center text-center">
