@@ -1,64 +1,124 @@
 import { mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
+const CATEGORY_ID = "48";
+const AISLE_KEY = "chocolates";
+const FILE_PREFIX = "chocolates";
+
+function slugify(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 80);
+}
+
+function fileSafe(handle) {
+  return handle.replace(/[^a-z0-9-]/g, "");
+}
+
 function extFromUrl(url) {
   const path = url.split("?")[0].toLowerCase();
   if (path.endsWith(".webp")) return "webp";
-  if (path.endsWith(".avif")) return "avif";
   if (path.endsWith(".png")) return "png";
   if (path.endsWith(".gif")) return "gif";
   return "jpg";
 }
 
-async function fetchCollection(page) {
-  const url = `https://cocosonline.co/collections/chocolate/products.json?limit=250&page=${page}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`${url} ${res.status}`);
+function fingerprint(name) {
+  return String(name)
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/\b(g|gm|gms|gram|grams)\b/g, "g")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function fetchPage(page) {
+  const query = `{
+    products(filter: { category_id: { eq: "${CATEGORY_ID}" } }, pageSize: 50, currentPage: ${page}) {
+      total_count
+      items {
+        sku
+        name
+        url_key
+        small_image { url }
+        price_range { minimum_price { final_price { value } } }
+      }
+    }
+  }`;
+  const res = await fetch("https://www.naheed.pk/graphql", {
+    method: "POST",
+    headers: { "content-type": "application/json", "user-agent": "Mozilla/5.0" },
+    body: JSON.stringify({ query }),
+  });
+  if (!res.ok) throw new Error(`graphql ${res.status}`);
   const data = await res.json();
-  return data.products ?? [];
+  if (data.errors) throw new Error(JSON.stringify(data.errors));
+  return data.data.products;
 }
 
-const seen = new Set();
-const products = [];
-for (let page = 1; page <= 10; page++) {
-  const batch = await fetchCollection(page);
-  if (batch.length === 0) break;
-  for (const product of batch) {
-    if (seen.has(product.handle)) continue;
-    seen.add(product.handle);
-    products.push(product);
+async function fetchAll() {
+  const first = await fetchPage(1);
+  const products = [...(first.items ?? [])];
+  const total = first.total_count ?? products.length;
+  const pages = Math.ceil(total / 50);
+  for (let page = 2; page <= pages; page++) {
+    const batch = await fetchPage(page);
+    products.push(...(batch.items ?? []));
+    console.log("page", page, "loaded", products.length, "/", total);
   }
-  if (batch.length < 250) break;
+  return products;
 }
 
-const dir = join("public", "products", "chocolates");
+const products = await fetchAll();
+const dir = join("public", "products", FILE_PREFIX);
 mkdirSync(dir, { recursive: true });
 
+const seenSku = new Set();
+const seenName = new Set();
 const items = [];
 let order = 0;
+
 for (const product of products) {
-  const src = product.images?.[0]?.src;
-  if (!src) {
-    console.log("no image", product.handle);
+  const handle = slugify(product.url_key || product.sku || product.name);
+  const sku = String(product.sku || "").trim().toLowerCase();
+  const name = String(product.name || "").trim();
+  const key = fingerprint(name);
+  if (!handle || !name) continue;
+  if (sku && seenSku.has(sku)) {
+    console.log("dup sku", sku, name);
+    continue;
+  }
+  if (key && seenName.has(key)) {
+    console.log("dup name", name);
+    continue;
+  }
+  const src = product.small_image?.url;
+  const price = Math.round(Number(product.price_range?.minimum_price?.final_price?.value ?? 0));
+  if (!src || price <= 0) {
+    console.log("skip", handle);
     continue;
   }
   const ext = extFromUrl(src);
-  const file = `${product.handle}.${ext}`;
+  const file = `${fileSafe(handle)}.${ext}`;
   const dest = join(dir, file);
-  const res = await fetch(src);
+  const res = await fetch(src, { headers: { "user-agent": "Mozilla/5.0" } });
   if (!res.ok) {
-    console.log("fail", product.handle, res.status);
+    console.log("image fail", handle, res.status);
     continue;
   }
   writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
-  const price = Math.round(Number(product.variants?.[0]?.price ?? 0));
+  if (sku) seenSku.add(sku);
+  if (key) seenName.add(key);
   items.push({
-    id: `chocolates-${product.handle}`,
+    id: `${FILE_PREFIX}-${handle}`,
     category_id: "general",
-    name: String(product.title).trim(),
+    name,
     description: null,
     price,
-    image_url: `/products/chocolates/${file}`,
+    image_url: `/products/${FILE_PREFIX}/${file}`,
     is_available: true,
     sort_order: order++,
   });
@@ -66,6 +126,6 @@ for (const product of products) {
 
 const catalogPath = join("data", "aisle-items.json");
 const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
-catalog.chocolates = items;
+catalog[AISLE_KEY] = items;
 writeFileSync(catalogPath, JSON.stringify(catalog, null, 2) + "\n");
 console.log("saved", items.length);
