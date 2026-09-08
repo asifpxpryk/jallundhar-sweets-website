@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import ProductCard from "./ProductCard";
+import BestsellerScroller from "./BestsellerScroller";
 import { useIsAdmin } from "./AdminSessionContext";
 
 const PAGE_SIZE = 24;
@@ -85,6 +86,9 @@ export default function CategoryProductGrid({
       ? list.filter((item) => item.is_hidden)
       : list.filter((item) => !item.is_hidden);
   const shown = filtered.slice(0, visible);
+  const bestsellers = list.filter(
+    (item) => item.is_bestseller && (isAdmin || !item.is_hidden)
+  );
 
   const toolbar = isAdmin ? (
     <div className="mt-4 flex gap-2">
@@ -118,11 +122,12 @@ export default function CategoryProductGrid({
   if (filtered.length > 0) {
     return (
       <div className="mt-2">
+        <BestsellerScroller items={bestsellers} embedded />
         {toolbar}
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           {shown.map((item, index) => (
             <ProductCard
-              key={`${item.id}-${item.is_hidden ? "h" : "v"}`}
+              key={`${item.id}-${item.is_hidden ? "h" : "v"}-${item.is_bestseller ? "b" : "n"}`}
               item={item}
               priority={index < 4}
               onSaved={isAdmin ? loadAdminCatalog : undefined}
@@ -145,6 +150,7 @@ export default function CategoryProductGrid({
   if (isAdmin && filter === "hidden") {
     return (
       <div className="mt-2">
+        <BestsellerScroller items={bestsellers} embedded />
         {toolbar}
         <p className="mt-6 text-maroon-700/70">No hidden products in this section.</p>
       </div>
@@ -152,11 +158,17 @@ export default function CategoryProductGrid({
   }
 
   if (hasExtra) {
-    return toolbar ? <div className="mt-2">{toolbar}</div> : null;
+    return (
+      <div className="mt-2">
+        <BestsellerScroller items={bestsellers} embedded />
+        {toolbar}
+      </div>
+    );
   }
   if (loading) return <p className="mt-8 text-maroon-700/70">Products loading...</p>;
   return (
     <div className="mt-2">
+      <BestsellerScroller items={bestsellers} embedded />
       {toolbar}
       <p className="mt-6 text-maroon-700/70">No products in this section yet.</p>
     </div>

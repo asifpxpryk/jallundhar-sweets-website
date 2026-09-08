@@ -7,6 +7,7 @@ import { SECTIONS, isSectionSlug } from "@/lib/sections";
 import { GENERAL_AISLES } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
 import {
+  applyBestsellerToggle,
   applyVisibilityToggle,
   itemVisibilitySlug,
   loadStoreVisibility,
@@ -76,13 +77,19 @@ async function syncItemHiddenFlag(
   supabase: ReturnType<typeof createSupabaseAdmin>,
   id: string,
   hidden: boolean,
-  columnExists: boolean
+  columnExists: boolean,
+  is_bestseller = false,
+  catalogId = id
 ) {
   const slug = itemVisibilitySlug(id);
-  const vis = applyVisibilityToggle(await loadStoreVisibility(), "aisle", slug, columnExists ? false : hidden);
+  let vis = applyVisibilityToggle(await loadStoreVisibility(), "aisle", slug, columnExists ? false : hidden);
+  vis = applyBestsellerToggle(vis, catalogId, is_bestseller);
 
   if (columnExists) {
-    await writeVisibilityConfig(supabase, vis);
+    const written = await writeVisibilityConfig(supabase, vis);
+    if (written.error && is_bestseller) {
+      throw new Error(written.error.message);
+    }
     return;
   }
 
@@ -91,21 +98,12 @@ async function syncItemHiddenFlag(
     { onConflict: "kind,slug" }
   );
 
-  if (!error) {
-    try {
-      await writeStoreVisibilityFallback(vis);
-    } catch {
-      /* Vercel filesystem is ephemeral */
-    }
-    return;
-  }
-
-  if (!isMissingVisibilityTable(error.message)) {
+  if (error && !isMissingVisibilityTable(error.message)) {
     throw new Error(error.message);
   }
 
   const written = await writeVisibilityConfig(supabase, vis);
-  if (written.error && hidden) {
+  if (written.error && (hidden || is_bestseller)) {
     throw new Error(written.error.message);
   }
 }
@@ -208,6 +206,8 @@ export async function saveStorefrontItem(formData: FormData) {
   const name = String(formData.get("name") || "").trim();
   const price = Number(formData.get("price"));
   const is_hidden = formData.get("is_hidden") === "on" || formData.get("is_hidden") === "true";
+  const is_bestseller = formData.get("is_bestseller") === "on" || formData.get("is_bestseller") === "true";
+  const catalogId = String(formData.get("catalog_id") || id).trim() || id;
   const is_available = !(
     formData.get("is_out_of_stock") === "on" || formData.get("is_out_of_stock") === "true"
   );
@@ -262,7 +262,7 @@ export async function saveStorefrontItem(formData: FormData) {
   }
 
   try {
-    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists);
+    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists, is_bestseller, catalogId);
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not hide this item." };
   }

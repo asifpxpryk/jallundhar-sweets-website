@@ -22,7 +22,13 @@ export async function GET(request: Request) {
     if (aisle && section === "general" && isGeneralAisle(aisle)) {
       const [visibility, overrides] = await Promise.all([loadStoreVisibility(), loadAllMenuItems()]);
       return NextResponse.json({
-        items: applyMenuOverrides(loadAisleItems(aisle), overrides, true, visibility.hiddenItemIds),
+        items: applyMenuOverrides(
+          loadAisleItems(aisle),
+          overrides,
+          true,
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds
+        ),
       });
     }
 
@@ -33,7 +39,8 @@ export async function GET(request: Request) {
           loadAisleItems(`beverage:${aisle}`),
           overrides,
           true,
-          visibility.hiddenItemIds
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds
         ),
       });
     }

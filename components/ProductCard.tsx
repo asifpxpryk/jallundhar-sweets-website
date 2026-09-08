@@ -26,7 +26,7 @@ export default function ProductCard({
   onSaved?: () => void;
 }) {
   const { add } = useCart();
-  const isAdmin = useIsAdmin();
+  const isAdmin = useIsAdmin() && !compact;
   const router = useRouter();
   const variants = item.variants;
   const defaultVariant = variants?.find((v) => v.label === "Medium") ?? variants?.[0];
@@ -82,11 +82,13 @@ export default function ProductCard({
             action={async (formData) => {
               const variant = variants?.find((v) => v.id === selectedId);
               formData.set("id", variant?.id ?? item.id);
+              formData.set("catalog_id", item.id);
               formData.set("category_id", itemSection(item));
               formData.set("description", item.description ?? "");
               formData.set("image_url", item.image_url ?? "");
               formData.set("is_hidden", formData.get("is_hidden") ? "true" : "false");
               formData.set("is_out_of_stock", formData.get("is_out_of_stock") ? "true" : "false");
+              formData.set("is_bestseller", formData.get("is_bestseller") ? "true" : "false");
               setStatus("saving");
               setError(null);
               const result = await saveStorefrontItem(formData);
@@ -138,24 +140,35 @@ export default function ProductCard({
                 className="mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm"
               />
             </label>
-            <label className="mt-2 flex items-center gap-1.5 text-[11px] text-maroon-800">
-              <input
-                name="is_hidden"
-                type="checkbox"
-                defaultChecked={Boolean(item.is_hidden)}
-                className="h-3.5 w-3.5"
-              />
-              Hide
-            </label>
-            <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
-              <input
-                name="is_out_of_stock"
-                type="checkbox"
-                defaultChecked={!inStock}
-                className="h-3.5 w-3.5"
-              />
-              Out of stock
-            </label>
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
+                <input
+                  name="is_hidden"
+                  type="checkbox"
+                  defaultChecked={Boolean(item.is_hidden)}
+                  className="h-3.5 w-3.5"
+                />
+                Hide
+              </label>
+              <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
+                <input
+                  name="is_out_of_stock"
+                  type="checkbox"
+                  defaultChecked={!inStock}
+                  className="h-3.5 w-3.5"
+                />
+                Out of stock
+              </label>
+              <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
+                <input
+                  name="is_bestseller"
+                  type="checkbox"
+                  defaultChecked={Boolean(item.is_bestseller)}
+                  className="h-3.5 w-3.5"
+                />
+                Best
+              </label>
+            </div>
             <button
               type="submit"
               disabled={status === "saving"}

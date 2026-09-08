@@ -178,6 +178,7 @@ function collapsePizzaGroup(
     image_url: sizes.find((s) => s.image_url)?.image_url ?? null,
     is_available: sizes.some((s) => s.is_available !== false),
     is_hidden: sizes.every((s) => Boolean(s.is_hidden)),
+    is_bestseller: sizes.some((s) => Boolean(s.is_bestseller)),
     sort_order: Math.min(...sizes.map((s) => s.sort_order)),
     variants,
   };

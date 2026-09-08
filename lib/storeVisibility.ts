@@ -13,6 +13,7 @@ export type StoreVisibility = {
   hiddenSections: string[];
   hiddenAisles: string[];
   hiddenItemIds: string[];
+  bestsellerIds: string[];
 };
 
 export const ITEM_VISIBILITY_PREFIX = "item:";
@@ -42,6 +43,7 @@ function parseVisibility(raw: unknown): StoreVisibility {
     hiddenSections: [...asSet(data.hiddenSections ?? [])],
     hiddenAisles: [...asSet(data.hiddenAisles ?? [])],
     hiddenItemIds: [...asSet(data.hiddenItemIds ?? [])],
+    bestsellerIds: [...asSet(data.bestsellerIds ?? [])],
   };
 }
 
@@ -84,6 +86,7 @@ function applyRows(base: StoreVisibility, rows: VisibilityRow[]): StoreVisibilit
     hiddenSections: [...sections],
     hiddenAisles: [...aisles],
     hiddenItemIds: [...items],
+    bestsellerIds: [...asSet(base.bestsellerIds)],
   };
 }
 
@@ -131,6 +134,7 @@ export function visibilityConfigRow(vis: StoreVisibility) {
       hiddenSections: vis.hiddenSections,
       hiddenAisles: vis.hiddenAisles,
       hiddenItemIds: vis.hiddenItemIds,
+      bestsellerIds: vis.bestsellerIds,
     }),
     is_available: false,
     sort_order: -1,
@@ -147,6 +151,7 @@ async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
       hiddenSections: config.hiddenSections.length ? config.hiddenSections : base.hiddenSections,
       hiddenAisles: config.hiddenAisles.length ? config.hiddenAisles : base.hiddenAisles,
       hiddenItemIds: config.hiddenItemIds,
+      bestsellerIds: config.bestsellerIds,
     };
   }
   return base;
@@ -154,7 +159,7 @@ async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
 
 export const loadStoreVisibility = unstable_cache(
   loadStoreVisibilityUncached,
-  ["jallundhar-store-visibility-v3"],
+  ["jallundhar-store-visibility-v4"],
   { revalidate: 60, tags: ["store-visibility"] }
 );
 
@@ -188,6 +193,13 @@ export function visibleBeverageAisles(vis: StoreVisibility) {
   return BEVERAGE_AISLES.filter((aisle) => !vis.hiddenAisles.includes(aisle.slug));
 }
 
+export function applyBestsellerToggle(vis: StoreVisibility, id: string, on: boolean): StoreVisibility {
+  const ids = asSet(vis.bestsellerIds);
+  if (on) ids.add(id);
+  else ids.delete(id);
+  return { ...vis, bestsellerIds: [...ids] };
+}
+
 export function applyVisibilityToggle(
   vis: StoreVisibility,
   kind: CategoryKind,
@@ -206,6 +218,7 @@ export async function writeStoreVisibilityFallback(vis: StoreVisibility) {
         hiddenSections: vis.hiddenSections,
         hiddenAisles: vis.hiddenAisles,
         hiddenItemIds: vis.hiddenItemIds,
+        bestsellerIds: vis.bestsellerIds,
       },
       null,
       2

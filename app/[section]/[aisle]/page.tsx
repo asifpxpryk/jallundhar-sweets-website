@@ -56,7 +56,8 @@ export default async function NestedAislePage({
           loadAisleItems(aisle.slug),
           overrides,
           false,
-          visibility.hiddenItemIds
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds
         )}
         image={aisle.image}
         aisleSection="general"
@@ -75,7 +76,8 @@ export default async function NestedAislePage({
           loadAisleItems(`beverage:${aisle.slug}`),
           overrides,
           false,
-          visibility.hiddenItemIds
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds
         )}
         image={aisle.image}
         aisleSection="beverage"
