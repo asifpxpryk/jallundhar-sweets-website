@@ -150,10 +150,10 @@ export function collapseCheesePizzas(items: MenuItem[]): MenuItem[] {
       id: match.id,
       label: size.charAt(0).toUpperCase() + size.slice(1),
       price: match.price,
-      is_available: match.is_available,
+      is_available: match.is_available !== false,
     };
   }).filter(
-    (v): v is { id: string; label: string; price: number; is_available?: boolean } => v !== null
+    (v): v is { id: string; label: string; price: number; is_available: boolean } => v !== null
   );
 
   if (variants.length < 2) return items;
