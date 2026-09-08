@@ -1441,7 +1441,7 @@
     "name": "ARCIKA PASTRY",
     "description": null,
     "price": 160,
-    "image_url": null,
+    "image_url": "/products/pastries/arcika-pastry.jpg",
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 200
@@ -1455,7 +1455,7 @@
     "name": "BLACK FOREST PASTRY",
     "description": null,
     "price": 120,
-    "image_url": null,
+    "image_url": "/products/pastries/black-forest-pastry.jpg",
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 201
@@ -1469,7 +1469,7 @@
     "name": "CARAMEL PASTRY",
     "description": null,
     "price": 180,
-    "image_url": null,
+    "image_url": "/products/pastries/caramel-pastry.jpg",
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 202
@@ -1497,7 +1497,7 @@
     "name": "CHOCOLATE PASTRY",
     "description": null,
     "price": 130,
-    "image_url": null,
+    "image_url": "/products/pastries/chocolate-pastry.jpg",
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 204
@@ -1553,7 +1553,7 @@
     "name": "KITKAT PASTRY",
     "description": null,
     "price": 200,
-    "image_url": null,
+    "image_url": "/products/pastries/kitkat-pastry.jpg",
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 208
@@ -1609,7 +1609,7 @@
     "name": "PINEAPPLE PASTRY",
     "description": null,
     "price": 120,
-    "image_url": null,
+    "image_url": "/products/pastries/pineapple-pastry.jpg",
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 212
@@ -1623,7 +1623,7 @@
     "name": "RED VELVET PASTRY",
     "description": null,
     "price": 180,
-    "image_url": null,
+    "image_url": "/products/pastries/red-velvet-pastry.jpg",
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 213
