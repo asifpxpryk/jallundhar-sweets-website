@@ -2675,5 +2675,75 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 613
+  },
+  {
+    "id": "pastry-cream-puff",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "CREAM PUFF",
+    "description": null,
+    "price": 240,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 700
+  },
+  {
+    "id": "pastry-cream-roll",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "CREAM ROLL",
+    "description": null,
+    "price": 60,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 701
+  },
+  {
+    "id": "pastry-donut",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "DONUT",
+    "description": null,
+    "price": 100,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 702
+  },
+  {
+    "id": "pastry-muffin-150",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "MUFFIN 150",
+    "description": null,
+    "price": 150,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 703
+  },
+  {
+    "id": "pastry-sunday-cup",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "SUNDAY CUP",
+    "description": null,
+    "price": 350,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 704
   }
 ]

@@ -23,7 +23,11 @@ export function getBakeryAisle(slug: string) {
 export function bakeryAisleForItem(name: string): BakeryAisleSlug | null {
   const n = normalizeName(name);
 
-  if (/\bpastr(y|ies)\b/.test(n)) return "pastries";
+  if (
+    /\bpastr(y|ies)\b|\bcream puff\b|\bcream roll\b|\bdonut\b|\bsunday cup\b|\bmuffin 150\b/.test(n)
+  ) {
+    return "pastries";
+  }
   if (
     /\brusk\b|\brus\b|\bbutter bakar khani|\bbutter stick|\bbutter biscuite|\bgol burger bun/.test(n)
   ) {
