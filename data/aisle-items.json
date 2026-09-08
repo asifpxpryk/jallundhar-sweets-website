@@ -9034,5 +9034,237 @@
       "is_available": true,
       "sort_order": 111
     }
+  ],
+  "beverage:energy-drinks": [
+    {
+      "id": "energy-drinks-monster-aussie-lemonade-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Aussie Lemonade Energy + Juice, 500ml",
+      "description": null,
+      "price": 1550,
+      "image_url": "/products/energy-drinks/monster-aussie-lemonade-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 0
+    },
+    {
+      "id": "energy-drinks-monster-reserve-white-pineapple-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Reserve White Pineapple Juice, 500ml",
+      "description": null,
+      "price": 1699,
+      "image_url": "/products/energy-drinks/monster-reserve-white-pineapple-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 1
+    },
+    {
+      "id": "energy-drinks-monster-ultra-strawberry-dreams-zero-energy-drink-500ml",
+      "category_id": "beverage",
+      "name": "Monster Ultra Strawberry Dreams Zero Sugar Energy Drink, 500ml",
+      "description": null,
+      "price": 1499,
+      "image_url": "/products/energy-drinks/monster-ultra-strawberry-dreams-zero-energy-drink-500ml.jpg",
+      "is_available": true,
+      "sort_order": 2
+    },
+    {
+      "id": "energy-drinks-monster-mango-loco-blue-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Mango Loco Blue Energy Drink, 500ml",
+      "description": null,
+      "price": 1550,
+      "image_url": "/products/energy-drinks/monster-mango-loco-blue-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 3
+    },
+    {
+      "id": "energy-drinks-monster-khaotic-tropical-orange-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Khaotic Tropical Orange Energy Drink, 500ml",
+      "description": null,
+      "price": 1699,
+      "image_url": "/products/energy-drinks/monster-khaotic-tropical-orange-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 4
+    },
+    {
+      "id": "energy-drinks-monster-pacific-punch-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Pacific Punch Energy Drink, 500ml",
+      "description": null,
+      "price": 1550,
+      "image_url": "/products/energy-drinks/monster-pacific-punch-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 5
+    },
+    {
+      "id": "energy-drinks-monster-green-energy-drink-500ml",
+      "category_id": "beverage",
+      "name": "Monster Green Energy Drink, 500ml",
+      "description": null,
+      "price": 1499,
+      "image_url": "/products/energy-drinks/monster-green-energy-drink-500ml.jpg",
+      "is_available": true,
+      "sort_order": 6
+    },
+    {
+      "id": "energy-drinks-monster-rossi-the-doctor-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Rossi The Doctor Energy Drink, 500ml",
+      "description": null,
+      "price": 1499,
+      "image_url": "/products/energy-drinks/monster-rossi-the-doctor-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 7
+    },
+    {
+      "id": "energy-drinks-monster-ultra-peachy-keen-zero-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Ultra Peachy Keen Zero Energy Drink, 500ml",
+      "description": null,
+      "price": 1550,
+      "image_url": "/products/energy-drinks/monster-ultra-peachy-keen-zero-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 8
+    },
+    {
+      "id": "energy-drinks-monster-nitro-energy-drink-500ml",
+      "category_id": "beverage",
+      "name": "Monster Nitro Energy Drink, 500ml",
+      "description": null,
+      "price": 1499,
+      "image_url": "/products/energy-drinks/monster-nitro-energy-drink-500ml.jpg",
+      "is_available": true,
+      "sort_order": 9
+    },
+    {
+      "id": "energy-drinks-monster-mixed-punch-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Mixed Punch Energy Drink, 500ml",
+      "description": null,
+      "price": 1550,
+      "image_url": "/products/energy-drinks/monster-mixed-punch-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 10
+    },
+    {
+      "id": "energy-drinks-monster-pipeline-punch-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Pipeline Punch Energy Drink, 500ml",
+      "description": null,
+      "price": 1499,
+      "image_url": "/products/energy-drinks/monster-pipeline-punch-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 11
+    },
+    {
+      "id": "energy-drinks-monster-ultra-white-zero-energy-juice-500ml",
+      "category_id": "beverage",
+      "name": "Monster Ultra White Zero Sugar Energy Drink, 500ml",
+      "description": null,
+      "price": 1599,
+      "image_url": "/products/energy-drinks/monster-ultra-white-zero-energy-juice-500ml.jpg",
+      "is_available": true,
+      "sort_order": 12
+    },
+    {
+      "id": "energy-drinks-gatorade-revive-3-in-1-hydration-drink-300ml-pet",
+      "category_id": "beverage",
+      "name": "Gatorade Revive 3-in-1 Hydration Drink, 300ml Pet",
+      "description": null,
+      "price": 50,
+      "image_url": "/products/energy-drinks/gatorade-revive-3-in-1-hydration-drink-300ml-pet.jpg",
+      "is_available": true,
+      "sort_order": 13
+    },
+    {
+      "id": "energy-drinks-sting-gold-rush-energy-drink-500ml",
+      "category_id": "beverage",
+      "name": "Sting Gold Rush Energy Drink, 500ml",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/energy-drinks/sting-gold-rush-energy-drink-500ml.jpg",
+      "is_available": true,
+      "sort_order": 14
+    },
+    {
+      "id": "energy-drinks-red-bull-energy-drink-red-edition-watermelon-250ml",
+      "category_id": "beverage",
+      "name": "Red Bull Energy Drink Red Edition Watermelon, 250ml",
+      "description": null,
+      "price": 500,
+      "image_url": "/products/energy-drinks/red-bull-energy-drink-red-edition-watermelon-250ml.jpg",
+      "is_available": true,
+      "sort_order": 15
+    },
+    {
+      "id": "energy-drinks-milo-cocoa-malt-drink-bottle-cocoa-malt-beverage-220ml",
+      "category_id": "beverage",
+      "name": "Milo Cocoa Malt Drink Bottle, Cocoa Malt Beverage, 220ml",
+      "description": null,
+      "price": 160,
+      "image_url": "/products/energy-drinks/milo-cocoa-malt-drink-bottle-cocoa-malt-beverage-220ml.jpg",
+      "is_available": true,
+      "sort_order": 16
+    },
+    {
+      "id": "energy-drinks-epic-energy-drink-250ml",
+      "category_id": "beverage",
+      "name": "Epic Energy Drink, 250ml",
+      "description": null,
+      "price": 225,
+      "image_url": "/products/energy-drinks/epic-energy-drink-250ml.jpg",
+      "is_available": true,
+      "sort_order": 17
+    },
+    {
+      "id": "energy-drinks-red-bull-energy-drink-250ml",
+      "category_id": "beverage",
+      "name": "Red Bull Energy Drink, 250ml",
+      "description": null,
+      "price": 500,
+      "image_url": "/products/energy-drinks/red-bull-energy-drink-250ml.jpg",
+      "is_available": true,
+      "sort_order": 18
+    },
+    {
+      "id": "energy-drinks-milo-drink-180ml",
+      "category_id": "beverage",
+      "name": "Milo Drink, 180ml",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/energy-drinks/milo-drink-180ml.jpg",
+      "is_available": true,
+      "sort_order": 19
+    },
+    {
+      "id": "energy-drinks-sting-berry-blast-energy-drink-300ml",
+      "category_id": "beverage",
+      "name": "Sting Berry Blast Energy Drink 300ml",
+      "description": null,
+      "price": 80,
+      "image_url": "/products/energy-drinks/sting-berry-blast-energy-drink-300ml.jpg",
+      "is_available": true,
+      "sort_order": 20
+    },
+    {
+      "id": "energy-drinks-sting-berry-blast-energy-drink-500ml",
+      "category_id": "beverage",
+      "name": "Sting Berry Blast Energy Drink 500ml",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/energy-drinks/sting-berry-blast-energy-drink-500ml.jpg",
+      "is_available": true,
+      "sort_order": 21
+    },
+    {
+      "id": "energy-drinks-sting-berry-blast-energy-drink-250ml",
+      "category_id": "beverage",
+      "name": "Sting Berry Blast Energy Drink 250ml",
+      "description": null,
+      "price": 120,
+      "image_url": "/products/energy-drinks/sting-berry-blast-energy-drink-250ml.jpg",
+      "is_available": true,
+      "sort_order": 22
+    }
   ]
 }
