@@ -54,7 +54,7 @@ export default function ProductCard({
   return (
     <div
       id={`item-${item.id}`}
-      className={`flex scroll-mt-24 flex-col overflow-hidden rounded-2xl bg-white shadow-md ${
+      className={`flex h-full scroll-mt-24 flex-col overflow-hidden rounded-2xl bg-white shadow-md ${
         compact ? "w-40 flex-shrink-0 snap-start sm:w-44" : "w-full"
       } ${isAdmin && item.is_hidden ? "ring-2 ring-maroon-300" : ""}`}
     >
@@ -81,25 +81,27 @@ export default function ProductCard({
         {item.description ? (
           <p className="mt-1 line-clamp-2 text-xs text-maroon-700/70">{item.description}</p>
         ) : null}
-        {variants && variants.length > 0 ? (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {variants.map((variant) => (
-              <button
-                key={variant.id}
-                type="button"
-                onClick={() => setSelectedId(variant.id)}
-                className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition ${
-                  selectedId === variant.id
-                    ? "bg-maroon-700 text-white"
-                    : "bg-gold-50 text-maroon-800 ring-1 ring-gold-200"
-                }`}
-              >
-                {variant.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
-        <p className="mt-1 text-sm text-maroon-700/70">Rs. {price.toLocaleString()}</p>
+        <div className="flex min-h-8 flex-1 items-center">
+          {variants && variants.length > 0 ? (
+            <div className="flex flex-wrap gap-1">
+              {variants.map((variant) => (
+                <button
+                  key={variant.id}
+                  type="button"
+                  onClick={() => setSelectedId(variant.id)}
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition ${
+                    selectedId === variant.id
+                      ? "bg-maroon-700 text-white"
+                      : "bg-gold-50 text-maroon-800 ring-1 ring-gold-200"
+                  }`}
+                >
+                  {variant.label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
+        <p className="text-sm text-maroon-700/70">Rs. {price.toLocaleString()}</p>
         <button
           type="button"
           onClick={handleAdd}
@@ -113,9 +115,11 @@ export default function ProductCard({
         {isAdmin ? (
           <form
             className="mt-3 space-y-2 border-t border-gold-100 pt-2"
+            key={selectedId}
             action={async (formData) => {
-              formData.set("id", item.id);
-              formData.set("name", item.name);
+              const variant = variants?.find((v) => v.id === selectedId);
+              formData.set("id", variant?.id ?? item.id);
+              formData.set("name", variant ? `${item.name} ${variant.label}` : item.name);
               formData.set("category_id", itemSection(item));
               formData.set("description", item.description ?? "");
               formData.set("image_url", item.image_url ?? "");
@@ -141,7 +145,7 @@ export default function ProductCard({
                 type="number"
                 min="0"
                 step="1"
-                defaultValue={item.price}
+                defaultValue={price}
                 className="mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm"
               />
             </label>
@@ -158,7 +162,7 @@ export default function ProductCard({
               <input
                 name="is_out_of_stock"
                 type="checkbox"
-                defaultChecked={!item.is_available}
+                defaultChecked={!inStock}
                 className="h-3.5 w-3.5"
               />
               Out of stock

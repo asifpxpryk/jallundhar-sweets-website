@@ -12,6 +12,8 @@ export const SECTIONS = [
 export type SectionSlug = (typeof SECTIONS)[number]["slug"];
 
 const SNACK_ITEMS = [
+  "Egg Boti Pizza Small",
+  "Egg Boti Pizza Medium",
   "Egg Boti Pizza Large",
   "Cheese Pizza Small",
   "Cheese Pizza Medium",
@@ -133,18 +135,26 @@ export function assignSection(name: string, categorySlugs: string[] = []): Secti
   return "general";
 }
 
-const CHEESE_PIZZA_SIZES = ["small", "medium", "large"] as const;
+const PIZZA_SIZES = ["small", "medium", "large"] as const;
 
-export function collapseCheesePizzas(items: MenuItem[]): MenuItem[] {
-  const isCheeseSize = (name: string) =>
-    /^cheese pizza (small|medium|large)$/.test(normalizeName(name));
+const PIZZA_SIZE_GROUPS = [
+  { id: "cheese-pizza", name: "Cheese Pizza", prefix: "cheese pizza" },
+  { id: "egg-boti-pizza", name: "Egg Boti Pizza", prefix: "egg boti pizza" },
+];
 
-  const sizes = items.filter((item) => isCheeseSize(item.name));
+function collapsePizzaGroup(
+  items: MenuItem[],
+  group: (typeof PIZZA_SIZE_GROUPS)[number]
+): MenuItem[] {
+  const isSize = (name: string) =>
+    PIZZA_SIZES.some((size) => normalizeName(name) === `${group.prefix} ${size}`);
+
+  const sizes = items.filter((item) => isSize(item.name));
   if (sizes.length < 2) return items;
 
-  const rest = items.filter((item) => !isCheeseSize(item.name));
-  const variants = CHEESE_PIZZA_SIZES.map((size) => {
-    const match = sizes.find((item) => normalizeName(item.name).endsWith(size));
+  const rest = items.filter((item) => !isSize(item.name));
+  const variants = PIZZA_SIZES.map((size) => {
+    const match = sizes.find((item) => normalizeName(item.name).endsWith(` ${size}`));
     if (!match) return null;
     return {
       id: match.id,
@@ -160,16 +170,21 @@ export function collapseCheesePizzas(items: MenuItem[]): MenuItem[] {
 
   const defaultVariant = variants.find((v) => v.label === "Medium") ?? variants[0];
   const grouped: MenuItem = {
-    id: "cheese-pizza",
+    id: group.id,
     category_id: sizes[0].category_id,
-    name: "Cheese Pizza",
+    name: group.name,
     description: sizes.find((s) => s.description)?.description ?? null,
     price: defaultVariant.price,
     image_url: sizes.find((s) => s.image_url)?.image_url ?? null,
     is_available: sizes.some((s) => s.is_available !== false),
+    is_hidden: sizes.every((s) => Boolean(s.is_hidden)),
     sort_order: Math.min(...sizes.map((s) => s.sort_order)),
     variants,
   };
 
   return [grouped, ...rest];
+}
+
+export function collapseCheesePizzas(items: MenuItem[]): MenuItem[] {
+  return PIZZA_SIZE_GROUPS.reduce((next, group) => collapsePizzaGroup(next, group), items);
 }

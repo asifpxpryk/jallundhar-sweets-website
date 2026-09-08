@@ -14,6 +14,62 @@
     "sort_order": 1
   },
   {
+    "id": "egg-boti-pizza-small",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Egg Boti Pizza Small",
+    "description": null,
+    "price": 280,
+    "image_url": "/products/5891.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/egg-boti-pizza-new.png",
+    "is_available": true,
+    "sort_order": 1
+  },
+  {
+    "id": "egg-boti-pizza-medium",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Egg Boti Pizza Medium",
+    "description": null,
+    "price": 350,
+    "image_url": "/products/5891.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/egg-boti-pizza-new.png",
+    "is_available": true,
+    "sort_order": 1
+  },
+  {
+    "id": "egg-boti-pizza-small",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Egg Boti Pizza Small",
+    "description": null,
+    "price": 280,
+    "image_url": "/products/5891.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/egg-boti-pizza-new.png",
+    "is_available": true,
+    "sort_order": 1
+  },
+  {
+    "id": "egg-boti-pizza-medium",
+    "category_id": "snacks",
+    "woo_category_slugs": [
+      "snacks"
+    ],
+    "name": "Egg Boti Pizza Medium",
+    "description": null,
+    "price": 350,
+    "image_url": "/products/5891.png",
+    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/egg-boti-pizza-new.png",
+    "is_available": true,
+    "sort_order": 1
+  },
+  {
     "id": "5889",
     "category_id": "snacks",
     "woo_category_slugs": [
