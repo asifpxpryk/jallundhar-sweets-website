@@ -6,6 +6,7 @@ create table if not exists menu_items (
   price numeric not null,
   image_url text,
   is_available boolean default true,
+  is_hidden boolean default false,
   sort_order int default 0
 );
 

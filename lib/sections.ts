@@ -150,8 +150,11 @@ export function collapseCheesePizzas(items: MenuItem[]): MenuItem[] {
       id: match.id,
       label: size.charAt(0).toUpperCase() + size.slice(1),
       price: match.price,
+      is_available: match.is_available,
     };
-  }).filter((v): v is { id: string; label: string; price: number } => v !== null);
+  }).filter(
+    (v): v is { id: string; label: string; price: number; is_available?: boolean } => v !== null
+  );
 
   if (variants.length < 2) return items;
 
@@ -163,7 +166,7 @@ export function collapseCheesePizzas(items: MenuItem[]): MenuItem[] {
     description: sizes.find((s) => s.description)?.description ?? null,
     price: defaultVariant.price,
     image_url: sizes.find((s) => s.image_url)?.image_url ?? null,
-    is_available: sizes.some((s) => s.is_available),
+    is_available: sizes.some((s) => s.is_available !== false),
     sort_order: Math.min(...sizes.map((s) => s.sort_order)),
     variants,
   };

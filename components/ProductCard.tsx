@@ -11,8 +11,10 @@ export default function ProductCard({ item }: { item: MenuItem }) {
   const [selectedId, setSelectedId] = useState(defaultVariant?.id ?? item.id);
   const selected = variants?.find((v) => v.id === selectedId);
   const price = selected?.price ?? item.price;
+  const inStock = selected ? selected.is_available !== false : item.is_available !== false;
 
   function handleAdd() {
+    if (!inStock) return;
     if (selected) {
       add({
         ...item,
@@ -73,9 +75,12 @@ export default function ProductCard({ item }: { item: MenuItem }) {
           <button
             type="button"
             onClick={handleAdd}
-            className="rounded-full bg-maroon-700 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-maroon-800"
+            disabled={!inStock}
+            className={`rounded-full px-4 py-1.5 text-sm font-semibold text-white transition ${
+              inStock ? "bg-maroon-700 hover:bg-maroon-800" : "cursor-not-allowed bg-maroon-300"
+            }`}
           >
-            Add
+            {inStock ? "Add" : "Out of stock"}
           </button>
         </div>
       </div>

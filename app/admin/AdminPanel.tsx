@@ -1,10 +1,13 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AdminOrder, MenuItem } from "@/lib/types";
-import { SECTIONS, isSectionSlug, assignSection } from "@/lib/sections";
-import { addMenuItem, logoutAdmin, saveMenuItem, toggleAvailable } from "./actions";
+import { SECTIONS, isSectionSlug, assignSection, normalizeName } from "@/lib/sections";
+import { addMenuItem, logoutAdmin } from "./actions";
+import AdminItemForm from "./AdminItemForm";
+import PhotoPicker from "./PhotoPicker";
+import { withCompressedPhoto } from "@/lib/compressImage";
 
 function itemSection(item: MenuItem) {
   if (isSectionSlug(item.category_id)) return item.category_id;
@@ -22,13 +25,24 @@ export default function AdminPanel({
 }) {
   const router = useRouter();
   const [section, setSection] = useState<(typeof SECTIONS)[number]["slug"] | "all">("sweets");
+  const [query, setQuery] = useState("");
   const [message, setMessage] = useState<string | null>(null);
-  const [pending, startTransition] = useTransition();
 
   const grouped = useMemo(() => {
-    const list = section === "all" ? items : items.filter((item) => itemSection(item) === section);
+    const q = normalizeName(query);
+    const tokens = q.split(/\s+/).filter(Boolean);
+    let list = items;
+    if (!tokens.length && section !== "all") {
+      list = items.filter((item) => itemSection(item) === section);
+    }
+    if (tokens.length) {
+      list = items.filter((item) => {
+        const hay = normalizeName(`${item.name} ${item.description ?? ""}`);
+        return tokens.every((token) => hay.includes(token));
+      });
+    }
     return [...list].sort((a, b) => a.sort_order - b.sort_order);
-  }, [items, section]);
+  }, [items, section, query]);
 
   function flash(text: string) {
     setMessage(text);
@@ -66,6 +80,7 @@ export default function AdminPanel({
         <form
           className="mt-3 grid gap-3 sm:grid-cols-2"
           action={async (formData) => {
+            await withCompressedPhoto(formData);
             const result = await addMenuItem(formData);
             if (result.error) flash(result.error);
             else {
@@ -91,7 +106,7 @@ export default function AdminPanel({
               </option>
             ))}
           </select>
-          <input name="image_url" placeholder="Image URL (optional)" className="rounded-xl border border-gold-200 px-3 py-2" />
+          <PhotoPicker />
           <input
             name="description"
             placeholder="Description (optional)"
@@ -106,7 +121,24 @@ export default function AdminPanel({
         </form>
       </section>
 
-      <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
+      <label className="mt-6 block text-sm text-maroon-800">
+        Search menu
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Egg, barfi, pizza..."
+          autoComplete="off"
+          className="mt-1 w-full rounded-xl border border-gold-200 bg-white px-3 py-2.5 text-maroon-800 outline-none placeholder:text-maroon-700/40 focus:border-maroon-500"
+        />
+      </label>
+      <p className="mt-2 text-sm text-maroon-700/70">
+        {query.trim()
+          ? `${grouped.length} matching item${grouped.length === 1 ? "" : "s"}`
+          : `${grouped.length} items`}
+      </p>
+
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-2">
         <button
           onClick={() => setSection("all")}
           className={`shrink-0 rounded-full px-3 py-1.5 text-sm ${
@@ -129,94 +161,17 @@ export default function AdminPanel({
       </div>
 
       <ul className="mt-4 space-y-3">
-        {grouped.map((item) => (
-          <li key={item.id} className="rounded-2xl border border-gold-200 bg-white p-4">
-            <form
-              className="grid gap-3 sm:grid-cols-[1fr_7rem_auto] sm:items-end"
-              action={async (formData) => {
-                formData.set("id", item.id);
-                formData.set("is_available", formData.get("is_available") ? "true" : "false");
-                const result = await saveMenuItem(formData);
-                if (result.error) flash(result.error);
-                else {
-                  flash("Save ho gaya.");
-                  router.refresh();
-                }
-              }}
-            >
-              <label className="text-sm">
-                Name
-                <input
-                  name="name"
-                  defaultValue={item.name}
-                  className="mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
-                />
-              </label>
-              <label className="text-sm">
-                Price
-                <input
-                  name="price"
-                  type="number"
-                  min="0"
-                  step="1"
-                  defaultValue={item.price}
-                  className="mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
-                />
-              </label>
-              <label className="text-sm">
-                Category
-                <select
-                  name="category_id"
-                  defaultValue={itemSection(item)}
-                  className="mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
-                >
-                  {SECTIONS.map((s) => (
-                    <option key={s.slug} value={s.slug}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="text-sm sm:col-span-2">
-                Description
-                <input
-                  name="description"
-                  defaultValue={item.description ?? ""}
-                  className="mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
-                />
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  name="is_available"
-                  type="checkbox"
-                  defaultChecked={item.is_available}
-                  className="h-4 w-4"
-                />
-                Available
-              </label>
-              <button
-                type="submit"
-                className="rounded-xl bg-maroon-700 px-4 py-2 text-sm font-semibold text-white"
-              >
-                Save
-              </button>
-            </form>
-            <button
-              type="button"
-              disabled={pending || needsSecret}
-              className="mt-2 text-sm text-maroon-700 underline disabled:opacity-40"
-              onClick={() => {
-                startTransition(async () => {
-                  const result = await toggleAvailable(item.id, !item.is_available);
-                  if (result.error) flash(result.error);
-                  else router.refresh();
-                });
-              }}
-            >
-              {item.is_available ? "Hide from menu" : "Show on menu"}
-            </button>
+        {grouped.length === 0 ? (
+          <li className="rounded-2xl border border-gold-200 bg-white p-4 text-sm text-maroon-700/70">
+            Koi item nahi mila.
           </li>
-        ))}
+        ) : (
+          grouped.map((item) => (
+            <li key={item.id} className="rounded-2xl border border-gold-200 bg-white p-4">
+              <AdminItemForm item={item} />
+            </li>
+          ))
+        )}
       </ul>
 
       <section className="mt-10">

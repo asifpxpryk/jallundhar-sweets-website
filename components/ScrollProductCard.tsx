@@ -29,10 +29,18 @@ export default function ScrollProductCard({ item }: { item: MenuItem }) {
         <p className="mt-1 text-sm text-maroon-700/70">Rs. {item.price.toLocaleString()}</p>
         <button
           type="button"
-          onClick={() => add(item)}
-          className="mt-3 w-full rounded-lg bg-maroon-800 py-2 text-xs font-semibold text-white transition hover:bg-maroon-900"
+          onClick={() => {
+            if (item.is_available === false) return;
+            add(item);
+          }}
+          disabled={item.is_available === false}
+          className={`mt-3 w-full rounded-lg py-2 text-xs font-semibold text-white transition ${
+            item.is_available === false
+              ? "cursor-not-allowed bg-maroon-300"
+              : "bg-maroon-800 hover:bg-maroon-900"
+          }`}
         >
-          Add to Cart
+          {item.is_available === false ? "Out of stock" : "Add to Cart"}
         </button>
       </div>
     </div>

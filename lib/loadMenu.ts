@@ -22,7 +22,7 @@ function groupItems(items: StoredMenuItem[], includeUnavailable = false): MenuCa
   for (const section of SECTIONS) grouped.set(section.slug, []);
 
   items.forEach((item) => {
-    if (!includeUnavailable && !item.is_available) return;
+    if (item.is_hidden) return;
     if (isHiddenMenuItem(item.name)) return;
     const slug = sectionForItem(item);
     grouped.get(slug)?.push({
@@ -33,6 +33,7 @@ function groupItems(items: StoredMenuItem[], includeUnavailable = false): MenuCa
       price: Number(item.price),
       image_url: item.image_url,
       is_available: item.is_available,
+      is_hidden: Boolean(item.is_hidden),
       sort_order: item.sort_order,
     });
   });
@@ -64,11 +65,20 @@ async function loadFromSupabase(): Promise<MenuItem[]> {
   try {
     const { data, error } = await supabase
       .from("menu_items")
-      .select("id, category_id, name, description, price, image_url, is_available, sort_order")
+      .select("id, category_id, name, description, price, image_url, is_available, is_hidden, sort_order")
       .order("sort_order")
       .abortSignal(controller.signal);
 
-    if (error || !data) return [];
+    if (error) {
+      const fallback = await supabase
+        .from("menu_items")
+        .select("id, category_id, name, description, price, image_url, is_available, sort_order")
+        .order("sort_order")
+        .abortSignal(controller.signal);
+      if (fallback.error || !fallback.data) return [];
+      return fallback.data as MenuItem[];
+    }
+    if (!data) return [];
     return data as MenuItem[];
   } catch {
     return [];
@@ -107,7 +117,7 @@ export function refreshMenuCache() {
   revalidateTag("menu");
 }
 
-export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v6"], {
+export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v7"], {
   revalidate: 60,
   tags: ["menu"],
 });

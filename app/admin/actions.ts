@@ -13,6 +13,7 @@ import {
 import type { AdminOrder, PaymentMethod } from "@/lib/types";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 import { refreshMenuCache } from "@/lib/loadMenu";
+import { storeProductPhoto } from "@/lib/storeProductPhoto";
 
 function refreshStorefront() {
   refreshMenuCache();
@@ -62,7 +63,10 @@ export async function saveMenuItem(formData: FormData) {
   const id = String(formData.get("id") || "").trim();
   const name = String(formData.get("name") || "").trim();
   const price = Number(formData.get("price"));
-  const is_available = formData.get("is_available") === "on" || formData.get("is_available") === "true";
+  const is_hidden = formData.get("is_hidden") === "on" || formData.get("is_hidden") === "true";
+  const is_available = !(
+    formData.get("is_out_of_stock") === "on" || formData.get("is_out_of_stock") === "true"
+  );
   const description = String(formData.get("description") || "").trim() || null;
   const category_id = String(formData.get("category_id") || "").trim();
 
@@ -74,10 +78,31 @@ export async function saveMenuItem(formData: FormData) {
   }
 
   const supabase = createSupabaseAdmin();
-  const { error } = await supabase
-    .from("menu_items")
-    .update({ name, price, is_available, description, category_id })
-    .eq("id", id);
+  const photo = await storeProductPhoto(formData);
+  if (photo.error) return { error: photo.error };
+
+  const payload: Record<string, unknown> = {
+    name,
+    price,
+    is_available,
+    is_hidden,
+    description,
+    category_id,
+  };
+  if (photo.url) payload.image_url = photo.url;
+  let { error } = await supabase.from("menu_items").update(payload).eq("id", id);
+
+  if (error && /is_hidden/i.test(error.message)) {
+    if (is_hidden) {
+      return {
+        error:
+          "Hide ke liye Supabase SQL Editor mein data/menu-hidden.sql chalao, phir dubara save karo.",
+      };
+    }
+    const { is_hidden: _hidden, ...withoutHidden } = payload;
+    const retry = await supabase.from("menu_items").update(withoutHidden).eq("id", id);
+    error = retry.error;
+  }
 
   if (error) return { error: error.message };
   refreshStorefront();
@@ -94,7 +119,6 @@ export async function addMenuItem(formData: FormData) {
   const price = Number(formData.get("price"));
   const category_id = String(formData.get("category_id") || "").trim();
   const description = String(formData.get("description") || "").trim() || null;
-  const image_url = String(formData.get("image_url") || "").trim() || null;
 
   if (!name || Number.isNaN(price) || price < 0) {
     return { error: "Name aur valid price zaroori hain." };
@@ -102,6 +126,9 @@ export async function addMenuItem(formData: FormData) {
   if (!isSectionSlug(category_id)) {
     return { error: "Category select karo." };
   }
+
+  const photo = await storeProductPhoto(formData);
+  if (photo.error) return { error: photo.error };
 
   const supabase = createSupabaseAdmin();
   const { data: last } = await supabase
@@ -112,29 +139,24 @@ export async function addMenuItem(formData: FormData) {
     .maybeSingle();
 
   const id = `item-${Date.now()}`;
-  const { error } = await supabase.from("menu_items").insert({
+  const row = {
     id,
     name,
     price,
     category_id,
     description,
-    image_url,
+    image_url: photo.url ?? null,
     is_available: true,
+    is_hidden: false,
     sort_order: (last?.sort_order ?? 0) + 1,
-  });
-
-  if (error) return { error: error.message };
-  refreshStorefront();
-  return { error: "" };
-}
-
-export async function toggleAvailable(id: string, is_available: boolean) {
-  await requireAdmin();
-  if (!hasSupabaseSecret()) {
-    return { error: "SUPABASE_SECRET_KEY missing hai." };
+  };
+  let { error } = await supabase.from("menu_items").insert(row);
+  if (error && /is_hidden/i.test(error.message)) {
+    const { is_hidden: _hidden, ...withoutHidden } = row;
+    const retry = await supabase.from("menu_items").insert(withoutHidden);
+    error = retry.error;
   }
-  const supabase = createSupabaseAdmin();
-  const { error } = await supabase.from("menu_items").update({ is_available }).eq("id", id);
+
   if (error) return { error: error.message };
   refreshStorefront();
   return { error: "" };
