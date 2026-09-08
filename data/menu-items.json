@@ -1,17 +1,5 @@
 [
   {
-    "id": "5851",
-    "category_id": "general",
-    "woo_category_slugs": [],
-    "name": "Chicken Leg Piece",
-    "description": null,
-    "price": 0,
-    "image_url": "/products/5851.png",
-    "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/11/chicken-leg-large.png",
-    "is_available": true,
-    "sort_order": 0
-  },
-  {
     "id": "5891",
     "category_id": "snacks",
     "woo_category_slugs": [

@@ -73,6 +73,16 @@ export default function Header() {
               </span>
             )}
           </button>
+          <Link
+            href="/account"
+            aria-label="Account"
+            className="hidden h-9 w-9 items-center justify-center rounded-full border border-gold-300 text-maroon-700 xl:flex"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5" />
+            </svg>
+          </Link>
           <HeaderSearch />
         </div>
       </div>

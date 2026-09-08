@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { unstable_cache, revalidateTag } from "next/cache";
 import type { MenuCategory, MenuItem } from "@/lib/types";
-import { SECTIONS, assignSection, isHiddenMenuItem, collapseCheesePizzas, isSectionSlug, type SectionSlug } from "@/lib/sections";
+import { SECTIONS, assignSection, isHiddenMenuItem, collapseCheesePizzas, isSectionSlug, normalizeName, type SectionSlug } from "@/lib/sections";
 import localMenu from "@/data/menu-items.json";
 
 type StoredMenuItem = MenuItem & {
@@ -24,6 +24,7 @@ function groupItems(items: StoredMenuItem[], includeUnavailable = false): MenuCa
   items.forEach((item) => {
     if (item.is_hidden) return;
     if (isHiddenMenuItem(item.name)) return;
+    if (normalizeName(item.name) === "chicken leg piece" && item.category_id === "general") return;
     const slug = sectionForItem(item);
     grouped.get(slug)?.push({
       id: item.id,
@@ -117,7 +118,7 @@ export function refreshMenuCache() {
   revalidateTag("menu");
 }
 
-export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v7"], {
+export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v8"], {
   revalidate: 60,
   tags: ["menu"],
 });

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
 import { GENERAL_AISLES, getGeneralAisle, isGeneralAisle } from "@/lib/generalAisles";
+import { loadAisleItems } from "@/lib/loadAisleItems";
 
 export const dynamicParams = true;
 
@@ -25,11 +26,12 @@ export default function NestedAislePage({
 }) {
   if (params.section !== "general" || !isGeneralAisle(params.aisle)) notFound();
   const aisle = getGeneralAisle(params.aisle)!;
+  const items = loadAisleItems(aisle.slug);
 
   return (
     <CategoryProducts
       name={aisle.name}
-      items={[]}
+      items={items}
       image={aisle.image}
     />
   );
