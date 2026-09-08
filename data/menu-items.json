@@ -2848,5 +2848,47 @@
     "remote_image_url": null,
     "is_available": true,
     "sort_order": 25
+  },
+  {
+    "id": "bread-fruit-bun-single",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "FRUIT BUN SINGLE",
+    "description": null,
+    "price": 20,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 805
+  },
+  {
+    "id": "bread-sada-burger-bun-12",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "SADA BURGER BUN 12 PCS",
+    "description": null,
+    "price": 340,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 806
+  },
+  {
+    "id": "bread-shermal",
+    "category_id": "bakery",
+    "woo_category_slugs": [
+      "bakery"
+    ],
+    "name": "SHERMAL",
+    "description": null,
+    "price": 70,
+    "image_url": null,
+    "remote_image_url": null,
+    "is_available": true,
+    "sort_order": 807
   }
 ]

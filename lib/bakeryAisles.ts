@@ -49,7 +49,14 @@ export function bakeryAisleForItem(name: string): BakeryAisleSlug | null {
     return "cream-cakes";
   }
   if (/\bbiscuit|\bcookie\b/.test(n)) return "biscuits";
-  if (/\bbread\b/.test(n) && !/\bburger\b/.test(n)) return "breads";
+  if (
+    (/\bbread\b/.test(n) && !/\bburger\b/.test(n)) ||
+    /\bshermal\b/.test(n) ||
+    /\bfruit bun\b/.test(n) ||
+    /\bburger bun\b/.test(n)
+  ) {
+    return "breads";
+  }
 
   return null;
 }

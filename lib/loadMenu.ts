@@ -195,7 +195,7 @@ export async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]>
 
 export const loadMenuIncludingHidden = unstable_cache(
   loadMenuIncludingHiddenUncached,
-  ["jallundhar-menu-v23-admin"],
+  ["jallundhar-menu-v24-admin"],
   { revalidate: 60, tags: ["menu"] }
 );
 
@@ -208,7 +208,7 @@ export function refreshMenuCache() {
   revalidateTag("menu");
 }
 
-export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v23"], {
+export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v24"], {
   revalidate: 60,
   tags: ["menu"],
 });
