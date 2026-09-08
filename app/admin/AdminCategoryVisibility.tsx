@@ -29,7 +29,7 @@ export default function AdminCategoryVisibility({
       setMessage(result.error);
       return;
     }
-    setMessage(currentlyHidden ? "Category show ho gayi." : "Category hide ho gayi.");
+    setMessage(currentlyHidden ? "Category is now visible." : "Category is now hidden.");
     router.refresh();
     setTimeout(() => setMessage(null), 3500);
   }
@@ -40,7 +40,7 @@ export default function AdminCategoryVisibility({
       <div className="mt-4">
         <h2 className="font-display text-xl font-bold text-maroon-800">Categories show / hide</h2>
         <p className="text-sm text-maroon-700/70">
-          Hide category storefront se gayab ho jati hai. Items delete nahi hote.
+          Hidden categories disappear from the storefront. Items are not deleted.
         </p>
       </div>
       {message ? <p className="mt-3 rounded-xl bg-maroon-700 px-3 py-2 text-sm text-white">{message}</p> : null}

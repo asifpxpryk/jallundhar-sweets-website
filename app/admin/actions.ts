@@ -52,11 +52,11 @@ async function requireAdmin() {
 export async function loginAdmin(_prev: { error?: string } | null, formData: FormData) {
   const pin = String(formData.get("pin") || "");
   if (!verifyAdminPin(pin)) {
-    return { error: "Galat PIN. Dubara try karo." };
+    return { error: "Wrong PIN. Please try again." };
   }
   const token = adminCookieValue();
   if (!token) {
-    return { error: "ADMIN_PIN .env.local mein set nahi hai." };
+    return { error: "ADMIN_PIN is not set in .env.local." };
   }
   cookies().set(ADMIN_COOKIE, token, {
     httpOnly: true,
@@ -70,13 +70,13 @@ export async function loginAdmin(_prev: { error?: string } | null, formData: For
 
 export async function logoutAdmin() {
   cookies().set(ADMIN_COOKIE, "", { httpOnly: true, path: "/", maxAge: 0 });
-  redirect("/account");
+  redirect("/");
 }
 
 export async function saveMenuItem(formData: FormData) {
   await requireAdmin();
   if (!hasSupabaseSecret()) {
-    return { error: "SUPABASE_SECRET_KEY missing hai." };
+    return { error: "SUPABASE_SECRET_KEY is missing." };
   }
 
   const id = String(formData.get("id") || "").trim();
@@ -90,10 +90,10 @@ export async function saveMenuItem(formData: FormData) {
   const category_id = String(formData.get("category_id") || "").trim();
 
   if (!id || !name || Number.isNaN(price) || price < 0) {
-    return { error: "Name aur valid price zaroori hain." };
+    return { error: "Name and a valid price are required." };
   }
   if (!isSectionSlug(category_id)) {
-    return { error: "Category galat hai." };
+    return { error: "Category is invalid." };
   }
 
   const supabase = createSupabaseAdmin();
@@ -115,7 +115,7 @@ export async function saveMenuItem(formData: FormData) {
     if (is_hidden) {
       return {
         error:
-          "Hide ke liye Supabase SQL Editor mein data/menu-hidden.sql chalao, phir dubara save karo.",
+          "Run data/menu-hidden.sql in the Supabase SQL Editor, then save again.",
       };
     }
     const { is_hidden: _hidden, ...withoutHidden } = payload;
@@ -128,10 +128,80 @@ export async function saveMenuItem(formData: FormData) {
   return { error: "" };
 }
 
+export async function saveStorefrontItem(formData: FormData) {
+  await requireAdmin();
+  if (!hasSupabaseSecret()) {
+    return { error: "SUPABASE_SECRET_KEY is missing." };
+  }
+
+  const id = String(formData.get("id") || "").trim();
+  const name = String(formData.get("name") || "").trim();
+  const price = Number(formData.get("price"));
+  const is_hidden = formData.get("is_hidden") === "on" || formData.get("is_hidden") === "true";
+  const is_available = !(
+    formData.get("is_out_of_stock") === "on" || formData.get("is_out_of_stock") === "true"
+  );
+  const description = String(formData.get("description") || "").trim() || null;
+  const category_id = String(formData.get("category_id") || "").trim();
+  const image_url = String(formData.get("image_url") || "").trim() || null;
+
+  if (!id || !name || Number.isNaN(price) || price < 0) {
+    return { error: "A valid price is required." };
+  }
+  if (!isSectionSlug(category_id)) {
+    return { error: "Category is invalid." };
+  }
+
+  const supabase = createSupabaseAdmin();
+  const payload: Record<string, unknown> = {
+    name,
+    price,
+    is_available,
+    is_hidden,
+    description,
+    category_id,
+  };
+
+  let { data, error } = await supabase.from("menu_items").update(payload).eq("id", id).select("id");
+
+  if (error && /is_hidden/i.test(error.message)) {
+    if (is_hidden) {
+      return {
+        error:
+          "Run data/menu-hidden.sql in the Supabase SQL Editor, then save again.",
+      };
+    }
+    const { is_hidden: _hidden, ...withoutHidden } = payload;
+    const retry = await supabase.from("menu_items").update(withoutHidden).eq("id", id).select("id");
+    error = retry.error;
+    data = retry.data;
+  }
+
+  if (error) return { error: error.message };
+
+  if (!data?.length) {
+    const insertRow: Record<string, unknown> = {
+      id,
+      ...payload,
+      image_url,
+      sort_order: 0,
+    };
+    let inserted = await supabase.from("menu_items").insert(insertRow);
+    if (inserted.error && /is_hidden/i.test(inserted.error.message)) {
+      const { is_hidden: _hidden, ...withoutHidden } = insertRow;
+      inserted = await supabase.from("menu_items").insert(withoutHidden);
+    }
+    if (inserted.error) return { error: inserted.error.message };
+  }
+
+  refreshStorefront();
+  return { error: "" };
+}
+
 export async function addMenuItem(formData: FormData) {
   await requireAdmin();
   if (!hasSupabaseSecret()) {
-    return { error: "SUPABASE_SECRET_KEY missing hai." };
+    return { error: "SUPABASE_SECRET_KEY is missing." };
   }
 
   const name = String(formData.get("name") || "").trim();
@@ -140,10 +210,10 @@ export async function addMenuItem(formData: FormData) {
   const description = String(formData.get("description") || "").trim() || null;
 
   if (!name || Number.isNaN(price) || price < 0) {
-    return { error: "Name aur valid price zaroori hain." };
+    return { error: "Name and a valid price are required." };
   }
   if (!isSectionSlug(category_id)) {
-    return { error: "Category select karo." };
+    return { error: "Please select a category." };
   }
 
   const photo = await storeProductPhoto(formData);
@@ -184,7 +254,7 @@ export async function addMenuItem(formData: FormData) {
 export async function setCategoryHidden(formData: FormData) {
   await requireAdmin();
   if (!hasSupabaseSecret()) {
-    return { error: "SUPABASE_SECRET_KEY missing hai." };
+    return { error: "SUPABASE_SECRET_KEY is missing." };
   }
 
   const kind = String(formData.get("kind") || "") as CategoryKind;
@@ -192,17 +262,17 @@ export async function setCategoryHidden(formData: FormData) {
   const hidden = String(formData.get("hidden") || "") === "true";
 
   if (kind !== "section" && kind !== "aisle") {
-    return { error: "Category kind galat hai." };
+    return { error: "Category type is invalid." };
   }
   if (kind === "section" && !isSectionSlug(slug)) {
-    return { error: "Section galat hai." };
+    return { error: "Section is invalid." };
   }
   if (
     kind === "aisle" &&
     !GENERAL_AISLES.some((aisle) => aisle.slug === slug) &&
     !BEVERAGE_AISLES.some((aisle) => aisle.slug === slug)
   ) {
-    return { error: "Aisle galat hai." };
+    return { error: "Aisle is invalid." };
   }
 
   const next = applyVisibilityToggle(await loadStoreVisibility(), kind, slug, hidden);
@@ -222,7 +292,7 @@ export async function setCategoryHidden(formData: FormData) {
       } catch {
         return {
           error:
-            "Category hide/show ke liye Supabase SQL Editor mein data/store-visibility.sql chalao, phir dubara save karo.",
+            "Run data/store-visibility.sql in the Supabase SQL Editor, then save again.",
         };
       }
     }

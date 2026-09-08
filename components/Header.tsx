@@ -5,8 +5,15 @@ import Link from "next/link";
 import { useCart } from "./CartContext";
 import { SECTIONS } from "@/lib/sections";
 import HeaderSearch from "./HeaderSearch";
+import { logoutAdmin } from "@/app/admin/actions";
 
-export default function Header({ hiddenSections = [] }: { hiddenSections?: string[] }) {
+export default function Header({
+  hiddenSections = [],
+  isAdmin = false,
+}: {
+  hiddenSections?: string[];
+  isAdmin?: boolean;
+}) {
   const { count, open } = useCart();
   const pathname = usePathname();
   const hidden = new Set(hiddenSections);
@@ -20,6 +27,31 @@ export default function Header({ hiddenSections = [] }: { hiddenSections?: strin
 
   return (
     <header className="sticky top-0 z-40 overflow-x-hidden border-b border-gold-200 bg-cream/95 backdrop-blur">
+      {isAdmin ? (
+        <div className="bg-gold-400 text-maroon-950">
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
+            <p className="min-w-0 text-xs font-bold sm:text-sm">
+              Admin mode — this is not the customer view
+            </p>
+            <div className="flex shrink-0 items-center gap-2">
+              <Link
+                href="/account"
+                className="rounded-full bg-white/80 px-3 py-1.5 text-[11px] font-semibold text-maroon-900 sm:text-xs"
+              >
+                Admin panel
+              </Link>
+              <form action={logoutAdmin}>
+                <button
+                  type="submit"
+                  className="rounded-full bg-maroon-800 px-3 py-1.5 text-[11px] font-semibold text-white sm:text-xs"
+                >
+                  Log out to view site
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="relative mx-auto flex max-w-6xl items-center px-4 py-3 sm:px-6">
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">

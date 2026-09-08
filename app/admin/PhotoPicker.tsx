@@ -34,7 +34,7 @@ export default function PhotoPicker({ currentUrl }: { currentUrl?: string | null
         />
       </div>
       <p className="mt-1 text-xs text-maroon-700/60">
-        Mobile se camera ya gallery se photo lo. URL paste karne ki zaroorat nahi.
+        Use the camera or gallery on mobile. No need to paste a URL.
       </p>
     </label>
   );

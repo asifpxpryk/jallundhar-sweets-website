@@ -60,9 +60,10 @@ export default function AdminPanel({
 
       {needsSecret ? (
         <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-maroon-900">
-          Price/availability save karne ke liye <code className="font-mono">.env.local</code> mein{" "}
-          <code className="font-mono">SUPABASE_SECRET_KEY</code> add karo — Supabase → API Keys →
-          Secret key (publishable nahi). Chat mein mat bhejna. Phir <code>npm run dev</code> restart.
+          Add <code className="font-mono">SUPABASE_SECRET_KEY</code> in{" "}
+          <code className="font-mono">.env.local</code> to save price and availability — Supabase → API
+          Keys → Secret key (not the publishable key). Do not send it in chat. Then restart{" "}
+          <code className="font-mono">npm run dev</code>.
         </div>
       ) : null}
 
@@ -71,7 +72,7 @@ export default function AdminPanel({
       ) : null}
 
       <section className="mt-6 rounded-2xl border border-gold-200 bg-white p-4">
-        <h2 className="font-semibold text-maroon-800">Naya item</h2>
+        <h2 className="font-semibold text-maroon-800">New item</h2>
         <form
           className="mt-3 grid gap-3 sm:grid-cols-2"
           action={async (formData) => {
@@ -79,7 +80,7 @@ export default function AdminPanel({
             const result = await addMenuItem(formData);
             if (result.error) flash(result.error);
             else {
-              flash("Item add ho gaya.");
+              flash("Item added.");
               router.refresh();
             }
           }}
@@ -158,7 +159,7 @@ export default function AdminPanel({
       <ul className="mt-4 space-y-3">
         {grouped.length === 0 ? (
           <li className="rounded-2xl border border-gold-200 bg-white p-4 text-sm text-maroon-700/70">
-            Koi item nahi mila.
+            No items found.
           </li>
         ) : (
           grouped.map((item) => (
@@ -174,7 +175,7 @@ export default function AdminPanel({
         <p className="text-sm text-maroon-700/70">{orders.length} records</p>
         {orders.length === 0 ? (
           <p className="mt-3 text-sm text-maroon-700/70">
-            Abhi koi order nahi, ya orders table / secret key missing hai. SQL: data/orders.sql
+            No orders yet, or the orders table / secret key is missing. SQL: data/orders.sql
           </p>
         ) : (
           <ul className="mt-4 space-y-3">

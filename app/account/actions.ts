@@ -14,11 +14,11 @@ export async function loginAccount(_prev: { error?: string } | null, formData: F
 
   if (pin) {
     if (!verifyAdminPin(pin)) {
-      return { error: "Galat PIN.", ok: false };
+      return { error: "Wrong PIN.", ok: false };
     }
     const token = adminCookieValue();
     if (!token) {
-      return { error: "ADMIN_PIN set nahi hai.", ok: false };
+      return { error: "ADMIN_PIN is not set.", ok: false };
     }
     cookies().set(ADMIN_COOKIE, token, {
       httpOnly: true,
@@ -31,7 +31,7 @@ export async function loginAccount(_prev: { error?: string } | null, formData: F
   }
 
   if (!phone) {
-    return { error: "Phone number se login karo.", ok: false };
+    return { error: "Please log in with a phone number.", ok: false };
   }
 
   return { error: "", ok: true };

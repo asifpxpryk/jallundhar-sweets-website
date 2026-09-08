@@ -1,19 +1,21 @@
 import type { ReactNode } from "react";
 import type { MenuItem } from "@/lib/types";
-import ProductCard from "./ProductCard";
 import BackLink from "./BackLink";
 import HashScroll from "./HashScroll";
+import CategoryProductGrid from "./CategoryProductGrid";
 
 export default function CategoryProducts({
   name,
   items,
   image,
   extra,
+  menuSlug,
 }: {
   name: string;
   items: MenuItem[];
   image?: string;
   extra?: ReactNode;
+  menuSlug?: string;
 }) {
   return (
     <section className="py-10">
@@ -32,15 +34,7 @@ export default function CategoryProducts({
           <BackLink />
         </div>
         {extra}
-        {items.length === 0 && !extra ? (
-          <p className="mt-8 text-maroon-700/70">Is section mein abhi items nahi hain.</p>
-        ) : items.length > 0 ? (
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-            {items.map((item) => (
-              <ProductCard key={item.id} item={item} />
-            ))}
-          </div>
-        ) : null}
+        <CategoryProductGrid items={items} menuSlug={menuSlug} hasExtra={Boolean(extra)} />
       </div>
     </section>
   );

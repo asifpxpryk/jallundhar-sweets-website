@@ -1,7 +1,7 @@
 import { loadMenu } from "@/lib/loadMenu";
 import { NextResponse } from "next/server";
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 export async function GET() {
   try {

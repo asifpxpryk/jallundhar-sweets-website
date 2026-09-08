@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
 import { GENERAL_AISLES, getGeneralAisle, isGeneralAisle } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES, getBeverageAisle, isBeverageAisle } from "@/lib/beverageAisles";
-import { loadAisleItems } from "@/lib/loadAisleItems";
+import { loadAisleItems, applyMenuOverrides } from "@/lib/loadAisleItems";
 import { isAisleHidden, isBeverageAisleHidden, loadStoreVisibility } from "@/lib/storeVisibility";
+import { isAdminSession } from "@/lib/adminAuth";
+import { loadAllMenuItems } from "@/lib/loadMenu";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -41,6 +43,8 @@ export default async function NestedAislePage({
   params: { section: string; aisle: string };
 }) {
   const visibility = await loadStoreVisibility();
+  const admin = await isAdminSession();
+  const overrides = await loadAllMenuItems();
 
   if (params.section === "general" && isGeneralAisle(params.aisle)) {
     if (isAisleHidden(visibility, params.aisle)) notFound();
@@ -48,7 +52,7 @@ export default async function NestedAislePage({
     return (
       <CategoryProducts
         name={aisle.name}
-        items={loadAisleItems(aisle.slug)}
+        items={applyMenuOverrides(loadAisleItems(aisle.slug), overrides, admin)}
         image={aisle.image}
       />
     );
@@ -60,7 +64,7 @@ export default async function NestedAislePage({
     return (
       <CategoryProducts
         name={aisle.name}
-        items={loadAisleItems(`beverage:${aisle.slug}`)}
+        items={applyMenuOverrides(loadAisleItems(`beverage:${aisle.slug}`), overrides, admin)}
         image={aisle.image}
       />
     );

@@ -148,11 +148,11 @@ export default function HeaderSearch() {
               />
             </div>
             {!loaded ? (
-              <p className="px-4 py-3 text-sm text-maroon-700/70">Menu load ho raha hai...</p>
+              <p className="px-4 py-3 text-sm text-maroon-700/70">Products loading...</p>
             ) : query.trim().length === 0 ? (
-              <p className="px-4 py-3 text-sm text-maroon-700/70">Mithai, pizza, bread... type karo</p>
+              <p className="px-4 py-3 text-sm text-maroon-700/70">Type mithai, pizza, bread...</p>
             ) : results.length === 0 ? (
-              <p className="px-4 py-3 text-sm text-maroon-700/70">Koi item nahi mila</p>
+              <p className="px-4 py-3 text-sm text-maroon-700/70">No items found</p>
             ) : (
               <ul className="max-h-80 overflow-y-auto py-1">
                 {results.map((hit) => (

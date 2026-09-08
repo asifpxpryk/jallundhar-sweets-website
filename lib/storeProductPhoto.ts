@@ -15,11 +15,11 @@ export async function storeProductPhoto(
   if (!file) return {};
 
   if (file.size > 8 * 1024 * 1024) {
-    return { error: "Photo 8MB se choti honi chahiye." };
+    return { error: "Photo must be under 8MB." };
   }
   const type = file.type || "image/jpeg";
   if (!type.startsWith("image/")) {
-    return { error: "Sirf photo upload karo." };
+    return { error: "Please upload a photo." };
   }
 
   const supabase = createSupabaseAdmin();
@@ -44,7 +44,7 @@ export async function storeProductPhoto(
     } else if (/bucket/i.test(error.message) && /not found|not exist/i.test(error.message)) {
       return {
         error:
-          "Photo bucket missing hai. Supabase SQL Editor mein data/product-photos.sql chalao, phir dubara try karo.",
+          "Photo bucket is missing. Run data/product-photos.sql in the Supabase SQL Editor, then try again.",
       };
     } else {
       return { error: error.message };

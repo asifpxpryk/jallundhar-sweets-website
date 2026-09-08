@@ -93,7 +93,7 @@ export default function AccountScreen() {
 
         <h2 className="mt-8 font-display text-lg font-bold text-maroon-800">Your orders</h2>
         {orders.length === 0 ? (
-          <p className="mt-3 text-sm text-maroon-700/70">Is phone par abhi koi order save nahi.</p>
+          <p className="mt-3 text-sm text-maroon-700/70">No saved orders for this phone number yet.</p>
         ) : (
           <ul className="mt-4 space-y-3">
             {orders.map((order) => (
@@ -123,14 +123,14 @@ export default function AccountScreen() {
         <BackLink />
       </div>
       <p className="mt-2 text-sm text-maroon-700/70">
-        Phone se login karo. Shop owner PIN daalein to admin khulega.
+        Log in with your phone. Shop owners can enter the PIN to open admin.
       </p>
       <form action={action} className="mt-6 max-w-md space-y-3 rounded-2xl border border-gold-200 bg-white p-5">
         <input type="hidden" name="name" value={form.name} />
         <input type="hidden" name="address" value={form.address} />
         <input type="hidden" name="location" value={form.location} />
         <label className="block text-sm font-medium text-maroon-800">
-          Naam
+          Name
           <input
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}

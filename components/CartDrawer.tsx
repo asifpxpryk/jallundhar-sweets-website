@@ -52,8 +52,8 @@ export default function CartDrawer() {
       .join("\n");
 
     return [
-      `🛍️ *Naya Order${orderNo ? " #" + orderNo : ""}*`,
-      form.customer_name.trim() ? `👤 Naam: ${form.customer_name.trim()}` : null,
+      `🛍️ *New Order${orderNo ? " #" + orderNo : ""}*`,
+      form.customer_name.trim() ? `👤 Name: ${form.customer_name.trim()}` : null,
       `📞 Number: ${form.phone.trim()}`,
       `📍 Address: ${form.address.trim()}`,
       form.location.trim() ? `📌 Location: ${form.location.trim()}` : null,
@@ -72,11 +72,11 @@ export default function CartDrawer() {
   async function placeOrder() {
     setError(null);
     if (!form.phone.trim() || !form.address.trim()) {
-      setError("Phone number aur address zaroori hain.");
+      setError("Phone number and address are required.");
       return;
     }
     if (lines.length === 0) {
-      setError("Cart khali hai.");
+      setError("Your cart is empty.");
       return;
     }
 
@@ -138,7 +138,7 @@ export default function CartDrawer() {
       }
     } catch (e) {
       // Order record save fail bhi ho jaye to bhi WhatsApp order aage bhejna hai,
-      // taake customer ka order kahin loose na ho.
+      // Still send the WhatsApp order even if saving the record fails.
     }
 
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
@@ -188,7 +188,7 @@ export default function CartDrawer() {
           {step === "cart" && (
             <>
               {lines.length === 0 ? (
-                <p className="mt-10 text-center text-maroon-700/60">Aap ka cart khali hai.</p>
+                <p className="mt-10 text-center text-maroon-700/60">Your cart is empty.</p>
               ) : (
                 <ul className="flex flex-col gap-4">
                   {lines.map((l) => (
@@ -228,12 +228,12 @@ export default function CartDrawer() {
           {step === "checkout" && (
             <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
               <div>
-                <label className="text-sm font-medium text-maroon-800">Naam (optional)</label>
+                <label className="text-sm font-medium text-maroon-800">Name (optional)</label>
                 <input
                   className="mt-1 w-full rounded-lg border border-gold-200 px-3 py-2 focus:border-maroon-600 focus:outline-none"
                   value={form.customer_name}
                   onChange={(e) => setForm((f) => ({ ...f, customer_name: e.target.value }))}
-                  placeholder="Aap ka naam"
+                  placeholder="Your name"
                 />
               </div>
               <div>
@@ -252,7 +252,7 @@ export default function CartDrawer() {
                   rows={3}
                   value={form.address}
                   onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
-                  placeholder="Ghar/office ka pura pata, Rahim Yar Khan"
+                  placeholder="Full home/office address, Rahim Yar Khan"
                 />
               </div>
               <div>
@@ -261,7 +261,7 @@ export default function CartDrawer() {
                   className="mt-1 w-full rounded-lg border border-gold-200 px-3 py-2 focus:border-maroon-600 focus:outline-none"
                   value={form.location}
                   onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                  placeholder="Area ya GPS"
+                  placeholder="Area or GPS"
                 />
               </div>
               <div>
@@ -292,8 +292,8 @@ export default function CartDrawer() {
                 </div>
                 {form.payment_method === "advance" && (
                   <p className="mt-2 rounded-lg bg-gold-50 p-3 text-xs text-maroon-700">
-                    Order confirm hone ke baad hamari team aap ko JazzCash/EasyPaisa/Bank
-                    details WhatsApp/call par bhejegi taake aap advance payment kar sakein.
+                    After you confirm, our team will send JazzCash / EasyPaisa / bank details on
+                    WhatsApp or call so you can pay in advance.
                   </p>
                 )}
               </div>
@@ -303,7 +303,7 @@ export default function CartDrawer() {
                   className="mt-1 w-full rounded-lg border border-gold-200 px-3 py-2 focus:border-maroon-600 focus:outline-none"
                   value={form.notes}
                   onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-                  placeholder="Koi khaas hidayat"
+                  placeholder="Any special instructions"
                 />
               </div>
               {error && <p className="text-sm text-red-600">{error}</p>}
@@ -315,21 +315,11 @@ export default function CartDrawer() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gold-100 text-3xl">
                 ✅
               </div>
-              <p
-                lang="ur"
-                dir="rtl"
-                className="text-xl font-bold leading-relaxed text-maroon-800"
-                style={{ fontFamily: "var(--font-urdu), serif" }}
-              >
-                آرڈر دینے کا شکریہ
+              <p className="text-xl font-bold leading-relaxed text-maroon-800">
+                Thank you for your order
               </p>
-              <p
-                lang="ur"
-                dir="rtl"
-                className="text-base leading-loose text-maroon-700/80"
-                style={{ fontFamily: "var(--font-urdu), serif" }}
-              >
-                مزید معلومات اور ڈیلیوری چارجز کیلئے وٹس ایپ پر رابطہ کریں
+              <p className="text-base leading-relaxed text-maroon-700/80">
+                Contact us on WhatsApp for more details and delivery charges.
               </p>
               <a
                 href="https://wa.me/923001538440"
@@ -371,7 +361,7 @@ export default function CartDrawer() {
                   disabled={submitting}
                   className="flex-1 rounded-full bg-gold-500 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-400 disabled:opacity-50"
                 >
-                  {submitting ? "Order tayyar ho raha hai..." : "Place Order on WhatsApp"}
+                  {submitting ? "Preparing your order..." : "Place Order on WhatsApp"}
                 </button>
               </div>
             )}
