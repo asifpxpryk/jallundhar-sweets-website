@@ -3,7 +3,7 @@ import { unstable_cache, revalidateTag } from "next/cache";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import { SECTIONS, assignSection, isHiddenMenuItem, collapseCheesePizzas, isSectionSlug, normalizeName, type SectionSlug } from "@/lib/sections";
 import { isAdminSession } from "@/lib/adminAuth";
-import { loadStoreVisibility } from "@/lib/storeVisibility";
+import { loadStoreVisibility, isVisibilityConfigId } from "@/lib/storeVisibility";
 import localMenu from "@/data/menu-items.json";
 import aisleCatalog from "@/data/aisle-items.json";
 
@@ -37,6 +37,7 @@ function groupItems(
 
   items.forEach((item) => {
     if (AISLE_ITEM_IDS.has(item.id)) return;
+    if (isVisibilityConfigId(item.id)) return;
     const hidden = Boolean(item.is_hidden) || hiddenIds.has(item.id);
     if (hidden && !includeHidden) return;
     if (isHiddenMenuItem(item.name)) return;
@@ -121,11 +122,13 @@ function groupedFromDbOrLocal(
 
 function withHiddenFlags(items: MenuItem[], hiddenItemIds: string[]): MenuItem[] {
   const hiddenIds = new Set(hiddenItemIds);
-  return items.map((item) => ({
-    ...item,
-    price: Number(item.price),
-    is_hidden: Boolean(item.is_hidden) || hiddenIds.has(item.id),
-  }));
+  return items
+    .filter((item) => !isVisibilityConfigId(item.id))
+    .map((item) => ({
+      ...item,
+      price: Number(item.price),
+      is_hidden: Boolean(item.is_hidden) || hiddenIds.has(item.id),
+    }));
 }
 
 async function loadMenuUncached(): Promise<MenuCategory[]> {
@@ -168,7 +171,7 @@ async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]> {
 
 export const loadMenuIncludingHidden = unstable_cache(
   loadMenuIncludingHiddenUncached,
-  ["jallundhar-menu-v11-admin"],
+  ["jallundhar-menu-v12-admin"],
   { revalidate: 60, tags: ["menu"] }
 );
 
@@ -181,7 +184,7 @@ export function refreshMenuCache() {
   revalidateTag("menu");
 }
 
-export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v11"], {
+export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v12"], {
   revalidate: 60,
   tags: ["menu"],
 });

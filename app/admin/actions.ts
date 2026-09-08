@@ -11,6 +11,7 @@ import {
   itemVisibilitySlug,
   loadStoreVisibility,
   refreshStoreVisibility,
+  visibilityConfigRow,
   writeStoreVisibilityFallback,
   type CategoryKind,
 } from "@/lib/storeVisibility";
@@ -55,6 +56,22 @@ function isMissingHiddenColumn(message: string) {
   return /is_hidden/i.test(message);
 }
 
+function isMissingVisibilityTable(message: string) {
+  return /store_visibility|schema cache|does not exist|relation/i.test(message);
+}
+
+async function writeVisibilityConfig(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  vis: Awaited<ReturnType<typeof loadStoreVisibility>>
+) {
+  try {
+    await writeStoreVisibilityFallback(vis);
+  } catch {
+    /* Vercel filesystem is ephemeral */
+  }
+  return supabase.from("menu_items").upsert(visibilityConfigRow(vis), { onConflict: "id" });
+}
+
 async function syncItemHiddenFlag(
   supabase: ReturnType<typeof createSupabaseAdmin>,
   id: string,
@@ -62,8 +79,10 @@ async function syncItemHiddenFlag(
   columnExists: boolean
 ) {
   const slug = itemVisibilitySlug(id);
+  const vis = applyVisibilityToggle(await loadStoreVisibility(), "aisle", slug, columnExists ? false : hidden);
+
   if (columnExists) {
-    await supabase.from("store_visibility").delete().eq("kind", "aisle").eq("slug", slug);
+    await writeVisibilityConfig(supabase, vis);
     return;
   }
 
@@ -71,15 +90,23 @@ async function syncItemHiddenFlag(
     { kind: "aisle", slug, hidden },
     { onConflict: "kind,slug" }
   );
-  if (error) {
+
+  if (!error) {
+    try {
+      await writeStoreVisibilityFallback(vis);
+    } catch {
+      /* Vercel filesystem is ephemeral */
+    }
+    return;
+  }
+
+  if (!isMissingVisibilityTable(error.message)) {
     throw new Error(error.message);
   }
 
-  try {
-    const next = applyVisibilityToggle(await loadStoreVisibility(), "aisle", slug, hidden);
-    await writeStoreVisibilityFallback(next);
-  } catch {
-    /* Vercel filesystem is ephemeral */
+  const written = await writeVisibilityConfig(supabase, vis);
+  if (written.error && hidden) {
+    throw new Error(written.error.message);
   }
 }
 
@@ -338,15 +365,17 @@ export async function setCategoryHidden(formData: FormData) {
 
   if (error) {
     if (/store_visibility|schema cache|does not exist|relation/i.test(error.message)) {
+      const written = await writeVisibilityConfig(supabase, next);
+      if (!written.error) {
+        refreshStorefront();
+        return { error: "" };
+      }
       try {
         await writeStoreVisibilityFallback(next);
         refreshStorefront();
         return { error: "" };
       } catch {
-        return {
-          error:
-            "Run data/store-visibility.sql in the Supabase SQL Editor, then save again.",
-        };
+        return { error: written.error.message };
       }
     }
     return { error: error.message };

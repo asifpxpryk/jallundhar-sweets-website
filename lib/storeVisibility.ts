@@ -16,9 +16,14 @@ export type StoreVisibility = {
 };
 
 export const ITEM_VISIBILITY_PREFIX = "item:";
+export const VISIBILITY_CONFIG_ID = "store-visibility-config";
 
 export function itemVisibilitySlug(id: string) {
   return `${ITEM_VISIBILITY_PREFIX}${id}`;
+}
+
+export function isVisibilityConfigId(id: string) {
+  return id === VISIBILITY_CONFIG_ID;
 }
 
 type VisibilityRow = {
@@ -96,16 +101,60 @@ async function loadFromSupabase(): Promise<VisibilityRow[] | null> {
   return data as VisibilityRow[];
 }
 
+async function loadConfigFromMenuItems(): Promise<StoreVisibility | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+
+  const supabase = createClient(url, key);
+  const { data, error } = await supabase
+    .from("menu_items")
+    .select("description")
+    .eq("id", VISIBILITY_CONFIG_ID)
+    .maybeSingle();
+
+  if (error || !data?.description) return null;
+  try {
+    return parseVisibility(JSON.parse(data.description));
+  } catch {
+    return null;
+  }
+}
+
+export function visibilityConfigRow(vis: StoreVisibility) {
+  return {
+    id: VISIBILITY_CONFIG_ID,
+    name: "__store_visibility__",
+    price: 0,
+    category_id: "sweets",
+    description: JSON.stringify({
+      hiddenSections: vis.hiddenSections,
+      hiddenAisles: vis.hiddenAisles,
+      hiddenItemIds: vis.hiddenItemIds,
+    }),
+    is_available: false,
+    sort_order: -1,
+  };
+}
+
 async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
   const base = await loadFallback();
   const rows = await loadFromSupabase();
-  if (!rows) return base;
-  return applyRows(base, rows);
+  if (rows) return applyRows(base, rows);
+  const config = await loadConfigFromMenuItems();
+  if (config) {
+    return {
+      hiddenSections: config.hiddenSections.length ? config.hiddenSections : base.hiddenSections,
+      hiddenAisles: config.hiddenAisles.length ? config.hiddenAisles : base.hiddenAisles,
+      hiddenItemIds: config.hiddenItemIds,
+    };
+  }
+  return base;
 }
 
 export const loadStoreVisibility = unstable_cache(
   loadStoreVisibilityUncached,
-  ["jallundhar-store-visibility-v2"],
+  ["jallundhar-store-visibility-v3"],
   { revalidate: 60, tags: ["store-visibility"] }
 );
 
