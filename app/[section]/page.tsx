@@ -28,7 +28,7 @@ export default async function SectionPage({ params }: { params: { section: strin
     <CategoryProducts
       name={meta.name}
       items={category?.items ?? []}
-      image={"image" in meta ? meta.image : undefined}
+      image={meta.image}
     />
   );
 }

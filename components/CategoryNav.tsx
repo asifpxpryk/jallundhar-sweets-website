@@ -11,21 +11,13 @@ export default function CategoryNav() {
             href={`/${cat.slug}`}
             className="flex flex-col items-center gap-1 text-center"
           >
-            <span className="flex h-[4.35rem] w-[4.35rem] items-center justify-center overflow-hidden rounded-full bg-[#fff8f0] text-3xl shadow-sm ring-1 ring-gold-100 transition hover:ring-gold-300 sm:h-24 sm:w-24 sm:text-4xl">
-              {"image" in cat && cat.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className={
-                    cat.slug === "sweets"
-                      ? "h-full w-full object-cover"
-                      : "h-[92%] w-[92%] object-contain"
-                  }
-                />
-              ) : (
-                cat.emoji
-              )}
+            <span className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-[#fff8f0] p-[3px] shadow-sm ring-1 ring-gold-100 transition hover:ring-gold-300 sm:h-24 sm:w-24 lg:h-28 lg:w-28">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={encodeURI(cat.image)}
+                alt={cat.name}
+                className="h-full w-full object-contain"
+              />
             </span>
             <span className="text-sm font-semibold leading-tight text-maroon-700 sm:text-base">
               {cat.name}

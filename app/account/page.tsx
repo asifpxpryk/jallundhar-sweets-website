@@ -1,3 +1,5 @@
+import BackLink from "@/components/BackLink";
+
 export const metadata = {
   title: "Account | Jallundhar Sweets & Bakers",
 };
@@ -5,7 +7,10 @@ export const metadata = {
 export default function AccountPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <h1 className="font-display text-2xl font-bold text-maroon-800">Account</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="flex-1 font-display text-2xl font-bold text-maroon-800">Account</h1>
+        <BackLink />
+      </div>
       <p className="mt-2 text-sm text-maroon-700/70">
         Order ke liye call ya WhatsApp karein. Login zaroori nahi.
       </p>

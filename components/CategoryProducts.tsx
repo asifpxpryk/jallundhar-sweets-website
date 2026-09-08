@@ -1,5 +1,6 @@
 import type { MenuItem } from "@/lib/types";
 import ProductCard from "./ProductCard";
+import BackLink from "./BackLink";
 
 export default function CategoryProducts({
   name,
@@ -17,14 +18,13 @@ export default function CategoryProducts({
           {image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={image}
+              src={encodeURI(image)}
               alt={name}
-              className={`h-14 w-14 rounded-full bg-[#fff8f0] shadow-md ring-2 ring-gold-200 sm:h-20 sm:w-20 ${
-                name === "Sweets" ? "object-cover object-[50%_58%]" : "object-contain p-1"
-              }`}
+              className="h-20 w-20 rounded-full bg-[#fff8f0] object-contain p-[3px] shadow-md ring-2 ring-gold-200"
             />
           )}
-          <h1 className="font-display text-2xl font-bold text-maroon-800 sm:text-3xl">{name}</h1>
+          <h1 className="min-w-0 flex-1 font-display text-2xl font-bold text-maroon-800 sm:text-3xl">{name}</h1>
+          <BackLink />
         </div>
         {items.length === 0 ? (
           <p className="mt-8 text-maroon-700/70">Is section mein abhi items nahi hain.</p>

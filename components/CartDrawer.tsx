@@ -265,14 +265,31 @@ export default function CartDrawer() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gold-100 text-3xl">
                 ✅
               </div>
-              <p className="font-display text-lg font-bold text-maroon-800">
-                Shukriya!{orderNumber ? ` Order #${orderNumber}` : " Aap ka order"} tayyar hai.
+              <p
+                lang="ur"
+                dir="rtl"
+                className="text-xl font-bold leading-relaxed text-maroon-800"
+                style={{ fontFamily: "var(--font-urdu), serif" }}
+              >
+                آرڈر دینے کا شکریہ
               </p>
-              <p className="text-sm text-maroon-700/70">
-                WhatsApp ek nayi tab mein khul gaya hai, order details wahan pehle se likhi hain
-                — bas <span className="font-semibold">Send</span> daba kar order confirm kar
-                dein. Agar tab nahi khula to hamein seedha call/WhatsApp karein: 0300 153 8440.
+              <p
+                lang="ur"
+                dir="rtl"
+                className="text-base leading-loose text-maroon-700/80"
+                style={{ fontFamily: "var(--font-urdu), serif" }}
+              >
+                مزید معلومات اور ڈیلیوری چارجز کیلئے وٹس ایپ پر رابطہ کریں
               </p>
+              <a
+                href="https://wa.me/923001538440"
+                target="_blank"
+                rel="noreferrer"
+                dir="ltr"
+                className="font-display text-lg font-bold text-maroon-800"
+              >
+                0300 153 8440
+              </a>
             </div>
           )}
         </div>

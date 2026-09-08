@@ -17,18 +17,22 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-gold-200 bg-cream/95 backdrop-blur">
+    <header className="sticky top-0 z-40 overflow-x-hidden border-b border-gold-200 bg-cream/95 backdrop-blur">
       <div className="relative mx-auto flex max-w-6xl items-center px-4 py-3 sm:px-6">
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://jallundharmain.com/wp-content/uploads/2021/07/jallundhar-logo.png"
-            alt="Jallundhar Sweets & Bakers"
-            className="h-9 w-9 flex-shrink-0 rounded-full object-contain"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-          />
+          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://jallundharmain.com/wp-content/uploads/2021/07/jallundhar-logo.png"
+              alt="Jallundhar Sweets & Bakers"
+              width={36}
+              height={36}
+              className="h-9 w-9 max-h-9 max-w-9 object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          </span>
           <div className="flex min-w-0 flex-col items-center justify-center text-center">
             <span className="whitespace-nowrap font-display text-[15px] font-bold leading-5 tracking-tight text-maroon-800">
               Jallundhar <span className="text-gold-600">Sweets &amp; Bakers</span>
