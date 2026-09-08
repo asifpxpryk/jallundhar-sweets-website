@@ -2,7 +2,7 @@ export const SECTIONS = [
   { slug: "sweets", name: "Sweets", emoji: "🍬", image: "/category-icons/icon-sweets.png?v=5" },
   { slug: "bakery", name: "Bakery", emoji: "🥐", image: "/category-icons/icon-bakery.png?v=5" },
   { slug: "snacks", name: "Snacks", emoji: "🍕", image: "/category-icons/icon-snacks.png?v=5" },
-  { slug: "dairy", name: "Dairy", emoji: "🥛", image: "/category-icons/icon-dairy.png?v=5" },
+  { slug: "dairy", name: "Dairy", emoji: "🥛", image: "/category-icons/icon-dairy.png?v=6" },
   { slug: "beverage", name: "Beverage", emoji: "🥤", image: "/category-icons/icon-baverages.png?v=5" },
   { slug: "general", name: "General", emoji: "🛒", image: "/category-icons/icon-general.png?v=5" },
 ] as const;
