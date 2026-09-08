@@ -73,6 +73,19 @@ export default function CategoryProductGrid({
   }, [pageKey]);
 
   useEffect(() => {
+    function revealHashedItem() {
+      const id = window.location.hash.replace(/^#item-/, "");
+      if (!id) return;
+      const index = list.findIndex((item) => item.id === id);
+      if (index < 0) return;
+      setVisible((count) => Math.max(count, index + 1));
+    }
+    revealHashedItem();
+    window.addEventListener("hashchange", revealHashedItem);
+    return () => window.removeEventListener("hashchange", revealHashedItem);
+  }, [list]);
+
+  useEffect(() => {
     if (!pageKey) return;
     if (skipVisiblePersist.current) {
       skipVisiblePersist.current = false;

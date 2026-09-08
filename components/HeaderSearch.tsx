@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import { normalizeName } from "@/lib/sections";
+import { bakeryAisleForItem, getBakeryAisle } from "@/lib/bakeryAisles";
 import { useCart } from "./CartContext";
 import ProductImage from "./ProductImage";
 
@@ -14,39 +15,49 @@ type Hit = {
   price: number;
   image_url: string | null;
   section: string;
+  aisle?: string;
   sectionName: string;
   item: MenuItem;
 };
+
+function hitForItem(item: MenuItem, category: MenuCategory): Hit {
+  const aisle = category.slug === "bakery" ? bakeryAisleForItem(item.name) ?? undefined : undefined;
+  return {
+    id: item.id,
+    cardId: item.id,
+    name: item.name,
+    price: item.price,
+    image_url: item.image_url,
+    section: category.slug,
+    aisle,
+    sectionName: aisle ? getBakeryAisle(aisle)?.name ?? category.name : category.name,
+    item,
+  };
+}
 
 function flatten(categories: MenuCategory[]): Hit[] {
   const hits: Hit[] = [];
   for (const category of categories) {
     for (const item of category.items) {
-      hits.push({
-        id: item.id,
-        cardId: item.id,
-        name: item.name,
-        price: item.price,
-        image_url: item.image_url,
-        section: category.slug,
-        sectionName: category.name,
-        item,
-      });
+      const base = hitForItem(item, category);
+      hits.push(base);
       for (const variant of item.variants ?? []) {
         hits.push({
+          ...base,
           id: variant.id,
-          cardId: item.id,
           name: `${item.name} (${variant.label})`,
           price: variant.price,
-          image_url: item.image_url,
-          section: category.slug,
-          sectionName: category.name,
           item: { ...item, id: variant.id, name: `${item.name} (${variant.label})`, price: variant.price },
         });
       }
     }
   }
   return hits;
+}
+
+function hitHref(hit: Hit) {
+  const path = hit.aisle ? `/${hit.section}/${hit.aisle}` : `/${hit.section}`;
+  return `${path}#item-${hit.cardId}`;
 }
 
 export default function HeaderSearch() {
@@ -101,7 +112,13 @@ export default function HeaderSearch() {
   function goTo(hit: Hit) {
     setOpen(false);
     setQuery("");
-    router.push(`/${hit.section}#item-${hit.cardId}`);
+    const href = hitHref(hit);
+    const [path, hash] = href.split("#");
+    if (window.location.pathname === path) {
+      window.location.hash = hash;
+      return;
+    }
+    router.push(href);
   }
 
   return (
