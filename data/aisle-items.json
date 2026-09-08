@@ -9266,5 +9266,371 @@
       "is_available": true,
       "sort_order": 22
     }
+  ],
+  "beverage:drinking-water": [
+    {
+      "id": "drinking-water-aqua-fina-water-330ml",
+      "category_id": "beverage",
+      "name": "Aqua Fina Water, 330ml",
+      "description": null,
+      "price": 35,
+      "image_url": "/products/drinking-water/aqua-fina-water-330ml.jpg",
+      "is_available": true,
+      "sort_order": 0
+    },
+    {
+      "id": "drinking-water-pakola-mineral-water-1-5-liter",
+      "category_id": "beverage",
+      "name": "Pakola Mineral Water, 1.5 Liter",
+      "description": null,
+      "price": 75,
+      "image_url": "/products/drinking-water/pakola-mineral-water-1-5-liter.jpg",
+      "is_available": true,
+      "sort_order": 1
+    },
+    {
+      "id": "drinking-water-pakola-mineral-water-500ml",
+      "category_id": "beverage",
+      "name": "Pakola Mineral Water, 500ml",
+      "description": null,
+      "price": 35,
+      "image_url": "/products/drinking-water/pakola-mineral-water-500ml.jpg",
+      "is_available": true,
+      "sort_order": 2
+    },
+    {
+      "id": "drinking-water-pura-spring-natural-spring-water-bottle-1-litre",
+      "category_id": "beverage",
+      "name": "Pura Spring Natural Spring Water Bottle, 1 Litre",
+      "description": null,
+      "price": 350,
+      "image_url": "/products/drinking-water/pura-spring-natural-spring-water-bottle-1-litre.jpg",
+      "is_available": true,
+      "sort_order": 3
+    },
+    {
+      "id": "drinking-water-muree-brewery-sparkling-carbonated-drinking-water-330ml",
+      "category_id": "beverage",
+      "name": "Muree Brewery Sparkling Carbonated Drinking Water, 330ml",
+      "description": null,
+      "price": 95,
+      "image_url": "/products/drinking-water/muree-brewery-sparkling-carbonated-drinking-water-330ml.jpg",
+      "is_available": true,
+      "sort_order": 4
+    },
+    {
+      "id": "drinking-water-nestle-pure-life-drinking-water-1-5-litres",
+      "category_id": "beverage",
+      "name": "Nestle Pure Life Drinking Water 1.5 Litres",
+      "description": null,
+      "price": 105,
+      "image_url": "/products/drinking-water/nestle-pure-life-drinking-water-1-5-litres.jpg",
+      "is_available": true,
+      "sort_order": 5
+    },
+    {
+      "id": "drinking-water-nestle-pure-life-drinking-water-500ml",
+      "category_id": "beverage",
+      "name": "Nestle Pure Life Drinking Water, 500ml",
+      "description": null,
+      "price": 60,
+      "image_url": "/products/drinking-water/nestle-pure-life-drinking-water-500ml.jpg",
+      "is_available": true,
+      "sort_order": 6
+    },
+    {
+      "id": "drinking-water-nestle-pure-life-drinking-water-5-litres",
+      "category_id": "beverage",
+      "name": "Nestle Pure Life Drinking Water, 5 Litres",
+      "description": null,
+      "price": 340,
+      "image_url": "/products/drinking-water/nestle-pure-life-drinking-water-5-litres.jpg",
+      "is_available": true,
+      "sort_order": 7
+    },
+    {
+      "id": "drinking-water-aquafina-water-500ml",
+      "category_id": "beverage",
+      "name": "Aquafina Water 500ml",
+      "description": null,
+      "price": 45,
+      "image_url": "/products/drinking-water/aquafina-water-500ml.jpg",
+      "is_available": true,
+      "sort_order": 8
+    },
+    {
+      "id": "drinking-water-aquafina-water-1-5-litre",
+      "category_id": "beverage",
+      "name": "Aquafina Water 1.5 Litre",
+      "description": null,
+      "price": 90,
+      "image_url": "/products/drinking-water/aquafina-water-1-5-litre.jpg",
+      "is_available": true,
+      "sort_order": 9
+    },
+    {
+      "id": "drinking-water-aquafina-water-6-litre",
+      "category_id": "beverage",
+      "name": "Aquafina Water 6 Litre",
+      "description": null,
+      "price": 250,
+      "image_url": "/products/drinking-water/aquafina-water-6-litre.jpg",
+      "is_available": true,
+      "sort_order": 10
+    }
+  ],
+  "beverage:powdered-drinks": [
+    {
+      "id": "powdered-drinks-ovaltine-malted-chocolate-drink-powder-jar-100g",
+      "category_id": "beverage",
+      "name": "Ovaltine Malted Chocolate Drink Powder, Jar 100g",
+      "description": null,
+      "price": 725,
+      "image_url": "/products/powdered-drinks/ovaltine-malted-chocolate-drink-powder-jar-100g.jpg",
+      "is_available": true,
+      "sort_order": 0
+    },
+    {
+      "id": "powdered-drinks-horlicks-original-malted-drink-pouch-200g",
+      "category_id": "beverage",
+      "name": "Horlicks Original Malted Drink, Pouch, 200g",
+      "description": null,
+      "price": 680,
+      "image_url": "/products/powdered-drinks/horlicks-original-malted-drink-pouch-200g.jpg",
+      "is_available": true,
+      "sort_order": 1
+    },
+    {
+      "id": "powdered-drinks-nestle-milo-powder-pouch-500g",
+      "category_id": "beverage",
+      "name": "Nestle Milo Powder, Pouch, 500g",
+      "description": null,
+      "price": 1600,
+      "image_url": "/products/powdered-drinks/nestle-milo-powder-pouch-500g.jpg",
+      "is_available": true,
+      "sort_order": 2
+    },
+    {
+      "id": "powdered-drinks-ovaltine-malted-milk-drink-powder-jar-400g",
+      "category_id": "beverage",
+      "name": "Ovaltine Malted Milk Drink Powder, Jar, 400g",
+      "description": null,
+      "price": 1499,
+      "image_url": "/products/powdered-drinks/ovaltine-malted-milk-drink-powder-jar-400g.jpg",
+      "is_available": true,
+      "sort_order": 3
+    },
+    {
+      "id": "powdered-drinks-ovaltine-malted-chocolate-drink-powder-jar-400g",
+      "category_id": "beverage",
+      "name": "Ovaltine Malted Chocolate Drink Powder, Jar, 400g",
+      "description": null,
+      "price": 1350,
+      "image_url": "/products/powdered-drinks/ovaltine-malted-chocolate-drink-powder-jar-400g.jpg",
+      "is_available": true,
+      "sort_order": 4
+    },
+    {
+      "id": "powdered-drinks-tang-orange-tub-750g",
+      "category_id": "beverage",
+      "name": "Tang Orange Tub, 750g",
+      "description": null,
+      "price": 830,
+      "image_url": "/products/powdered-drinks/tang-orange-tub-750g.jpg",
+      "is_available": true,
+      "sort_order": 5
+    },
+    {
+      "id": "powdered-drinks-tang-pineapple-jug-pack-125g",
+      "category_id": "beverage",
+      "name": "Tang Pineapple Jug Pack, 125g",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/powdered-drinks/tang-pineapple-jug-pack-125g.jpg",
+      "is_available": true,
+      "sort_order": 6
+    },
+    {
+      "id": "powdered-drinks-tang-mango-pouch-375g",
+      "category_id": "beverage",
+      "name": "Tang Mango Pouch, 375g",
+      "description": null,
+      "price": 350,
+      "image_url": "/products/powdered-drinks/tang-mango-pouch-375g.jpg",
+      "is_available": true,
+      "sort_order": 7
+    },
+    {
+      "id": "powdered-drinks-tang-lemon-pepper-jug-pack-125g",
+      "category_id": "beverage",
+      "name": "Tang Lemon & Pepper Jug Pack 125g",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/powdered-drinks/tang-lemon-pepper-jug-pack-125g.jpg",
+      "is_available": true,
+      "sort_order": 8
+    },
+    {
+      "id": "powdered-drinks-tang-orange-jug-pack-125g",
+      "category_id": "beverage",
+      "name": "Tang Orange Jug Pack, 125g",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/powdered-drinks/tang-orange-jug-pack-125g.jpg",
+      "is_available": true,
+      "sort_order": 9
+    },
+    {
+      "id": "powdered-drinks-tang-pineapple-pouch-375g",
+      "category_id": "beverage",
+      "name": "Tang Pineapple Pouch, 375g",
+      "description": null,
+      "price": 350,
+      "image_url": "/products/powdered-drinks/tang-pineapple-pouch-375g.jpg",
+      "is_available": true,
+      "sort_order": 10
+    },
+    {
+      "id": "powdered-drinks-tang-mango-jug-pack-125g",
+      "category_id": "beverage",
+      "name": "Tang Mango Jug Pack, 125g",
+      "description": null,
+      "price": 100,
+      "image_url": "/products/powdered-drinks/tang-mango-jug-pack-125g.jpg",
+      "is_available": true,
+      "sort_order": 11
+    },
+    {
+      "id": "powdered-drinks-tang-lemon-pepper-pouch-375g",
+      "category_id": "beverage",
+      "name": "Tang Lemon & Pepper Pouch, 375g",
+      "description": null,
+      "price": 350,
+      "image_url": "/products/powdered-drinks/tang-lemon-pepper-pouch-375g.jpg",
+      "is_available": true,
+      "sort_order": 12
+    },
+    {
+      "id": "powdered-drinks-tang-orange-tub-2-5-kg",
+      "category_id": "beverage",
+      "name": "Tang Orange Tub, 2.5 KG",
+      "description": null,
+      "price": 2550,
+      "image_url": "/products/powdered-drinks/tang-orange-tub-2-5-kg.jpg",
+      "is_available": true,
+      "sort_order": 13
+    },
+    {
+      "id": "powdered-drinks-tang-mango-tub-750g",
+      "category_id": "beverage",
+      "name": "Tang Mango Tub, 750g",
+      "description": null,
+      "price": 830,
+      "image_url": "/products/powdered-drinks/tang-mango-tub-750g.jpg",
+      "is_available": true,
+      "sort_order": 14
+    }
+  ],
+  "beverage:squash-syrup": [
+    {
+      "id": "squash-syrup-qarshi-jam-e-shirin-sharbat-3-liters",
+      "category_id": "beverage",
+      "name": "Qarshi Jam-E-Shirin Sharbat, 3 Liters",
+      "description": null,
+      "price": 1600,
+      "image_url": "/products/squash-syrup/qarshi-jam-e-shirin-sharbat-3-liters.jpg",
+      "is_available": true,
+      "sort_order": 0
+    },
+    {
+      "id": "squash-syrup-mitchell-s-lemon-barley-squash-800ml",
+      "category_id": "beverage",
+      "name": "Mitchell's Lemon Barley Squash 800ml",
+      "description": null,
+      "price": 410,
+      "image_url": "/products/squash-syrup/mitchell-s-lemon-barley-squash-800ml.jpg",
+      "is_available": true,
+      "sort_order": 1
+    },
+    {
+      "id": "squash-syrup-mitchell-s-lemon-squash-800ml",
+      "category_id": "beverage",
+      "name": "Mitchell's Lemon Squash 800ml",
+      "description": null,
+      "price": 400,
+      "image_url": "/products/squash-syrup/mitchell-s-lemon-squash-800ml.jpg",
+      "is_available": true,
+      "sort_order": 2
+    },
+    {
+      "id": "squash-syrup-mitchell-s-orange-squash-800ml",
+      "category_id": "beverage",
+      "name": "Mitchell's Orange Squash 800ml",
+      "description": null,
+      "price": 415,
+      "image_url": "/products/squash-syrup/mitchell-s-orange-squash-800ml.jpg",
+      "is_available": true,
+      "sort_order": 3
+    },
+    {
+      "id": "squash-syrup-mitchell-s-mango-squash-800ml",
+      "category_id": "beverage",
+      "name": "Mitchell's Mango Squash 800ml",
+      "description": null,
+      "price": 415,
+      "image_url": "/products/squash-syrup/mitchell-s-mango-squash-800ml.jpg",
+      "is_available": true,
+      "sort_order": 4
+    },
+    {
+      "id": "squash-syrup-mitchell-s-mango-squash-1400ml",
+      "category_id": "beverage",
+      "name": "Mitchell's Mango Squash 1400ml",
+      "description": null,
+      "price": 620,
+      "image_url": "/products/squash-syrup/mitchell-s-mango-squash-1400ml.jpg",
+      "is_available": true,
+      "sort_order": 5
+    },
+    {
+      "id": "squash-syrup-qarshi-sharbat-e-sandaleen-800ml",
+      "category_id": "beverage",
+      "name": "Qarshi Sharbat-E-Sandaleen, 800ml",
+      "description": null,
+      "price": 550,
+      "image_url": "/products/squash-syrup/qarshi-sharbat-e-sandaleen-800ml.jpg",
+      "is_available": true,
+      "sort_order": 6
+    },
+    {
+      "id": "squash-syrup-qarshi-jam-e-shirin-sugar-free-diet-800ml",
+      "category_id": "beverage",
+      "name": "Qarshi Jam-E-Shirin Sugar Free (Diet) 800ml",
+      "description": null,
+      "price": 500,
+      "image_url": "/products/squash-syrup/qarshi-jam-e-shirin-sugar-free-diet-800ml.jpg",
+      "is_available": true,
+      "sort_order": 7
+    },
+    {
+      "id": "squash-syrup-qarshi-jam-e-shirin-1500ml",
+      "category_id": "beverage",
+      "name": "Qarshi Jam-E-Shirin 1500ml",
+      "description": null,
+      "price": 925,
+      "image_url": "/products/squash-syrup/qarshi-jam-e-shirin-1500ml.jpg",
+      "is_available": true,
+      "sort_order": 8
+    },
+    {
+      "id": "squash-syrup-qarshi-jam-e-shirin-800ml",
+      "category_id": "beverage",
+      "name": "Qarshi Jam-E-Shirin 800ml",
+      "description": null,
+      "price": 550,
+      "image_url": "/products/squash-syrup/qarshi-jam-e-shirin-800ml.jpg",
+      "is_available": true,
+      "sort_order": 9
+    }
   ]
 }
