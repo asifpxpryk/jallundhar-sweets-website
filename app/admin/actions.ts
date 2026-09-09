@@ -350,6 +350,11 @@ export async function addMenuItem(formData: FormData) {
   const price = Number(formData.get("price"));
   const category_id = String(formData.get("category_id") || "").trim();
   const aisle_slug = String(formData.get("aisle_slug") || "").trim();
+  const is_hidden = formData.get("is_hidden") === "on" || formData.get("is_hidden") === "true";
+  const is_bestseller = formData.get("is_bestseller") === "on" || formData.get("is_bestseller") === "true";
+  const is_available = !(
+    formData.get("is_out_of_stock") === "on" || formData.get("is_out_of_stock") === "true"
+  );
   const description = String(formData.get("description") || "").trim() || null;
 
   if (!name || Number.isNaN(price) || price < 0) {
@@ -378,8 +383,8 @@ export async function addMenuItem(formData: FormData) {
     category_id,
     description,
     image_url: photo.url ?? null,
-    is_available: true,
-    is_hidden: false,
+    is_available,
+    is_hidden,
     sort_order: (last?.sort_order ?? 0) + 1,
   };
   let columnExists = true;
@@ -393,9 +398,9 @@ export async function addMenuItem(formData: FormData) {
 
   if (error) return { error: error.message };
   try {
-    await syncItemHiddenFlag(supabase, id, false, columnExists);
-  } catch {
-    /* new items start visible */
+    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists, is_bestseller, id);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Could not save this item." };
   }
   try {
     await persistItemPlacement(supabase, [id], category_id, aisle_slug);
@@ -403,7 +408,7 @@ export async function addMenuItem(formData: FormData) {
     return { error: err instanceof Error ? err.message : "Could not move this item." };
   }
   refreshStorefront();
-  return { error: "" };
+  return { error: "", id };
 }
 
 export async function setCategoryHidden(formData: FormData) {

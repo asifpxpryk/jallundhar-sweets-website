@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { MenuCategory, MenuItem } from "@/lib/types";
 import ProductCard from "./ProductCard";
 import BestsellerScroller from "./BestsellerScroller";
 import { useIsAdmin } from "./AdminSessionContext";
+import type { MenuCategory, MenuItem } from "@/lib/types";
 
 const PAGE_SIZE = 24;
 
@@ -41,6 +41,7 @@ export default function CategoryProductGrid({
   const [list, setList] = useState(items);
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [filter, setFilter] = useState<"all" | "hidden">("all");
+  const [adding, setAdding] = useState(false);
   const [loading, setLoading] = useState(items.length === 0 && Boolean(menuSlug) && !hasExtra);
 
   const loadAdminCatalog = useCallback(() => {
@@ -70,6 +71,7 @@ export default function CategoryProductGrid({
     skipVisiblePersist.current = true;
     setVisible(readVisibleCount(pageKey));
     setFilter("all");
+    setAdding(false);
   }, [pageKey]);
 
   useEffect(() => {
@@ -137,6 +139,47 @@ export default function CategoryProductGrid({
     (item) => item.is_bestseller && (isAdmin || !item.is_hidden)
   );
 
+  const addSlot =
+    isAdmin && filter !== "hidden" ? (
+      adding ? (
+        <ProductCard
+          isNew
+          item={{
+            id: "new",
+            category_id: aisleSection || menuSlug || "sweets",
+            name: "",
+            description: null,
+            price: 0,
+            image_url: null,
+            is_available: true,
+            is_hidden: false,
+            is_bestseller: false,
+            sort_order: 0,
+          }}
+          aisleSection={aisleSection}
+          aisleSlug={aisleSlug}
+          onCancel={() => setAdding(false)}
+          onSaved={() => {
+            setAdding(false);
+            setVisible((count) => count + 1);
+            loadAdminCatalog();
+          }}
+        />
+      ) : (
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="flex min-h-[18rem] w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gold-300 bg-white text-maroon-800 shadow-md transition hover:border-maroon-400 hover:bg-gold-50"
+          aria-label="Add product"
+        >
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-maroon-800 text-4xl leading-none font-light text-white">
+            +
+          </span>
+          <span className="mt-3 text-sm font-semibold">Add product</span>
+        </button>
+      )
+    ) : null;
+
   const toolbar = isAdmin ? (
     <div className="mt-4 flex gap-2">
       <button
@@ -182,6 +225,7 @@ export default function CategoryProductGrid({
               aisleSlug={aisleSlug}
             />
           ))}
+          {addSlot}
         </div>
         {visible < filtered.length ? (
           <button
@@ -211,6 +255,9 @@ export default function CategoryProductGrid({
       <div className="mt-2">
         <BestsellerScroller items={bestsellers} embedded />
         {toolbar}
+        {addSlot ? (
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">{addSlot}</div>
+        ) : null}
       </div>
     );
   }
@@ -219,7 +266,11 @@ export default function CategoryProductGrid({
     <div className="mt-2">
       <BestsellerScroller items={bestsellers} embedded />
       {toolbar}
-      <p className="mt-6 text-maroon-700/70">No products in this section yet.</p>
+      {addSlot ? (
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">{addSlot}</div>
+      ) : (
+        <p className="mt-6 text-maroon-700/70">No products in this section yet.</p>
+      )}
     </div>
   );
 }

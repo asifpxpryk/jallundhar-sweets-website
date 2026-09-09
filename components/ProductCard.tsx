@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
 import { useIsAdmin } from "./AdminSessionContext";
-import { saveStorefrontItem } from "@/app/admin/actions";
+import { saveStorefrontItem, addMenuItem } from "@/app/admin/actions";
 import { isSectionSlug, assignSection } from "@/lib/sections";
 import ProductImage from "./ProductImage";
 import PlacementFields from "@/app/admin/PlacementFields";
@@ -20,6 +20,8 @@ export default function ProductCard({
   compact = false,
   priority = false,
   onSaved,
+  onCancel,
+  isNew = false,
   aisleSection,
   aisleSlug,
 }: {
@@ -27,6 +29,8 @@ export default function ProductCard({
   compact?: boolean;
   priority?: boolean;
   onSaved?: () => void;
+  onCancel?: () => void;
+  isNew?: boolean;
   aisleSection?: string;
   aisleSlug?: string;
 }) {
@@ -137,22 +141,24 @@ export default function ProductCard({
             className="flex min-h-0 flex-1 flex-col"
             key={selectedId}
             action={async (formData) => {
-              const variant = variants?.find((v) => v.id === selectedId);
-              formData.set("id", variant?.id ?? item.id);
-              formData.set("catalog_id", item.id);
-              formData.set(
-                "variant_ids",
-                variants?.map((entry) => entry.id).join(",") ?? ""
-              );
+              if (!isNew) {
+                const variant = variants?.find((v) => v.id === selectedId);
+                formData.set("id", variant?.id ?? item.id);
+                formData.set("catalog_id", item.id);
+                formData.set(
+                  "variant_ids",
+                  variants?.map((entry) => entry.id).join(",") ?? ""
+                );
+                formData.set("image_url", item.image_url ?? "");
+              }
               formData.set("description", item.description ?? "");
-              formData.set("image_url", item.image_url ?? "");
               formData.set("is_hidden", formData.get("is_hidden") ? "true" : "false");
               formData.set("is_out_of_stock", formData.get("is_out_of_stock") ? "true" : "false");
               formData.set("is_bestseller", formData.get("is_bestseller") ? "true" : "false");
               await withCompressedPhoto(formData);
               setStatus("saving");
               setError(null);
-              const result = await saveStorefrontItem(formData);
+              const result = isNew ? await addMenuItem(formData) : await saveStorefrontItem(formData);
               if (result.error) {
                 setStatus("error");
                 setError(result.error);
@@ -181,7 +187,9 @@ export default function ProductCard({
               Name
               <textarea
                 name="name"
-                defaultValue={selected ? `${item.name} ${selected.label}` : item.name}
+                defaultValue={isNew ? "" : selected ? `${item.name} ${selected.label}` : item.name}
+                placeholder={isNew ? "Product name" : undefined}
+                required={isNew}
                 rows={4}
                 className="mt-0.5 min-h-[4.5rem] w-full flex-1 resize-none rounded-lg border border-gold-200 px-2 py-1.5 font-display text-sm font-semibold leading-tight text-maroon-900"
               />
@@ -211,7 +219,9 @@ export default function ProductCard({
                 type="number"
                 min="0"
                 step="1"
-                defaultValue={price}
+                defaultValue={isNew ? "" : price}
+                placeholder="0"
+                required={isNew}
                 className="mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm"
               />
             </label>
@@ -268,6 +278,15 @@ export default function ProductCard({
                     ? "Retry"
                     : "Save"}
             </button>
+            {isNew && onCancel ? (
+              <button
+                type="button"
+                onClick={onCancel}
+                className="mt-1 w-full rounded-lg py-1.5 text-[11px] font-semibold text-maroon-800 ring-1 ring-gold-200"
+              >
+                Cancel
+              </button>
+            ) : null}
             {error ? <p className="text-[11px] text-red-700">{error}</p> : null}
           </form>
         ) : (
