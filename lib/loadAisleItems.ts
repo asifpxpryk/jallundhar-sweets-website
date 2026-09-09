@@ -32,10 +32,12 @@ export function applyMenuOverrides(
     }
     return {
       ...item,
+      name: override.name ?? item.name,
       price: Number(override.price),
       is_available: override.is_available,
       is_hidden: hidden,
       is_bestseller: best,
+      image_url: override.image_url !== undefined ? override.image_url : item.image_url,
     };
   });
   if (includeHidden) return merged;

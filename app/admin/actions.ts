@@ -10,6 +10,7 @@ import { BAKERY_AISLES } from "@/lib/bakeryAisles";
 import { SWEETS_AISLES } from "@/lib/sweetsAisles";
 import {
   applyBestsellerToggle,
+  applyItemPlacement,
   applyVisibilityToggle,
   itemVisibilitySlug,
   loadStoreVisibilityUncached,
@@ -19,6 +20,7 @@ import {
   type CategoryKind,
   type StoreVisibility,
 } from "@/lib/storeVisibility";
+import { isValidPlacement, placementKey } from "@/lib/placementOptions";
 import {
   ADMIN_COOKIE,
   ADMIN_UI_COOKIE,
@@ -116,6 +118,30 @@ async function syncItemHiddenFlag(
   }
 }
 
+async function persistItemPlacement(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  ids: string[],
+  section: string,
+  aisle: string
+) {
+  if (!isValidPlacement(section, aisle)) {
+    throw new Error("Category or aisle is invalid.");
+  }
+  const vis = applyItemPlacement(
+    await loadStoreVisibilityUncached(),
+    ids,
+    placementKey(section, aisle)
+  );
+  const written = await writeVisibilityConfig(supabase, vis);
+  if (written.error) throw new Error(written.error.message);
+}
+
+function photoPayload(formData: FormData, photoUrl?: string) {
+  if (String(formData.get("clear_image") || "") === "true") return { image_url: null };
+  if (photoUrl) return { image_url: photoUrl };
+  return {};
+}
+
 export async function loginAdmin(_prev: { error?: string } | null, formData: FormData) {
   const pin = String(formData.get("pin") || "");
   if (!verifyAdminPin(pin)) {
@@ -163,6 +189,7 @@ export async function saveMenuItem(formData: FormData) {
   );
   const description = String(formData.get("description") || "").trim() || null;
   const category_id = String(formData.get("category_id") || "").trim();
+  const aisle_slug = String(formData.get("aisle_slug") || "").trim();
 
   if (!id || !name || Number.isNaN(price) || price < 0) {
     return { error: "Name and a valid price are required." };
@@ -182,8 +209,8 @@ export async function saveMenuItem(formData: FormData) {
     is_hidden,
     description,
     category_id,
+    ...photoPayload(formData, photo.url),
   };
-  if (photo.url) payload.image_url = photo.url;
   let columnExists = true;
   let { error } = await supabase.from("menu_items").update(payload).eq("id", id);
 
@@ -197,6 +224,7 @@ export async function saveMenuItem(formData: FormData) {
   if (error) return { error: error.message };
   try {
     await syncItemHiddenFlag(supabase, id, is_hidden, columnExists);
+    await persistItemPlacement(supabase, [id], category_id, aisle_slug);
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not hide this item." };
   }
@@ -225,6 +253,7 @@ export async function saveStorefrontItem(formData: FormData) {
   );
   const description = String(formData.get("description") || "").trim() || null;
   const category_id = String(formData.get("category_id") || "").trim();
+  const aisle_slug = String(formData.get("aisle_slug") || "").trim();
   const image_url = String(formData.get("image_url") || "").trim() || null;
 
   if (!id || !name || Number.isNaN(price) || price < 0) {
@@ -235,6 +264,10 @@ export async function saveStorefrontItem(formData: FormData) {
   }
 
   const supabase = createSupabaseAdmin();
+  const photo = await storeProductPhoto(formData);
+  if (photo.error) return { error: photo.error };
+  const imageFields = photoPayload(formData, photo.url);
+
   const payload: Record<string, unknown> = {
     name,
     price,
@@ -242,6 +275,7 @@ export async function saveStorefrontItem(formData: FormData) {
     is_hidden,
     description,
     category_id,
+    ...imageFields,
   };
 
   let columnExists = true;
@@ -261,7 +295,7 @@ export async function saveStorefrontItem(formData: FormData) {
     const insertRow: Record<string, unknown> = {
       id,
       ...payload,
-      image_url,
+      image_url: "image_url" in imageFields ? imageFields.image_url : image_url,
       sort_order: 0,
     };
     let inserted = await supabase.from("menu_items").insert(insertRow);
@@ -292,6 +326,12 @@ export async function saveStorefrontItem(formData: FormData) {
       catalogId,
       relatedIds
     );
+    await persistItemPlacement(
+      supabase,
+      [...new Set([id, catalogId, ...relatedIds].filter(Boolean))],
+      category_id,
+      aisle_slug
+    );
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not hide this item." };
   }
@@ -309,6 +349,7 @@ export async function addMenuItem(formData: FormData) {
   const name = String(formData.get("name") || "").trim();
   const price = Number(formData.get("price"));
   const category_id = String(formData.get("category_id") || "").trim();
+  const aisle_slug = String(formData.get("aisle_slug") || "").trim();
   const description = String(formData.get("description") || "").trim() || null;
 
   if (!name || Number.isNaN(price) || price < 0) {
@@ -355,6 +396,11 @@ export async function addMenuItem(formData: FormData) {
     await syncItemHiddenFlag(supabase, id, false, columnExists);
   } catch {
     /* new items start visible */
+  }
+  try {
+    await persistItemPlacement(supabase, [id], category_id, aisle_slug);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Could not move this item." };
   }
   refreshStorefront();
   return { error: "" };

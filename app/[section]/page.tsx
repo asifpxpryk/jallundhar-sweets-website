@@ -8,8 +8,8 @@ import BakeryAisleNav from "@/components/BakeryAisleNav";
 import SweetsAisleNav from "@/components/SweetsAisleNav";
 import GheePromoBanner from "@/components/GheePromoBanner";
 import WaterPromoBanner from "@/components/WaterPromoBanner";
-import { bakeryItemsOutsideAisles } from "@/lib/bakeryAisles";
 import { isSectionHidden, loadStoreVisibility } from "@/lib/storeVisibility";
+import { effectivePlacementKey } from "@/lib/itemPlacement";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -36,11 +36,11 @@ export default async function SectionPage({ params }: { params: { section: strin
   const categories = await loadMenu();
   const category = categories.find((c) => c.slug === meta.slug);
   const items =
-    meta.slug === "bakery"
-      ? bakeryItemsOutsideAisles(category?.items ?? [])
-      : meta.slug === "sweets"
-        ? []
-        : category?.items ?? [];
+    meta.slug === "sweets"
+      ? []
+      : (category?.items ?? []).filter(
+          (item) => effectivePlacementKey(item, visibility) === meta.slug
+        );
 
   return (
     <CategoryProducts

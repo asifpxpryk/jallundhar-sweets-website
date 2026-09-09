@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
 import { useIsAdmin } from "./AdminSessionContext";
 import { saveStorefrontItem } from "@/app/admin/actions";
 import { isSectionSlug, assignSection } from "@/lib/sections";
 import ProductImage from "./ProductImage";
+import PlacementFields from "@/app/admin/PlacementFields";
+import { withCompressedPhoto } from "@/lib/compressImage";
 
 function itemSection(item: MenuItem) {
   if (isSectionSlug(item.category_id)) return item.category_id;
@@ -18,11 +20,15 @@ export default function ProductCard({
   compact = false,
   priority = false,
   onSaved,
+  aisleSection,
+  aisleSlug,
 }: {
   item: MenuItem;
   compact?: boolean;
   priority?: boolean;
   onSaved?: () => void;
+  aisleSection?: string;
+  aisleSlug?: string;
 }) {
   const { add } = useCart();
   const isAdmin = useIsAdmin() && !compact;
@@ -37,6 +43,11 @@ export default function ProductCard({
   const inStock = selected ? selected.is_available !== false : item.is_available !== false;
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  const photoRef = useRef<HTMLInputElement>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [clearedPhoto, setClearedPhoto] = useState(false);
+  const [photoMenu, setPhotoMenu] = useState(false);
+  const shownPhoto = clearedPhoto ? "" : photoPreview || item.image_url || "";
 
   function handleAdd() {
     if (!inStock) return;
@@ -60,14 +71,59 @@ export default function ProductCard({
       } ${isAdmin && item.is_hidden ? "ring-2 ring-maroon-300" : ""}`}
     >
       <div className="relative aspect-square w-full overflow-hidden bg-gold-50">
-        {item.image_url ? (
-          <ProductImage
-            src={item.image_url}
-            alt={item.name}
-            sizes={compact ? "176px" : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"}
-            className="object-cover"
-            priority={priority}
-          />
+        {shownPhoto ? (
+          shownPhoto.startsWith("blob:") ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={shownPhoto} alt={item.name} className="h-full w-full object-cover" />
+          ) : (
+            <ProductImage
+              src={shownPhoto}
+              alt={item.name}
+              sizes={compact ? "176px" : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"}
+              className="object-cover"
+              priority={priority}
+            />
+          )
+        ) : null}
+        {isAdmin ? (
+          <>
+            <button
+              type="button"
+              onClick={() => (shownPhoto ? setPhotoMenu((open) => !open) : photoRef.current?.click())}
+              className="absolute inset-0 z-[1]"
+              aria-label={shownPhoto ? "Change product photo" : "Add product photo"}
+            />
+            {photoMenu ? (
+              <div className="absolute inset-x-2 bottom-2 z-[2] flex flex-col gap-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPhotoMenu(false);
+                    photoRef.current?.click();
+                  }}
+                  className="rounded-lg bg-maroon-800 px-2 py-1.5 text-[11px] font-semibold text-white"
+                >
+                  Replace photo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setClearedPhoto(true);
+                    setPhotoPreview(null);
+                    setPhotoMenu(false);
+                    if (photoRef.current) photoRef.current.value = "";
+                  }}
+                  className="rounded-lg bg-red-700 px-2 py-1.5 text-[11px] font-semibold text-white"
+                >
+                  Remove photo
+                </button>
+              </div>
+            ) : (
+              <span className="pointer-events-none absolute bottom-2 left-2 z-[1] rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-semibold text-white">
+                Tap photo
+              </span>
+            )}
+          </>
         ) : null}
         {isAdmin && item.is_hidden ? (
           <span className="absolute left-2 top-2 rounded-full bg-maroon-800 px-2 py-0.5 text-[10px] font-semibold text-white">
@@ -88,12 +144,12 @@ export default function ProductCard({
                 "variant_ids",
                 variants?.map((entry) => entry.id).join(",") ?? ""
               );
-              formData.set("category_id", itemSection(item));
               formData.set("description", item.description ?? "");
               formData.set("image_url", item.image_url ?? "");
               formData.set("is_hidden", formData.get("is_hidden") ? "true" : "false");
               formData.set("is_out_of_stock", formData.get("is_out_of_stock") ? "true" : "false");
               formData.set("is_bestseller", formData.get("is_bestseller") ? "true" : "false");
+              await withCompressedPhoto(formData);
               setStatus("saving");
               setError(null);
               const result = await saveStorefrontItem(formData);
@@ -106,6 +162,21 @@ export default function ProductCard({
               onSaved?.();
             }}
           >
+            <input
+              ref={photoRef}
+              name="photo"
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                setClearedPhoto(false);
+                setPhotoPreview(URL.createObjectURL(file));
+                setPhotoMenu(false);
+              }}
+            />
+            {clearedPhoto ? <input type="hidden" name="clear_image" value="true" /> : null}
             <label className="flex min-h-0 flex-1 flex-col text-[11px] text-maroon-800">
               Name
               <textarea
@@ -144,6 +215,11 @@ export default function ProductCard({
                 className="mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm"
               />
             </label>
+            <PlacementFields
+              compact
+              defaultSection={aisleSection || itemSection(item)}
+              defaultAisle={aisleSlug}
+            />
             <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
               <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
                 <input

@@ -8,6 +8,8 @@ import { addMenuItem } from "./actions";
 import AdminItemForm from "./AdminItemForm";
 import AdminNav from "./AdminNav";
 import PhotoPicker from "./PhotoPicker";
+import { defaultPlacementKey } from "@/lib/itemPlacement";
+import PlacementFields from "./PlacementFields";
 import { withCompressedPhoto } from "@/lib/compressImage";
 
 function itemSection(item: MenuItem) {
@@ -19,10 +21,12 @@ export default function AdminPanel({
   items,
   orders,
   needsSecret,
+  itemAisleKeys = {},
 }: {
   items: MenuItem[];
   orders: AdminOrder[];
   needsSecret: boolean;
+  itemAisleKeys?: Record<string, string>;
 }) {
   const router = useRouter();
   const [section, setSection] = useState<(typeof SECTIONS)[number]["slug"] | "all">("sweets");
@@ -95,13 +99,7 @@ export default function AdminPanel({
             placeholder="Price (Rs)"
             className="rounded-xl border border-gold-200 px-3 py-2"
           />
-          <select name="category_id" defaultValue="sweets" className="rounded-xl border border-gold-200 px-3 py-2">
-            {SECTIONS.map((s) => (
-              <option key={s.slug} value={s.slug}>
-                {s.name}
-              </option>
-            ))}
-          </select>
+          <PlacementFields defaultSection="sweets" defaultAisle="" />
           <PhotoPicker />
           <input
             name="description"
@@ -164,7 +162,10 @@ export default function AdminPanel({
         ) : (
           grouped.map((item) => (
             <li key={item.id} className="rounded-2xl border border-gold-200 bg-white p-4">
-              <AdminItemForm item={item} />
+              <AdminItemForm
+                item={item}
+                placementKey={itemAisleKeys[item.id] || defaultPlacementKey(item)}
+              />
             </li>
           ))
         )}

@@ -1,16 +1,31 @@
 import { NextResponse } from "next/server";
 import { isAdminSession } from "@/lib/adminAuth";
 import { loadMenuIncludingHiddenUncached, loadAllMenuItems } from "@/lib/loadMenu";
-import { loadAisleItems, applyMenuOverrides } from "@/lib/loadAisleItems";
+import { applyMenuOverrides } from "@/lib/loadAisleItems";
 import { isGeneralAisle } from "@/lib/generalAisles";
 import { isBeverageAisle } from "@/lib/beverageAisles";
-import { bakeryItemsOutsideAisles, filterBakeryAisleItems, isBakeryAisle } from "@/lib/bakeryAisles";
-import { filterSweetsAisleItems, isSweetsAisle } from "@/lib/sweetsAisles";
+import { isBakeryAisle } from "@/lib/bakeryAisles";
+import { isSweetsAisle } from "@/lib/sweetsAisles";
 import { loadStoreVisibilityUncached } from "@/lib/storeVisibility";
 import { isSectionSlug } from "@/lib/sections";
+import { itemsForPlacement } from "@/lib/itemPlacement";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+function placed(
+  key: string,
+  visibility: Awaited<ReturnType<typeof loadStoreVisibilityUncached>>,
+  overrides: Awaited<ReturnType<typeof loadAllMenuItems>>
+) {
+  return applyMenuOverrides(
+    itemsForPlacement(key, visibility, overrides),
+    overrides,
+    true,
+    visibility.hiddenItemIds,
+    visibility.bestsellerIds
+  );
+}
 
 export async function GET(request: Request) {
   if (!(await isAdminSession())) {
@@ -22,54 +37,39 @@ export async function GET(request: Request) {
   const aisle = String(searchParams.get("aisle") || "").trim();
 
   try {
+    const [visibility, overrides] = await Promise.all([
+      loadStoreVisibilityUncached(),
+      loadAllMenuItems(),
+    ]);
+
     if (aisle && section === "general" && isGeneralAisle(aisle)) {
-      const [visibility, overrides] = await Promise.all([loadStoreVisibilityUncached(), loadAllMenuItems()]);
-      return NextResponse.json({
-        items: applyMenuOverrides(
-          loadAisleItems(aisle),
-          overrides,
-          true,
-          visibility.hiddenItemIds,
-          visibility.bestsellerIds
-        ),
-      });
+      return NextResponse.json({ items: placed(`general:${aisle}`, visibility, overrides) });
     }
 
     if (aisle && section === "beverage" && isBeverageAisle(aisle)) {
-      const [visibility, overrides] = await Promise.all([loadStoreVisibilityUncached(), loadAllMenuItems()]);
+      return NextResponse.json({ items: placed(`beverage:${aisle}`, visibility, overrides) });
+    }
+
+    if (aisle && section === "bakery" && isBakeryAisle(aisle)) {
+      return NextResponse.json({ items: placed(`bakery:${aisle}`, visibility, overrides) });
+    }
+
+    if (aisle && section === "sweets" && isSweetsAisle(aisle)) {
+      return NextResponse.json({ items: placed(`sweets:${aisle}`, visibility, overrides) });
+    }
+
+    if (section && isSectionSlug(section)) {
+      if (section === "sweets") return NextResponse.json({ items: [] });
+      const categories = await loadMenuIncludingHiddenUncached();
+      const category = categories.find((entry) => entry.slug === section);
       return NextResponse.json({
         items: applyMenuOverrides(
-          loadAisleItems(`beverage:${aisle}`),
+          itemsForPlacement(section, visibility, category?.items ?? []),
           overrides,
           true,
           visibility.hiddenItemIds,
           visibility.bestsellerIds
         ),
-      });
-    }
-
-    if (aisle && section === "bakery" && isBakeryAisle(aisle)) {
-      const categories = await loadMenuIncludingHiddenUncached();
-      const bakery = categories.find((entry) => entry.slug === "bakery");
-      return NextResponse.json({
-        items: filterBakeryAisleItems(bakery?.items ?? [], aisle),
-      });
-    }
-
-    if (aisle && section === "sweets" && isSweetsAisle(aisle)) {
-      const categories = await loadMenuIncludingHiddenUncached();
-      const sweets = categories.find((entry) => entry.slug === "sweets");
-      return NextResponse.json({
-        items: filterSweetsAisleItems(sweets?.items ?? [], aisle),
-      });
-    }
-
-    if (section && isSectionSlug(section)) {
-      const categories = await loadMenuIncludingHiddenUncached();
-      const category = categories.find((entry) => entry.slug === section);
-      const items = category?.items ?? [];
-      return NextResponse.json({
-        items: section === "bakery" ? bakeryItemsOutsideAisles(items) : section === "sweets" ? [] : items,
       });
     }
 

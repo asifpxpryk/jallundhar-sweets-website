@@ -178,6 +178,8 @@ export default function CategoryProductGrid({
               item={item}
               priority={index < 4}
               onSaved={isAdmin ? loadAdminCatalog : undefined}
+              aisleSection={aisleSection}
+              aisleSlug={aisleSlug}
             />
           ))}
         </div>

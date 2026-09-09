@@ -16,6 +16,7 @@ export type StoreVisibility = {
   hiddenAisles: string[];
   hiddenItemIds: string[];
   bestsellerIds: string[];
+  itemAisleKeys: Record<string, string>;
 };
 
 export const ITEM_VISIBILITY_PREFIX = "item:";
@@ -39,6 +40,15 @@ function asSet(values: string[]): Set<string> {
   return new Set(values.filter(Boolean));
 }
 
+function parseAisleKeys(raw: unknown): Record<string, string> {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const out: Record<string, string> = {};
+  for (const [id, key] of Object.entries(raw as Record<string, unknown>)) {
+    if (id && typeof key === "string" && key.trim()) out[id] = key.trim();
+  }
+  return out;
+}
+
 function parseVisibility(raw: unknown): StoreVisibility {
   const data = (raw ?? {}) as Partial<StoreVisibility>;
   return {
@@ -46,6 +56,7 @@ function parseVisibility(raw: unknown): StoreVisibility {
     hiddenAisles: [...asSet(data.hiddenAisles ?? [])],
     hiddenItemIds: [...asSet(data.hiddenItemIds ?? [])],
     bestsellerIds: [...asSet(data.bestsellerIds ?? [])],
+    itemAisleKeys: parseAisleKeys(data.itemAisleKeys),
   };
 }
 
@@ -95,6 +106,7 @@ function applyRows(base: StoreVisibility, rows: VisibilityRow[]): StoreVisibilit
     hiddenAisles: [...aisles],
     hiddenItemIds: [...items],
     bestsellerIds: [...asSet(base.bestsellerIds)],
+    itemAisleKeys: { ...base.itemAisleKeys },
   };
 }
 
@@ -143,6 +155,7 @@ export function visibilityConfigRow(vis: StoreVisibility) {
       hiddenAisles: vis.hiddenAisles,
       hiddenItemIds: vis.hiddenItemIds,
       bestsellerIds: vis.bestsellerIds,
+      itemAisleKeys: vis.itemAisleKeys,
     }),
     is_available: false,
     sort_order: -1,
@@ -158,6 +171,7 @@ export async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
       hiddenAisles: config.hiddenAisles.length ? config.hiddenAisles : base.hiddenAisles,
       hiddenItemIds: [...asSet([...base.hiddenItemIds, ...config.hiddenItemIds])],
       bestsellerIds: [...asSet([...base.bestsellerIds, ...config.bestsellerIds])],
+      itemAisleKeys: { ...base.itemAisleKeys, ...config.itemAisleKeys },
     };
   }
   const rows = await loadFromSupabase();
@@ -167,7 +181,7 @@ export async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
 
 export const loadStoreVisibility = unstable_cache(
   loadStoreVisibilityUncached,
-  ["jallundhar-store-visibility-v5"],
+  ["jallundhar-store-visibility-v6"],
   { revalidate: 60, tags: ["store-visibility"] }
 );
 
@@ -226,6 +240,16 @@ export function applyBestsellerToggle(vis: StoreVisibility, id: string, on: bool
   return { ...vis, bestsellerIds: [...ids] };
 }
 
+export function applyItemPlacement(vis: StoreVisibility, ids: string[], placement: string): StoreVisibility {
+  const keys = { ...vis.itemAisleKeys };
+  for (const id of ids) {
+    if (!id) continue;
+    if (placement) keys[id] = placement;
+    else delete keys[id];
+  }
+  return { ...vis, itemAisleKeys: keys };
+}
+
 export function applyVisibilityToggle(
   vis: StoreVisibility,
   kind: CategoryKind,
@@ -245,6 +269,7 @@ export async function writeStoreVisibilityFallback(vis: StoreVisibility) {
         hiddenAisles: vis.hiddenAisles,
         hiddenItemIds: vis.hiddenItemIds,
         bestsellerIds: vis.bestsellerIds,
+        itemAisleKeys: vis.itemAisleKeys,
       },
       null,
       2

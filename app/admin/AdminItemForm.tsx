@@ -3,15 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { MenuItem } from "@/lib/types";
-import { SECTIONS, isSectionSlug, assignSection } from "@/lib/sections";
 import { saveMenuItem } from "./actions";
 import PhotoPicker from "./PhotoPicker";
+import PlacementFields from "./PlacementFields";
 import { withCompressedPhoto } from "@/lib/compressImage";
-
-function itemSection(item: MenuItem) {
-  if (isSectionSlug(item.category_id)) return item.category_id;
-  return assignSection(item.name, item.category_id.split(",").filter(Boolean));
-}
+import { defaultPlacementKey, parsePlacement } from "@/lib/itemPlacement";
 
 function recentlySaved(id: string) {
   if (typeof window === "undefined") return false;
@@ -19,12 +15,19 @@ function recentlySaved(id: string) {
   return Date.now() - at < 8000;
 }
 
-export default function AdminItemForm({ item }: { item: MenuItem }) {
+export default function AdminItemForm({
+  item,
+  placementKey,
+}: {
+  item: MenuItem;
+  placementKey?: string;
+}) {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">(() =>
     recentlySaved(item.id) ? "saved" : "idle"
   );
   const [error, setError] = useState<string | null>(null);
+  const placement = parsePlacement(placementKey || defaultPlacementKey(item));
 
   return (
     <form
@@ -72,20 +75,7 @@ export default function AdminItemForm({ item }: { item: MenuItem }) {
           className="mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
         />
       </label>
-      <label className="text-sm text-maroon-800">
-        Category
-        <select
-          name="category_id"
-          defaultValue={itemSection(item)}
-          className="mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
-        >
-          {SECTIONS.map((s) => (
-            <option key={s.slug} value={s.slug}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-      </label>
+      <PlacementFields defaultSection={placement.section} defaultAisle={placement.aisle} />
       <label className="text-sm text-maroon-800 sm:col-span-2">
         Description
         <input

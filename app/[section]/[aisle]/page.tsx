@@ -2,19 +2,11 @@ import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
 import { GENERAL_AISLES, getGeneralAisle, isGeneralAisle } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES, getBeverageAisle, isBeverageAisle } from "@/lib/beverageAisles";
-import {
-  BAKERY_AISLES,
-  filterBakeryAisleItems,
-  getBakeryAisle,
-  isBakeryAisle,
-} from "@/lib/bakeryAisles";
-import {
-  SWEETS_AISLES,
-  filterSweetsAisleItems,
-  getSweetsAisle,
-  isSweetsAisle,
-} from "@/lib/sweetsAisles";
-import { loadAisleItems, applyMenuOverrides } from "@/lib/loadAisleItems";
+import { BAKERY_AISLES, getBakeryAisle, isBakeryAisle } from "@/lib/bakeryAisles";
+import { SWEETS_AISLES, getSweetsAisle, isSweetsAisle } from "@/lib/sweetsAisles";
+import { applyMenuOverrides } from "@/lib/loadAisleItems";
+import { itemsForPlacement } from "@/lib/itemPlacement";
+import { loadAllMenuItems } from "@/lib/loadMenu";
 import {
   isAisleHidden,
   isBakeryAisleHidden,
@@ -22,7 +14,6 @@ import {
   isSweetsAisleHidden,
   loadStoreVisibility,
 } from "@/lib/storeVisibility";
-import { loadMenu } from "@/lib/loadMenu";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -82,8 +73,7 @@ export default async function NestedAislePage({
   params: { section: string; aisle: string };
 }) {
   const visibility = await loadStoreVisibility();
-  const menu = await loadMenu();
-  const overrides = menu.flatMap((category) => category.items);
+  const overrides = await loadAllMenuItems();
 
   if (params.section === "general" && isGeneralAisle(params.aisle)) {
     if (isAisleHidden(visibility, params.aisle)) notFound();
@@ -92,7 +82,7 @@ export default async function NestedAislePage({
       <CategoryProducts
         name={aisle.name}
         items={applyMenuOverrides(
-          loadAisleItems(aisle.slug),
+          itemsForPlacement(`general:${aisle.slug}`, visibility, overrides),
           overrides,
           false,
           visibility.hiddenItemIds,
@@ -112,7 +102,7 @@ export default async function NestedAislePage({
       <CategoryProducts
         name={aisle.name}
         items={applyMenuOverrides(
-          loadAisleItems(`beverage:${aisle.slug}`),
+          itemsForPlacement(`beverage:${aisle.slug}`, visibility, overrides),
           overrides,
           false,
           visibility.hiddenItemIds,
@@ -128,11 +118,16 @@ export default async function NestedAislePage({
   if (params.section === "bakery" && isBakeryAisle(params.aisle)) {
     if (isBakeryAisleHidden(visibility, params.aisle)) notFound();
     const aisle = getBakeryAisle(params.aisle)!;
-    const bakery = menu.find((category) => category.slug === "bakery");
     return (
       <CategoryProducts
         name={aisle.name}
-        items={filterBakeryAisleItems(bakery?.items ?? [], aisle.slug)}
+        items={applyMenuOverrides(
+          itemsForPlacement(`bakery:${aisle.slug}`, visibility, overrides),
+          overrides,
+          false,
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds
+        )}
         image={aisle.image}
         aisleSection="bakery"
         aisleSlug={aisle.slug}
@@ -143,11 +138,16 @@ export default async function NestedAislePage({
   if (params.section === "sweets" && isSweetsAisle(params.aisle)) {
     if (isSweetsAisleHidden(visibility, params.aisle)) notFound();
     const aisle = getSweetsAisle(params.aisle)!;
-    const sweets = menu.find((category) => category.slug === "sweets");
     return (
       <CategoryProducts
         name={aisle.name}
-        items={filterSweetsAisleItems(sweets?.items ?? [], aisle.slug)}
+        items={applyMenuOverrides(
+          itemsForPlacement(`sweets:${aisle.slug}`, visibility, overrides),
+          overrides,
+          false,
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds
+        )}
         image={aisle.image}
         aisleSection="sweets"
         aisleSlug={aisle.slug}

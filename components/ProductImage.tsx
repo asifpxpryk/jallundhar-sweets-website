@@ -28,6 +28,8 @@ export default function ProductImage({
       quality={70}
       priority={priority}
       className={className}
+      draggable={false}
+      onContextMenu={(event) => event.preventDefault()}
       onError={() => setFailed(true)}
     />
   );
