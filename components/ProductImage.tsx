@@ -3,6 +3,17 @@
 import { useState } from "react";
 import Image from "next/image";
 
+function directImageSrc(src: string) {
+  if (!src.includes("/_next/image")) return src;
+  try {
+    const url = new URL(src, "https://jallundhar.local");
+    const original = url.searchParams.get("url");
+    return original ? decodeURIComponent(original) : src;
+  } catch {
+    return src;
+  }
+}
+
 export default function ProductImage({
   src,
   alt,
@@ -21,11 +32,11 @@ export default function ProductImage({
 
   return (
     <Image
-      src={src}
+      src={directImageSrc(src)}
       alt={alt}
       fill
       sizes={sizes}
-      quality={70}
+      unoptimized
       priority={priority}
       className={className}
       draggable={false}

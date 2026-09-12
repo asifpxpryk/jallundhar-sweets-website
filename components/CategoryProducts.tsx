@@ -34,7 +34,7 @@ export default function CategoryProducts({
                 alt={name}
                 fill
                 sizes="80px"
-                quality={70}
+                unoptimized
                 className="object-contain p-[3px]"
               />
             </span>

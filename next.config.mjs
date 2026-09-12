@@ -2,10 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true,
+    // Catalog, icons, and UI images set unoptimized on the component.
+    // Only PromoBanner (ghee) uses the Image Optimization API.
+    // Keep widths few so one banner cannot mint many transformation variants.
     formats: ["image/avif", "image/webp"],
-    deviceSizes: [400, 640, 828, 1080, 1280],
-    imageSizes: [40, 80, 112, 176, 256],
+    deviceSizes: [640, 1080, 1200],
+    imageSizes: [640],
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
   experimental: {
