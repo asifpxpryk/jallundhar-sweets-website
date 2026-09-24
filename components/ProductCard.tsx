@@ -1,5 +1,6 @@
 "use client";
 
+import { trackAddToCart } from "@/lib/metaPixel";
 import { useRef, useState } from "react";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
@@ -56,15 +57,28 @@ export default function ProductCard({
   function handleAdd() {
     if (!inStock) return;
     if (selected) {
-      add({
+      const line = {
         ...item,
         id: selected.id,
         name: `${item.name} (${selected.label})`,
         price: selected.price,
+      };
+      add(line);
+      trackAddToCart({
+        content_ids: [String(selected.id)],
+        content_name: line.name,
+        value: selected.price,
+        contents: [{ id: String(selected.id), quantity: 1, item_price: selected.price }],
       });
       return;
     }
     add(item);
+    trackAddToCart({
+      content_ids: [String(item.id)],
+      content_name: item.name,
+      value: item.price,
+      contents: [{ id: String(item.id), quantity: 1, item_price: item.price }],
+    });
   }
 
   return (

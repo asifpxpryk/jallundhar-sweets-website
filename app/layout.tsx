@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import MetaPixel from "@/components/MetaPixel";
 import ProtectImages from "@/components/ProtectImages";
 import StorefrontShell from "@/components/StorefrontShell";
 import LocalBusinessJsonLd from "@/components/LocalBusinessJsonLd";
@@ -61,6 +62,7 @@ export default async function RootLayout({
         <LocalBusinessJsonLd />
         <ProtectImages />
         <StorefrontShell hiddenSections={visibility.hiddenSections}>{children}</StorefrontShell>
+        <MetaPixel />
         <ServiceWorkerRegister />
       </body>
     </html>

@@ -1,5 +1,6 @@
 "use client";
 
+import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 import { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
 import { supabase } from "@/lib/supabase";
@@ -151,6 +152,19 @@ export default function CartDrawer() {
       window.open(waUrl, "_blank");
     }
 
+    const purchaseLines = lines.map((l) => ({
+      id: String(l.id),
+      quantity: l.quantity,
+      item_price: l.price,
+    }));
+    const purchaseValue = subtotal;
+    trackPurchase({
+      value: purchaseValue,
+      currency: "PKR",
+      contents: purchaseLines,
+      content_ids: purchaseLines.map((l) => l.id),
+      num_items: purchaseLines.reduce((n, l) => n + l.quantity, 0),
+    });
     setOrderNumber(orderNo);
     setStep("success");
     clear();
@@ -343,7 +357,19 @@ export default function CartDrawer() {
             {step === "cart" ? (
               <button
                 disabled={lines.length === 0}
-                onClick={() => setStep("checkout")}
+                onClick={() => {
+                  trackInitiateCheckout({
+                    value: subtotal,
+                    content_ids: lines.map((l) => String(l.id)),
+                    contents: lines.map((l) => ({
+                      id: String(l.id),
+                      quantity: l.quantity,
+                      item_price: l.price,
+                    })),
+                    num_items: lines.reduce((n, l) => n + l.quantity, 0),
+                  });
+                  setStep("checkout");
+                }}
                 className="w-full rounded-full bg-maroon-700 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 disabled:opacity-40"
               >
                 Checkout
