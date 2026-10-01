@@ -389,7 +389,7 @@
     "name": "Plain Bread Full",
     "description": null,
     "price": 100,
-    "image_url": "/products/4740.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1789495836879-86e1e523-ddae-47c8-a53c-fd9d55bcbb4c.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Plain-Bred-1.webp",
     "is_available": true,
     "sort_order": 24
@@ -404,7 +404,7 @@
     "name": "Milky Bread Full",
     "description": null,
     "price": 100,
-    "image_url": "/products/4736.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1789054961002-f3ef9e69-4308-4e65-8a46-23c3b441a41f.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Milky-Bread-1.webp",
     "is_available": true,
     "sort_order": 25
@@ -419,7 +419,7 @@
     "name": "Brown Bread",
     "description": null,
     "price": 150,
-    "image_url": "/products/4732.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1789495846510-3afcad31-b267-42b4-807c-5b6cf3a21b0d.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Brown-Bran-Bread-1.webp",
     "is_available": true,
     "sort_order": 26
@@ -434,7 +434,7 @@
     "name": "Special Desi Ghee (half kg)",
     "description": null,
     "price": 1250,
-    "image_url": "/products/4728.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788945631692-e9864e7b-9f37-476e-913e-61dfc21f69f5.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Special-desi-ghee-1.webp2_-1.webp",
     "is_available": true,
     "sort_order": 27
@@ -464,7 +464,7 @@
     "name": "DOLLER CAKE",
     "description": null,
     "price": 150,
-    "image_url": "/products/4719.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1789060177389-0a23a412-f021-4853-a1f7-e874864e6025.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Doller-Cake-2-1.webp",
     "is_available": true,
     "sort_order": 29
@@ -480,7 +480,7 @@
     "name": "Chocolate Barfi Rolls",
     "description": null,
     "price": 1050,
-    "image_url": "/products/4707.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788939229698-99f03b73-d3c2-46e5-8462-7dab8e81bc5c.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/chocolate-barfi-Rolls-1.webp",
     "is_available": true,
     "sort_order": 30
@@ -495,7 +495,7 @@
     "name": "Chocolate Barfi Plain",
     "description": null,
     "price": 1150,
-    "image_url": "/products/4703.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788939279632-7322a4a2-0da1-4537-b709-838cff72b465.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Chocolate-Barfi-Plain-1.webp",
     "is_available": true,
     "sort_order": 31
@@ -510,7 +510,7 @@
     "name": "BASIN PAKORYIA",
     "description": "200 Grams Pack",
     "price": 90,
-    "image_url": "/products/4693.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788946483597-65c6c92f-a708-4e03-a294-fc659bac97aa.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/basin-pakorian-1.webp",
     "is_available": true,
     "sort_order": 32
@@ -603,7 +603,7 @@
     "name": "BESAN PAIRAY Desi",
     "description": null,
     "price": 1000,
-    "image_url": "/products/4668.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788938402584-d3e6ea25-78c1-488e-89a2-23f115fd6472.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Besan-paira-desi-ghee-1-1.webp",
     "is_available": true,
     "sort_order": 38
@@ -636,7 +636,7 @@
     "name": "AKHROTI SOHAN HALWA",
     "description": null,
     "price": 1600,
-    "image_url": "/products/4661.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1789055009010-12daeeaa-561c-4b06-9cd5-a802b4fa6fc5.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/sohn-halwa-6.webp",
     "is_available": true,
     "sort_order": 40
@@ -652,7 +652,7 @@
     "name": "KHOYA CHAM CHAM",
     "description": null,
     "price": 1050,
-    "image_url": "/products/4655.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788939329114-aea208b3-5bc7-43c1-9b29-bcc8546202b4.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Khoya-cham-cham-1.webp",
     "is_available": true,
     "sort_order": 41
@@ -667,7 +667,7 @@
     "name": "PHANIYAN 1 KG",
     "description": null,
     "price": 700,
-    "image_url": "/products/4653.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788983163879-bf95ce1c-d592-4a86-bdb0-360fbc55f5c8.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Phaniyan-1.webp",
     "is_available": true,
     "sort_order": 42
@@ -683,7 +683,7 @@
     "name": "CHAM CHAM",
     "description": null,
     "price": 1050,
-    "image_url": "/products/4646.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788940747923-3ea96303-0941-48a3-a261-bafd8ca64d52.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Khoya-cham-cham-1.webp",
     "is_available": true,
     "sort_order": 43
@@ -699,7 +699,7 @@
     "name": "KHOYA JAMAN",
     "description": null,
     "price": 1050,
-    "image_url": "/products/4638.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788982460437-c6564a82-d315-4ff0-94f8-98c544dc3c95.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Khoya-jaman-1.webp",
     "is_available": true,
     "sort_order": 44
@@ -731,7 +731,7 @@
     "name": "Badaam BARFI",
     "description": null,
     "price": 1150,
-    "image_url": "/products/4629.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788941839092-24152b1e-a25f-41c8-ae53-1183cb6fadac.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/badam-barfi-2-2.webp",
     "is_available": true,
     "sort_order": 46
@@ -763,7 +763,7 @@
     "name": "SPECIAL LAHORI LADU | Moti Choor Laddu",
     "description": null,
     "price": 850,
-    "image_url": "/products/4620.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788983177664-b09e0b1b-7c23-4ddc-8ea6-9be1abf13d94.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Special-Lahori-ladu-1.webp",
     "is_available": true,
     "sort_order": 48
@@ -795,7 +795,7 @@
     "name": "MIX SPECIAL SWEETS",
     "description": null,
     "price": 500,
-    "image_url": "/products/4609.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788982822712-7d28f5d1-2a94-41e7-a5a4-1f31084d43f5.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Mix-Special-Sweets-2-1.webp",
     "is_available": true,
     "sort_order": 50
@@ -811,7 +811,7 @@
     "name": "GULAB JAMAN",
     "description": null,
     "price": 500,
-    "image_url": "/products/4605.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788982494738-ec53357f-c2c7-4d2c-a30c-20b21a2345dd.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Gulab-Jamun-2.webp",
     "is_available": true,
     "sort_order": 51
@@ -827,7 +827,7 @@
     "name": "SOHAN HALWA DESI GHEE",
     "description": null,
     "price": 800,
-    "image_url": "/products/4599.webp",
+    "image_url": "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/1788982483164-6da19f76-465c-49d3-86f3-10e4042effbb.jpg",
     "remote_image_url": "https://jallundharmain.com/wp-content/uploads/2025/10/Sohn-halwa-desi-ghee-1-1.webp",
     "is_available": true,
     "sort_order": 52
