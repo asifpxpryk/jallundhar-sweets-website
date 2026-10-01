@@ -9,6 +9,10 @@ export type MenuItem = {
   is_hidden?: boolean;
   is_bestseller?: boolean;
   sort_order: number;
+  company?: string;
+  beverage_type?: string;
+  preview_only?: boolean;
+  image_is_illustrative?: boolean;
   variants?: { id: string; label: string; price: number; is_available?: boolean }[];
 };
 

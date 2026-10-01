@@ -4,7 +4,11 @@ import BestsellerScroller from "@/components/BestsellerScroller";
 import GiftPromoCard from "@/components/GiftPromoCard";
 import GheePromoBanner from "@/components/GheePromoBanner";
 import WaterPromoBanner from "@/components/WaterPromoBanner";
+import PromoBannersForPage from "@/components/PromoBannersForPage";
+import ShopExteriorBanner from "@/components/ShopExteriorBanner";
+import { DEFAULT_SHOP_EXTERIOR_TEXT } from "@/lib/shopExteriorBanner";
 import { loadMenu } from "@/lib/loadMenu";
+import { loadStoreVisibility } from "@/lib/storeVisibility";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 
 export const revalidate = 60;
@@ -35,7 +39,7 @@ function pickBestsellers(categories: MenuCategory[]): MenuItem[] {
 }
 
 export default async function Home() {
-  const categories = await loadMenu();
+  const [categories, visibility] = await Promise.all([loadMenu(), loadStoreVisibility()]);
   const bestsellers = pickBestsellers(categories);
 
   return (
@@ -43,6 +47,10 @@ export default async function Home() {
       <Hero />
       <CategoryNav />
       <BestsellerScroller items={bestsellers} />
+      <ShopExteriorBanner text={visibility.shopExteriorText ?? DEFAULT_SHOP_EXTERIOR_TEXT} />
+      <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-6 sm:grid-cols-2 sm:px-6">
+        <PromoBannersForPage page="/" visibility={visibility} categories={categories} compact />
+      </div>
       <GiftPromoCard />
       <div className="mx-auto max-w-6xl space-y-6 px-4 pb-6 sm:px-6">
         <GheePromoBanner />

@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
-import MetaPixel from "@/components/MetaPixel";
 import ProtectImages from "@/components/ProtectImages";
 import StorefrontShell from "@/components/StorefrontShell";
 import LocalBusinessJsonLd from "@/components/LocalBusinessJsonLd";
-import { loadStoreVisibility } from "@/lib/storeVisibility";
+import { listAisles, listSections } from "@/lib/categoryCatalog";
+import { loadStoreVisibility, visibleSections } from "@/lib/storeVisibility";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -56,13 +56,31 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const visibility = await loadStoreVisibility();
+  const sections = listSections(visibility);
+  const aisles = sections.flatMap((section) =>
+    listAisles(visibility, section.slug).map((aisle) => ({
+      section: section.slug,
+      slug: aisle.slug,
+      name: aisle.name,
+    }))
+  );
   return (
     <html lang="en">
       <body className="font-display text-maroon-900 antialiased">
         <LocalBusinessJsonLd />
         <ProtectImages />
-        <StorefrontShell hiddenSections={visibility.hiddenSections}>{children}</StorefrontShell>
-        <MetaPixel />
+        <StorefrontShell
+          hiddenSections={visibility.hiddenSections}
+          navSections={visibleSections(visibility).map((section) => ({
+            href: `/${section.slug}`,
+            label: section.name,
+          }))}
+          sectionSlugs={sections.map((section) => section.slug)}
+          catalogSections={sections.map((section) => ({ slug: section.slug, name: section.name }))}
+          catalogAisles={aisles}
+        >
+          {children}
+        </StorefrontShell>
         <ServiceWorkerRegister />
       </body>
     </html>

@@ -6,9 +6,11 @@ import ProductCard from "./ProductCard";
 export default function ScrollProductCard({
   item,
   priority = false,
+  aisleSection,
 }: {
   item: MenuItem;
   priority?: boolean;
+  aisleSection?: string;
 }) {
-  return <ProductCard item={item} compact priority={priority} />;
+  return <ProductCard item={item} compact priority={priority} aisleSection={aisleSection} />;
 }

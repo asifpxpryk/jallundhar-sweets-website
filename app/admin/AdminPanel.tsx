@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AdminOrder, MenuItem } from "@/lib/types";
 import { SECTIONS, isSectionSlug, assignSection, normalizeName } from "@/lib/sections";
+import { useCategoryCatalog } from "@/components/CategoryCatalogContext";
 import { addMenuItem } from "./actions";
 import AdminItemForm from "./AdminItemForm";
 import AdminNav from "./AdminNav";
@@ -29,7 +30,9 @@ export default function AdminPanel({
   itemAisleKeys?: Record<string, string>;
 }) {
   const router = useRouter();
-  const [section, setSection] = useState<(typeof SECTIONS)[number]["slug"] | "all">("sweets");
+  const catalog = useCategoryCatalog();
+  const sections = catalog?.sections.length ? catalog.sections : SECTIONS;
+  const [section, setSection] = useState<string>("sweets");
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
@@ -38,7 +41,10 @@ export default function AdminPanel({
     const tokens = q.split(/\s+/).filter(Boolean);
     let list = items;
     if (!tokens.length && section !== "all") {
-      list = items.filter((item) => itemSection(item) === section);
+      list = items.filter((item) => {
+        const placed = itemAisleKeys[item.id]?.split(":")[0];
+        return (placed || itemSection(item)) === section;
+      });
     }
     if (tokens.length) {
       list = items.filter((item) => {
@@ -47,7 +53,7 @@ export default function AdminPanel({
       });
     }
     return [...list].sort((a, b) => a.sort_order - b.sort_order);
-  }, [items, section, query]);
+  }, [itemAisleKeys, items, section, query]);
 
   function flash(text: string) {
     setMessage(text);
@@ -141,7 +147,7 @@ export default function AdminPanel({
         >
           All
         </button>
-        {SECTIONS.map((s) => (
+        {sections.map((s) => (
           <button
             key={s.slug}
             onClick={() => setSection(s.slug)}

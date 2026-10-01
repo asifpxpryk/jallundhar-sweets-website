@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { trackViewContent } from "@/lib/metaPixel";
+import { useEffect } from "react";
 
 function scrollToHash() {
   const id = window.location.hash.replace("#", "");
@@ -12,20 +11,7 @@ function scrollToHash() {
   return true;
 }
 
-function fireViewContentFromHash() {
-  const raw = window.location.hash.replace("#", "");
-  if (!raw) return;
-  const id = raw.startsWith("item-") ? raw.slice("item-".length) : raw;
-  if (!id) return;
-  trackViewContent({
-    content_ids: [id],
-    content_name: id,
-    content_type: "product",
-  });
-}
-
 export default function HashScroll() {
-  const last = useRef("");
   useEffect(() => {
     let tries = 0;
     let timer = 0;
@@ -39,11 +25,6 @@ export default function HashScroll() {
       tries = 0;
       window.clearTimeout(timer);
       attempt();
-      const raw = window.location.hash.replace("#", "");
-      if (raw && raw !== last.current) {
-        last.current = raw;
-        fireViewContentFromHash();
-      }
     }
 
     restart();

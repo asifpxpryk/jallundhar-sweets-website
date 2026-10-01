@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { aislesForSection, SECTION_OPTIONS } from "@/lib/placementOptions";
+import { useCategoryCatalog } from "@/components/CategoryCatalogContext";
 
 export default function PlacementFields({
   defaultSection,
@@ -12,8 +13,12 @@ export default function PlacementFields({
   defaultAisle?: string;
   compact?: boolean;
 }) {
+  const catalog = useCategoryCatalog();
   const [section, setSection] = useState(defaultSection);
-  const aisles = aislesForSection(section);
+  const sections = catalog?.sections.length ? catalog.sections : SECTION_OPTIONS;
+  const aisles = catalog
+    ? catalog.aisles.filter((aisle) => aisle.section === section)
+    : aislesForSection(section);
   const aisleValue = aisles.some((aisle) => aisle.slug === defaultAisle) ? defaultAisle : "";
 
   return (
@@ -30,7 +35,7 @@ export default function PlacementFields({
               : "mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
           }
         >
-          {SECTION_OPTIONS.map((entry) => (
+          {sections.map((entry) => (
             <option key={entry.slug} value={entry.slug}>
               {entry.name}
             </option>

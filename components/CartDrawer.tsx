@@ -1,6 +1,5 @@
 "use client";
 
-import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 import { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
 import { supabase } from "@/lib/supabase";
@@ -85,7 +84,7 @@ export default function CartDrawer() {
     // Open a blank tab synchronously (before any await) so browsers don't block it as a popup.
     const waWindow = window.open("", "_blank");
 
-    let orderNo: number | null = null;
+    const orderNo: number | null = null;
     const localId = `local-${Date.now()}`;
     saveLocalOrder({
       id: localId,
@@ -111,9 +110,11 @@ export default function CartDrawer() {
     });
 
     try {
-      const { data: order, error: orderError } = await supabase
+      const orderId = crypto.randomUUID();
+      const { error: orderError } = await supabase
         .from("orders")
         .insert({
+          id: orderId,
           customer_name: form.customer_name.trim() || null,
           phone: form.phone.trim(),
           address: form.address.trim(),
@@ -122,14 +123,11 @@ export default function CartDrawer() {
           notes: form.notes.trim() || null,
           subtotal,
           total: subtotal,
-        })
-        .select("id, order_number")
-        .single();
+        });
 
-      if (!orderError && order) {
-        orderNo = order.order_number;
+      if (!orderError) {
         const itemRows = lines.map((l) => ({
-          order_id: order.id,
+          order_id: orderId,
           item_name: l.name,
           quantity: l.quantity,
           unit_price: l.price,
@@ -152,19 +150,6 @@ export default function CartDrawer() {
       window.open(waUrl, "_blank");
     }
 
-    const purchaseLines = lines.map((l) => ({
-      id: String(l.id),
-      quantity: l.quantity,
-      item_price: l.price,
-    }));
-    const purchaseValue = subtotal;
-    trackPurchase({
-      value: purchaseValue,
-      currency: "PKR",
-      contents: purchaseLines,
-      content_ids: purchaseLines.map((l) => l.id),
-      num_items: purchaseLines.reduce((n, l) => n + l.quantity, 0),
-    });
     setOrderNumber(orderNo);
     setStep("success");
     clear();
@@ -357,19 +342,7 @@ export default function CartDrawer() {
             {step === "cart" ? (
               <button
                 disabled={lines.length === 0}
-                onClick={() => {
-                  trackInitiateCheckout({
-                    value: subtotal,
-                    content_ids: lines.map((l) => String(l.id)),
-                    contents: lines.map((l) => ({
-                      id: String(l.id),
-                      quantity: l.quantity,
-                      item_price: l.price,
-                    })),
-                    num_items: lines.reduce((n, l) => n + l.quantity, 0),
-                  });
-                  setStep("checkout");
-                }}
+                onClick={() => setStep("checkout")}
                 className="w-full rounded-full bg-maroon-700 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 disabled:opacity-40"
               >
                 Checkout

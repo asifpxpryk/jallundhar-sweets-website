@@ -7,9 +7,11 @@ import ScrollProductCard from "./ScrollProductCard";
 export default function BestsellerScroller({
   items,
   embedded = false,
+  aisleSection,
 }: {
   items: MenuItem[];
   embedded?: boolean;
+  aisleSection?: string;
 }) {
   if (items.length === 0) return null;
 
@@ -28,7 +30,7 @@ export default function BestsellerScroller({
       </div>
       <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 pt-1 scrollbar-hide sm:gap-4">
         {items.map((item, index) => (
-          <ScrollProductCard key={item.id} item={item} priority={index < 4} />
+          <ScrollProductCard key={item.id} item={item} priority={index < 4} aisleSection={aisleSection} />
         ))}
       </div>
     </section>

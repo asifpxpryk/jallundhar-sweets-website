@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { unstable_cache, revalidateTag } from "next/cache";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 import { SECTIONS, assignSection, isHiddenMenuItem, collapseCheesePizzas, isSectionSlug, normalizeName, type SectionSlug } from "@/lib/sections";
+import { listSections } from "@/lib/categoryCatalog";
 import { isAdminSession } from "@/lib/adminAuth";
 import { loadStoreVisibilityUncached, isVisibilityConfigId } from "@/lib/storeVisibility";
 import localMenu from "@/data/menu-items.json";
@@ -30,12 +31,16 @@ function groupItems(
   items: StoredMenuItem[],
   includeHidden = false,
   hiddenItemIds: string[] = [],
-  bestsellerIds: string[] = []
+  bestsellerIds: string[] = [],
+  extraSections: { slug: string; name: string }[] = []
 ): MenuCategory[] {
-  const grouped = new Map<SectionSlug, MenuItem[]>();
+  const grouped = new Map<string, MenuItem[]>();
   const hiddenIds = new Set(hiddenItemIds);
   const bestIds = new Set(bestsellerIds);
+  const extras = extraSections.filter((section) => !SECTIONS.some((builtin) => builtin.slug === section.slug));
+  const extraSlugs = new Set(extras.map((section) => section.slug));
   for (const section of SECTIONS) grouped.set(section.slug, []);
+  for (const section of extras) grouped.set(section.slug, []);
 
   items.forEach((item) => {
     if (AISLE_ITEM_IDS.has(item.id)) return;
@@ -44,7 +49,7 @@ function groupItems(
     if (hidden && !includeHidden) return;
     if (isHiddenMenuItem(item.name)) return;
     if (normalizeName(item.name) === "chicken leg piece" && item.category_id === "general") return;
-    const slug = sectionForItem(item);
+    const slug = extraSlugs.has(item.category_id) ? item.category_id : sectionForItem(item);
     grouped.get(slug)?.push({
       id: item.id,
       category_id: slug,
@@ -59,7 +64,7 @@ function groupItems(
     });
   });
 
-  return SECTIONS.map((section, i) => ({
+  return [...SECTIONS, ...extras].map((section, i) => ({
     id: section.slug,
     slug: section.slug,
     name: section.name,
@@ -81,14 +86,16 @@ function groupItems(
 function loadFromLocal(
   includeHidden = false,
   hiddenItemIds: string[] = [],
-  bestsellerIds: string[] = []
+  bestsellerIds: string[] = [],
+  extraSections: { slug: string; name: string }[] = []
 ): MenuCategory[] {
   const items = localMenu as StoredMenuItem[];
   if (!items.length) return [];
-  return groupItems(items, includeHidden, hiddenItemIds, bestsellerIds);
+  return groupItems(items, includeHidden, hiddenItemIds, bestsellerIds, extraSections);
 }
 
 async function loadFromSupabase(): Promise<MenuItem[]> {
+  if (process.env.JALLUNDHAR_LOCAL_PREVIEW === "1") return [];
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return [];
@@ -130,11 +137,12 @@ function groupedFromDbOrLocal(
   fromDb: MenuItem[],
   includeHidden = false,
   hiddenItemIds: string[] = [],
-  bestsellerIds: string[] = []
+  bestsellerIds: string[] = [],
+  extraSections: { slug: string; name: string }[] = []
 ): MenuCategory[] {
-  const grouped = groupItems(fromDb, includeHidden, hiddenItemIds, bestsellerIds);
+  const grouped = groupItems(fromDb, includeHidden, hiddenItemIds, bestsellerIds, extraSections);
   if (menuHasItems(grouped)) return grouped;
-  const local = groupItems(localMenu as StoredMenuItem[], includeHidden, hiddenItemIds, bestsellerIds);
+  const local = groupItems(localMenu as StoredMenuItem[], includeHidden, hiddenItemIds, bestsellerIds, extraSections);
   return menuHasItems(local) ? local : grouped;
 }
 
@@ -155,16 +163,26 @@ function withHiddenFlags(
     }));
 }
 
+function extraSections(vis: Parameters<typeof listSections>[0]) {
+  return listSections(vis)
+    .filter((section) => section.custom)
+    .map((section) => ({
+      slug: section.slug,
+      name: section.name,
+    }));
+}
+
 async function loadMenuUncached(): Promise<MenuCategory[]> {
   const vis = await loadStoreVisibilityUncached();
+  const extras = extraSections(vis);
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (url && key) {
     const fromDb = await loadFromSupabase();
-    return groupedFromDbOrLocal(fromDb, false, vis.hiddenItemIds, vis.bestsellerIds);
+    return groupedFromDbOrLocal(fromDb, false, vis.hiddenItemIds, vis.bestsellerIds, extras);
   }
 
-  const local = loadFromLocal(false, vis.hiddenItemIds, vis.bestsellerIds);
+  const local = loadFromLocal(false, vis.hiddenItemIds, vis.bestsellerIds, extras);
   if (local.some((category) => category.items.length > 0)) return local;
   return [];
 }
@@ -182,20 +200,21 @@ export async function loadAllMenuItems(): Promise<MenuItem[]> {
 
 export async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]> {
   const vis = await loadStoreVisibilityUncached();
+  const extras = extraSections(vis);
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (url && key) {
     const fromDb = await loadFromSupabase();
-    return groupedFromDbOrLocal(fromDb, true, vis.hiddenItemIds, vis.bestsellerIds);
+    return groupedFromDbOrLocal(fromDb, true, vis.hiddenItemIds, vis.bestsellerIds, extras);
   }
 
   const items = localMenu as StoredMenuItem[];
-  return groupItems(items, true, vis.hiddenItemIds, vis.bestsellerIds);
+  return groupItems(items, true, vis.hiddenItemIds, vis.bestsellerIds, extras);
 }
 
 export const loadMenuIncludingHidden = unstable_cache(
   loadMenuIncludingHiddenUncached,
-  ["jallundhar-menu-v25-admin"],
+  ["jallundhar-menu-v26-admin"],
   { revalidate: 60, tags: ["menu"] }
 );
 
@@ -208,7 +227,7 @@ export function refreshMenuCache() {
   revalidateTag("menu");
 }
 
-export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v25"], {
+export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v26"], {
   revalidate: 60,
   tags: ["menu"],
 });

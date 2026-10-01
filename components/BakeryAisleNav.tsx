@@ -1,16 +1,5 @@
-import CircleMenuGrid from "./CircleMenuGrid";
-import { loadStoreVisibility, visibleBakeryAisles } from "@/lib/storeVisibility";
+import SectionAisleNav from "./SectionAisleNav";
 
-export default async function BakeryAisleNav() {
-  const visibility = await loadStoreVisibility();
-  return (
-    <CircleMenuGrid
-      flush
-      items={visibleBakeryAisles(visibility).map((aisle) => ({
-        href: `/bakery/${aisle.slug}`,
-        name: aisle.name,
-        image: aisle.image,
-      }))}
-    />
-  );
+export default function BakeryAisleNav() {
+  return <SectionAisleNav section="bakery" />;
 }
