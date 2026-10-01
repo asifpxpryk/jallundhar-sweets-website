@@ -1,0 +1,2718 @@
+[
+  {
+    "pos_id": "prd-cp-5910",
+    "pos_code": "PRD-216",
+    "barcode": "8964000101377",
+    "pos_name": "7UP 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-5909",
+    "pos_code": "PRD-215",
+    "barcode": "58308506",
+    "pos_name": "7UP 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-5911",
+    "pos_code": "PRD-217",
+    "barcode": "8964000101575",
+    "pos_name": "7UP 2.25 Ltr",
+    "pos_sale_price": "250"
+  },
+  {
+    "pos_id": "prd-cp-8526",
+    "pos_code": "PRD-1809",
+    "barcode": "92918629",
+    "pos_name": "7UP 345ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-5912",
+    "pos_code": "PRD-218",
+    "barcode": "8964000101087",
+    "pos_name": "7UP 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5914",
+    "pos_code": "PRD-219",
+    "barcode": "8964000101582",
+    "pos_name": "7UP CAN",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5915",
+    "pos_code": "PRD-220",
+    "barcode": "8964002344444",
+    "pos_name": "7UP MINT 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-5916",
+    "pos_code": "PRD-221",
+    "barcode": "8964002344413",
+    "pos_name": "7UP MINT 345ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-5917",
+    "pos_code": "PRD-222",
+    "barcode": "8964002344420",
+    "pos_name": "7UP MINT 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5918",
+    "pos_code": "PRD-223",
+    "barcode": "8964002344406",
+    "pos_name": "7UP MINT CANE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5919",
+    "pos_code": "PRD-224",
+    "barcode": "77",
+    "pos_name": "7UP REG 345ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-5923",
+    "pos_code": "PRD-228",
+    "barcode": "8964002343683",
+    "pos_name": "7UP ZERO 1 Ltr",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-5924",
+    "pos_code": "PRD-229",
+    "barcode": "120008014028",
+    "pos_name": "7UP ZERO 1.5 Ltr",
+    "pos_sale_price": "210"
+  },
+  {
+    "pos_id": "prd-cp-5921",
+    "pos_code": "PRD-226",
+    "barcode": "8964000103463",
+    "pos_name": "7UP ZERO 345ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-5922",
+    "pos_code": "PRD-227",
+    "barcode": "12000022890",
+    "pos_name": "7UP ZERO 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5920",
+    "pos_code": "PRD-225",
+    "barcode": "0012000022784",
+    "pos_name": "7UP ZERO CANE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5925",
+    "pos_code": "PRD-230",
+    "barcode": "46876380002",
+    "pos_name": "APNA GORMAY 1.5L",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-5926",
+    "pos_code": "PRD-231",
+    "barcode": "46876380007",
+    "pos_name": "APNA GORMET LEMON UP 1L",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-5927",
+    "pos_code": "PRD-232",
+    "barcode": "46876380011",
+    "pos_name": "APNA GOURME MALTA 1L",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-5928",
+    "pos_code": "PRD-233",
+    "barcode": "46876380003",
+    "pos_name": "APNA GOURMET COLA 1L",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-5929",
+    "pos_code": "PRD-234",
+    "barcode": "1860236002051",
+    "pos_name": "APPLE MALT 300ML BOTTLE",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-5932",
+    "pos_code": "PRD-236",
+    "barcode": "012000002090",
+    "pos_name": "AQUAFINA 1.5 Ltr",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-5933",
+    "pos_code": "PRD-237",
+    "barcode": "0012000014338",
+    "pos_name": "AQUAFINA 500ml",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-5934",
+    "pos_code": "PRD-238",
+    "barcode": "8944513777399",
+    "pos_name": "ARABIAN BREW CLASSIC COFFE",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-9071",
+    "pos_code": "PRD-2337",
+    "barcode": "6281034900601",
+    "pos_name": "BARBICAN BOTEL PEACH FLAVOER 330ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-8939",
+    "pos_code": "PRD-2208",
+    "barcode": "6281034904456",
+    "pos_name": "BARBICAN BOTEL POMEGRANATE 330 ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-10169",
+    "pos_code": "PRD-3416",
+    "barcode": "17871394166",
+    "pos_name": "BASIL SEED APPLE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5936",
+    "pos_code": "PRD-240",
+    "barcode": "9234213",
+    "pos_name": "BASIL SEED BLUEBERRY",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5937",
+    "pos_code": "PRD-241",
+    "barcode": "8234303",
+    "pos_name": "BASIL SEED COCKTAIL",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5935",
+    "pos_code": "PRD-239",
+    "barcode": "2005488778649",
+    "pos_name": "BASIL SEED GREENAPPLE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5938",
+    "pos_code": "PRD-242",
+    "barcode": "9234220",
+    "pos_name": "BASIL SEED LYCHEE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5939",
+    "pos_code": "PRD-243",
+    "barcode": "9234214",
+    "pos_name": "BASIL SEED MANGO",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5940",
+    "pos_code": "PRD-244",
+    "barcode": "9234217",
+    "pos_name": "BASIL SEED ORANGE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5941",
+    "pos_code": "PRD-245",
+    "barcode": "9234219",
+    "pos_name": "BASIL SEED PEACH",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5942",
+    "pos_code": "PRD-246",
+    "barcode": "9234218",
+    "pos_name": "BASIL SEED PINEAPLLE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5943",
+    "pos_code": "PRD-247",
+    "barcode": "9234216",
+    "pos_name": "BASIL SEED POMEGRANATE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5944",
+    "pos_code": "PRD-248",
+    "barcode": "9234215",
+    "pos_name": "BASIL SEED STRAWBERRY",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5945",
+    "pos_code": "PRD-249",
+    "barcode": "1860074054519",
+    "pos_name": "BIG APPLE 1000ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-5946",
+    "pos_code": "PRD-250",
+    "barcode": "1860074054502",
+    "pos_name": "BIG APPLE 1500ML",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-5947",
+    "pos_code": "PRD-251",
+    "barcode": "1860074051754",
+    "pos_name": "BIG APPLE 250ML CANE",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-5948",
+    "pos_code": "PRD-252",
+    "barcode": "1860071012147",
+    "pos_name": "BIG APPLE 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-5949",
+    "pos_code": "PRD-253",
+    "barcode": "1860074051716",
+    "pos_name": "BIG APPLE 500ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-8933",
+    "pos_code": "PRD-2202",
+    "barcode": "17704645994",
+    "pos_name": "BIG LYCHEE 1.5 LTR",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-5951",
+    "pos_code": "PRD-255",
+    "barcode": "1860074054632",
+    "pos_name": "BIG LYCHEE 1000ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-5952",
+    "pos_code": "PRD-256",
+    "barcode": "1860074054595",
+    "pos_name": "BIG LYCHEE 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-5953",
+    "pos_code": "PRD-257",
+    "barcode": "1860074054601",
+    "pos_name": "BIG LYCHEE 500ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-5954",
+    "pos_code": "PRD-258",
+    "barcode": "1860074053543",
+    "pos_name": "BIGG ANAAR 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-5955",
+    "pos_code": "PRD-259",
+    "barcode": "1860074054618",
+    "pos_name": "BIGG LYCHEE 1.5 LITER",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-5961",
+    "pos_code": "PRD-260",
+    "barcode": "1860164053798",
+    "pos_name": "BIGG PINEAPPLE 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-5963",
+    "pos_code": "PRD-261",
+    "barcode": "1860236002150",
+    "pos_name": "BLITS DRINK 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-5964",
+    "pos_code": "PRD-262",
+    "barcode": "1860071016169",
+    "pos_name": "BLITZ CAN 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-5965",
+    "pos_code": "PRD-263",
+    "barcode": "8964000031858",
+    "pos_name": "BOOSTER 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-5967",
+    "pos_code": "PRD-264",
+    "barcode": "5904003285790",
+    "pos_name": "BROVARIA PEACH MALT",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-9449",
+    "pos_code": "PRD-2709",
+    "barcode": "87126754",
+    "pos_name": "Cappy Pulpy Orange 350ml",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-5973",
+    "pos_code": "PRD-267",
+    "barcode": "8721274610703",
+    "pos_name": "CHAUNSA MANGO HALF LTR",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-8977",
+    "pos_code": "PRD-2246",
+    "barcode": "8859128602007",
+    "pos_name": "CO FRESH ALMOND 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-8978",
+    "pos_code": "PRD-2247",
+    "barcode": "8859128602403",
+    "pos_name": "CO FRESH CHOCOLATE 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-8980",
+    "pos_code": "PRD-2249",
+    "barcode": "8859128602502",
+    "pos_name": "CO FRESH COCONUT  290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-9671",
+    "pos_code": "PRD-2925",
+    "barcode": "8859128602205",
+    "pos_name": "CO FRESH COCONUT WATER PINEAPPLE FLAVOUR",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-8976",
+    "pos_code": "PRD-2245",
+    "barcode": "8859128602700",
+    "pos_name": "CO FRESH MELON 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-8979",
+    "pos_code": "PRD-2248",
+    "barcode": "8859128602809",
+    "pos_name": "CO FRESH MOCHA 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-9451",
+    "pos_code": "PRD-2711",
+    "barcode": "5449000133335",
+    "pos_name": "Coca Cola  Zero 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-5975",
+    "pos_code": "PRD-268",
+    "barcode": "5449000054227",
+    "pos_name": "Coca Cola 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-5976",
+    "pos_code": "PRD-269",
+    "barcode": "5449000051981",
+    "pos_name": "Coca Cola 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-5977",
+    "pos_code": "PRD-270",
+    "barcode": "5449000000286",
+    "pos_name": "Coca Cola 2 Ltr Jumbo",
+    "pos_sale_price": "240"
+  },
+  {
+    "pos_id": "prd-cp-5978",
+    "pos_code": "PRD-271",
+    "barcode": "42117131",
+    "pos_name": "Coca Cola 350ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-5979",
+    "pos_code": "PRD-272",
+    "barcode": "54491472",
+    "pos_name": "Coca Cola 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5981",
+    "pos_code": "PRD-273",
+    "barcode": "5449000008046",
+    "pos_name": "Coca Cola Can",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9911",
+    "pos_code": "PRD-3162",
+    "barcode": "9555589200620",
+    "pos_name": "COCA COLA VANILLA FLAVOUR CANE 320ML",
+    "pos_sale_price": "750"
+  },
+  {
+    "pos_id": "prd-cp-9037",
+    "pos_code": "PRD-2304",
+    "barcode": "5449000133328",
+    "pos_name": "COCA COLA ZERO 1LTR",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5983",
+    "pos_code": "PRD-275",
+    "barcode": "5449000131836",
+    "pos_name": "Coca Cola Zero 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5982",
+    "pos_code": "PRD-274",
+    "barcode": "5449000020987",
+    "pos_name": "Coca Cola Zero Can",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-8975",
+    "pos_code": "PRD-2244",
+    "barcode": "8859128602601",
+    "pos_name": "COCONUT WATER & NATA BANANA",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-8523",
+    "pos_code": "PRD-1807",
+    "barcode": "17674661613",
+    "pos_name": "COFFEE CUP",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-6086",
+    "pos_code": "PRD-369",
+    "barcode": "8964001179016",
+    "pos_name": "COLA NEXT 1 LTR",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6087",
+    "pos_code": "PRD-370",
+    "barcode": "8964001179009",
+    "pos_name": "COLA NEXT 1.5LTR",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-6088",
+    "pos_code": "PRD-371",
+    "barcode": "8964001179030",
+    "pos_name": "COLA NEXT 2.25 Ltr",
+    "pos_sale_price": "230"
+  },
+  {
+    "pos_id": "prd-cp-5984",
+    "pos_code": "PRD-276",
+    "barcode": "8964001179702",
+    "pos_name": "COLA NEXT 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-5985",
+    "pos_code": "PRD-277",
+    "barcode": "8964001179023",
+    "pos_name": "COLA NEXT 500ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6091",
+    "pos_code": "PRD-372",
+    "barcode": "8964001179658",
+    "pos_name": "COLA NEXT CANE",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6096",
+    "pos_code": "PRD-376",
+    "barcode": "8964001179696",
+    "pos_name": "COLA NEXT ZERO CANE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-8551",
+    "pos_code": "PRD-1830",
+    "barcode": "17678875192",
+    "pos_name": "cup coffee",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-9660",
+    "pos_code": "PRD-2914",
+    "barcode": "8964001179788",
+    "pos_name": "DARE NEXT 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-9667",
+    "pos_code": "PRD-2921",
+    "barcode": "8964002383115",
+    "pos_name": "DAY FREASH NUTTELICIOUS HAZELNUT",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-8498",
+    "pos_code": "PRD-1783",
+    "barcode": "8964000816516",
+    "pos_name": "DAYFREASH CHOCOLATE",
+    "pos_sale_price": "130"
+  },
+  {
+    "pos_id": "prd-cp-9497",
+    "pos_code": "PRD-2757",
+    "barcode": "8964002383122",
+    "pos_name": "DAYFRESH  BELGAIN CHOCOLATE MILK 225ML",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-8567",
+    "pos_code": "PRD-1845",
+    "barcode": "0796554817477",
+    "pos_name": "DAYFRESH  MALAI QULFI",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5986",
+    "pos_code": "PRD-278",
+    "barcode": "8964000816622",
+    "pos_name": "DAYFRESH BANANA 225ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5987",
+    "pos_code": "PRD-279",
+    "barcode": "07723647",
+    "pos_name": "DAYFRESH CHOCOLATE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5989",
+    "pos_code": "PRD-281",
+    "barcode": "8964000816943",
+    "pos_name": "DAYFRESH MANGO FLAVORED MILK",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-8497",
+    "pos_code": "PRD-1782",
+    "barcode": "8964000816509",
+    "pos_name": "DAYFRESH PISTA ZAFRAAN",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5990",
+    "pos_code": "PRD-282",
+    "barcode": "8964000816493",
+    "pos_name": "DAYFRESH STRAWBERRY FLAVORED MILK 225ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-5988",
+    "pos_code": "PRD-280",
+    "barcode": "0796554817385",
+    "pos_name": "DAYFRESH VANILLA",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9331",
+    "pos_code": "PRD-2591",
+    "barcode": "4897070687318",
+    "pos_name": "DEW DROP POPPING BOBA BLURBERRY 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9332",
+    "pos_code": "PRD-2592",
+    "barcode": "4897070687325",
+    "pos_name": "DEW DROP POPPING BOBA GREEN GRAPES 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9333",
+    "pos_code": "PRD-2593",
+    "barcode": "4897070687332",
+    "pos_name": "DEW DROP POPPING BOBA LYCHEE 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9338",
+    "pos_code": "PRD-2598",
+    "barcode": "4897070687356",
+    "pos_name": "DEW DROP POPPING BOBA MANGO 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9334",
+    "pos_code": "PRD-2594",
+    "barcode": "4897070687349",
+    "pos_name": "DEW DROP POPPING BOBA MANGO PASSION 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9335",
+    "pos_code": "PRD-2595",
+    "barcode": "4897070687363",
+    "pos_name": "DEW DROP POPPING BOBA PEACH 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9336",
+    "pos_code": "PRD-2596",
+    "barcode": "4897070687370",
+    "pos_name": "DEW DROP POPPING BOBA PINEAPPLE 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9337",
+    "pos_code": "PRD-2597",
+    "barcode": "4897070687387",
+    "pos_name": "DEW DROP POPPING BOBA STRAWBERRY 230ML",
+    "pos_sale_price": "300"
+  },
+  {
+    "pos_id": "prd-cp-9492",
+    "pos_code": "PRD-2752",
+    "barcode": "8859032703258",
+    "pos_name": "ESPANA ALMOND MILK  COCO 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-9491",
+    "pos_code": "PRD-2751",
+    "barcode": "8859032703241",
+    "pos_name": "ESPANA CHOCOLATE MILK COCO 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-9495",
+    "pos_code": "PRD-2755",
+    "barcode": "8859032703272",
+    "pos_name": "ESPANA MANGO MILK COCO 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-9493",
+    "pos_code": "PRD-2753",
+    "barcode": "8859032703289",
+    "pos_name": "ESPANA ROSE MILK COCO 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-9494",
+    "pos_code": "PRD-2754",
+    "barcode": "8859032703265",
+    "pos_name": "ESPANA STRAWBERRY MILK COCO 290ML",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-5995",
+    "pos_code": "PRD-286",
+    "barcode": "5449000006271",
+    "pos_name": "FANTA 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-5994",
+    "pos_code": "PRD-285",
+    "barcode": "5449000052926",
+    "pos_name": "FANTA 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-9371",
+    "pos_code": "PRD-2631",
+    "barcode": "5449000004840",
+    "pos_name": "Fanta 2 LTR",
+    "pos_sale_price": "240"
+  },
+  {
+    "pos_id": "prd-cp-5997",
+    "pos_code": "PRD-288",
+    "barcode": "5449000034113",
+    "pos_name": "FANTA 2.25 Ltr",
+    "pos_sale_price": "240"
+  },
+  {
+    "pos_id": "prd-cp-9891",
+    "pos_code": "PRD-3142",
+    "barcode": "90377884",
+    "pos_name": "FANTA 350ML",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-5996",
+    "pos_code": "PRD-287",
+    "barcode": "40822938",
+    "pos_name": "FANTA 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9619",
+    "pos_code": "PRD-2877",
+    "barcode": "5449000231079",
+    "pos_name": "FANTA ANAAR FLAVOR 500ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-9868",
+    "pos_code": "PRD-3119",
+    "barcode": "5449000348951",
+    "pos_name": "FANTA ANAAR FLAVOUR 350ML",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-9910",
+    "pos_code": "PRD-3161",
+    "barcode": "8888002084004",
+    "pos_name": "FANTA GRAPE FLAVOUR PERISA ANGGUR CANE 320ML",
+    "pos_sale_price": "750"
+  },
+  {
+    "pos_id": "prd-cp-6092",
+    "pos_code": "PRD-373",
+    "barcode": "8964001179412",
+    "pos_name": "FIZUP 1.5Ltr",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-5998",
+    "pos_code": "PRD-289",
+    "barcode": "8964001179429",
+    "pos_name": "FIZUP 1Ltr",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6002",
+    "pos_code": "PRD-293",
+    "barcode": "8964001179405",
+    "pos_name": "FIZUP 2.25L",
+    "pos_sale_price": "230"
+  },
+  {
+    "pos_id": "prd-cp-6000",
+    "pos_code": "PRD-291",
+    "barcode": "8964001179719",
+    "pos_name": "FIZUP 300ml",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6093",
+    "pos_code": "PRD-374",
+    "barcode": "8964001179436",
+    "pos_name": "FIZUP 500ml",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6001",
+    "pos_code": "PRD-292",
+    "barcode": "8964001179665",
+    "pos_name": "FIZUP CANE 250ml",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-9397",
+    "pos_code": "PRD-2657",
+    "barcode": "8964001179894",
+    "pos_name": "FIZUP MINT 1.5Ltr",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-9518",
+    "pos_code": "PRD-2778",
+    "barcode": "8964001179863",
+    "pos_name": "FIZUP MINT 300ml",
+    "pos_sale_price": "60"
+  },
+  {
+    "pos_id": "prd-cp-9206",
+    "pos_code": "PRD-2467",
+    "barcode": "8964001179726",
+    "pos_name": "FIZUP ZERO CANE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9161",
+    "pos_code": "PRD-2424",
+    "barcode": "8964000140451",
+    "pos_name": "FRESHER APPLE 500ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6004",
+    "pos_code": "PRD-295",
+    "barcode": "8964000140635",
+    "pos_name": "FRESHER FALSA 1000ML",
+    "pos_sale_price": "260"
+  },
+  {
+    "pos_id": "prd-cp-6005",
+    "pos_code": "PRD-296",
+    "barcode": "8964000140581",
+    "pos_name": "FRESHER FALSA 500ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6006",
+    "pos_code": "PRD-297",
+    "barcode": "8964000140611",
+    "pos_name": "FRESHER GUAVA 1000ML",
+    "pos_sale_price": "260"
+  },
+  {
+    "pos_id": "prd-cp-9574",
+    "pos_code": "PRD-2833",
+    "barcode": "8964000140512",
+    "pos_name": "FRESHER GUAVA NECTAR 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6007",
+    "pos_code": "PRD-298",
+    "barcode": "8964000140567",
+    "pos_name": "FRESHER GUAVA NECTER 500ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6009",
+    "pos_code": "PRD-300",
+    "barcode": "8964000140031",
+    "pos_name": "FRESHER MANGO  1000ML",
+    "pos_sale_price": "260"
+  },
+  {
+    "pos_id": "prd-cp-6008",
+    "pos_code": "PRD-299",
+    "barcode": "8964000140017",
+    "pos_name": "FRESHER MANGO 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-8529",
+    "pos_code": "PRD-1811",
+    "barcode": "8964000140024",
+    "pos_name": "FRESHER MANGO 500ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6010",
+    "pos_code": "PRD-301",
+    "barcode": "8964000140598",
+    "pos_name": "FRESHER ORANGE  500ML",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-9575",
+    "pos_code": "PRD-2834",
+    "barcode": "8964000140642",
+    "pos_name": "FRESHER ORANGE 1000ML",
+    "pos_sale_price": "310"
+  },
+  {
+    "pos_id": "prd-cp-9662",
+    "pos_code": "PRD-2916",
+    "barcode": "8964000686027",
+    "pos_name": "FRESHER ORANGE CHUNKY FRUIT CAN 250ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6012",
+    "pos_code": "PRD-303",
+    "barcode": "8964000140659",
+    "pos_name": "FRESHER PEACH 1000ML",
+    "pos_sale_price": "260"
+  },
+  {
+    "pos_id": "prd-cp-6011",
+    "pos_code": "PRD-302",
+    "barcode": "8964000140550",
+    "pos_name": "FRESHER PEACH 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-9159",
+    "pos_code": "PRD-2422",
+    "barcode": "8964000140604",
+    "pos_name": "FRESHER PEACH 500 ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-9663",
+    "pos_code": "PRD-2917",
+    "barcode": "8964000686010",
+    "pos_name": "FRESHER PEACH CHUNKY  CAN  250ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6013",
+    "pos_code": "PRD-304",
+    "barcode": "8964000140765",
+    "pos_name": "FRESHER POMEGRANATE 500ML",
+    "pos_sale_price": "160"
+  },
+  {
+    "pos_id": "prd-cp-6014",
+    "pos_code": "PRD-305",
+    "barcode": "8964000140420",
+    "pos_name": "FRESHER RED GRAPES 500ML",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-8879",
+    "pos_code": "PRD-2149",
+    "barcode": "8964000140628",
+    "pos_name": "FRESHER STRAWBERRY 1000ML",
+    "pos_sale_price": "260"
+  },
+  {
+    "pos_id": "prd-cp-9160",
+    "pos_code": "PRD-2423",
+    "barcode": "8964000140574",
+    "pos_name": "FRESHER STRAWBERRY 500ML",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6015",
+    "pos_code": "PRD-306",
+    "barcode": "7869288888002",
+    "pos_name": "FRUIT JUMMP BASIL SEED PEACH BOTTLE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6016",
+    "pos_code": "PRD-307",
+    "barcode": "7869288888011",
+    "pos_name": "FRUIT JUMP BASIL SEED COCKTAIL",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6017",
+    "pos_code": "PRD-308",
+    "barcode": "7869288888003",
+    "pos_name": "FRUIT JUMP BASIL SEED MANGO",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6018",
+    "pos_code": "PRD-309",
+    "barcode": "7869288888004",
+    "pos_name": "FRUIT JUMP BASIL SEED PINEAPPLE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6019",
+    "pos_code": "PRD-310",
+    "barcode": "7869288888006",
+    "pos_name": "FRUIT JUMP BASIL SEED POMEGRANATE",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6020",
+    "pos_code": "PRD-311",
+    "barcode": "7869288888005",
+    "pos_name": "FRUIT JUMP BASIL SEED STRAWBERRY",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6023",
+    "pos_code": "PRD-313",
+    "barcode": "8964000876091",
+    "pos_name": "FRUITIEN APPLE NECTOR 200ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6024",
+    "pos_code": "PRD-314",
+    "barcode": "8964000876084",
+    "pos_name": "FRUITIEN CHAUNSA MANGO 200ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6025",
+    "pos_code": "PRD-315",
+    "barcode": "8964000876466",
+    "pos_name": "FRUITIEN JOY MANGO 60",
+    "pos_sale_price": "60"
+  },
+  {
+    "pos_id": "prd-cp-6026",
+    "pos_code": "PRD-316",
+    "barcode": "8964000876022",
+    "pos_name": "FRUITIEN ORANGE JUICE 1L",
+    "pos_sale_price": "430"
+  },
+  {
+    "pos_id": "prd-cp-6027",
+    "pos_code": "PRD-317",
+    "barcode": "8964000876497",
+    "pos_name": "FRUITIEN ORANGE JUICE 200ML",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6028",
+    "pos_code": "PRD-318",
+    "barcode": "8964002983216",
+    "pos_name": "FRUITIEN PINEAPPLE 200ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6029",
+    "pos_code": "PRD-319",
+    "barcode": "8964000876138",
+    "pos_name": "FRUITIEN RED GRAPE 200ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-9108",
+    "pos_code": "PRD-2373",
+    "barcode": "0762497545906",
+    "pos_name": "FRUTANGO BLUEBERRY",
+    "pos_sale_price": "350"
+  },
+  {
+    "pos_id": "prd-cp-9109",
+    "pos_code": "PRD-2374",
+    "barcode": "0762497545920",
+    "pos_name": "FRUTANGO LYCHEE",
+    "pos_sale_price": "350"
+  },
+  {
+    "pos_id": "prd-cp-9107",
+    "pos_code": "PRD-2372",
+    "barcode": "0762497545913",
+    "pos_name": "FRUTANGO PEACH",
+    "pos_sale_price": "350"
+  },
+  {
+    "pos_id": "prd-cp-9106",
+    "pos_code": "PRD-2371",
+    "barcode": "0762497545937",
+    "pos_name": "FRUTANGO PINAPPLE",
+    "pos_sale_price": "350"
+  },
+  {
+    "pos_id": "prd-cp-6030",
+    "pos_code": "PRD-320",
+    "barcode": "5904003285318",
+    "pos_name": "FRUTI CAN PEACH  240ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6031",
+    "pos_code": "PRD-321",
+    "barcode": "2420786181102",
+    "pos_name": "FUNCAFE MANGO DRINK",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6032",
+    "pos_code": "PRD-322",
+    "barcode": "725765616036",
+    "pos_name": "FUSION COLA",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-6021",
+    "pos_code": "PRD-312",
+    "barcode": "8961008223506",
+    "pos_name": "FV APPLE NECTAR 200ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6097",
+    "pos_code": "PRD-377",
+    "barcode": "8961008223070",
+    "pos_name": "FV APPLE NECTOR 1L",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-6098",
+    "pos_code": "PRD-378",
+    "barcode": "8961008219790",
+    "pos_name": "FV APPLE SPARKLING CAN 250ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6099",
+    "pos_code": "PRD-379",
+    "barcode": "8961008223063",
+    "pos_name": "FV CHAUNSA 1L",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-6100",
+    "pos_code": "PRD-380",
+    "barcode": "8961008223513",
+    "pos_name": "FV CHAUNSA 200ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6101",
+    "pos_code": "PRD-381",
+    "barcode": "8961008223094",
+    "pos_name": "FV GUAVA 1L",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-6102",
+    "pos_code": "PRD-382",
+    "barcode": "8961008223476",
+    "pos_name": "FV GUAVA 200ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6103",
+    "pos_code": "PRD-383",
+    "barcode": "8961008223087",
+    "pos_name": "FV PEACH 1L",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-6104",
+    "pos_code": "PRD-384",
+    "barcode": "8961008223490",
+    "pos_name": "FV PEACH 200ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6116",
+    "pos_code": "PRD-390",
+    "barcode": "8961008221069",
+    "pos_name": "FV PEACH 80",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6105",
+    "pos_code": "PRD-385",
+    "barcode": "8961008216263",
+    "pos_name": "FV PINEAPPLE 1 LITER",
+    "pos_sale_price": "500"
+  },
+  {
+    "pos_id": "prd-cp-6106",
+    "pos_code": "PRD-386",
+    "barcode": "8961008216140",
+    "pos_name": "FV POMEGRANATE 1000ML",
+    "pos_sale_price": "500"
+  },
+  {
+    "pos_id": "prd-cp-6107",
+    "pos_code": "PRD-387",
+    "barcode": "8961008222776",
+    "pos_name": "FV RED GRAPES 200ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6108",
+    "pos_code": "PRD-388",
+    "barcode": "8961008212876",
+    "pos_name": "FV ROYAL MANGO 200ml",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6084",
+    "pos_code": "PRD-368",
+    "barcode": "8961008235622",
+    "pos_name": "FV SPARKLING 250ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6109",
+    "pos_code": "PRD-389",
+    "barcode": "8961008217321",
+    "pos_name": "FV SPARKLING PEACH CAN 250ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-10131",
+    "pos_code": "PRD-3379",
+    "barcode": "8964002344239",
+    "pos_name": "GATORADE BLUE BOLT 500ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-10132",
+    "pos_code": "PRD-3380",
+    "barcode": "8964002344253",
+    "pos_name": "GATORADE TROPICAL FRUIT 500ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6033",
+    "pos_code": "PRD-323",
+    "barcode": "9556474125219",
+    "pos_name": "GLINTER BLUEBERRY",
+    "pos_sale_price": "480"
+  },
+  {
+    "pos_id": "prd-cp-6034",
+    "pos_code": "PRD-324",
+    "barcode": "9556474123635",
+    "pos_name": "GLINTER GREEN APPLE",
+    "pos_sale_price": "480"
+  },
+  {
+    "pos_id": "prd-cp-6035",
+    "pos_code": "PRD-325",
+    "barcode": "9556474125615",
+    "pos_name": "GLINTER GUAVA",
+    "pos_sale_price": "480"
+  },
+  {
+    "pos_id": "prd-cp-6036",
+    "pos_code": "PRD-326",
+    "barcode": "9556474123628",
+    "pos_name": "GLINTER LYCHEE",
+    "pos_sale_price": "480"
+  },
+  {
+    "pos_id": "prd-cp-6037",
+    "pos_code": "PRD-327",
+    "barcode": "9556474125165",
+    "pos_name": "GLINTER STRAWBERY/KIWI",
+    "pos_sale_price": "480"
+  },
+  {
+    "pos_id": "prd-cp-6038",
+    "pos_code": "PRD-328",
+    "barcode": "46876380006",
+    "pos_name": "GOURME LEMON UP 1.5",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-6039",
+    "pos_code": "PRD-329",
+    "barcode": "46876380005",
+    "pos_name": "GOURME LEMON UP 2.25",
+    "pos_sale_price": "220"
+  },
+  {
+    "pos_id": "prd-cp-6040",
+    "pos_code": "PRD-330",
+    "barcode": "46876380001",
+    "pos_name": "GOURMET COLA 2.25",
+    "pos_sale_price": "220"
+  },
+  {
+    "pos_id": "prd-cp-6041",
+    "pos_code": "PRD-331",
+    "barcode": "46876384292",
+    "pos_name": "GOURMET COLA 250ML TIN",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6042",
+    "pos_code": "PRD-332",
+    "barcode": "8964004566349",
+    "pos_name": "GOURMET COLA 300ML",
+    "pos_sale_price": "60"
+  },
+  {
+    "pos_id": "prd-cp-6044",
+    "pos_code": "PRD-334",
+    "barcode": "46876380004",
+    "pos_name": "GOURMET COLA 500ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6043",
+    "pos_code": "PRD-333",
+    "barcode": "46876380159",
+    "pos_name": "GOURMET LEMON 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6045",
+    "pos_code": "PRD-335",
+    "barcode": "46876384112",
+    "pos_name": "GOURMET MANGO JUICE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-8481",
+    "pos_code": "PRD-1768",
+    "barcode": "46876380026",
+    "pos_name": "GOURMET SODA",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6161",
+    "pos_code": "PRD-425",
+    "barcode": "5032619312262",
+    "pos_name": "HEAVEN GRAPES AND STRAWBERY BOTTLE",
+    "pos_sale_price": "1600"
+  },
+  {
+    "pos_id": "prd-cp-9123",
+    "pos_code": "PRD-2388",
+    "barcode": "8850135557557",
+    "pos_name": "JOINER GRAPE 320ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-8972",
+    "pos_code": "PRD-2241",
+    "barcode": "8850135557441",
+    "pos_name": "JOINER LYCHEE 320ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-8973",
+    "pos_code": "PRD-2242",
+    "barcode": "8850135557229",
+    "pos_name": "JOINER MANGO 320ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-8974",
+    "pos_code": "PRD-2243",
+    "barcode": "8850135557113",
+    "pos_name": "JOINER ORANGE 320ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-9122",
+    "pos_code": "PRD-2387",
+    "barcode": "8850135557779",
+    "pos_name": "JOINER PINEAPPLE 320ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-9597",
+    "pos_code": "PRD-2855",
+    "barcode": "8850135557335",
+    "pos_name": "JOINER STRAWBERRY 320ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-6046",
+    "pos_code": "PRD-336",
+    "barcode": "1162202025126",
+    "pos_name": "JUICE UP MANGO  2L",
+    "pos_sale_price": "500"
+  },
+  {
+    "pos_id": "prd-cp-6047",
+    "pos_code": "PRD-337",
+    "barcode": "6260001375352",
+    "pos_name": "KASHMIRAN MILK PACK DAIRY 200ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6048",
+    "pos_code": "PRD-338",
+    "barcode": "1860236002037",
+    "pos_name": "LEMON MALT 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-8496",
+    "pos_code": "PRD-1781",
+    "barcode": "1860074061449",
+    "pos_name": "LEMON MALT CANE  250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6049",
+    "pos_code": "PRD-339",
+    "barcode": "1860236002099",
+    "pos_name": "LYCHEE 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-9716",
+    "pos_code": "PRD-2970",
+    "barcode": "8964001446170",
+    "pos_name": "LYCHEE DELIGHT 330ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6050",
+    "pos_code": "PRD-340",
+    "barcode": "1860236002075",
+    "pos_name": "LYCHEE MALT 250ML BOTTLE",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6053",
+    "pos_code": "PRD-341",
+    "barcode": "1860236002013",
+    "pos_name": "MALT 79 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6054",
+    "pos_code": "PRD-342",
+    "barcode": "1860074013622",
+    "pos_name": "MALT 79 250ML CANE",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6057",
+    "pos_code": "PRD-344",
+    "barcode": "0745604690256",
+    "pos_name": "MAZA PEACH 50",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6058",
+    "pos_code": "PRD-345",
+    "barcode": "71095382020",
+    "pos_name": "MEGA BASIL SEED MANGO 290ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6059",
+    "pos_code": "PRD-346",
+    "barcode": "9254120005815",
+    "pos_name": "MILK STRAWBERRY 350ML",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6060",
+    "pos_code": "PRD-347",
+    "barcode": "8961008215433",
+    "pos_name": "MILO ACTIVE GO 180ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6061",
+    "pos_code": "PRD-348",
+    "barcode": "8961008219882",
+    "pos_name": "MILO PET BOTTLE 220 ML",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6063",
+    "pos_code": "PRD-350",
+    "barcode": "8964000101315",
+    "pos_name": "MIRINDA 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6065",
+    "pos_code": "PRD-352",
+    "barcode": "12000800184",
+    "pos_name": "MIRINDA 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-8668",
+    "pos_code": "PRD-1940",
+    "barcode": "8964000101322",
+    "pos_name": "MIRINDA 2.25 Ltr",
+    "pos_sale_price": "240"
+  },
+  {
+    "pos_id": "prd-cp-6066",
+    "pos_code": "PRD-353",
+    "barcode": "8964000103319",
+    "pos_name": "MIRINDA 345ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-8983",
+    "pos_code": "PRD-2250",
+    "barcode": "8964000101605",
+    "pos_name": "MIRINDA 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6064",
+    "pos_code": "PRD-351",
+    "barcode": "8964000101506",
+    "pos_name": "MIRINDA CAN",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-8920",
+    "pos_code": "PRD-2190",
+    "barcode": "5061013949644",
+    "pos_name": "MONSTER ENERGY 500ML",
+    "pos_sale_price": "1500"
+  },
+  {
+    "pos_id": "prd-cp-6068",
+    "pos_code": "PRD-355",
+    "barcode": "8964000101100",
+    "pos_name": "MOUNTAIN DEW 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6067",
+    "pos_code": "PRD-354",
+    "barcode": "8964000101117",
+    "pos_name": "MOUNTAIN DEW 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-5991",
+    "pos_code": "PRD-283",
+    "barcode": "8964000101124",
+    "pos_name": "MOUNTAIN DEW 2.25 Ltr",
+    "pos_sale_price": "240"
+  },
+  {
+    "pos_id": "prd-cp-9201",
+    "pos_code": "PRD-2462",
+    "barcode": "17748656681",
+    "pos_name": "MOUNTAIN DEW 2.25LTR",
+    "pos_sale_price": "240"
+  },
+  {
+    "pos_id": "prd-cp-6069",
+    "pos_code": "PRD-356",
+    "barcode": "8964000103258",
+    "pos_name": "MOUNTAIN DEW 350ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-8669",
+    "pos_code": "PRD-1941",
+    "barcode": "8964000101094",
+    "pos_name": "MOUNTAIN DEW 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6070",
+    "pos_code": "PRD-357",
+    "barcode": "8964000101513",
+    "pos_name": "MOUNTAIN DEW CANE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9092",
+    "pos_code": "PRD-2358",
+    "barcode": "6223013120044",
+    "pos_name": "MOUSSY APPLE 275ML",
+    "pos_sale_price": "550"
+  },
+  {
+    "pos_id": "prd-cp-9094",
+    "pos_code": "PRD-2360",
+    "barcode": "6223013120105",
+    "pos_name": "MOUSSY ICE BERRY 275ML",
+    "pos_sale_price": "550"
+  },
+  {
+    "pos_id": "prd-cp-9091",
+    "pos_code": "PRD-2357",
+    "barcode": "6223013120259",
+    "pos_name": "MOUSSY PINE APPLE 275ML",
+    "pos_sale_price": "550"
+  },
+  {
+    "pos_id": "prd-cp-9093",
+    "pos_code": "PRD-2359",
+    "barcode": "6223013120167",
+    "pos_name": "MOUSSY STRAWBERRY 275ML",
+    "pos_sale_price": "550"
+  },
+  {
+    "pos_id": "prd-cp-8743",
+    "pos_code": "PRD-2014",
+    "barcode": "8961008238180",
+    "pos_name": "NESCAFE CAPPUCCINO COFFE 210ML",
+    "pos_sale_price": "160"
+  },
+  {
+    "pos_id": "prd-cp-6071",
+    "pos_code": "PRD-358",
+    "barcode": "8961008206752",
+    "pos_name": "NESCAFE CHILED LATTE",
+    "pos_sale_price": "160"
+  },
+  {
+    "pos_id": "prd-cp-6073",
+    "pos_code": "PRD-359",
+    "barcode": "8961008218809",
+    "pos_name": "NESCAFE CHILLED SALTED CARAMEL 220ML",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6075",
+    "pos_code": "PRD-360",
+    "barcode": "8961008219080",
+    "pos_name": "NESCAFE HAZELNUT 220ML PET BOOTLE",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-8744",
+    "pos_code": "PRD-2015",
+    "barcode": "8961008238173",
+    "pos_name": "NESCAFE LATTE CAFFEE 210ML",
+    "pos_sale_price": "160"
+  },
+  {
+    "pos_id": "prd-cp-8745",
+    "pos_code": "PRD-2016",
+    "barcode": "8961008238166",
+    "pos_name": "NESCAFE MOCHA CAOFFEE 210ML",
+    "pos_sale_price": "160"
+  },
+  {
+    "pos_id": "prd-cp-6080",
+    "pos_code": "PRD-364",
+    "barcode": "8961008221922",
+    "pos_name": "NESFRUTA 60",
+    "pos_sale_price": "60"
+  },
+  {
+    "pos_id": "prd-cp-6079",
+    "pos_code": "PRD-363",
+    "barcode": "8961008223780",
+    "pos_name": "NESFRUTA APPLE 1L",
+    "pos_sale_price": "270"
+  },
+  {
+    "pos_id": "prd-cp-6078",
+    "pos_code": "PRD-362",
+    "barcode": "8961008215662",
+    "pos_name": "NESFRUTA APPLE 200ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6081",
+    "pos_code": "PRD-365",
+    "barcode": "8961008223698",
+    "pos_name": "NESFRUTA MANGO 1LTR",
+    "pos_sale_price": "270"
+  },
+  {
+    "pos_id": "prd-cp-6077",
+    "pos_code": "PRD-361",
+    "barcode": "8961008222790",
+    "pos_name": "NESFRUTA MANGO 200ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6082",
+    "pos_code": "PRD-366",
+    "barcode": "8961008213866",
+    "pos_name": "NESFRUTA MANOG  1L",
+    "pos_sale_price": "260"
+  },
+  {
+    "pos_id": "prd-cp-9611",
+    "pos_code": "PRD-2869",
+    "barcode": "8961008212289",
+    "pos_name": "NESTLE PURE LIFE WATER 1.5LTR",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6083",
+    "pos_code": "PRD-367",
+    "barcode": "8961008212883",
+    "pos_name": "NESTLE ROYAL MANGO 1ltr",
+    "pos_sale_price": "450"
+  },
+  {
+    "pos_id": "prd-cp-9204",
+    "pos_code": "PRD-2465",
+    "barcode": "8964001179504",
+    "pos_name": "NEXT ANAAR 1.5LTR",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-9528",
+    "pos_code": "PRD-2788",
+    "barcode": "17777116651",
+    "pos_name": "NEXT ANNAR 1LTR",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-5931",
+    "pos_code": "PRD-235",
+    "barcode": "8964001179733",
+    "pos_name": "NEXT APPLE 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6095",
+    "pos_code": "PRD-375",
+    "barcode": "8964001179757",
+    "pos_name": "NEXT LYCHE 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-9529",
+    "pos_code": "PRD-2789",
+    "barcode": "8964001179795",
+    "pos_name": "NEXT RANGO 300ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-9704",
+    "pos_code": "PRD-2958",
+    "barcode": "8964002706310",
+    "pos_name": "OLPERS BADAM ZAFRAN FLAVOURED MILK 180ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-9705",
+    "pos_code": "PRD-2959",
+    "barcode": "8964002706150",
+    "pos_name": "OLPERS CHOCOLATE FLAVOURED MILK 180ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-9706",
+    "pos_code": "PRD-2960",
+    "barcode": "8964002706167",
+    "pos_name": "OLPERS STRAWBERRY FLAVOURED MILK 180ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6117",
+    "pos_code": "PRD-391",
+    "barcode": "8964000263976",
+    "pos_name": "PAKOLA BADAM ZAFRAN 235ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6118",
+    "pos_code": "PRD-392",
+    "barcode": "8964001747284",
+    "pos_name": "PAKOLA CHIKOO 200ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6119",
+    "pos_code": "PRD-393",
+    "barcode": "8964000263693",
+    "pos_name": "PAKOLA CHOCOLATE MILK 200ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6120",
+    "pos_code": "PRD-394",
+    "barcode": "8964001747031",
+    "pos_name": "PAKOLA CHOCOLATE MILK 235ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6121",
+    "pos_code": "PRD-395",
+    "barcode": "8964001747079",
+    "pos_name": "PAKOLA COLD COFFEE 235ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9946",
+    "pos_code": "PRD-3196",
+    "barcode": "899916000811",
+    "pos_name": "PAKOLA CREAM SODA  BOTTLE  500ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9944",
+    "pos_code": "PRD-3194",
+    "barcode": "8964001118244",
+    "pos_name": "PAKOLA CREAM SODA  BOTTLE 1 LTR",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-9943",
+    "pos_code": "PRD-3193",
+    "barcode": "8964001118107",
+    "pos_name": "PAKOLA CREAM SODA  BOTTLE 1.5LTR",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6122",
+    "pos_code": "PRD-396",
+    "barcode": "8964001747277",
+    "pos_name": "PAKOLA DOUBLE DELIGHT 200ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6123",
+    "pos_code": "PRD-397",
+    "barcode": "8964000263990",
+    "pos_name": "PAKOLA ICE CREAM 235ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6124",
+    "pos_code": "PRD-398",
+    "barcode": "8964001747260",
+    "pos_name": "PAKOLA KULFA 200ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6125",
+    "pos_code": "PRD-399",
+    "barcode": "8964001747253",
+    "pos_name": "PAKOLA MANGO",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6128",
+    "pos_code": "PRD-400",
+    "barcode": "8964000263716",
+    "pos_name": "PAKOLA STRAWBERRY MILK 200ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6129",
+    "pos_code": "PRD-401",
+    "barcode": "8964001747017",
+    "pos_name": "PAKOLA STRAWBERRY MILK 235ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6130",
+    "pos_code": "PRD-402",
+    "barcode": "8964000263679",
+    "pos_name": "PAKOLA ZAFRAN 200ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6132",
+    "pos_code": "PRD-404",
+    "barcode": "745604690256",
+    "pos_name": "PAPULAR MAZA GUAVA JUICE 200ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6134",
+    "pos_code": "PRD-405",
+    "barcode": "1860236002044",
+    "pos_name": "PEACH MALT 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6135",
+    "pos_code": "PRD-406",
+    "barcode": "1860071012215",
+    "pos_name": "PEACH MALT CANE 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-8667",
+    "pos_code": "PRD-1939",
+    "barcode": "8964000103234",
+    "pos_name": "PEPSI  2LTR",
+    "pos_sale_price": "250"
+  },
+  {
+    "pos_id": "prd-cp-6138",
+    "pos_code": "PRD-408",
+    "barcode": "0012000002946",
+    "pos_name": "PEPSI 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6137",
+    "pos_code": "PRD-407",
+    "barcode": "0012000800085",
+    "pos_name": "PEPSI 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-8565",
+    "pos_code": "PRD-1843",
+    "barcode": "8964002343850",
+    "pos_name": "PEPSI 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6140",
+    "pos_code": "PRD-409",
+    "barcode": "8964000101476",
+    "pos_name": "PEPSI CANE 250ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6142",
+    "pos_code": "PRD-410",
+    "barcode": "8964000103227",
+    "pos_name": "PEPSI REG 345ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6143",
+    "pos_code": "PRD-411",
+    "barcode": "8964002344062",
+    "pos_name": "PEPSI ZERO CAN",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6146",
+    "pos_code": "PRD-412",
+    "barcode": "1860236002167",
+    "pos_name": "POME MALT DRINK 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-10151",
+    "pos_code": "PRD-3399",
+    "barcode": "745604690379",
+    "pos_name": "POPPULAR MAZA RED GRAPE FRUIT DRINK 1000ML",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6147",
+    "pos_code": "PRD-413",
+    "barcode": "745604690904",
+    "pos_name": "POPULAR LYCHEE 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6148",
+    "pos_code": "PRD-414",
+    "barcode": "745604690355",
+    "pos_name": "POPULAR MAZA ANAR JUICE 1000ML",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6149",
+    "pos_code": "PRD-415",
+    "barcode": "745604690324",
+    "pos_name": "POPULAR MAZA APPLE JUICE 1000ML",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6056",
+    "pos_code": "PRD-343",
+    "barcode": "0745604690232",
+    "pos_name": "POPULAR MAZA APPLE JUICE 200ML",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6151",
+    "pos_code": "PRD-417",
+    "barcode": "0745604690317",
+    "pos_name": "POPULAR MAZA CHAUNSA MANGO JUICE 1000ML",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6150",
+    "pos_code": "PRD-416",
+    "barcode": "745604690348",
+    "pos_name": "POPULAR MAZA GUAVA JUICE 1000ML",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6152",
+    "pos_code": "PRD-418",
+    "barcode": "0745604690225",
+    "pos_name": "POPULAR MAZA MANGO JUICE 200ML",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6155",
+    "pos_code": "PRD-419",
+    "barcode": "817074003819",
+    "pos_name": "POPULAR MILKER STRABERY JUICE",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6156",
+    "pos_code": "PRD-420",
+    "barcode": "817074003802",
+    "pos_name": "POPULAR MILKER ZAFRAN ALMOND 200ML",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6157",
+    "pos_code": "PRD-421",
+    "barcode": "745604690874",
+    "pos_name": "POPULAR RASEELA CHAUNSA",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6158",
+    "pos_code": "PRD-422",
+    "barcode": "817077993049",
+    "pos_name": "POPULAR TROPICAL MIX FRUIT 300ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-9869",
+    "pos_code": "PRD-3120",
+    "barcode": "5061013968225",
+    "pos_name": "PREDATOR PEACH 250ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-10130",
+    "pos_code": "PRD-3378",
+    "barcode": "6261422502341",
+    "pos_name": "PREMIUM BARBICAN PINEAPPLE",
+    "pos_sale_price": "400"
+  },
+  {
+    "pos_id": "prd-cp-6159",
+    "pos_code": "PRD-423",
+    "barcode": "5032619312231",
+    "pos_name": "PURE HEAVEN GRAPES",
+    "pos_sale_price": "1600"
+  },
+  {
+    "pos_id": "prd-cp-6160",
+    "pos_code": "PRD-424",
+    "barcode": "5032619312279",
+    "pos_name": "PURE HEAVEN GRAPES AND MANGO",
+    "pos_sale_price": "1600"
+  },
+  {
+    "pos_id": "prd-cp-6162",
+    "pos_code": "PRD-426",
+    "barcode": "5032619312255",
+    "pos_name": "PURE HEAVEN NON ALCOHOLIC",
+    "pos_sale_price": "1600"
+  },
+  {
+    "pos_id": "prd-cp-6163",
+    "pos_code": "PRD-427",
+    "barcode": "5032619312224",
+    "pos_name": "PURE HEAVEN RED GRAPES",
+    "pos_sale_price": "1600"
+  },
+  {
+    "pos_id": "prd-cp-6164",
+    "pos_code": "PRD-428",
+    "barcode": "8964000455463",
+    "pos_name": "QUICE",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-9448",
+    "pos_code": "PRD-2708",
+    "barcode": "8964002731978",
+    "pos_name": "QUICE APPLE 1000ML",
+    "pos_sale_price": "220"
+  },
+  {
+    "pos_id": "prd-cp-8857",
+    "pos_code": "PRD-2127",
+    "barcode": "8964000455623",
+    "pos_name": "QUICE APPLE 200ml",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-9126",
+    "pos_code": "PRD-2391",
+    "barcode": "8964002731923",
+    "pos_name": "QUICE APPLE 250ML",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6165",
+    "pos_code": "PRD-429",
+    "barcode": "8964002731879",
+    "pos_name": "QUICE APPLE 500ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6166",
+    "pos_code": "PRD-430",
+    "barcode": "8964000454572",
+    "pos_name": "QUICE COLA 300ML",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6167",
+    "pos_code": "PRD-431",
+    "barcode": "8964000455661",
+    "pos_name": "QUICE FRUIT 200ML",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6168",
+    "pos_code": "PRD-432",
+    "barcode": "8964002731947",
+    "pos_name": "QUICE MANGO 1000ML",
+    "pos_sale_price": "220"
+  },
+  {
+    "pos_id": "prd-cp-6169",
+    "pos_code": "PRD-433",
+    "barcode": "8964000455630",
+    "pos_name": "QUICE MANGO 200ML",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6170",
+    "pos_code": "PRD-434",
+    "barcode": "8964002731893",
+    "pos_name": "QUICE MANGO 250ML",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6171",
+    "pos_code": "PRD-435",
+    "barcode": "8964002731848",
+    "pos_name": "QUICE MANGO 500ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6172",
+    "pos_code": "PRD-436",
+    "barcode": "8964002731626",
+    "pos_name": "QUICE MANGO JUICE 2L",
+    "pos_sale_price": "320"
+  },
+  {
+    "pos_id": "prd-cp-9556",
+    "pos_code": "PRD-2816",
+    "barcode": "8964002731930",
+    "pos_name": "QUICE PEACH 1000ML",
+    "pos_sale_price": "220"
+  },
+  {
+    "pos_id": "prd-cp-9127",
+    "pos_code": "PRD-2392",
+    "barcode": "8964002731886",
+    "pos_name": "QUICE PEACH 250ML",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-9997",
+    "pos_code": "PRD-3247",
+    "barcode": "8964002731831",
+    "pos_name": "QUICE PEACH FRUIT DRINK 500ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9996",
+    "pos_code": "PRD-3246",
+    "barcode": "8964002731862",
+    "pos_name": "QUICE PINK GUAVA FRUIT DRINK 500ML",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6173",
+    "pos_code": "PRD-437",
+    "barcode": "8964000455678",
+    "pos_name": "QUICE RED ANAAR 200ML",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6174",
+    "pos_code": "PRD-438",
+    "barcode": "8964001179467",
+    "pos_name": "RANGO NEXT 1.5L",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-6175",
+    "pos_code": "PRD-439",
+    "barcode": "12341",
+    "pos_name": "RANGO NEXT 345ML",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-6176",
+    "pos_code": "PRD-440",
+    "barcode": "6281034900175",
+    "pos_name": "RANI FLOAT TIN",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-6177",
+    "pos_code": "PRD-441",
+    "barcode": "6261422503782",
+    "pos_name": "RANI PEACH FRUIT 240ML",
+    "pos_sale_price": "190"
+  },
+  {
+    "pos_id": "prd-cp-6178",
+    "pos_code": "PRD-442",
+    "barcode": "8964002874200",
+    "pos_name": "RANIA PEACH DRINK CAN",
+    "pos_sale_price": "160"
+  },
+  {
+    "pos_id": "prd-cp-6179",
+    "pos_code": "PRD-443",
+    "barcode": "8964002874163",
+    "pos_name": "RANICANA PEACH 250ML",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-6180",
+    "pos_code": "PRD-444",
+    "barcode": "8964001179511",
+    "pos_name": "RED ANAAR 1LITTER",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-6181",
+    "pos_code": "PRD-445",
+    "barcode": "745604690881",
+    "pos_name": "RED ANNAR PAPULAR",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-9209",
+    "pos_code": "PRD-2470",
+    "barcode": "90457036",
+    "pos_name": "RED BULL  WATERMELON 250ML",
+    "pos_sale_price": "550"
+  },
+  {
+    "pos_id": "prd-cp-6182",
+    "pos_code": "PRD-446",
+    "barcode": "90162602",
+    "pos_name": "RED BULL 250ML",
+    "pos_sale_price": "550"
+  },
+  {
+    "pos_id": "prd-cp-9090",
+    "pos_code": "PRD-2356",
+    "barcode": "8997028440012",
+    "pos_name": "RED BULL THAI 250ML",
+    "pos_sale_price": "450"
+  },
+  {
+    "pos_id": "prd-cp-6183",
+    "pos_code": "PRD-447",
+    "barcode": "745604690898",
+    "pos_name": "RED GRAPE PAPULAR",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6184",
+    "pos_code": "PRD-448",
+    "barcode": "8961008219004",
+    "pos_name": "RED GRAPES GOLD 1000ML",
+    "pos_sale_price": "500"
+  },
+  {
+    "pos_id": "prd-cp-6185",
+    "pos_code": "PRD-449",
+    "barcode": "8964000032428",
+    "pos_name": "RED LYCHEE 1.5L",
+    "pos_sale_price": "180"
+  },
+  {
+    "pos_id": "prd-cp-9129",
+    "pos_code": "PRD-2394",
+    "barcode": "8964002344673",
+    "pos_name": "REVIVE LEMON TIWIST 1LTR",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-9128",
+    "pos_code": "PRD-2393",
+    "barcode": "8964002344680",
+    "pos_name": "REVIVE LYCHEE BURST 1LTR",
+    "pos_sale_price": "140"
+  },
+  {
+    "pos_id": "prd-cp-8094",
+    "pos_code": "PRD-1447",
+    "barcode": "8964002344468",
+    "pos_name": "REVIVE LYCHEE BURST 300ml",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-8095",
+    "pos_code": "PRD-1448",
+    "barcode": "8964002344451",
+    "pos_name": "REVIVE WATTER LEMON 300ml",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-9487",
+    "pos_code": "PRD-2747",
+    "barcode": "6922235820939",
+    "pos_name": "S-HUB  POPPING BOBA BLUEBERRY 280ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-9486",
+    "pos_code": "PRD-2746",
+    "barcode": "6922235820915",
+    "pos_name": "S-HUB  POPPING BOBA LYCHEE 280ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-9485",
+    "pos_code": "PRD-2745",
+    "barcode": "6922235820892",
+    "pos_name": "S-HUB  POPPING BOBA STRAWBERRY 280ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-9488",
+    "pos_code": "PRD-2748",
+    "barcode": "6922235820946",
+    "pos_name": "S-HUB POPPING BOBA GREEN APPLE 280ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-9489",
+    "pos_code": "PRD-2749",
+    "barcode": "6922235820908",
+    "pos_name": "S-HUB POPPING BOBA GREEN GRAPE 280ML",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-9490",
+    "pos_code": "PRD-2750",
+    "barcode": "6922235820922",
+    "pos_name": "S-HUB Popping Bobba Mango & Passion",
+    "pos_sale_price": "380"
+  },
+  {
+    "pos_id": "prd-cp-8239",
+    "pos_code": "PRD-1575",
+    "barcode": "8964000101957",
+    "pos_name": "SLICE MANGO 200ml",
+    "pos_sale_price": "70"
+  },
+  {
+    "pos_id": "prd-cp-8241",
+    "pos_code": "PRD-1577",
+    "barcode": "9556092108519",
+    "pos_name": "SMART APPLE DRINK",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-8242",
+    "pos_code": "PRD-1578",
+    "barcode": "9556092105662",
+    "pos_name": "SMART ORANGE FRUIT",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-8243",
+    "pos_code": "PRD-1579",
+    "barcode": "9556092105655",
+    "pos_name": "SMART PEACH CAN 250ML",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-8244",
+    "pos_code": "PRD-1580",
+    "barcode": "9556092105921",
+    "pos_name": "SMART PINEAPPLE 250ML",
+    "pos_sale_price": "160"
+  },
+  {
+    "pos_id": "prd-cp-6186",
+    "pos_code": "PRD-450",
+    "barcode": "5449000050939",
+    "pos_name": "SPRITE 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6192",
+    "pos_code": "PRD-455",
+    "barcode": "5449000012203",
+    "pos_name": "SPRITE 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6187",
+    "pos_code": "PRD-451",
+    "barcode": "5449000004864",
+    "pos_name": "SPRITE 2 Ltr",
+    "pos_sale_price": "240"
+  },
+  {
+    "pos_id": "prd-cp-6188",
+    "pos_code": "PRD-452",
+    "barcode": "40822099",
+    "pos_name": "SPRITE 350ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6189",
+    "pos_code": "PRD-453",
+    "barcode": "54491069",
+    "pos_name": "SPRITE 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6191",
+    "pos_code": "PRD-454",
+    "barcode": "5449000000729",
+    "pos_name": "SPRITE CANE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9294",
+    "pos_code": "PRD-2554",
+    "barcode": "5449000253958",
+    "pos_name": "SPRITE MINT 1 Ltr",
+    "pos_sale_price": "170"
+  },
+  {
+    "pos_id": "prd-cp-6195",
+    "pos_code": "PRD-456",
+    "barcode": "5449000216854",
+    "pos_name": "SPRITE MINT 1.5 Ltr",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-6062",
+    "pos_code": "PRD-349",
+    "barcode": "5449000283467",
+    "pos_name": "SPRITE MINT 350ml",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-6197",
+    "pos_code": "PRD-457",
+    "barcode": "5449000253736",
+    "pos_name": "SPRITE MINT 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6198",
+    "pos_code": "PRD-458",
+    "barcode": "5449000102805",
+    "pos_name": "SPRITE ZERO 1 Ltr",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6199",
+    "pos_code": "PRD-459",
+    "barcode": "5449000087256",
+    "pos_name": "SPRITE ZERO CAN",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-9450",
+    "pos_code": "PRD-2710",
+    "barcode": "5449000110039",
+    "pos_name": "SPRITE ZERO SGR 1.5LTR",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-9584",
+    "pos_code": "PRD-2843",
+    "barcode": "8964000033111",
+    "pos_name": "STAR RED ANAAR 1.5LTR",
+    "pos_sale_price": "200"
+  },
+  {
+    "pos_id": "prd-cp-9583",
+    "pos_code": "PRD-2842",
+    "barcode": "8964001165514",
+    "pos_name": "STAR RED ANAAR 1LTR",
+    "pos_sale_price": "150"
+  },
+  {
+    "pos_id": "prd-cp-6200",
+    "pos_code": "PRD-460",
+    "barcode": "8964000101551",
+    "pos_name": "STING 300ml",
+    "pos_sale_price": "90"
+  },
+  {
+    "pos_id": "prd-cp-6201",
+    "pos_code": "PRD-461",
+    "barcode": "8964000101704",
+    "pos_name": "STING 500ml",
+    "pos_sale_price": "130"
+  },
+  {
+    "pos_id": "prd-cp-6202",
+    "pos_code": "PRD-462",
+    "barcode": "0012000034220",
+    "pos_name": "STING CANE",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6203",
+    "pos_code": "PRD-463",
+    "barcode": "9234301",
+    "pos_name": "STING CHARGES",
+    "pos_sale_price": "30"
+  },
+  {
+    "pos_id": "prd-cp-6204",
+    "pos_code": "PRD-464",
+    "barcode": "8964000101711",
+    "pos_name": "STING GOLD RUSH 500ml",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6205",
+    "pos_code": "PRD-465",
+    "barcode": "1860236002068",
+    "pos_name": "STRAWBARY MALT 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-8322",
+    "pos_code": "PRD-1637",
+    "barcode": "2020051815024",
+    "pos_name": "TANGY APPLE FRUIT DRINK",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-8323",
+    "pos_code": "PRD-1638",
+    "barcode": "1860201410034",
+    "pos_name": "TANGY MANGO FRUIT DRINK",
+    "pos_sale_price": "50"
+  },
+  {
+    "pos_id": "prd-cp-6206",
+    "pos_code": "PRD-466",
+    "barcode": "2020051814386",
+    "pos_name": "TOPS ANAAR 200ML",
+    "pos_sale_price": "60"
+  },
+  {
+    "pos_id": "prd-cp-9582",
+    "pos_code": "PRD-2841",
+    "barcode": "2020042410207",
+    "pos_name": "TOPS ANAAR DRINK 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6208",
+    "pos_code": "PRD-467",
+    "barcode": "1860201010319",
+    "pos_name": "TOPS FROOTOPIA MANGO 500ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6209",
+    "pos_code": "PRD-468",
+    "barcode": "2020042410252",
+    "pos_name": "TOPS GUAVA 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6211",
+    "pos_code": "PRD-469",
+    "barcode": "8964004433115",
+    "pos_name": "TOPS LYCHEE 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6212",
+    "pos_code": "PRD-470",
+    "barcode": "8964004433023",
+    "pos_name": "TOPS MANGO FRUIT DRIK 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-9892",
+    "pos_code": "PRD-3143",
+    "barcode": "2020042410108",
+    "pos_name": "TOPS MANGO FRUIT DRINK",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-6213",
+    "pos_code": "PRD-471",
+    "barcode": "8964004433061",
+    "pos_name": "TOPS MIX FRUIT PUNCH 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6214",
+    "pos_code": "PRD-472",
+    "barcode": "2020042410351",
+    "pos_name": "TOPS PINEAPPLE 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6215",
+    "pos_code": "PRD-473",
+    "barcode": "8964002526765",
+    "pos_name": "TOPS RED ANAAR",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6216",
+    "pos_code": "PRD-474",
+    "barcode": "2020042410450",
+    "pos_name": "TOPS RED GRAPES 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-6217",
+    "pos_code": "PRD-475",
+    "barcode": "2020042410504",
+    "pos_name": "TOPS STRAWBERRY 250ML",
+    "pos_sale_price": "110"
+  },
+  {
+    "pos_id": "prd-cp-9552",
+    "pos_code": "PRD-2812",
+    "barcode": "749921062468",
+    "pos_name": "TROPICANA SLIM STEVIA DIET 100 TABLETS",
+    "pos_sale_price": "950"
+  },
+  {
+    "pos_id": "prd-cp-9550",
+    "pos_code": "PRD-2810",
+    "barcode": "749921062536",
+    "pos_name": "TROPICANA SLIM STEVIA DIET 50 STICKS",
+    "pos_sale_price": "1100"
+  },
+  {
+    "pos_id": "prd-cp-6218",
+    "pos_code": "PRD-476",
+    "barcode": "8964000032053",
+    "pos_name": "VIVO MANGO JUICE",
+    "pos_sale_price": "120"
+  },
+  {
+    "pos_id": "prd-cp-6219",
+    "pos_code": "PRD-477",
+    "barcode": "8964001166542",
+    "pos_name": "VIVO MANGO JUICE 200ML",
+    "pos_sale_price": "80"
+  },
+  {
+    "pos_id": "prd-cp-9293",
+    "pos_code": "PRD-2553",
+    "barcode": "1860236002518",
+    "pos_name": "ZERA FLAVOURED 250ML",
+    "pos_sale_price": "100"
+  },
+  {
+    "pos_id": "prd-cp-8465",
+    "pos_code": "PRD-1757",
+    "barcode": "8964003812706",
+    "pos_name": "ZIA NOSH 200ML",
+    "pos_sale_price": "60"
+  }
+]

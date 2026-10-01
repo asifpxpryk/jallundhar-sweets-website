@@ -3,15 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "./CartContext";
-import { SECTIONS } from "@/lib/sections";
-
-export default function BottomNav() {
+export default function BottomNav({ sectionSlugs = [] }: { sectionSlugs?: string[] }) {
   const pathname = usePathname();
   const { open, isOpen } = useCart();
 
   const isHome = pathname === "/";
   const isCategories =
-    pathname === "/categories" || SECTIONS.some((s) => pathname === `/${s.slug}`);
+    pathname === "/categories" || sectionSlugs.some((slug) => pathname === `/${slug}` || pathname.startsWith(`/${slug}/`));
   const isAccount = pathname === "/account" || pathname.startsWith("/account/");
 
   const itemClass = (active: boolean) =>

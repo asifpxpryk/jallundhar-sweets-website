@@ -2,6 +2,7 @@
 
 import { trackAddToCart } from "@/lib/metaPixel";
 import { useRef, useState } from "react";
+import Link from "next/link";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
 import { useIsAdmin } from "./AdminSessionContext";
@@ -37,6 +38,10 @@ export default function ProductCard({
 }) {
   const { add } = useCart();
   const isAdmin = useIsAdmin() && !compact;
+  const productHref =
+    !isNew && (aisleSection === "sweets" || aisleSection === "bakery" || item.category_id === "sweets" || item.category_id === "bakery")
+      ? `/product/${encodeURIComponent(item.id)}`
+      : null;
   const variants = item.variants;
   const defaultVariant =
     variants?.find((v) => v.label === "Medium") ??
@@ -88,7 +93,7 @@ export default function ProductCard({
         compact ? "w-40 flex-shrink-0 snap-start sm:w-44" : "w-full"
       } ${isAdmin && item.is_hidden ? "ring-2 ring-maroon-300" : ""}`}
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-gold-50">
+      <div className={`relative aspect-square w-full overflow-hidden ${item.preview_only ? "bg-white" : "bg-gold-50"}`}>
         {shownPhoto ? (
           shownPhoto.startsWith("blob:") ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -98,10 +103,28 @@ export default function ProductCard({
               src={shownPhoto}
               alt={item.name}
               sizes={compact ? "176px" : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"}
-              className="object-cover"
+              className={item.preview_only ? "object-contain p-4" : "object-cover"}
               priority={priority}
             />
           )
+        ) : item.preview_only ? (
+          <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-[#fff6e6] to-[#f1dfc1] px-3 text-center text-maroon-800">
+            <span className="text-5xl" aria-hidden="true">🥤</span>
+            <span className="mt-3 line-clamp-2 text-xs font-bold uppercase tracking-wide">{item.company ?? "Beverage"}</span>
+            <span className="mt-1 text-[10px]">Photo coming soon</span>
+          </div>
+        ) : null}
+        {item.preview_only && item.image_is_illustrative && shownPhoto ? (
+          <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold text-maroon-800 shadow-sm">
+            Illustrative image
+          </span>
+        ) : null}
+        {!isAdmin && productHref ? (
+          <Link
+            href={productHref}
+            className="absolute inset-0 z-[1]"
+            aria-label={`View ${item.name} details`}
+          />
         ) : null}
         {isAdmin ? (
           <>
@@ -306,7 +329,7 @@ export default function ProductCard({
         ) : (
           <>
             <h3 className="line-clamp-2 min-h-[2.5rem] font-display text-sm font-semibold leading-tight text-maroon-900">
-              {item.name}
+              {productHref ? <Link href={productHref} className="hover:underline">{item.name}</Link> : item.name}
             </h3>
             {item.description ? (
               <p className="mt-1 line-clamp-2 text-xs text-maroon-700/70">{item.description}</p>
@@ -332,6 +355,11 @@ export default function ProductCard({
               ) : null}
             </div>
             <p className="text-sm text-maroon-700/70">Rs. {price.toLocaleString()}</p>
+            {productHref ? (
+              <Link href={productHref} className="mt-2 text-xs font-semibold text-maroon-700 underline underline-offset-2">
+                View details
+              </Link>
+            ) : null}
             <button
               type="button"
               onClick={handleAdd}

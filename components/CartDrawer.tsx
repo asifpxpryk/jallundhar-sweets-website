@@ -85,7 +85,7 @@ export default function CartDrawer() {
     // Open a blank tab synchronously (before any await) so browsers don't block it as a popup.
     const waWindow = window.open("", "_blank");
 
-    let orderNo: number | null = null;
+    const orderNo: number | null = null;
     const localId = `local-${Date.now()}`;
     saveLocalOrder({
       id: localId,
@@ -111,9 +111,11 @@ export default function CartDrawer() {
     });
 
     try {
-      const { data: order, error: orderError } = await supabase
+      const orderId = crypto.randomUUID();
+      const { error: orderError } = await supabase
         .from("orders")
         .insert({
+          id: orderId,
           customer_name: form.customer_name.trim() || null,
           phone: form.phone.trim(),
           address: form.address.trim(),
@@ -122,14 +124,11 @@ export default function CartDrawer() {
           notes: form.notes.trim() || null,
           subtotal,
           total: subtotal,
-        })
-        .select("id, order_number")
-        .single();
+        });
 
-      if (!orderError && order) {
-        orderNo = order.order_number;
+      if (!orderError) {
         const itemRows = lines.map((l) => ({
-          order_id: order.id,
+          order_id: orderId,
           item_name: l.name,
           quantity: l.quantity,
           unit_price: l.price,

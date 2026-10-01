@@ -3,23 +3,23 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useCart } from "./CartContext";
-import { SECTIONS } from "@/lib/sections";
 import HeaderSearch from "./HeaderSearch";
 import { logoutAdmin } from "@/app/admin/actions";
 import { useIsAdmin } from "./AdminSessionContext";
 
-export default function Header({ hiddenSections = [] }: { hiddenSections?: string[] }) {
+export default function Header({
+  hiddenSections = [],
+  navSections = [],
+}: {
+  hiddenSections?: string[];
+  navSections?: { href: string; label: string }[];
+}) {
   const { count, open } = useCart();
   const pathname = usePathname();
   const isAdmin = useIsAdmin();
   const hidden = new Set(hiddenSections);
-  const navLinks = [
-    ...SECTIONS.filter((section) => !hidden.has(section.slug)).map((section) => ({
-      href: `/${section.slug}`,
-      label: section.name,
-    })),
-    { href: "/#contact", label: "Visit" },
-  ];
+  const links = navSections.filter((section) => !hidden.has(section.href.replace(/^\//, "")));
+  const navLinks = [...links, { href: "/#contact", label: "Visit" }];
 
   return (
     <header className="sticky top-0 z-40 border-b border-gold-200 bg-cream/95 backdrop-blur">

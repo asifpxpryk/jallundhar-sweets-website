@@ -6,6 +6,7 @@ import type { MenuCategory, MenuItem } from "@/lib/types";
 import { normalizeName } from "@/lib/sections";
 import { bakeryAisleForItem, getBakeryAisle } from "@/lib/bakeryAisles";
 import { sweetsAisleForItem, getSweetsAisle } from "@/lib/sweetsAisles";
+import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
 import { useCart } from "./CartContext";
 import ProductImage from "./ProductImage";
 
@@ -24,7 +25,10 @@ type Hit = {
 function hitForItem(item: MenuItem, category: MenuCategory): Hit {
   const bakeryAisle = category.slug === "bakery" ? bakeryAisleForItem(item.name) ?? undefined : undefined;
   const sweetsAisle = category.slug === "sweets" ? sweetsAisleForItem(item.name) : undefined;
-  const aisle = bakeryAisle ?? sweetsAisle;
+  const beverageAisle = category.slug === "beverage"
+    ? BEVERAGE_AISLES.find((entry) => entry.name === item.beverage_type)
+    : undefined;
+  const aisle = bakeryAisle ?? sweetsAisle ?? beverageAisle?.slug;
   return {
     id: item.id,
     cardId: item.id,
@@ -34,7 +38,7 @@ function hitForItem(item: MenuItem, category: MenuCategory): Hit {
     section: category.slug,
     aisle,
     sectionName: aisle
-      ? (bakeryAisle ? getBakeryAisle(bakeryAisle)?.name : getSweetsAisle(aisle)?.name) ?? category.name
+      ? (beverageAisle?.name ?? (bakeryAisle ? getBakeryAisle(bakeryAisle)?.name : getSweetsAisle(aisle)?.name)) ?? category.name
       : category.name,
     item,
   };
@@ -61,6 +65,12 @@ function flatten(categories: MenuCategory[]): Hit[] {
 }
 
 function hitHref(hit: Hit) {
+  if (hit.section === "sweets" || hit.section === "bakery") {
+    return `/product/${encodeURIComponent(hit.cardId)}`;
+  }
+  if (hit.section === "beverage") {
+    return `/beverage#item-${hit.cardId}`;
+  }
   const path = hit.aisle ? `/${hit.section}/${hit.aisle}` : `/${hit.section}`;
   return `${path}#item-${hit.cardId}`;
 }
@@ -120,7 +130,7 @@ export default function HeaderSearch() {
     const href = hitHref(hit);
     const [path, hash] = href.split("#");
     if (window.location.pathname === path) {
-      window.location.hash = hash;
+      if (hash) window.location.hash = hash;
       return;
     }
     router.push(href);
@@ -205,7 +215,7 @@ export default function HeaderSearch() {
                           </span>
                         </span>
                       </button>
-                      <button
+                      {hit.item.is_available !== false ? <button
                         type="button"
                         onClick={() => {
                           add(hit.item);
@@ -214,7 +224,7 @@ export default function HeaderSearch() {
                         className="shrink-0 rounded-full bg-maroon-700 px-2.5 py-1 text-xs font-semibold text-white"
                       >
                         Add
-                      </button>
+                      </button> : null}
                     </div>
                   </li>
                 ))}

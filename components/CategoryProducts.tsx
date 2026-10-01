@@ -10,6 +10,7 @@ export default function CategoryProducts({
   items,
   image,
   extra,
+  hasExtra,
   menuSlug,
   aisleSection,
   aisleSlug,
@@ -18,8 +19,9 @@ export default function CategoryProducts({
   items: MenuItem[];
   image?: string;
   extra?: ReactNode;
+  hasExtra?: boolean;
   menuSlug?: string;
-  aisleSection?: "general" | "beverage" | "bakery" | "sweets";
+  aisleSection?: string;
   aisleSlug?: string;
 }) {
   return (
@@ -46,7 +48,7 @@ export default function CategoryProducts({
         <CategoryProductGrid
           items={items}
           menuSlug={menuSlug}
-          hasExtra={Boolean(extra)}
+          hasExtra={hasExtra ?? Boolean(extra)}
           aisleSection={aisleSection}
           aisleSlug={aisleSlug}
         />

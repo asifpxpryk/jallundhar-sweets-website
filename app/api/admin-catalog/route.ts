@@ -2,13 +2,10 @@ import { NextResponse } from "next/server";
 import { isAdminSession } from "@/lib/adminAuth";
 import { loadMenuIncludingHiddenUncached, loadAllMenuItems } from "@/lib/loadMenu";
 import { applyMenuOverrides } from "@/lib/loadAisleItems";
-import { isGeneralAisle } from "@/lib/generalAisles";
-import { isBeverageAisle } from "@/lib/beverageAisles";
-import { isBakeryAisle } from "@/lib/bakeryAisles";
-import { isSweetsAisle } from "@/lib/sweetsAisles";
+import { isKnownAisle, isKnownSection } from "@/lib/categoryCatalog";
 import { loadStoreVisibilityUncached } from "@/lib/storeVisibility";
-import { isSectionSlug } from "@/lib/sections";
 import { itemsForPlacement } from "@/lib/itemPlacement";
+import { tagBeverageItems } from "@/lib/posBeveragePreview";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -41,35 +38,35 @@ export async function GET(request: Request) {
       loadStoreVisibilityUncached(),
       loadAllMenuItems(),
     ]);
+    const knownPreviewIds = overrides
+      .filter((item) => item.id.startsWith("pos-preview-"))
+      .map((item) => item.id);
 
-    if (aisle && section === "general" && isGeneralAisle(aisle)) {
-      return NextResponse.json({ items: placed(`general:${aisle}`, visibility, overrides) });
+    if (aisle && isKnownAisle(visibility, section, aisle)) {
+      const items = placed(`${section}:${aisle}`, visibility, overrides);
+      return NextResponse.json({
+        items: section === "beverage" ? tagBeverageItems(items, aisle) : items,
+        knownPreviewIds,
+      });
     }
 
-    if (aisle && section === "beverage" && isBeverageAisle(aisle)) {
-      return NextResponse.json({ items: placed(`beverage:${aisle}`, visibility, overrides) });
-    }
-
-    if (aisle && section === "bakery" && isBakeryAisle(aisle)) {
-      return NextResponse.json({ items: placed(`bakery:${aisle}`, visibility, overrides) });
-    }
-
-    if (aisle && section === "sweets" && isSweetsAisle(aisle)) {
-      return NextResponse.json({ items: placed(`sweets:${aisle}`, visibility, overrides) });
-    }
-
-    if (section && isSectionSlug(section)) {
+    if (section && isKnownSection(visibility, section)) {
       if (section === "sweets") return NextResponse.json({ items: [] });
       const categories = await loadMenuIncludingHiddenUncached();
       const category = categories.find((entry) => entry.slug === section);
-      return NextResponse.json({
-        items: applyMenuOverrides(
-          itemsForPlacement(section, visibility, category?.items ?? []),
+      const sectionItems = section === "beverage"
+        ? category?.items ?? []
+        : itemsForPlacement(section, visibility, category?.items ?? []);
+      const items = applyMenuOverrides(
+          sectionItems,
           overrides,
           true,
           visibility.hiddenItemIds,
           visibility.bestsellerIds
-        ),
+        );
+      return NextResponse.json({
+        items: section === "beverage" ? tagBeverageItems(items) : items,
+        knownPreviewIds,
       });
     }
 

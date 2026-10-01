@@ -6,7 +6,7 @@ import { logoutAdmin } from "./actions";
 export default function AdminNav({
   active,
 }: {
-  active: "menu" | "categories";
+  active: "menu" | "categories" | "banners";
 }) {
   const tab =
     "rounded-xl px-3 py-2 text-sm font-medium";
@@ -20,7 +20,10 @@ export default function AdminNav({
           Manage menu
         </Link>
         <Link href="/account/categories" className={active === "categories" ? on : off}>
-          Categories show / hide
+          Categories
+        </Link>
+        <Link href="/account/banners" className={active === "banners" ? on : off}>
+          Banners
         </Link>
       </div>
       <form action={logoutAdmin}>
