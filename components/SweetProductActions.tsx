@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackAddToCart } from "@/lib/metaPixel";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
 
@@ -18,7 +19,24 @@ export default function SweetProductActions({ item }: { item: MenuItem }) {
 
   function addToCart() {
     if (!inStock) return;
-    add(selected ? { ...item, id: selected.id, name: `${item.name} (${selected.label})`, price } : item);
+    if (selected) {
+      const line = { ...item, id: selected.id, name: `${item.name} (${selected.label})`, price };
+      add(line);
+      trackAddToCart({
+        content_ids: [String(selected.id)],
+        content_name: line.name,
+        value: price,
+        contents: [{ id: String(selected.id), quantity: 1, item_price: price }],
+      });
+    } else {
+      add(item);
+      trackAddToCart({
+        content_ids: [String(item.id)],
+        content_name: item.name,
+        value: item.price,
+        contents: [{ id: String(item.id), quantity: 1, item_price: item.price }],
+      });
+    }
     open();
   }
 
