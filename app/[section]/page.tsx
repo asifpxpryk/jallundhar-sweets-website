@@ -1,74 +1,98 @@
 import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
-import { SECTIONS, isSectionSlug } from "@/lib/sections";
-import { loadMenu } from "@/lib/loadMenu";
-import GeneralAisleNav from "@/components/GeneralAisleNav";
+import { listAisles, listSections } from "@/lib/categoryCatalog";
+import { loadAllMenuItemsCached, loadMenu } from "@/lib/loadMenu";
 import BeverageAisleNav from "@/components/BeverageAisleNav";
 import BakeryAisleNav from "@/components/BakeryAisleNav";
 import SweetsAisleNav from "@/components/SweetsAisleNav";
-import GheePromoBanner from "@/components/GheePromoBanner";
-import WaterPromoBanner from "@/components/WaterPromoBanner";
-import { isSectionHidden, loadStoreVisibility } from "@/lib/storeVisibility";
-import { effectivePlacementKey } from "@/lib/itemPlacement";
+import SectionAisleNav from "@/components/SectionAisleNav";
+import PromoBannersForPage from "@/components/PromoBannersForPage";
+import { homeShelf, loadStoreVisibility } from "@/lib/storeVisibility";
+import { itemsForPlacement } from "@/lib/itemPlacement";
+import { applyMenuOverrides } from "@/lib/loadAisleItems";
+import { OG_DEFAULTS, sectionSeo } from "@/lib/seo";
+import { beverageAisleCatalogItems, beveragePreviewItems, tagBeverageItems } from "@/lib/posBeveragePreview";
 
-export const revalidate = 60;
+export const revalidate = 43200;
 export const dynamicParams = true;
 
 export function generateStaticParams() {
-  return SECTIONS.map((section) => ({ section: section.slug }));
+  return listSections({ hiddenSections: [], hiddenAisles: [] }).map((section) => ({
+    section: section.slug,
+  }));
 }
 
-export function generateMetadata({ params }: { params: { section: string } }) {
-  const meta = SECTIONS.find((s) => s.slug === params.section);
-    return {
-      title: meta
-        ? `${meta.name} | Jallundhar Sweets & Bakers`
-        : "Jallundhar Sweets & Bakers",
-      alternates: { canonical: `/${params.section}` },
-    };
+export async function generateMetadata({ params }: { params: { section: string } }) {
+  const visibility = await loadStoreVisibility();
+  const meta = listSections(visibility).find((section) => section.slug === params.section);
+  if (!meta || meta.hidden) notFound();
+  const seo = sectionSeo(meta.slug, meta.name);
+  return {
+    title: seo.title,
+    description: seo.description,
+    alternates: { canonical: `/${params.section}` },
+    openGraph: { ...OG_DEFAULTS, title: seo.title, description: seo.description, url: `/${params.section}` },
+  };
 }
 
 export default async function SectionPage({ params }: { params: { section: string } }) {
-  if (!isSectionSlug(params.section)) notFound();
   const visibility = await loadStoreVisibility();
-  if (isSectionHidden(visibility, params.section)) notFound();
-  const meta = SECTIONS.find((s) => s.slug === params.section)!;
-  const categories = await loadMenu();
-  const category = categories.find((c) => c.slug === meta.slug);
-  const items =
-    meta.slug === "sweets"
+  const meta = listSections(visibility).find((section) => section.slug === params.section);
+  if (!meta) notFound();
+  if (meta.hidden) notFound();
+
+  const [categories, overrides] = await Promise.all([
+    loadMenu(),
+    meta.slug === "sweets" || meta.slug === "bakery"
+      ? Promise.resolve([])
+      : loadAllMenuItemsCached(),
+  ]);
+  const category = categories.find((entry) => entry.slug === meta.slug);
+  const sectionItems =
+    meta.slug === "sweets" || meta.slug === "bakery"
       ? []
-      : (category?.items ?? []).filter(
-          (item) => effectivePlacementKey(item, visibility) === meta.slug
+      : meta.slug === "beverage"
+      ? category?.items ?? []
+      : applyMenuOverrides(
+          itemsForPlacement(meta.slug, visibility, category?.items ?? []),
+          overrides,
+          false,
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds,
+          homeShelf(visibility)
         );
+  const items = meta.slug === "beverage"
+    ? beveragePreviewItems(
+        tagBeverageItems([...beverageAisleCatalogItems(), ...sectionItems]),
+        undefined,
+        [...overrides, ...beverageAisleCatalogItems()]
+      )
+    : sectionItems;
+  const visibleAisleCount = listAisles(visibility, meta.slug).filter((aisle) => !aisle.hidden).length;
 
   return (
     <CategoryProducts
       name={meta.name}
       items={items}
+      productCount={items.length > 0 ? items.length : category?.items.length ?? 0}
       image={meta.image}
+      hasExtra={visibleAisleCount > 0 || meta.slug === "beverage" || meta.slug === "sweets"}
       extra={
-        meta.slug === "general" ? (
-          <GeneralAisleNav />
-        ) : meta.slug === "beverage" ? (
-          <>
+        <>
+          {meta.slug === "beverage" ? (
             <BeverageAisleNav />
-            <div className="mt-8">
-              <WaterPromoBanner />
-            </div>
-          </>
-        ) : meta.slug === "bakery" ? (
-          <BakeryAisleNav />
-        ) : meta.slug === "sweets" ? (
-          <>
+          ) : meta.slug === "bakery" ? (
+            <BakeryAisleNav />
+          ) : meta.slug === "sweets" ? (
             <SweetsAisleNav />
-            <div className="mt-8">
-              <GheePromoBanner />
-            </div>
-          </>
-        ) : undefined
+          ) : (
+            <SectionAisleNav section={meta.slug} />
+          )}
+          <PromoBannersForPage page={meta.href} visibility={visibility} categories={categories} />
+        </>
       }
       menuSlug={meta.slug}
+      aisleSection={meta.slug}
     />
   );
 }

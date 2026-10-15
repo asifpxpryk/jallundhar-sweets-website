@@ -1,23 +1,43 @@
 import { SECTIONS, isSectionSlug } from "@/lib/sections";
-import { GENERAL_AISLES, isGeneralAisle } from "@/lib/generalAisles";
-import { BEVERAGE_AISLES, isBeverageAisle } from "@/lib/beverageAisles";
-import { BAKERY_AISLES, isBakeryAisle } from "@/lib/bakeryAisles";
-import { SWEETS_AISLES, isSweetsAisle } from "@/lib/sweetsAisles";
+import { isGeneralAisle } from "@/lib/generalAisles";
+import { isBeverageAisle } from "@/lib/beverageAisles";
+import { isBakeryAisle } from "@/lib/bakeryAisles";
+import { isSweetsAisle } from "@/lib/sweetsAisles";
+import {
+  isKnownAisle,
+  isKnownSection,
+  listAisles,
+  type CategoryCatalogState,
+} from "@/lib/categoryCatalog";
 
 export const SECTION_OPTIONS = SECTIONS.map((section) => ({
   slug: section.slug,
   name: section.name,
 }));
 
-export function aislesForSection(section: string): { slug: string; name: string }[] {
-  if (section === "general") return GENERAL_AISLES.map((aisle) => ({ slug: aisle.slug, name: aisle.name }));
-  if (section === "beverage") return BEVERAGE_AISLES.map((aisle) => ({ slug: aisle.slug, name: aisle.name }));
-  if (section === "bakery") return BAKERY_AISLES.map((aisle) => ({ slug: aisle.slug, name: aisle.name }));
-  if (section === "sweets") return SWEETS_AISLES.map((aisle) => ({ slug: aisle.slug, name: aisle.name }));
-  return [];
+export function aislesForSection(
+  section: string,
+  catalog?: CategoryCatalogState
+): { slug: string; name: string }[] {
+  if (catalog) {
+    return listAisles(catalog, section).map((aisle) => ({ slug: aisle.slug, name: aisle.name }));
+  }
+  return listAisles({ hiddenSections: [], hiddenAisles: [] }, section).map((aisle) => ({
+    slug: aisle.slug,
+    name: aisle.name,
+  }));
 }
 
-export function isValidPlacement(section: string, aisle: string): boolean {
+export function isValidPlacement(
+  section: string,
+  aisle: string,
+  catalog?: CategoryCatalogState
+): boolean {
+  if (catalog) {
+    if (!isKnownSection(catalog, section)) return false;
+    if (!aisle) return true;
+    return isKnownAisle(catalog, section, aisle);
+  }
   if (!isSectionSlug(section)) return false;
   if (!aisle) return true;
   if (section === "general") return isGeneralAisle(aisle);

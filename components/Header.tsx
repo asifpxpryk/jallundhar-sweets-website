@@ -3,26 +3,26 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useCart } from "./CartContext";
-import { SECTIONS } from "@/lib/sections";
 import HeaderSearch from "./HeaderSearch";
 import { logoutAdmin } from "@/app/admin/actions";
 import { useIsAdmin } from "./AdminSessionContext";
 
-export default function Header({ hiddenSections = [] }: { hiddenSections?: string[] }) {
+export default function Header({
+  hiddenSections = [],
+  navSections = [],
+}: {
+  hiddenSections?: string[];
+  navSections?: { href: string; label: string }[];
+}) {
   const { count, open } = useCart();
   const pathname = usePathname();
   const isAdmin = useIsAdmin();
   const hidden = new Set(hiddenSections);
-  const navLinks = [
-    ...SECTIONS.filter((section) => !hidden.has(section.slug)).map((section) => ({
-      href: `/${section.slug}`,
-      label: section.name,
-    })),
-    { href: "/#contact", label: "Visit" },
-  ];
+  const links = navSections.filter((section) => !hidden.has(section.href.replace(/^\//, "")));
+  const navLinks = [...links, { href: "/visit", label: "Visit" }];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-gold-200 bg-cream/95 backdrop-blur">
+    <header className="sticky top-0 z-40 w-full max-w-[100vw] overflow-x-clip border-b border-gold-200 bg-cream/95 backdrop-blur">
       {isAdmin ? (
         <div className="bg-gold-400 text-maroon-950">
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
@@ -48,8 +48,8 @@ export default function Header({ hiddenSections = [] }: { hiddenSections?: strin
           </div>
         </div>
       ) : null}
-      <div className="relative mx-auto flex max-w-6xl items-center px-4 py-3 sm:px-6">
-        <Link href="/" className="flex min-w-0 items-center gap-2.5">
+      <div className="relative mx-auto flex w-full min-w-0 max-w-6xl items-center gap-2 px-4 py-3 sm:px-6">
+        <Link href="/" className="flex min-w-0 flex-1 items-center gap-2.5 overflow-hidden">
           <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -60,11 +60,11 @@ export default function Header({ hiddenSections = [] }: { hiddenSections?: strin
               className="h-9 w-9 max-h-9 max-w-9 object-contain"
             />
           </span>
-          <div className="flex min-w-0 flex-col items-center justify-center text-center">
-            <span className="whitespace-nowrap font-display text-[15px] font-bold leading-5 tracking-tight text-maroon-800">
+          <div className="flex min-w-0 flex-1 flex-col justify-center">
+            <span className="block truncate font-display text-[15px] font-bold leading-5 tracking-tight text-maroon-800">
               Jallundhar <span className="text-gold-600">Sweets &amp; Bakers</span>
             </span>
-            <span className="whitespace-nowrap text-[11px] font-medium leading-4 text-maroon-700/60">
+            <span className="block truncate text-[11px] font-medium leading-4 text-maroon-700/60">
               Shahi Road, Rahim Yar Khan
             </span>
           </div>

@@ -1,5 +1,5 @@
-const CACHE_NAME = "jallundhar-v5";
-const APP_SHELL = ["/", "/manifest.json", "/logo.png", "/icons/icon-192.png", "/icons/icon-512.png"];
+const CACHE_NAME = "jallundhar-v6";
+const APP_SHELL = ["/", "/manifest.json", "/logo.png", "/pwa/icon-192.png", "/pwa/icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

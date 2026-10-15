@@ -3,11 +3,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { MenuCategory, MenuItem } from "@/lib/types";
+import { hasCatalogPhoto, keepsComingSoonCards } from "@/lib/catalogPhoto";
 import { normalizeName } from "@/lib/sections";
 import { bakeryAisleForItem, getBakeryAisle } from "@/lib/bakeryAisles";
 import { sweetsAisleForItem, getSweetsAisle } from "@/lib/sweetsAisles";
-import { useCart } from "./CartContext";
+import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
+import { customerProductName } from "@/lib/productName";
+import { orderUnit } from "@/lib/priceUnit";
 import ProductImage from "./ProductImage";
+import ProductQuantity from "./ProductQuantity";
 
 type Hit = {
   id: string;
@@ -24,7 +28,10 @@ type Hit = {
 function hitForItem(item: MenuItem, category: MenuCategory): Hit {
   const bakeryAisle = category.slug === "bakery" ? bakeryAisleForItem(item.name) ?? undefined : undefined;
   const sweetsAisle = category.slug === "sweets" ? sweetsAisleForItem(item.name) : undefined;
-  const aisle = bakeryAisle ?? sweetsAisle;
+  const beverageAisle = category.slug === "beverage"
+    ? BEVERAGE_AISLES.find((entry) => entry.name === item.beverage_type)
+    : undefined;
+  const aisle = item.search_aisle ?? bakeryAisle ?? sweetsAisle ?? beverageAisle?.slug;
   return {
     id: item.id,
     cardId: item.id,
@@ -34,7 +41,7 @@ function hitForItem(item: MenuItem, category: MenuCategory): Hit {
     section: category.slug,
     aisle,
     sectionName: aisle
-      ? (bakeryAisle ? getBakeryAisle(bakeryAisle)?.name : getSweetsAisle(aisle)?.name) ?? category.name
+      ? (beverageAisle?.name ?? (bakeryAisle ? getBakeryAisle(bakeryAisle)?.name : getSweetsAisle(aisle)?.name)) ?? category.name
       : category.name,
     item,
   };
@@ -52,7 +59,14 @@ function flatten(categories: MenuCategory[]): Hit[] {
           id: variant.id,
           name: `${item.name} (${variant.label})`,
           price: variant.price,
-          item: { ...item, id: variant.id, name: `${item.name} (${variant.label})`, price: variant.price },
+          item: {
+            ...item,
+            id: variant.id,
+            name: `${item.name} (${variant.label})`,
+            price: variant.price,
+            is_available: variant.is_available !== false,
+            variants: undefined,
+          },
         });
       }
     }
@@ -61,13 +75,14 @@ function flatten(categories: MenuCategory[]): Hit[] {
 }
 
 function hitHref(hit: Hit) {
+  if (!hit.item.preview_only) return `/product/${encodeURIComponent(hit.id)}`;
+  if (hit.section === "beverage") return `/beverage#item-${hit.cardId}`;
   const path = hit.aisle ? `/${hit.section}/${hit.aisle}` : `/${hit.section}`;
   return `${path}#item-${hit.cardId}`;
 }
 
 export default function HeaderSearch() {
   const router = useRouter();
-  const { add } = useCart();
   const boxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
@@ -84,8 +99,13 @@ export default function HeaderSearch() {
   useEffect(() => {
     if (!open || loaded) return;
     let cancelled = false;
-    fetch("/api/menu")
-      .then((res) => res.json())
+    fetch("/api/catalog")
+      .then(async (res) => {
+        const type = res.headers.get("content-type") || "";
+        if (res.ok && type.includes("application/json")) return res.json();
+        const menu = await fetch("/api/menu");
+        return menu.json();
+      })
       .then((data: MenuCategory[]) => {
         if (!cancelled && Array.isArray(data)) {
           setCatalog(flatten(data));
@@ -111,7 +131,10 @@ export default function HeaderSearch() {
   const results = useMemo(() => {
     const q = normalizeName(query);
     if (q.length < 1) return [];
-    return catalog.filter((hit) => normalizeName(hit.name).includes(q)).slice(0, 8);
+    return catalog
+      .filter((hit) => hit.section !== "general" || keepsComingSoonCards(hit.aisle) || hasCatalogPhoto(hit))
+      .filter((hit) => normalizeName(hit.name).includes(q))
+      .slice(0, 8);
   }, [catalog, query]);
 
   function goTo(hit: Hit) {
@@ -120,7 +143,7 @@ export default function HeaderSearch() {
     const href = hitHref(hit);
     const [path, hash] = href.split("#");
     if (window.location.pathname === path) {
-      window.location.hash = hash;
+      if (hash) window.location.hash = hash;
       return;
     }
     router.push(href);
@@ -186,35 +209,36 @@ export default function HeaderSearch() {
                         onClick={() => goTo(hit)}
                         className="flex min-w-0 flex-1 items-center gap-2 text-left"
                       >
-                        {hit.image_url ? (
-                          <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
-                            <ProductImage
-                              src={hit.image_url}
-                              alt={hit.name}
-                              sizes="40px"
-                              className="object-cover"
-                            />
-                          </span>
-                        ) : (
-                          <span className="h-10 w-10 shrink-0 rounded-lg bg-gold-50" />
-                        )}
+                        <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+                          <ProductImage
+                            src={hit.image_url || ""}
+                            alt={customerProductName(hit.name, hit.section)}
+                            sizes="40px"
+                            className="object-cover"
+                          />
+                        </span>
                         <span className="min-w-0">
-                          <span className="block truncate text-sm font-semibold text-maroon-800">{hit.name}</span>
+                          <span className="block truncate text-sm font-semibold text-maroon-800">{customerProductName(hit.name, hit.section)}</span>
                           <span className="text-xs text-maroon-700/60">
                             {hit.sectionName} · Rs. {hit.price.toLocaleString()}
+                            {orderUnit(hit.name) && !customerProductName(hit.name, hit.section).includes(`— ${orderUnit(hit.name)}`)
+                              ? ` · ${orderUnit(hit.name)}`
+                              : ""}
                           </span>
                         </span>
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          add(hit.item);
-                          setOpen(false);
-                        }}
-                        className="shrink-0 rounded-full bg-maroon-700 px-2.5 py-1 text-xs font-semibold text-white"
-                      >
-                        Add
-                      </button>
+                      {hit.item.preview_only ? (
+                        <a
+                          href={`https://wa.me/923001538440?text=${encodeURIComponent(`Assalam o alaikum, is ${customerProductName(hit.name, hit.section)} available?`)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="shrink-0 rounded-full border border-maroon-800 px-2.5 py-1 text-[11px] font-semibold text-maroon-800"
+                        >
+                          Ask
+                        </a>
+                      ) : (
+                        <ProductQuantity item={hit.item} appearance="inline" />
+                      )}
                     </div>
                   </li>
                 ))}

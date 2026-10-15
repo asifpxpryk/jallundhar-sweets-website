@@ -1,0 +1,28 @@
+.container {
+  container-type: inline-size;
+}
+
+/* Match the measured custom-cake banner: a 3:2 mobile image plus its
+   responsive copy height; desktop uses the cake image's 3:1 ratio. */
+.banner {
+  --cake-copy-height: 416.1875px;
+  height: calc(200cqw / 3 + var(--cake-copy-height));
+}
+
+@container (min-width: 259px) { .banner { --cake-copy-height: 399.6875px; } }
+@container (min-width: 275px) { .banner { --cake-copy-height: 369.453125px; } }
+@container (min-width: 321px) { .banner { --cake-copy-height: 350.203125px; } }
+@container (min-width: 346px) { .banner { --cake-copy-height: 319.96875px; } }
+@container (min-width: 406px) { .banner { --cake-copy-height: 300.71875px; } }
+@container (min-width: 580px) { .banner { --cake-copy-height: 281.46875px; } }
+
+@media (min-width: 640px) {
+  .banner { --cake-copy-height: 229.46875px; }
+}
+
+@media (min-width: 1024px) {
+  .banner {
+    height: auto;
+    aspect-ratio: 3 / 1;
+  }
+}

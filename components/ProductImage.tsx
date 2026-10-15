@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+
+export const IMAGE_COMING_SOON = "/products/image-coming-soon.jpg";
 
 function directImageSrc(src: string) {
   if (!src.includes("/_next/image")) return src;
@@ -28,20 +30,23 @@ export default function ProductImage({
   priority?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  if (!src || failed) return null;
+  useEffect(() => setFailed(false), [src]);
+  const missing = !src || failed;
 
   return (
     <Image
-      src={directImageSrc(src)}
-      alt={alt}
+      src={missing ? IMAGE_COMING_SOON : directImageSrc(src)}
+      alt={missing ? "Image coming soon" : alt}
       fill
       sizes={sizes}
       unoptimized
       priority={priority}
-      className={className}
+      className={missing ? "object-cover" : className}
       draggable={false}
       onContextMenu={(event) => event.preventDefault()}
-      onError={() => setFailed(true)}
+      onError={() => {
+        if (!missing) setFailed(true);
+      }}
     />
   );
 }

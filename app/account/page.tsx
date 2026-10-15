@@ -8,6 +8,7 @@ import { loadAdminOrders } from "@/app/admin/actions";
 
 export const metadata = {
   title: "Account | Jallundhar Sweets & Bakers",
+  robots: { index: false, follow: false },
 };
 
 export const dynamic = "force-dynamic";

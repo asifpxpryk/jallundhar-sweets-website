@@ -1,20 +1,21 @@
 "use client";
 
 import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "./CartContext";
 import { supabase } from "@/lib/supabase";
+import { DELIVERY_NOTE } from "@/lib/site";
 import type { PaymentMethod } from "@/lib/types";
 import { loadProfile, saveLocalOrder, saveProfile } from "@/lib/customerStore";
 
 type Step = "cart" | "checkout" | "success";
 
 export default function CartDrawer() {
-  const { lines, setQuantity, remove, subtotal, isOpen, close, clear } = useCart();
+  const { lines, adjust, remove, subtotal, isOpen, entry, close, clear } = useCart();
   const [step, setStep] = useState<Step>("cart");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [orderNumber, setOrderNumber] = useState<number | null>(null);
+  const [orderRef, setOrderRef] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     customer_name: "",
@@ -24,6 +25,38 @@ export default function CartDrawer() {
     payment_method: "cod" as PaymentMethod,
     notes: "",
   });
+
+  const opened = useRef({ isOpen, entry });
+  if (opened.current.isOpen !== isOpen || opened.current.entry !== entry) {
+    opened.current = { isOpen, entry };
+    if (isOpen) {
+      const next: Step = entry === "checkout" && lines.length > 0 ? "checkout" : "cart";
+      if (step !== next) setStep(next);
+    }
+  }
+  if (isOpen && step === "checkout" && lines.length === 0) {
+    setStep("cart");
+  }
+
+  const checkoutTracked = useRef(false);
+  useEffect(() => {
+    if (!isOpen || step !== "checkout") {
+      checkoutTracked.current = false;
+      return;
+    }
+    if (checkoutTracked.current || lines.length === 0) return;
+    checkoutTracked.current = true;
+    trackInitiateCheckout({
+      value: subtotal,
+      content_ids: lines.map((l) => String(l.id)),
+      contents: lines.map((l) => ({
+        id: String(l.id),
+        quantity: l.quantity,
+        item_price: l.price,
+      })),
+      num_items: lines.reduce((n, l) => n + l.quantity, 0),
+    });
+  }, [isOpen, step, lines, subtotal]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -47,13 +80,13 @@ export default function CartDrawer() {
 
   const WHATSAPP_NUMBER = "923001538440";
 
-  function buildWhatsappMessage(orderNo: number | null) {
+  function buildWhatsappMessage(orderRef: string) {
     const itemsList = lines
       .map((l) => `• ${l.name} x${l.quantity} — Rs. ${(l.price * l.quantity).toLocaleString()}`)
       .join("\n");
 
     return [
-      `🛍️ *New Order${orderNo ? " #" + orderNo : ""}*`,
+      `🛍️ *New Order ${orderRef}*`,
       form.customer_name.trim() ? `👤 Name: ${form.customer_name.trim()}` : null,
       `📞 Number: ${form.phone.trim()}`,
       `📍 Address: ${form.address.trim()}`,
@@ -64,6 +97,7 @@ export default function CartDrawer() {
       itemsList,
       "",
       `*Subtotal: Rs. ${subtotal.toLocaleString()}*`,
+      "Delivery: Rahim Yar Khan. Charge confirmed on this chat.",
       form.notes.trim() ? `\n📝 Notes: ${form.notes.trim()}` : null,
     ]
       .filter((line) => line !== null)
@@ -85,10 +119,10 @@ export default function CartDrawer() {
     // Open a blank tab synchronously (before any await) so browsers don't block it as a popup.
     const waWindow = window.open("", "_blank");
 
-    let orderNo: number | null = null;
-    const localId = `local-${Date.now()}`;
+    const orderId = crypto.randomUUID();
+    const orderCode = orderId.slice(0, 8).toUpperCase();
     saveLocalOrder({
-      id: localId,
+      id: orderId,
       created_at: new Date().toISOString(),
       customer_name: form.customer_name.trim(),
       phone: form.phone.trim(),
@@ -98,6 +132,7 @@ export default function CartDrawer() {
       notes: form.notes.trim(),
       total: subtotal,
       items: lines.map((l) => ({
+        id: l.id,
         name: l.name,
         quantity: l.quantity,
         unit_price: l.price,
@@ -111,25 +146,23 @@ export default function CartDrawer() {
     });
 
     try {
-      const { data: order, error: orderError } = await supabase
+      const { error: orderError } = await supabase
         .from("orders")
         .insert({
+          id: orderId,
           customer_name: form.customer_name.trim() || null,
           phone: form.phone.trim(),
           address: form.address.trim(),
           location: form.location.trim() || null,
           payment_method: form.payment_method,
-          notes: form.notes.trim() || null,
+          notes: [form.notes.trim(), `Ref ${orderCode}`].filter(Boolean).join("\n") || null,
           subtotal,
           total: subtotal,
-        })
-        .select("id, order_number")
-        .single();
+        });
 
-      if (!orderError && order) {
-        orderNo = order.order_number;
+      if (!orderError) {
         const itemRows = lines.map((l) => ({
-          order_id: order.id,
+          order_id: orderId,
           item_name: l.name,
           quantity: l.quantity,
           unit_price: l.price,
@@ -143,7 +176,7 @@ export default function CartDrawer() {
     }
 
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-      buildWhatsappMessage(orderNo)
+      buildWhatsappMessage(orderCode)
     )}`;
 
     if (waWindow) {
@@ -158,14 +191,17 @@ export default function CartDrawer() {
       item_price: l.price,
     }));
     const purchaseValue = subtotal;
-    trackPurchase({
-      value: purchaseValue,
-      currency: "PKR",
-      contents: purchaseLines,
-      content_ids: purchaseLines.map((l) => l.id),
-      num_items: purchaseLines.reduce((n, l) => n + l.quantity, 0),
-    });
-    setOrderNumber(orderNo);
+    trackPurchase(
+      {
+        value: purchaseValue,
+        currency: "PKR",
+        contents: purchaseLines,
+        content_ids: purchaseLines.map((l) => l.id),
+        num_items: purchaseLines.reduce((n, l) => n + l.quantity, 0),
+      },
+      { eventID: orderId }
+    );
+    setOrderRef(orderCode);
     setStep("success");
     clear();
     setSubmitting(false);
@@ -213,14 +249,14 @@ export default function CartDrawer() {
                       </div>
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => setQuantity(l.id, l.quantity - 1)}
+                          onClick={() => adjust(l.id, -1)}
                           className="h-7 w-7 rounded-full border border-gold-300 text-maroon-700"
                         >
                           −
                         </button>
                         <span className="w-5 text-center">{l.quantity}</span>
                         <button
-                          onClick={() => setQuantity(l.id, l.quantity + 1)}
+                          onClick={() => adjust(l.id, 1)}
                           className="h-7 w-7 rounded-full border border-gold-300 text-maroon-700"
                         >
                           +
@@ -241,6 +277,34 @@ export default function CartDrawer() {
 
           {step === "checkout" && (
             <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+              <ul className="flex flex-col gap-3 rounded-lg bg-white px-3 py-2 text-sm text-maroon-800">
+                {lines.map((l) => (
+                  <li key={l.id} className="flex items-center justify-between gap-2">
+                    <span className="min-w-0 flex-1 leading-snug">{l.name}</span>
+                    <div className="flex shrink-0 items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => adjust(l.id, -1)}
+                        aria-label={`Decrease ${l.name}`}
+                        className="h-7 w-7 rounded-full border border-gold-300 text-maroon-700"
+                      >
+                        −
+                      </button>
+                      <span className="w-5 text-center">{l.quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() => adjust(l.id, 1)}
+                        aria-label={`Increase ${l.name}`}
+                        className="h-7 w-7 rounded-full border border-gold-300 text-maroon-700"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <span className="w-16 shrink-0 text-right">Rs. {(l.price * l.quantity).toLocaleString()}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="rounded-lg bg-gold-50 px-3 py-2 text-sm text-maroon-800">{DELIVERY_NOTE}</p>
               <div>
                 <label className="text-sm font-medium text-maroon-800">Name (optional)</label>
                 <input
@@ -332,6 +396,9 @@ export default function CartDrawer() {
               <p className="text-xl font-bold leading-relaxed text-maroon-800">
                 Thank you for your order
               </p>
+              {orderRef ? (
+                <p className="text-sm font-semibold text-maroon-800">Order {orderRef}</p>
+              ) : null}
               <p className="text-base leading-relaxed text-maroon-700/80">
                 Contact us on WhatsApp for more details and delivery charges.
               </p>
@@ -350,6 +417,7 @@ export default function CartDrawer() {
 
         {step !== "success" && (
           <div className="border-t border-gold-200 px-5 py-4">
+            <p className="mb-3 text-xs leading-relaxed text-maroon-700/70">{DELIVERY_NOTE}</p>
             <div className="mb-3 flex items-center justify-between font-display text-base font-bold text-maroon-800">
               <span>Subtotal</span>
               <span>Rs. {subtotal.toLocaleString()}</span>
@@ -357,19 +425,7 @@ export default function CartDrawer() {
             {step === "cart" ? (
               <button
                 disabled={lines.length === 0}
-                onClick={() => {
-                  trackInitiateCheckout({
-                    value: subtotal,
-                    content_ids: lines.map((l) => String(l.id)),
-                    contents: lines.map((l) => ({
-                      id: String(l.id),
-                      quantity: l.quantity,
-                      item_price: l.price,
-                    })),
-                    num_items: lines.reduce((n, l) => n + l.quantity, 0),
-                  });
-                  setStep("checkout");
-                }}
+                onClick={() => setStep("checkout")}
                 className="w-full rounded-full bg-maroon-700 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 disabled:opacity-40"
               >
                 Checkout

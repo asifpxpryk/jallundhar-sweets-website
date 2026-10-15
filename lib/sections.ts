@@ -7,6 +7,7 @@ export const SECTIONS = [
   { slug: "dairy", name: "Dairy", emoji: "🥛", image: "/category-icons/icon-dairy.webp?v=7" },
   { slug: "beverage", name: "Beverage", emoji: "🥤", image: "/category-icons/icon-baverages.webp?v=7" },
   { slug: "general", name: "General", emoji: "🛒", image: "/category-icons/icon-general.webp?v=7" },
+  { slug: "celebrations", name: "Celebrations", emoji: "🎁", image: "/category-icons/icon-baby-celebrations.webp?v=1" },
 ] as const;
 
 export type SectionSlug = (typeof SECTIONS)[number]["slug"];

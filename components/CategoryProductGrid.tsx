@@ -3,7 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
 import BestsellerScroller from "./BestsellerScroller";
+import CategoryCatalogBar, { type CatalogSort } from "./CategoryCatalogBar";
 import { useIsAdmin } from "./AdminSessionContext";
+import { buildBrandIndex } from "@/lib/catalogBrand";
+import { hasCatalogPhoto, keepsComingSoonCards } from "@/lib/catalogPhoto";
+import { normalizeName } from "@/lib/sections";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 
 const PAGE_SIZE = 24;
@@ -33,7 +37,7 @@ export default function CategoryProductGrid({
   items: MenuItem[];
   menuSlug?: string;
   hasExtra?: boolean;
-  aisleSection?: "general" | "beverage" | "bakery" | "sweets";
+  aisleSection?: string;
   aisleSlug?: string;
 }) {
   const isAdmin = useIsAdmin();
@@ -41,6 +45,11 @@ export default function CategoryProductGrid({
   const [list, setList] = useState(items);
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [filter, setFilter] = useState<"all" | "hidden">("all");
+  const [brand, setBrand] = useState("all");
+  const [beverageType, setBeverageType] = useState("all");
+  const [search, setSearch] = useState("");
+  const [hashItemId, setHashItemId] = useState("");
+  const [sortBy, setSortBy] = useState<CatalogSort>("default");
   const [adding, setAdding] = useState(false);
   const [loading, setLoading] = useState(items.length === 0 && Boolean(menuSlug) && !hasExtra);
 
@@ -57,13 +66,22 @@ export default function CategoryProductGrid({
     }
     fetch(`/api/admin-catalog?${params.toString()}`, { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
-      .then((data: { items?: MenuItem[] } | null) => {
-        if (Array.isArray(data?.items)) setList(data.items);
+      .then((data: { items?: MenuItem[]; knownPreviewIds?: string[] } | null) => {
+        if (Array.isArray(data?.items)) {
+          const knownIds = new Set([
+            ...data.items.map((item) => item.id),
+            ...(data.knownPreviewIds ?? []),
+          ]);
+          setList([
+            ...data.items,
+            ...items.filter((item) => item.preview_only && !knownIds.has(item.id)),
+          ]);
+        }
       })
       .catch(() => {
         /* keep current list */
       });
-  }, [aisleSection, aisleSlug, isAdmin, menuSlug]);
+  }, [aisleSection, aisleSlug, isAdmin, items, menuSlug]);
 
   const skipVisiblePersist = useRef(true);
 
@@ -71,12 +89,18 @@ export default function CategoryProductGrid({
     skipVisiblePersist.current = true;
     setVisible(readVisibleCount(pageKey));
     setFilter("all");
+    setBrand("all");
+    setBeverageType("all");
+    setSearch("");
+    setHashItemId("");
+    setSortBy("default");
     setAdding(false);
   }, [pageKey]);
 
   useEffect(() => {
     function revealHashedItem() {
       const id = window.location.hash.replace(/^#item-/, "");
+      setHashItemId(id);
       if (!id) return;
       const index = list.findIndex((item) => item.id === id);
       if (index < 0) return;
@@ -130,14 +154,44 @@ export default function CategoryProductGrid({
   }, [hasExtra, isAdmin, items, menuSlug]);
 
   const hiddenCount = list.filter((item) => item.is_hidden).length;
-  const filtered =
+  const adminFiltered =
     isAdmin && filter === "hidden"
       ? list.filter((item) => item.is_hidden)
       : list.filter((item) => !item.is_hidden);
-  const shown = filtered.slice(0, visible);
-  const bestsellers = list.filter(
-    (item) => item.is_bestseller && (isAdmin || !item.is_hidden)
+  const beverageCatalog = items.some((item) => item.beverage_type || item.preview_only);
+  const beverageTypes = [...new Set(list.map((item) => item.beverage_type).filter((value): value is string => Boolean(value)))]
+    .sort((a, b) => a.localeCompare(b));
+  const priceOf = (item: MenuItem) => Number(item.price) || 0;
+  const generalPage = aisleSection === "general" || menuSlug === "general";
+  const generalHome = menuSlug === "general" && !aisleSlug;
+  const showComingSoon = keepsComingSoonCards(aisleSlug);
+  const shelf = adminFiltered.filter(
+    (item) => isAdmin || !generalPage || showComingSoon || hasCatalogPhoto(item)
   );
+  const brands = buildBrandIndex(shelf);
+  const filtered = shelf
+    .filter((item) => !beverageCatalog || isAdmin || brand !== "all" || Boolean(search.trim()) || item.id === hashItemId || Boolean(item.image_url))
+    .filter((item) => brand === "all" || brands.choiceFor(item) === brand)
+    .filter((item) => beverageType === "all" || item.beverage_type === beverageType)
+    .filter((item) => !search.trim() || normalizeName(item.name).includes(normalizeName(search)))
+    .sort((a, b) => {
+      if (sortBy === "price-asc") return priceOf(a) - priceOf(b) || a.name.localeCompare(b.name);
+      if (sortBy === "price-desc") return priceOf(b) - priceOf(a) || a.name.localeCompare(b.name);
+      if (sortBy === "brand") return (brands.brandOf(a) ?? "\uffff").localeCompare(brands.brandOf(b) ?? "\uffff") || a.name.localeCompare(b.name);
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      if (sortBy === "photo") return Number(hasCatalogPhoto(b)) - Number(hasCatalogPhoto(a)) || a.name.localeCompare(b.name);
+      if (sortBy === "default" && generalPage) return Number(hasCatalogPhoto(b)) - Number(hasCatalogPhoto(a));
+      return 0;
+    });
+  const shown = filtered.slice(0, visible);
+  const bestsellers = generalHome
+    ? []
+    : list.filter(
+        (item) =>
+          item.is_bestseller &&
+          (isAdmin || !item.is_hidden) &&
+          (isAdmin || !generalPage || showComingSoon || hasCatalogPhoto(item))
+      );
 
   const addSlot =
     isAdmin && filter !== "hidden" ? (
@@ -154,6 +208,9 @@ export default function CategoryProductGrid({
             is_available: true,
             is_hidden: false,
             is_bestseller: false,
+            is_new_arrival: false,
+            is_deal: false,
+            deal_label: "",
             sort_order: 0,
           }}
           aisleSection={aisleSection}
@@ -209,15 +266,57 @@ export default function CategoryProductGrid({
     </div>
   ) : null;
 
+  const resetFilters = () => {
+    setBrand("all");
+    setBeverageType("all");
+    setSearch("");
+    setSortBy("default");
+    setVisible(PAGE_SIZE);
+  };
+  const catalogBar = shelf.length > 0 ? (
+    <CategoryCatalogBar
+      total={shelf.length}
+      shown={filtered.length}
+      brands={brands.choices}
+      showBrand={brands.showBrand}
+      brand={brand}
+      onBrand={(value) => {
+        setBrand(value);
+        setVisible(PAGE_SIZE);
+      }}
+      sort={sortBy}
+      onSort={(value) => {
+        setSortBy(value);
+        setVisible(PAGE_SIZE);
+      }}
+      query={search}
+      onQuery={(value) => {
+        setSearch(value);
+        setVisible(PAGE_SIZE);
+      }}
+      beverageTypes={beverageCatalog ? beverageTypes : []}
+      beverageType={beverageType}
+      onBeverageType={(value) => {
+        setBeverageType(value);
+        setVisible(PAGE_SIZE);
+      }}
+      onClear={resetFilters}
+      defaultSortLabel={generalPage ? "Photos first" : "Shop order"}
+      omitPhotoSort={generalPage}
+      hideSearch={generalHome}
+    />
+  ) : null;
+
   if (filtered.length > 0) {
     return (
       <div className="mt-2">
-        <BestsellerScroller items={bestsellers} embedded />
+        <BestsellerScroller items={bestsellers} embedded aisleSection={aisleSection} />
         {toolbar}
+        {catalogBar}
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           {shown.map((item, index) => (
             <ProductCard
-              key={`${item.id}-${item.is_hidden ? "h" : "v"}-${item.is_bestseller ? "b" : "n"}`}
+              key={`${item.id}-${item.is_hidden ? "h" : "v"}-${item.is_bestseller ? "b" : "n"}-${item.is_new_arrival ? "a" : "x"}-${item.is_deal ? "d" : "x"}-${item.deal_label ?? ""}`}
               item={item}
               priority={index < 4}
               onSaved={isAdmin ? loadAdminCatalog : undefined}
@@ -243,18 +342,24 @@ export default function CategoryProductGrid({
   if (isAdmin && filter === "hidden") {
     return (
       <div className="mt-2">
-        <BestsellerScroller items={bestsellers} embedded />
+        <BestsellerScroller items={bestsellers} embedded aisleSection={aisleSection} />
         {toolbar}
+        {catalogBar}
         <p className="mt-6 text-maroon-700/70">No hidden products in this section.</p>
       </div>
     );
   }
 
-  if (hasExtra) {
+  if (adminFiltered.length > 0 || hasExtra) {
     return (
       <div className="mt-2">
-        <BestsellerScroller items={bestsellers} embedded />
+        <BestsellerScroller items={bestsellers} embedded aisleSection={aisleSection} />
         {toolbar}
+        {catalogBar}
+        {shelf.length > 0 && filtered.length === 0 ? <p className="mt-6 text-maroon-700/70">No products match these filters.</p> : null}
+        {shelf.length === 0 && adminFiltered.length > 0 && !isAdmin ? (
+          <p className="mt-6 text-maroon-700/70">No products in this section yet.</p>
+        ) : null}
         {addSlot ? (
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">{addSlot}</div>
         ) : null}
@@ -264,8 +369,9 @@ export default function CategoryProductGrid({
   if (loading) return <p className="mt-8 text-maroon-700/70">Products loading...</p>;
   return (
     <div className="mt-2">
-      <BestsellerScroller items={bestsellers} embedded />
+      <BestsellerScroller items={bestsellers} embedded aisleSection={aisleSection} />
       {toolbar}
+      {catalogBar}
       {addSlot ? (
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">{addSlot}</div>
       ) : (

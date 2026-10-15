@@ -2,7 +2,9 @@ import CategoryNav from "@/components/CategoryNav";
 import BackLink from "@/components/BackLink";
 
 export const metadata = {
-  title: "Categories | Jallundhar Sweets & Bakers",
+  title: "All Categories – Bakery, Sweets & More in Rahim Yar Khan | Jallundhar Sweets & Bakers",
+  description:
+    "Browse bakery, sweets & mithai, snacks, dairy, beverages, groceries and gift boxes from Jallundhar Sweets & Bakers, Shahi Road, Rahim Yar Khan. Order online or on WhatsApp.",
   alternates: { canonical: "/categories" },
 };
 

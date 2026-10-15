@@ -34,7 +34,7 @@ export default function PromoBanner({
           alt={alt}
           fill
           sizes="(min-width: 1152px) 1152px, 100vw"
-          unoptimized={false}
+          unoptimized
           className={imageClass}
           style={imageStyle}
         />

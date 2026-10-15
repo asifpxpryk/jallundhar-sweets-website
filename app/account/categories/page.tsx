@@ -5,6 +5,7 @@ import { loadStoreVisibility } from "@/lib/storeVisibility";
 
 export const metadata = {
   title: "Categories | Jallundhar Sweets & Bakers",
+  robots: { index: false, follow: false },
 };
 
 export const dynamic = "force-dynamic";

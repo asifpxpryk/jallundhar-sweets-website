@@ -3,13 +3,25 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { SECTIONS, isSectionSlug } from "@/lib/sections";
+import { SECTIONS } from "@/lib/sections";
 import { GENERAL_AISLES } from "@/lib/generalAisles";
 import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
 import { BAKERY_AISLES } from "@/lib/bakeryAisles";
 import { SWEETS_AISLES } from "@/lib/sweetsAisles";
 import {
+  aisleSlugTaken,
+  categoryKey,
+  isKnownAisle,
+  isKnownSection,
+  isReservedSectionSlug,
+  listAisles,
+  listSections,
+  uniqueCategorySlug,
+} from "@/lib/categoryCatalog";
+import {
   applyBestsellerToggle,
+  applyDealToggle,
+  applyNewArrivalToggle,
   applyItemPlacement,
   applyVisibilityToggle,
   itemVisibilitySlug,
@@ -32,12 +44,14 @@ import type { AdminOrder, PaymentMethod } from "@/lib/types";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 import { refreshMenuCache } from "@/lib/loadMenu";
 import { storeProductPhoto } from "@/lib/storeProductPhoto";
+import { bannerOptions, bannerPageOptions } from "@/lib/bannerCatalog";
 
-function refreshStorefront() {
+async function refreshStorefront() {
   refreshMenuCache();
   refreshStoreVisibility();
   revalidatePath("/account");
   revalidatePath("/account/categories");
+  revalidatePath("/account/banners");
   revalidatePath("/", "layout");
   revalidatePath("/categories");
   revalidatePath("/general");
@@ -55,6 +69,15 @@ function refreshStorefront() {
   }
   for (const aisle of SWEETS_AISLES) {
     revalidatePath(`/sweets/${aisle.slug}`);
+  }
+  try {
+    const vis = await loadStoreVisibilityUncached();
+    for (const section of listSections(vis)) {
+      revalidatePath(section.href);
+      for (const aisle of listAisles(vis, section.slug)) revalidatePath(aisle.href);
+    }
+  } catch {
+    /* Builtin paths above are already refreshed. */
   }
 }
 
@@ -91,7 +114,8 @@ async function syncItemHiddenFlag(
   columnExists: boolean,
   is_bestseller = false,
   catalogId = id,
-  relatedIds: string[] = []
+  relatedIds: string[] = [],
+  shelf?: { is_new_arrival?: boolean; is_deal?: boolean; deal_label?: string }
 ) {
   const ids = [...new Set([id, catalogId, ...relatedIds].filter(Boolean))];
   let vis = await loadStoreVisibilityUncached();
@@ -99,6 +123,12 @@ async function syncItemHiddenFlag(
     vis = applyVisibilityToggle(vis, "aisle", itemVisibilitySlug(itemId), hidden);
   }
   vis = applyBestsellerToggle(vis, catalogId, is_bestseller);
+  if (shelf && typeof shelf.is_new_arrival === "boolean") {
+    vis = applyNewArrivalToggle(vis, catalogId, shelf.is_new_arrival);
+  }
+  if (shelf && typeof shelf.is_deal === "boolean") {
+    vis = applyDealToggle(vis, catalogId, shelf.is_deal, shelf.deal_label ?? "");
+  }
 
   if (!columnExists) {
     for (const itemId of ids) {
@@ -113,9 +143,16 @@ async function syncItemHiddenFlag(
   }
 
   const written = await writeVisibilityConfig(supabase, vis);
-  if (written.error && (hidden || is_bestseller)) {
+  if (written.error && (hidden || is_bestseller || shelf?.is_new_arrival || shelf?.is_deal)) {
     throw new Error(written.error.message);
   }
+}
+
+async function placementError(section: string, aisle: string) {
+  const vis = await loadStoreVisibilityUncached();
+  if (!isKnownSection(vis, section)) return "Please select a category.";
+  if (!isValidPlacement(section, aisle, vis)) return "Category or aisle is invalid.";
+  return "";
 }
 
 async function persistItemPlacement(
@@ -124,14 +161,11 @@ async function persistItemPlacement(
   section: string,
   aisle: string
 ) {
-  if (!isValidPlacement(section, aisle)) {
+  const current = await loadStoreVisibilityUncached();
+  if (!isValidPlacement(section, aisle, current)) {
     throw new Error("Category or aisle is invalid.");
   }
-  const vis = applyItemPlacement(
-    await loadStoreVisibilityUncached(),
-    ids,
-    placementKey(section, aisle)
-  );
+  const vis = applyItemPlacement(current, ids, placementKey(section, aisle));
   const written = await writeVisibilityConfig(supabase, vis);
   if (written.error) throw new Error(written.error.message);
 }
@@ -194,9 +228,8 @@ export async function saveMenuItem(formData: FormData) {
   if (!id || !name || Number.isNaN(price) || price < 0) {
     return { error: "Name and a valid price are required." };
   }
-  if (!isSectionSlug(category_id)) {
-    return { error: "Category is invalid." };
-  }
+  const placementProblem = await placementError(category_id, aisle_slug);
+  if (placementProblem) return { error: placementProblem };
 
   const supabase = createSupabaseAdmin();
   const photo = await storeProductPhoto(formData);
@@ -228,7 +261,7 @@ export async function saveMenuItem(formData: FormData) {
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not hide this item." };
   }
-  refreshStorefront();
+  await refreshStorefront();
   return { error: "" };
 }
 
@@ -243,6 +276,9 @@ export async function saveStorefrontItem(formData: FormData) {
   const price = Number(formData.get("price"));
   const is_hidden = formData.get("is_hidden") === "on" || formData.get("is_hidden") === "true";
   const is_bestseller = formData.get("is_bestseller") === "on" || formData.get("is_bestseller") === "true";
+  const is_new_arrival = formData.get("is_new_arrival") === "on" || formData.get("is_new_arrival") === "true";
+  const is_deal = formData.get("is_deal") === "on" || formData.get("is_deal") === "true";
+  const deal_label = String(formData.get("deal_label") || "");
   const catalogId = String(formData.get("catalog_id") || id).trim() || id;
   const relatedIds = String(formData.get("variant_ids") || "")
     .split(",")
@@ -259,9 +295,8 @@ export async function saveStorefrontItem(formData: FormData) {
   if (!id || !name || Number.isNaN(price) || price < 0) {
     return { error: "A valid price is required." };
   }
-  if (!isSectionSlug(category_id)) {
-    return { error: "Category is invalid." };
-  }
+  const placementProblem = await placementError(category_id, aisle_slug);
+  if (placementProblem) return { error: placementProblem };
 
   const supabase = createSupabaseAdmin();
   const photo = await storeProductPhoto(formData);
@@ -324,7 +359,8 @@ export async function saveStorefrontItem(formData: FormData) {
       columnExists,
       is_bestseller,
       catalogId,
-      relatedIds
+      relatedIds,
+      { is_new_arrival, is_deal, deal_label }
     );
     await persistItemPlacement(
       supabase,
@@ -336,7 +372,7 @@ export async function saveStorefrontItem(formData: FormData) {
     return { error: err instanceof Error ? err.message : "Could not hide this item." };
   }
 
-  refreshStorefront();
+  await refreshStorefront();
   return { error: "" };
 }
 
@@ -352,6 +388,9 @@ export async function addMenuItem(formData: FormData) {
   const aisle_slug = String(formData.get("aisle_slug") || "").trim();
   const is_hidden = formData.get("is_hidden") === "on" || formData.get("is_hidden") === "true";
   const is_bestseller = formData.get("is_bestseller") === "on" || formData.get("is_bestseller") === "true";
+  const is_new_arrival = formData.get("is_new_arrival") === "on" || formData.get("is_new_arrival") === "true";
+  const is_deal = formData.get("is_deal") === "on" || formData.get("is_deal") === "true";
+  const deal_label = String(formData.get("deal_label") || "");
   const is_available = !(
     formData.get("is_out_of_stock") === "on" || formData.get("is_out_of_stock") === "true"
   );
@@ -360,9 +399,8 @@ export async function addMenuItem(formData: FormData) {
   if (!name || Number.isNaN(price) || price < 0) {
     return { error: "Name and a valid price are required." };
   }
-  if (!isSectionSlug(category_id)) {
-    return { error: "Please select a category." };
-  }
+  const placementProblem = await placementError(category_id, aisle_slug);
+  if (placementProblem) return { error: placementProblem };
 
   const photo = await storeProductPhoto(formData);
   if (photo.error) return { error: photo.error };
@@ -398,7 +436,11 @@ export async function addMenuItem(formData: FormData) {
 
   if (error) return { error: error.message };
   try {
-    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists, is_bestseller, id);
+    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists, is_bestseller, id, [], {
+      is_new_arrival,
+      is_deal,
+      deal_label,
+    });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not save this item." };
   }
@@ -407,7 +449,7 @@ export async function addMenuItem(formData: FormData) {
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not move this item." };
   }
-  refreshStorefront();
+  await refreshStorefront();
   return { error: "", id };
 }
 
@@ -424,20 +466,15 @@ export async function setCategoryHidden(formData: FormData) {
   if (kind !== "section" && kind !== "aisle") {
     return { error: "Category type is invalid." };
   }
-  if (kind === "section" && !isSectionSlug(slug)) {
+  const current = await loadStoreVisibilityUncached();
+  if (kind === "section" && !isKnownSection(current, slug)) {
     return { error: "Section is invalid." };
   }
-  if (
-    kind === "aisle" &&
-    !GENERAL_AISLES.some((aisle) => aisle.slug === slug) &&
-    !BEVERAGE_AISLES.some((aisle) => aisle.slug === slug) &&
-    !BAKERY_AISLES.some((aisle) => aisle.slug === slug) &&
-    !SWEETS_AISLES.some((aisle) => aisle.slug === slug)
-  ) {
-    return { error: "Aisle is invalid." };
+  if (kind === "aisle" && !aisleSlugTaken(current, slug)) {
+    return { error: "Category is invalid." };
   }
 
-  const next = applyVisibilityToggle(await loadStoreVisibilityUncached(), kind, slug, hidden);
+  const next = applyVisibilityToggle(current, kind, slug, hidden);
 
   const supabase = createSupabaseAdmin();
   const { error } = await supabase.from("store_visibility").upsert(
@@ -449,12 +486,12 @@ export async function setCategoryHidden(formData: FormData) {
     if (/store_visibility|schema cache|does not exist|relation/i.test(error.message)) {
       const written = await writeVisibilityConfig(supabase, next);
       if (!written.error) {
-        refreshStorefront();
+        await refreshStorefront();
         return { error: "" };
       }
       try {
         await writeStoreVisibilityFallback(next);
-        refreshStorefront();
+        await refreshStorefront();
         return { error: "" };
       } catch {
         return { error: written.error.message };
@@ -469,7 +506,195 @@ export async function setCategoryHidden(formData: FormData) {
     /* Vercel filesystem is ephemeral */
   }
 
-  refreshStorefront();
+  const written = await writeVisibilityConfig(supabase, next);
+  if (written.error) return { error: written.error.message };
+
+  await refreshStorefront();
+  return { error: "" };
+}
+
+export async function saveBannerPages(formData: FormData) {
+  await requireAdmin();
+  if (!hasSupabaseSecret()) return { error: "SUPABASE_SECRET_KEY is missing." };
+
+  const id = String(formData.get("id") || "").trim();
+  const current = await loadStoreVisibilityUncached();
+  if (!bannerOptions(current).some((banner) => banner.id === id)) {
+    return { error: "Banner was not found." };
+  }
+
+  const allowedPages = new Set(bannerPageOptions(current).map((page) => page.path));
+  const pages = [...new Set(formData.getAll("pages").map((page) => String(page).trim()))];
+  if (pages.some((page) => !allowedPages.has(page))) {
+    return { error: "Choose pages from the list." };
+  }
+
+  const next = {
+    ...current,
+    bannerPages: { ...current.bannerPages, [id]: pages },
+  };
+  const written = await writeVisibilityConfig(createSupabaseAdmin(), next);
+  if (written.error) return { error: written.error.message };
+  await refreshStorefront();
+  return { error: "" };
+}
+
+export async function saveShopExteriorText(formData: FormData) {
+  await requireAdmin();
+  if (!hasSupabaseSecret()) return { error: "SUPABASE_SECRET_KEY is missing." };
+
+  const heading = String(formData.get("heading") || "").trim().slice(0, 120);
+  const eyebrow = String(formData.get("eyebrow") || "").trim().slice(0, 80);
+  const description = String(formData.get("description") || "").trim().slice(0, 240);
+  const buttonLabel = String(formData.get("buttonLabel") || "").trim().slice(0, 50);
+  if (!heading) return { error: "Enter a banner heading." };
+
+  const current = await loadStoreVisibilityUncached();
+  const next: StoreVisibility = {
+    ...current,
+    shopExteriorText: { eyebrow, heading, description, buttonLabel },
+  };
+  const written = await writeVisibilityConfig(createSupabaseAdmin(), next);
+  if (written.error) return { error: written.error.message };
+  await refreshStorefront();
+  return { error: "" };
+}
+
+export async function addCategory(formData: FormData) {
+  await requireAdmin();
+  if (!hasSupabaseSecret()) {
+    return { error: "SUPABASE_SECRET_KEY is missing." };
+  }
+
+  const kind = String(formData.get("kind") || "") as CategoryKind;
+  const name = String(formData.get("name") || "").trim().slice(0, 40);
+  const parent = String(formData.get("parent") || "").trim();
+  if (kind !== "section" && kind !== "aisle") {
+    return { error: "Category type is invalid." };
+  }
+  if (!name) return { error: "Enter a category name." };
+
+  const vis = await loadStoreVisibilityUncached();
+  if (kind === "aisle" && !isKnownSection(vis, parent)) {
+    return { error: "Choose which category this sits inside." };
+  }
+
+  const taken = new Set<string>();
+  if (kind === "section") {
+    for (const section of listSections(vis)) taken.add(section.slug);
+    taken.add("account");
+    taken.add("admin");
+    taken.add("api");
+    taken.add("categories");
+  } else {
+    for (const section of listSections(vis)) {
+      for (const aisle of listAisles(vis, section.slug)) taken.add(aisle.slug);
+    }
+  }
+  const slug = uniqueCategorySlug(name, taken);
+  if (!slug || (kind === "section" && isReservedSectionSlug(slug))) {
+    return { error: "That name cannot be used as a category. Try another name." };
+  }
+
+  const photo = await storeProductPhoto(formData);
+  if (photo.error) return { error: photo.error };
+
+  const recordParent = kind === "section" ? "" : parent;
+  const key = categoryKey(kind, slug, recordParent);
+  const next = {
+    ...vis,
+    customCategories: [
+      ...vis.customCategories,
+      { kind, slug, name, parent: recordParent, image: photo.url },
+    ],
+    categoryNames: { ...vis.categoryNames, [key]: name },
+    categoryImages: photo.url ? { ...vis.categoryImages, [key]: photo.url } : vis.categoryImages,
+  };
+
+  const supabase = createSupabaseAdmin();
+  const written = await writeVisibilityConfig(supabase, next);
+  if (written.error) return { error: written.error.message };
+  await refreshStorefront();
+  return { error: "" };
+}
+
+export async function renameCategory(formData: FormData) {
+  await requireAdmin();
+  if (!hasSupabaseSecret()) {
+    return { error: "SUPABASE_SECRET_KEY is missing." };
+  }
+
+  const kind = String(formData.get("kind") || "") as CategoryKind;
+  const slug = String(formData.get("slug") || "").trim();
+  const parent = String(formData.get("parent") || "").trim();
+  const name = String(formData.get("name") || "").trim().slice(0, 40);
+  if (kind !== "section" && kind !== "aisle") {
+    return { error: "Category type is invalid." };
+  }
+  if (!name) return { error: "Enter a category name." };
+
+  const vis = await loadStoreVisibilityUncached();
+  const recordParent = kind === "section" ? "" : parent;
+  const exists =
+    kind === "section" ? isKnownSection(vis, slug) : isKnownAisle(vis, recordParent, slug);
+  if (!exists) return { error: "Category was not found." };
+
+  const key = categoryKey(kind, slug, recordParent);
+  const next = {
+    ...vis,
+    categoryNames: { ...vis.categoryNames, [key]: name },
+    customCategories: vis.customCategories.map((category) =>
+      category.kind === kind && category.slug === slug && category.parent === recordParent
+        ? { ...category, name }
+        : category
+    ),
+  };
+
+  const supabase = createSupabaseAdmin();
+  const written = await writeVisibilityConfig(supabase, next);
+  if (written.error) return { error: written.error.message };
+  await refreshStorefront();
+  return { error: "" };
+}
+
+export async function setCategoryPhoto(formData: FormData) {
+  await requireAdmin();
+  if (!hasSupabaseSecret()) {
+    return { error: "SUPABASE_SECRET_KEY is missing." };
+  }
+
+  const kind = String(formData.get("kind") || "") as CategoryKind;
+  const slug = String(formData.get("slug") || "").trim();
+  const parent = String(formData.get("parent") || "").trim();
+  if (kind !== "section" && kind !== "aisle") {
+    return { error: "Category type is invalid." };
+  }
+
+  const vis = await loadStoreVisibilityUncached();
+  const recordParent = kind === "section" ? "" : parent;
+  const exists =
+    kind === "section" ? isKnownSection(vis, slug) : isKnownAisle(vis, recordParent, slug);
+  if (!exists) return { error: "Category was not found." };
+
+  const photo = await storeProductPhoto(formData);
+  if (photo.error) return { error: photo.error };
+  if (!photo.url) return { error: "Choose a photo." };
+
+  const key = categoryKey(kind, slug, recordParent);
+  const next = {
+    ...vis,
+    categoryImages: { ...vis.categoryImages, [key]: photo.url },
+    customCategories: vis.customCategories.map((category) =>
+      category.kind === kind && category.slug === slug && category.parent === recordParent
+        ? { ...category, image: photo.url }
+        : category
+    ),
+  };
+
+  const supabase = createSupabaseAdmin();
+  const written = await writeVisibilityConfig(supabase, next);
+  if (written.error) return { error: written.error.message };
+  await refreshStorefront();
   return { error: "" };
 }
 

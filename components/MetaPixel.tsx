@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { META_PIXEL_ID, trackPageView } from "@/lib/metaPixel";
@@ -8,8 +8,13 @@ import { META_PIXEL_ID, trackPageView } from "@/lib/metaPixel";
 function MetaPixelTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const skipFirstView = useRef(true);
 
   useEffect(() => {
+    if (skipFirstView.current) {
+      skipFirstView.current = false;
+      return;
+    }
     trackPageView();
   }, [pathname, searchParams]);
 
@@ -33,15 +38,11 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '${META_PIXEL_ID}');
 fbq('track', 'PageView');
 `}</Script>
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-          alt=""
-        />
-      </noscript>
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1" />`,
+        }}
+      />
       <Suspense fallback={null}>
         <MetaPixelTracker />
       </Suspense>

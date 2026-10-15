@@ -1,17 +1,32 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { logoutAdmin } from "./actions";
 
 export default function AdminNav({
   active,
 }: {
-  active: "menu" | "categories";
+  active: "menu" | "categories" | "banners";
 }) {
   const tab =
     "rounded-xl px-3 py-2 text-sm font-medium";
   const on = `${tab} bg-maroon-700 text-white`;
   const off = `${tab} border border-gold-200 bg-white text-maroon-800`;
+  const [version, setVersion] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/version")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data?.version) setVersion(String(data.version));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -20,14 +35,24 @@ export default function AdminNav({
           Manage menu
         </Link>
         <Link href="/account/categories" className={active === "categories" ? on : off}>
-          Categories show / hide
+          Categories
+        </Link>
+        <Link href="/account/banners" className={active === "banners" ? on : off}>
+          Banners
         </Link>
       </div>
-      <form action={logoutAdmin}>
-        <button className="rounded-xl border border-gold-200 bg-white px-3 py-2 text-sm font-medium text-maroon-800">
-          Logout
-        </button>
-      </form>
+      <div className="flex flex-wrap items-center gap-3">
+        {version ? (
+          <span className="font-mono text-xs text-maroon-700/50" title="Site version (admin only)">
+            v{version}
+          </span>
+        ) : null}
+        <form action={logoutAdmin}>
+          <button className="rounded-xl border border-gold-200 bg-white px-3 py-2 text-sm font-medium text-maroon-800">
+            Logout
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

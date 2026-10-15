@@ -1,13 +1,17 @@
 "use client";
 
-import { trackAddToCart } from "@/lib/metaPixel";
+import { dealPrice } from "@/lib/dealPrice";
+import { customerProductName } from "@/lib/productName";
+import { orderUnit } from "@/lib/priceUnit";
 import { useRef, useState } from "react";
+import Link from "next/link";
 import type { MenuItem } from "@/lib/types";
-import { useCart } from "./CartContext";
 import { useIsAdmin } from "./AdminSessionContext";
+import { useCart } from "./CartContext";
 import { saveStorefrontItem, addMenuItem } from "@/app/admin/actions";
 import { isSectionSlug, assignSection } from "@/lib/sections";
 import ProductImage from "./ProductImage";
+import ProductQuantity from "./ProductQuantity";
 import PlacementFields from "@/app/admin/PlacementFields";
 import { withCompressedPhoto } from "@/lib/compressImage";
 
@@ -25,6 +29,7 @@ export default function ProductCard({
   isNew = false,
   aisleSection,
   aisleSlug,
+  shelf,
 }: {
   item: MenuItem;
   compact?: boolean;
@@ -34,9 +39,12 @@ export default function ProductCard({
   isNew?: boolean;
   aisleSection?: string;
   aisleSlug?: string;
+  shelf?: "new" | "deal";
 }) {
-  const { add } = useCart();
   const isAdmin = useIsAdmin() && !compact;
+  const { lines } = useCart();
+  const productHref =
+    !isNew && !item.preview_only ? `/product/${encodeURIComponent(item.id)}` : null;
   const variants = item.variants;
   const defaultVariant =
     variants?.find((v) => v.label === "Medium") ??
@@ -44,7 +52,17 @@ export default function ProductCard({
     variants?.[0];
   const [selectedId, setSelectedId] = useState(defaultVariant?.id ?? item.id);
   const selected = variants?.find((v) => v.id === selectedId);
+  const lineId = selected?.id ?? item.id;
+  const cartQty = lines.find((entry) => entry.id === lineId)?.quantity ?? 0;
   const price = selected?.price ?? item.price;
+  const sale = !selected && item.is_deal ? dealPrice(item.deal_label) : null;
+  const showSale = sale != null && sale !== price;
+  const shownName = customerProductName(
+    selected ? `${item.name} (${selected.label})` : item.name,
+    aisleSection || item.category_id
+  );
+  const unit = orderUnit(selected ? `${item.name} ${selected.label}` : item.name);
+  const unitInName = Boolean(unit && shownName.includes(`— ${unit}`));
   const inStock = selected ? selected.is_available !== false : item.is_available !== false;
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -54,54 +72,62 @@ export default function ProductCard({
   const [photoMenu, setPhotoMenu] = useState(false);
   const shownPhoto = clearedPhoto ? "" : photoPreview || item.image_url || "";
 
-  function handleAdd() {
-    if (!inStock) return;
-    if (selected) {
-      const line = {
-        ...item,
-        id: selected.id,
-        name: `${item.name} (${selected.label})`,
-        price: selected.price,
-      };
-      add(line);
-      trackAddToCart({
-        content_ids: [String(selected.id)],
-        content_name: line.name,
-        value: selected.price,
-        contents: [{ id: String(selected.id), quantity: 1, item_price: selected.price }],
-      });
-      return;
-    }
-    add(item);
-    trackAddToCart({
-      content_ids: [String(item.id)],
-      content_name: item.name,
-      value: item.price,
-      contents: [{ id: String(item.id), quantity: 1, item_price: item.price }],
-    });
-  }
-
   return (
     <div
       id={`item-${item.id}`}
-      className={`flex h-full scroll-mt-24 flex-col overflow-hidden rounded-2xl bg-white shadow-md ${
+      className={`group flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[1.35rem] bg-white shadow-[0_14px_32px_-20px_rgba(74,21,26,0.55)] transition duration-200 sm:hover:-translate-y-0.5 sm:hover:shadow-[0_20px_36px_-18px_rgba(74,21,26,0.5)] ${
         compact ? "w-40 flex-shrink-0 snap-start sm:w-44" : "w-full"
-      } ${isAdmin && item.is_hidden ? "ring-2 ring-maroon-300" : ""}`}
+      } ${
+        isAdmin && item.is_hidden
+          ? "ring-2 ring-maroon-300"
+          : cartQty > 0
+            ? "ring-2 ring-gold-400"
+            : shelf === "new"
+              ? "bg-[#fffdf8] ring-2 ring-gold-400"
+              : shelf === "deal"
+                ? "bg-[#fff7f6] ring-2 ring-maroon-700"
+                : "ring-1 ring-gold-100"
+      }`}
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-gold-50">
-        {shownPhoto ? (
-          shownPhoto.startsWith("blob:") ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={shownPhoto} alt={item.name} className="h-full w-full object-cover" />
-          ) : (
-            <ProductImage
-              src={shownPhoto}
-              alt={item.name}
-              sizes={compact ? "176px" : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"}
-              className="object-cover"
-              priority={priority}
-            />
-          )
+      <div
+        className={`relative aspect-square w-full overflow-hidden ${
+          item.preview_only
+            ? "bg-white"
+            : "bg-[radial-gradient(circle_at_50%_40%,#ffffff_0%,#fdf8ed_72%,#faedc8_140%)]"
+        }`}
+      >
+        {shelf === "new" || shelf === "deal" ? (
+          <span
+            className={`absolute left-2 top-2 z-[2] rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+              shelf === "new" ? "bg-gold-400 text-maroon-900" : "bg-maroon-800 text-white"
+            }`}
+          >
+            {shelf === "new" ? "New" : "Deal"}
+          </span>
+        ) : null}
+        {shownPhoto.startsWith("blob:") ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={shownPhoto} alt={shownName} className="h-full w-full object-cover" />
+        ) : (
+          <ProductImage
+            src={shownPhoto}
+            alt={shownName}
+            sizes={compact ? "176px" : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"}
+            className={item.preview_only && shownPhoto ? "object-contain p-4" : "object-cover"}
+            priority={priority}
+          />
+        )}
+        {item.preview_only && item.image_is_illustrative && shownPhoto ? (
+          <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold text-maroon-800 shadow-sm">
+            Illustrative image
+          </span>
+        ) : null}
+        {!isAdmin && productHref ? (
+          <Link
+            href={productHref}
+            className="absolute inset-0 z-[1]"
+            aria-label={`View ${shownName} details`}
+          />
         ) : null}
         {isAdmin ? (
           <>
@@ -144,12 +170,21 @@ export default function ProductCard({
           </>
         ) : null}
         {isAdmin && item.is_hidden ? (
-          <span className="absolute left-2 top-2 rounded-full bg-maroon-800 px-2 py-0.5 text-[10px] font-semibold text-white">
+          <span className="absolute left-2 top-2 z-[2] rounded-full bg-maroon-800 px-2 py-0.5 text-[10px] font-semibold text-white">
             Hidden
           </span>
         ) : null}
+        {!isAdmin && cartQty > 0 ? (
+          <span
+            aria-live="polite"
+            aria-label={`${shownName}, ${cartQty} in cart`}
+            className="pointer-events-none absolute right-2.5 top-2.5 z-[2] flex h-8 min-w-8 items-center justify-center rounded-full bg-gold-500 px-1.5 text-sm font-bold leading-none text-maroon-900 shadow-[0_6px_14px_-4px_rgba(74,21,26,0.55)] ring-2 ring-white"
+          >
+            {cartQty}
+          </span>
+        ) : null}
       </div>
-      <div className="flex flex-1 flex-col p-3">
+      <div className="flex flex-1 flex-col border-t border-gold-100 p-3">
         {isAdmin ? (
           <form
             className="flex min-h-0 flex-1 flex-col"
@@ -169,6 +204,8 @@ export default function ProductCard({
               formData.set("is_hidden", formData.get("is_hidden") ? "true" : "false");
               formData.set("is_out_of_stock", formData.get("is_out_of_stock") ? "true" : "false");
               formData.set("is_bestseller", formData.get("is_bestseller") ? "true" : "false");
+              formData.set("is_new_arrival", formData.get("is_new_arrival") ? "true" : "false");
+              formData.set("is_deal", formData.get("is_deal") ? "true" : "false");
               await withCompressedPhoto(formData);
               setStatus("saving");
               setError(null);
@@ -272,7 +309,35 @@ export default function ProductCard({
                 />
                 Best
               </label>
+              <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
+                <input
+                  name="is_new_arrival"
+                  type="checkbox"
+                  defaultChecked={Boolean(item.is_new_arrival)}
+                  className="h-3.5 w-3.5"
+                />
+                New
+              </label>
+              <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
+                <input
+                  name="is_deal"
+                  type="checkbox"
+                  defaultChecked={Boolean(item.is_deal)}
+                  className="h-3.5 w-3.5"
+                />
+                Deal
+              </label>
             </div>
+            <label className="mt-2 block text-[11px] text-maroon-800">
+              Deal line
+              <input
+                name="deal_label"
+                maxLength={32}
+                defaultValue={item.deal_label ?? ""}
+                placeholder="New price, e.g. 40"
+                className="mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm"
+              />
+            </label>
             <button
               type="submit"
               disabled={status === "saving"}
@@ -305,11 +370,20 @@ export default function ProductCard({
           </form>
         ) : (
           <>
-            <h3 className="line-clamp-2 min-h-[2.5rem] font-display text-sm font-semibold leading-tight text-maroon-900">
-              {item.name}
+            {item.is_deal && item.deal_label && !showSale ? (
+              <p className="mb-1 line-clamp-1 text-[11px] font-semibold text-gold-800">{item.deal_label}</p>
+            ) : null}
+            <h3 className="line-clamp-2 min-h-[2.5rem] font-display text-sm font-semibold leading-snug tracking-tight text-maroon-900">
+              {productHref ? (
+                <Link href={productHref} className="transition hover:text-maroon-700">
+                  {shownName}
+                </Link>
+              ) : (
+                shownName
+              )}
             </h3>
             {item.description ? (
-              <p className="mt-1 line-clamp-2 text-xs text-maroon-700/70">{item.description}</p>
+              <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-maroon-700/70">{item.description}</p>
             ) : null}
             <div className="flex min-h-8 flex-1 items-center">
               {variants && variants.length > 0 ? (
@@ -331,17 +405,44 @@ export default function ProductCard({
                 </div>
               ) : null}
             </div>
-            <p className="text-sm text-maroon-700/70">Rs. {price.toLocaleString()}</p>
-            <button
-              type="button"
-              onClick={handleAdd}
-              disabled={!inStock}
-              className={`mt-3 min-h-11 w-full rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition ${
-                inStock ? "bg-maroon-800 hover:bg-maroon-900" : "cursor-not-allowed bg-maroon-300"
-              }`}
-            >
-              {inStock ? "Add to Cart" : "Out of stock"}
-            </button>
+            <div className="flex items-center justify-between gap-2">
+              {showSale && sale != null ? (
+                <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 font-display leading-none">
+                  <span className="text-xs font-semibold text-maroon-700/45 line-through">Rs. {price.toLocaleString()}</span>
+                  <span className="text-[15px] font-bold text-maroon-900">Rs. {sale.toLocaleString()}</span>
+                </p>
+              ) : (
+                <p className="font-display text-[15px] font-bold leading-none text-maroon-900">
+                  Rs. {price.toLocaleString()}
+                </p>
+              )}
+              {unit && !unitInName ? (
+                <span className="shrink-0 rounded-full bg-gold-50 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-gold-800 ring-1 ring-gold-200">
+                  {unit}
+                </span>
+              ) : null}
+            </div>
+            {productHref ? (
+              <Link
+                href={productHref}
+                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-maroon-700/80 transition hover:text-maroon-900"
+              >
+                View details
+                <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
+            {item.preview_only ? (
+              <a
+                href={`https://wa.me/923001538440?text=${encodeURIComponent(`Assalam o alaikum, is ${shownName} available?`)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-maroon-800 px-2 py-2 text-center text-xs font-semibold leading-tight text-maroon-800 transition hover:bg-gold-50"
+              >
+                {item.image_url ? "Ask on WhatsApp" : "Photo coming · Ask on WhatsApp"}
+              </a>
+            ) : (
+              <ProductQuantity item={item} selected={selected} />
+            )}
           </>
         )}
       </div>

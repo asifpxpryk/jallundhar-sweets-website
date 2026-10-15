@@ -1,0 +1,16 @@
+reports/
+scripts/
+supabase/
+output/
+tmp/
+*.zip
+*.bak
+*.bak-*
+Icons/
+.env.local
+.env.source.local
+.env*.local
+*.tsbuildinfo
+*.log
+*.posbackup.json
+.git/

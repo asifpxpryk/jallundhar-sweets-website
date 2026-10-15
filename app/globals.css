@@ -6,6 +6,12 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 body {
   background-color: #fff8f0;
 }
@@ -26,4 +32,113 @@ canvas {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes home-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes home-slide {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes hero-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.home-rise {
+  animation: home-rise 0.45s ease both;
+}
+
+.hero-photo {
+  animation: hero-zoom 18s ease-in-out infinite alternate;
+}
+
+.hero-since-line {
+  transform-origin: left center;
+  animation: hero-line 0.6s ease forwards;
+}
+
+@keyframes category-breathe {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.045);
+  }
+}
+
+.category-breathe {
+  animation: category-breathe 8s ease-in-out infinite alternate;
+}
+
+.group:hover .category-breathe,
+.group:focus-visible .category-breathe,
+.group:active .category-breathe {
+  animation: none;
+}
+
+.shelf-edge {
+  --shelf-left: 0px;
+  --shelf-right: 0px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--shelf-left),
+    #000 calc(100% - var(--shelf-right)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--shelf-left),
+    #000 calc(100% - var(--shelf-right)),
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .home-reveal {
+      animation: home-slide 0.7s ease both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 18%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-rise,
+  .hero-photo,
+  .hero-since-line,
+  .home-reveal,
+  .category-breathe {
+    animation: none;
+  }
 }

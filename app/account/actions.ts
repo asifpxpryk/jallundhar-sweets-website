@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
   ADMIN_COOKIE,
+  ADMIN_UI_COOKIE,
   adminCookieValue,
   verifyAdminPin,
 } from "@/lib/adminAuth";
@@ -22,6 +23,14 @@ export async function loginAccount(_prev: { error?: string } | null, formData: F
     }
     cookies().set(ADMIN_COOKIE, token, {
       httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 14,
+      secure: process.env.NODE_ENV === "production",
+    });
+    // Non-secret hint so the storefront only asks /api/admin-session in admin browsers.
+    cookies().set(ADMIN_UI_COOKIE, "1", {
+      httpOnly: false,
       sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24 * 14,

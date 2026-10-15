@@ -2,12 +2,12 @@ import { normalizeName } from "@/lib/sections";
 import type { MenuItem } from "@/lib/types";
 
 export const BAKERY_AISLES: { slug: string; name: string; image?: string }[] = [
-  { slug: "breads", name: "Breads", image: "/bakery-aisles/breads.webp?v=1" },
-  { slug: "biscuits", name: "Biscuits", image: "/bakery-aisles/biscuits.webp?v=1" },
-  { slug: "rusks", name: "Rusks", image: "/bakery-aisles/rusks.webp?v=1" },
-  { slug: "dry-cakes", name: "Dry Cakes", image: "/bakery-aisles/dry-cakes.webp?v=1" },
-  { slug: "cream-cakes", name: "Cream Cakes", image: "/bakery-aisles/cream-cakes.png?v=1" },
-  { slug: "pastries", name: "Pastries", image: "/bakery-aisles/pastries.png?v=1" },
+  { slug: "breads", name: "Breads", image: "/bakery-aisles/breads-400.webp?v=3" },
+  { slug: "biscuits", name: "Biscuits", image: "/bakery-aisles/biscuits-400.webp?v=3" },
+  { slug: "rusks", name: "Rusks", image: "/bakery-aisles/rusks-400.webp?v=3" },
+  { slug: "dry-cakes", name: "Dry Cakes", image: "/bakery-aisles/dry-cakes-400.webp?v=3" },
+  { slug: "cream-cakes", name: "Cream Cakes", image: "/bakery-aisles/cream-cakes-400.webp?v=3" },
+  { slug: "pastries", name: "Pastries", image: "/bakery-aisles/pastries-400.webp?v=3" },
 ];
 
 export type BakeryAisleSlug = (typeof BAKERY_AISLES)[number]["slug"];

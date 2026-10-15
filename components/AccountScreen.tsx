@@ -12,6 +12,7 @@ import {
   type CustomerProfile,
 } from "@/lib/customerStore";
 import type { SavedOrder } from "@/lib/types";
+import { useCart } from "@/components/CartContext";
 
 function Submit() {
   const { pending } = useFormStatus();
@@ -37,6 +38,19 @@ export default function AccountScreen() {
   });
   const [pin, setPin] = useState("");
   const [state, action] = useFormState(loginAccount, { error: "", ok: false });
+  const { addMany, open } = useCart();
+
+  function reorder(order: SavedOrder) {
+    addMany(
+      order.items.map((item) => ({
+        id: item.id || `reorder-${item.name}`,
+        name: item.name,
+        price: item.unit_price,
+        quantity: item.quantity,
+      }))
+    );
+    open();
+  }
 
   useEffect(() => {
     const saved = loadProfile();
@@ -108,6 +122,13 @@ export default function AccountScreen() {
                     </li>
                   ))}
                 </ul>
+                <button
+                  type="button"
+                  onClick={() => reorder(order)}
+                  className="mt-3 rounded-full bg-maroon-800 px-4 py-2 text-xs font-semibold text-white hover:bg-maroon-900"
+                >
+                  Order again
+                </button>
               </li>
             ))}
           </ul>

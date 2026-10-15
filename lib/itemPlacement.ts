@@ -1,3 +1,4 @@
+import { hasCatalogPhoto, keepsComingSoonCards } from "@/lib/catalogPhoto";
 import type { MenuItem } from "@/lib/types";
 import { assignSection, isSectionSlug } from "@/lib/sections";
 import { isGeneralAisle } from "@/lib/generalAisles";
@@ -58,6 +59,29 @@ function uniqueItems(items: MenuItem[]): MenuItem[] {
     });
   }
   return out;
+}
+
+export function countCatalogProducts(
+  section: string,
+  hiddenItemIds: string[] = [],
+  hiddenAisles: string[] = [],
+  requirePhoto = false
+): number {
+  const hiddenIds = new Set(hiddenItemIds);
+  const hiddenAisle = new Set(hiddenAisles);
+  const seen = new Set<string>();
+  for (const [key, items] of Object.entries(catalog)) {
+    const placement = catalogKeyToPlacement(key);
+    const [sec, aisle = ""] = placement.split(":");
+    if (sec !== section) continue;
+    if (aisle && hiddenAisle.has(aisle)) continue;
+    for (const item of items ?? []) {
+      if (!item?.id || seen.has(item.id) || hiddenIds.has(item.id) || item.is_hidden) continue;
+      if (requirePhoto && !hasCatalogPhoto(item) && !keepsComingSoonCards(aisle)) continue;
+      seen.add(item.id);
+    }
+  }
+  return seen.size;
 }
 
 export function itemsForPlacement(

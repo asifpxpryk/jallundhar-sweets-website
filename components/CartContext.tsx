@@ -5,16 +5,23 @@ import type { CartLine, MenuItem } from "@/lib/types";
 
 const STORAGE_KEY = "jallundhar-cart-v1";
 
+type CartEntry = "cart" | "checkout";
+
 type CartContextValue = {
   lines: CartLine[];
   add: (item: MenuItem) => void;
+  addMany: (incoming: CartLine[]) => void;
   remove: (id: string) => void;
   setQuantity: (id: string, quantity: number) => void;
+  setLine: (item: MenuItem, quantity: number) => void;
+  adjust: (id: string, delta: number) => void;
   clear: () => void;
   count: number;
   subtotal: number;
   isOpen: boolean;
+  entry: CartEntry;
   open: () => void;
+  openCheckout: () => void;
   close: () => void;
 };
 
@@ -43,6 +50,7 @@ function readStoredLines(): CartLine[] {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [entry, setEntry] = useState<CartEntry>("cart");
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -71,6 +79,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
+  function addMany(incoming: CartLine[]) {
+    setLines((prev) => {
+      const next = [...prev];
+      for (const line of incoming) {
+        if (!line.id || line.quantity <= 0) continue;
+        const index = next.findIndex((existing) => existing.id === line.id);
+        if (index >= 0) {
+          next[index] = { ...next[index], quantity: next[index].quantity + line.quantity };
+        } else {
+          next.push({ id: line.id, name: line.name, price: line.price, quantity: line.quantity });
+        }
+      }
+      return next;
+    });
+  }
+
   function remove(id: string) {
     setLines((prev) => prev.filter((l) => l.id !== id));
   }
@@ -81,6 +105,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     setLines((prev) => prev.map((l) => (l.id === id ? { ...l, quantity } : l)));
+  }
+
+  function setLine(item: MenuItem, quantity: number) {
+    setLines((prev) => {
+      if (quantity <= 0) return prev.filter((line) => line.id !== item.id);
+      const existing = prev.find((line) => line.id === item.id);
+      if (!existing) {
+        return [...prev, { id: item.id, name: item.name, price: item.price, quantity }];
+      }
+      return prev.map((line) =>
+        line.id === item.id ? { ...line, name: item.name, price: item.price, quantity } : line
+      );
+    });
+  }
+
+  function adjust(id: string, delta: number) {
+    setLines((prev) => {
+      const current = prev.find((line) => line.id === id);
+      if (!current) return prev;
+      const next = current.quantity + delta;
+      if (next <= 0) return prev.filter((line) => line.id !== id);
+      return prev.map((line) => (line.id === id ? { ...line, quantity: next } : line));
+    });
   }
 
   function clear() {
@@ -98,13 +145,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       value={{
         lines,
         add,
+        addMany,
         remove,
         setQuantity,
+        setLine,
+        adjust,
         clear,
         count,
         subtotal,
         isOpen,
-        open: () => setIsOpen(true),
+        entry,
+        open: () => {
+          setEntry("cart");
+          setIsOpen(true);
+        },
+        openCheckout: () => {
+          setEntry("checkout");
+          setIsOpen(true);
+        },
         close: () => setIsOpen(false),
       }}
     >

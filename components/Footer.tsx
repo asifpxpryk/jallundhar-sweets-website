@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const WHATSAPP_URL = "https://wa.me/923001538440";
-const FACEBOOK_URL = "https://facebook.com/jallundharshahiroad";
+const FACEBOOK_URL = "https://www.facebook.com/jallundharshahiroad/";
 const PHONE_TEL = "tel:03001538440";
 const PHONE_LABEL = "0300 153 8440";
 
@@ -42,6 +42,15 @@ function IconPhone() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.31 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.14a2 2 0 0 1 2.11-.45c.84.26 1.71.45 2.61.57A2 2 0 0 1 22 16.92Z" />
+    </svg>
+  );
+}
+
+function IconReturn() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M9 14 4 9l5-5" />
+      <path d="M4 9h11a5 5 0 0 1 0 10h-3" />
     </svg>
   );
 }
@@ -112,6 +121,9 @@ function MobileFooter() {
         <a href="/#contact" className={mobileLinkClass}>
           Contact
         </a>
+        <Link href="/return-policy" className={mobileLinkClass}>
+          Return Policy
+        </Link>
       </nav>
 
       <a href={PHONE_TEL} className={`${mobileLinkClass} mt-5 inline-flex items-center gap-2 text-base`} aria-label="Call 0300 153 8440">
@@ -137,7 +149,7 @@ function MobileFooter() {
       <a
         href={FACEBOOK_URL}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener"
         className={`${mobileLinkClass} mt-4 inline-flex items-center gap-2`}
       >
         <span
@@ -216,6 +228,12 @@ function DesktopFooter() {
               </span>
               Contact
             </a>
+            <Link href="/return-policy" className={desktopLinkClass}>
+              <span className="text-gold-400">
+                <IconReturn />
+              </span>
+              Return Policy
+            </Link>
           </nav>
         </div>
 
@@ -241,7 +259,7 @@ function DesktopFooter() {
               ›
             </span>
           </a>
-          <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" className={`${desktopLinkClass} mt-4`}>
+          <a href={FACEBOOK_URL} target="_blank" rel="noopener" className={`${desktopLinkClass} mt-4`}>
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold-400 text-maroon-900">
               <IconFacebook />
             </span>

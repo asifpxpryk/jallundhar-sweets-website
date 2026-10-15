@@ -1,5 +1,6 @@
 import type { MenuItem } from "@/lib/types";
 import aisleItems from "@/data/aisle-items.json";
+import { EMPTY_HOME_SHELF, shelfFlagsFor, type HomeShelf } from "@/lib/storeVisibility";
 
 type AisleCatalog = Record<string, MenuItem[]>;
 
@@ -18,7 +19,8 @@ export function applyMenuOverrides(
   overrides: MenuItem[],
   includeHidden: boolean,
   hiddenItemIds: string[] = [],
-  bestsellerIds: string[] = []
+  bestsellerIds: string[] = [],
+  shelf: HomeShelf = EMPTY_HOME_SHELF
 ): MenuItem[] {
   const byId = new Map(overrides.map((item) => [item.id, item]));
   const hiddenIds = new Set(hiddenItemIds);
@@ -27,8 +29,9 @@ export function applyMenuOverrides(
     const override = byId.get(item.id);
     const hidden = Boolean(override?.is_hidden) || hiddenIds.has(item.id);
     const best = Boolean(override?.is_bestseller) || bestIds.has(item.id);
+    const flags = shelfFlagsFor([item.id], shelf);
     if (!override) {
-      return { ...item, is_hidden: hidden, is_bestseller: best };
+      return { ...item, is_hidden: hidden, is_bestseller: best, ...flags };
     }
     return {
       ...item,
@@ -38,6 +41,7 @@ export function applyMenuOverrides(
       is_hidden: hidden,
       is_bestseller: best,
       image_url: override.image_url !== undefined ? override.image_url : item.image_url,
+      ...flags,
     };
   });
   if (includeHidden) return merged;
