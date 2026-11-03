@@ -12,7 +12,7 @@ hPanel → Websites → Add website → **Node.js Web App** → connect GitHub r
 | ---------------- | --------------- |
 | Framework        | Next.js         |
 | Node version     | 20 or 22        |
-| Branch           | `main`          |
+| Branch           | `master`        |
 | Install command  | `npm ci`        |
 | Build command    | `npm run build` |
 | Start command    | `npm start`     |
