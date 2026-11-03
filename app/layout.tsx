@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import VisitBeacon from "@/components/VisitBeacon";
@@ -92,7 +91,6 @@ export default async function RootLayout({
         </StorefrontShell>
         <MetaPixel />
         <ServiceWorkerRegister />
-        <Analytics />
         <VisitBeacon />
       </body>
     </html>
