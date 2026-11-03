@@ -295,7 +295,7 @@ export async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
 export const loadStoreVisibility = unstable_cache(
   loadStoreVisibilityUncached,
   ["jallundhar-store-visibility-v11"],
-  { revalidate: 43200, tags: ["store-visibility"] }
+  { revalidate: 604800, tags: ["store-visibility"] }
 );
 
 export function refreshStoreVisibility() {

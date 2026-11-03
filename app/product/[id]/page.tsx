@@ -7,9 +7,9 @@ import { canonicalProductId, displayOffer, returnPolicyFor, schemaBrand, product
 import { SITE_URL } from "@/lib/site";
 import { feedGtin, gtinProperty, loadBrandLookup } from "@/lib/merchantFeed";
 
-export const revalidate = 43200;
+export const revalidate = 604800;
 export const dynamicParams = true;
-/** Rendered on first request, then cached for an hour (2,000+ products are not prebuilt to keep deployments small). */
+/** Rendered on first request, then cached for a week or until an admin save (2,000+ products are not prebuilt to keep deployments small). */
 export function generateStaticParams() {
   return [];
 }

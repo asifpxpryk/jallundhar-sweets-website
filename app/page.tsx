@@ -16,7 +16,7 @@ import { loadStoreVisibility } from "@/lib/storeVisibility";
 import { hasCatalogPhoto } from "@/lib/catalogPhoto";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 
-export const revalidate = 43200;
+export const revalidate = 604800;
 
 export const metadata = {
   alternates: { canonical: "/" },

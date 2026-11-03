@@ -6,7 +6,7 @@ import {
 } from "@/lib/posBeveragePreview";
 import { NextResponse } from "next/server";
 
-export const revalidate = 43200;
+export const revalidate = 604800;
 
 export async function GET() {
   try {

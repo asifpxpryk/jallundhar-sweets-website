@@ -7,7 +7,10 @@ const ALLOWED_ORIGINS = new Set([
   "https://jallundharmain.com",
 ]);
 
+const BOT_UA = /bot|crawl|spider|slurp|lighthouse|headless|preview|facebookexternalhit/i;
+
 export async function POST(request: Request) {
+  if (BOT_UA.test(request.headers.get("user-agent") || "")) return new Response(null, { status: 204 });
   const origin = request.headers.get("origin") || "";
   const local = origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:");
   if (!ALLOWED_ORIGINS.has(origin) && !local) return new Response(null, { status: 204 });

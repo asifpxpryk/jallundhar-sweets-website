@@ -21,10 +21,15 @@ function catalogKeyToPlacement(key: string): string {
 }
 
 const defaultPlacementById = new Map<string, string>();
+const catalogPlacementsById = new Map<string, string[]>();
 for (const [key, items] of Object.entries(catalog)) {
   const placement = catalogKeyToPlacement(key);
   for (const item of items ?? []) {
-    if (item?.id) defaultPlacementById.set(item.id, placement);
+    if (!item?.id) continue;
+    defaultPlacementById.set(item.id, placement);
+    const list = catalogPlacementsById.get(item.id);
+    if (list) list.push(placement);
+    else catalogPlacementsById.set(item.id, [placement]);
   }
 }
 
@@ -44,6 +49,21 @@ export function defaultPlacementKey(item: MenuItem): string {
 
 export function effectivePlacementKey(item: MenuItem, vis: StoreVisibility): string {
   return vis.itemAisleKeys?.[item.id] || defaultPlacementKey(item);
+}
+
+/**
+ * Every placement whose itemsForPlacement() list would include this id, found
+ * without building those lists. Lets a single-product lookup skip the aisles
+ * that cannot contain it.
+ */
+export function placementsForItem(id: string, vis: StoreVisibility, menuItems: MenuItem[] = []): Set<string> {
+  const placements = new Set<string>();
+  const moved = vis.itemAisleKeys?.[id];
+  for (const placement of catalogPlacementsById.get(id) ?? []) placements.add(moved || placement);
+  for (const item of menuItems) {
+    if (item.id === id) placements.add(effectivePlacementKey(item, vis));
+  }
+  return placements;
 }
 
 function uniqueItems(items: MenuItem[]): MenuItem[] {

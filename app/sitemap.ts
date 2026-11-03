@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/site";
 import { PRODUCT_CANONICAL_ALIASES } from "@/lib/seo";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
 
-export const revalidate = 43200;
+export const revalidate = 604800;
 
 type Entry = { priority: number; changeFrequency: "daily" | "weekly" };
 

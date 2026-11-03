@@ -13,7 +13,7 @@ import { applyMenuOverrides } from "@/lib/loadAisleItems";
 import { OG_DEFAULTS, sectionSeo } from "@/lib/seo";
 import { beverageAisleCatalogItems, beveragePreviewItems, tagBeverageItems } from "@/lib/posBeveragePreview";
 
-export const revalidate = 43200;
+export const revalidate = 604800;
 export const dynamicParams = true;
 
 export function generateStaticParams() {

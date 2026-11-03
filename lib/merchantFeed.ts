@@ -61,7 +61,7 @@ const loadBrandRecord = unstable_cache(
   return record;
   },
   ["jallundhar-brand-lookup-v1"],
-  { revalidate: 43200, tags: ["menu", "store-visibility"] }
+  { revalidate: 604800, tags: ["menu", "store-visibility"] }
 );
 
 export async function loadBrandLookup() {

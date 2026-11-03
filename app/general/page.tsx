@@ -9,7 +9,7 @@ import { countCatalogProducts } from "@/lib/itemPlacement";
 import { OG_DEFAULTS, sectionSeo } from "@/lib/seo";
 import { isSectionHidden, loadStoreVisibility } from "@/lib/storeVisibility";
 
-export const revalidate = 43200;
+export const revalidate = 604800;
 
 const generalSeo = sectionSeo("general", "General");
 

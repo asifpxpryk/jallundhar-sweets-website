@@ -2,7 +2,7 @@ import { cache } from "react";
 import { hasCatalogPhoto } from "@/lib/catalogPhoto";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { applyMenuOverrides } from "@/lib/loadAisleItems";
-import { itemsForPlacement } from "@/lib/itemPlacement";
+import { itemsForPlacement, placementsForItem } from "@/lib/itemPlacement";
 import { loadAllMenuItemsCached, loadMenu } from "@/lib/loadMenu";
 import { homeShelf, loadStoreVisibility } from "@/lib/storeVisibility";
 import { findLoosePack } from "@/lib/loosePacks";
@@ -34,12 +34,16 @@ export const loadProduct = cache(async (id: string) => {
   const visibility = await loadStoreVisibility();
   const sections = listSections(visibility);
   const overrides = await loadAllMenuItemsCached();
+  // Only build the item lists for placements that can hold this id; building
+  // all ~45 of them for every product page was the main render cost.
+  const placements = placementsForItem(id, visibility, overrides);
 
   for (const section of sections) {
     if (section.hidden) continue;
 
     for (const aisle of listAisles(visibility, section.slug)) {
       if (aisle.hidden) continue;
+      if (!placements.has(`${section.slug}:${aisle.slug}`)) continue;
       const items = applyMenuOverrides(
         itemsForPlacement(`${section.slug}:${aisle.slug}`, visibility, overrides),
         overrides,
@@ -52,6 +56,7 @@ export const loadProduct = cache(async (id: string) => {
       if (item) return { item, section, aisle, related: relatedItems(items, id) };
     }
 
+    if (!placements.has(section.slug)) continue;
     const items = applyMenuOverrides(
       itemsForPlacement(section.slug, visibility, overrides),
       overrides,

@@ -251,7 +251,7 @@ export async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]>
 export const loadMenuIncludingHidden = unstable_cache(
   loadMenuIncludingHiddenUncached,
   ["jallundhar-menu-v28-admin"],
-  { revalidate: 43200, tags: ["menu"] }
+  { revalidate: 604800, tags: ["menu"] }
 );
 
 export async function loadStorefrontMenu() {
@@ -264,12 +264,12 @@ export function refreshMenuCache() {
 }
 
 export const loadMenu = unstable_cache(loadMenuUncached, ["jallundhar-menu-v28"], {
-  revalidate: 43200,
+  revalidate: 604800,
   tags: ["menu"],
 });
 
-/** Storefront copy of loadAllMenuItems: one Supabase read per hour (or on admin save via the "menu"/"store-visibility" tags). */
+/** Storefront copy of loadAllMenuItems: one Supabase read per week (or on admin save via the "menu"/"store-visibility" tags). */
 export const loadAllMenuItemsCached = unstable_cache(loadAllMenuItems, ["jallundhar-all-menu-items-v1"], {
-  revalidate: 43200,
+  revalidate: 604800,
   tags: ["menu", "store-visibility"],
 });

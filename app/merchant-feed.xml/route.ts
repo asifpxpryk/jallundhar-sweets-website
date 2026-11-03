@@ -15,7 +15,7 @@ import { feedDescription, feedGtin, feedProductType, feedTitle, loadBrandLookup 
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 // Rebuilt from the live catalog (aisle items + Supabase menu overrides) at most once an hour.
-export const revalidate = 43200;
+export const revalidate = 604800;
 // Regeneration reads Supabase (12s timeout) plus ~2,200 items; give it headroom so a slow fetch never 500s.
 export const maxDuration = 60;
 
