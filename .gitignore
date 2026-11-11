@@ -5,3 +5,6 @@ node_modules/
 *.log
 
 .vercel
+
+# Local-only copy of the Live Kitchen menu saved from the admin editor in dev
+data/live-kitchen.local.json

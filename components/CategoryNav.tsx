@@ -1,6 +1,7 @@
 import CategoryCircleGrid from "./CategoryCircleGrid";
 import { listSections } from "@/lib/categoryCatalog";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
+import { isNestedSection } from "@/lib/sections";
 
 export default async function CategoryNav({ rise = false }: { rise?: boolean }) {
   const visibility = await loadStoreVisibility();
@@ -10,7 +11,7 @@ export default async function CategoryNav({ rise = false }: { rise?: boolean }) 
         columns={6}
         kind="section"
         rise={rise}
-        items={listSections(visibility).map((cat) => ({
+        items={listSections(visibility).filter((cat) => !isNestedSection(cat.slug)).map((cat) => ({
           href: cat.href,
           name: cat.name,
           image: cat.image,

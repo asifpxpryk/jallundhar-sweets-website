@@ -75,7 +75,7 @@ export default function ProductCard({
   return (
     <div
       id={`item-${item.id}`}
-      className={`group flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[1.35rem] bg-white shadow-[0_14px_32px_-20px_rgba(74,21,26,0.55)] transition duration-200 sm:hover:-translate-y-0.5 sm:hover:shadow-[0_20px_36px_-18px_rgba(74,21,26,0.5)] ${
+      className={`product-card card-reveal group flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[1.35rem] bg-white shadow-[0_14px_32px_-20px_rgba(74,21,26,0.55)] transition duration-200 sm:hover:-translate-y-0.5 sm:hover:shadow-[0_20px_36px_-18px_rgba(74,21,26,0.5)] ${
         compact ? "w-40 flex-shrink-0 snap-start sm:w-44" : "w-full"
       } ${
         isAdmin && item.is_hidden

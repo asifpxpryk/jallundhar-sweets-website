@@ -270,9 +270,6 @@ export default function CustomCakesSection() {
               View Cake Designs
             </button>
           </div>
-          <div className="mt-3">
-            <p className="text-sm leading-snug text-maroon-800">Have a design in mind? Share it with us on WhatsApp.</p>
-          </div>
         </div>
       </div>
 

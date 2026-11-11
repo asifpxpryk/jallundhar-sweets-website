@@ -8,15 +8,19 @@ import {
   adminCookieValue,
   verifyAdminPin,
 } from "@/lib/adminAuth";
+import { clearPinAttempts, pinLockMessage, recordWrongPin } from "@/lib/pinGuard";
 
 export async function loginAccount(_prev: { error?: string } | null, formData: FormData) {
   const pin = String(formData.get("pin") || "").trim();
   const phone = String(formData.get("phone") || "").trim();
 
   if (pin) {
+    const locked = await pinLockMessage();
+    if (locked) return { error: locked, ok: false };
     if (!verifyAdminPin(pin)) {
-      return { error: "Wrong PIN.", ok: false };
+      return { error: await recordWrongPin(), ok: false };
     }
+    await clearPinAttempts();
     const token = adminCookieValue();
     if (!token) {
       return { error: "ADMIN_PIN is not set.", ok: false };

@@ -9,6 +9,10 @@ const BLOCKED_BOTS = [
   "GPTBot", "CCBot", "ClaudeBot", "anthropic-ai", "Amazonbot", "DataForSeoBot",
   "BLEXBot", "barkrowler", "SeekportBot", "serpstatbot", "Timpibot", "ImagesiftBot",
   "omgili", "Diffbot", "MegaIndex", "YandexBot", "Baiduspider", "Sogou",
+  // AI training and image-scraping crawlers.
+  "Google-Extended", "Applebot-Extended", "meta-externalagent", "PerplexityBot", "Claude-Web",
+  "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "Omgilibot", "YouBot", "img2dataset",
+  "Scrapy", "FriendlyCrawler", "ICC-Crawler", "Kangaroo Bot", "PanguBot", "Webzio-Extended",
 ];
 
 export default function robots(): MetadataRoute.Robots {

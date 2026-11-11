@@ -1,5 +1,6 @@
 import CategoryCircleGrid from "./CategoryCircleGrid";
-import { listAisles } from "@/lib/categoryCatalog";
+import { listAisles, listSections } from "@/lib/categoryCatalog";
+import { NESTED_SECTIONS } from "@/lib/sections";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
 
 export default async function SectionAisleNav({
@@ -10,7 +11,10 @@ export default async function SectionAisleNav({
   columns?: 3 | 4 | 6;
 }) {
   const visibility = await loadStoreVisibility();
-  const items = listAisles(visibility, section);
+  const nested = listSections(visibility).filter((entry) => NESTED_SECTIONS[entry.slug] === section);
+  const items = [...listAisles(visibility, section), ...nested].sort((a, b) =>
+    a.name.localeCompare(b.name, "en", { sensitivity: "base", numeric: true })
+  );
   return (
     <CategoryCircleGrid
       flush

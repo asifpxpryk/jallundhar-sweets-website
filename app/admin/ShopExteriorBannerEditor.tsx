@@ -26,7 +26,6 @@ export default function ShopExteriorBannerEditor({ initialText }: { initialText:
   return (
     <section className="mt-6 rounded-2xl border border-gold-200 bg-white p-4 shadow-sm sm:p-6">
       <h2 className="font-display text-xl font-bold text-maroon-900">Shop exterior banner</h2>
-      <p className="mt-1 text-sm text-maroon-700/70">Full width on the home page, just after Our Bestsellers. The photo stays fixed; only the text below can be changed.</p>
       <div className="relative mt-4 aspect-[16/7] overflow-hidden rounded-xl bg-maroon-900">
         <Image src="/images/shop-exterior.webp" alt="Jallundhar shop exterior" fill sizes="(min-width: 896px) 896px, 100vw" unoptimized className="object-cover" />
       </div>

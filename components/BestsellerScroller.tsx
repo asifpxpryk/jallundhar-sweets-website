@@ -65,7 +65,7 @@ export default function BestsellerScroller({
     <section className={embedded ? "min-w-0 pb-2 pt-4" : "mx-auto w-full min-w-0 max-w-6xl px-4 pb-4 pt-2 sm:px-6"}>
       <div className={band}>
         <div className="mb-3 flex items-end justify-between gap-3">
-          <h2 className="font-display text-xl font-bold text-maroon-800 sm:text-2xl">{title}</h2>
+          <h2 className="royal-title text-xl font-bold text-maroon-800 sm:text-2xl">{title}</h2>
           {embedded ? null : (
             <Link
               href={viewAllHref}

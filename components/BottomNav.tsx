@@ -10,15 +10,16 @@ export default function BottomNav({ sectionSlugs = [] }: { sectionSlugs?: string
   const isHome = pathname === "/";
   const isCategories =
     pathname === "/categories" || sectionSlugs.some((slug) => pathname === `/${slug}` || pathname.startsWith(`/${slug}/`));
+  const isKitchen = pathname === "/live-kitchen";
   const isAccount = pathname === "/account" || pathname.startsWith("/account/");
 
   const itemClass = (active: boolean) =>
     `flex flex-1 flex-col items-center gap-0.5 py-2 text-[11px] font-medium ${
-      active ? "text-maroon-800" : "text-maroon-700/50"
+      active ? "text-gold-300" : "text-cream/55"
     }`;
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-gold-200 bg-[#fff8f0]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur xl:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-40 royal-header border-t border-gold-500/40 pb-[env(safe-area-inset-bottom)] xl:hidden">
       <div className="mx-auto flex max-w-6xl items-stretch">
         <Link href="/" className={itemClass(isHome && !isOpen)}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill={isHome && !isOpen ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
@@ -34,6 +35,13 @@ export default function BottomNav({ sectionSlugs = [] }: { sectionSlugs?: string
             <rect x="13" y="13" width="8" height="8" rx="1.5" />
           </svg>
           Categories
+        </Link>
+        <Link href="/live-kitchen" className={`${itemClass(isKitchen && !isOpen)} relative`}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill={isKitchen && !isOpen ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
+            <path d="M12 3c1 3.5-3 5-3 9a3 3 0 0 0 6 0c0-1-.5-2-1-2.5 2.5 1 4 3.5 4 6a6 6 0 0 1-12 0c0-5 5-7 6-12.500Z" />
+          </svg>
+          Kitchen
+          <span className="absolute right-[calc(50%-1.25rem)] top-1.5 h-2 w-2 rounded-full bg-[#ff7a1a] ring-2 ring-[#4a151a]" aria-hidden />
         </Link>
         <button type="button" onClick={open} className={itemClass(isOpen)}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

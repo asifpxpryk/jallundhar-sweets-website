@@ -7,6 +7,7 @@ import WaterPromoBanner from "@/components/WaterPromoBanner";
 import PromoBannersForPage from "@/components/PromoBannersForPage";
 import ShopExteriorBanner from "@/components/ShopExteriorBanner";
 import HomeIntro from "@/components/HomeIntro";
+import HomeDoors from "@/components/HomeDoors";
 import CustomCakesSection from "@/components/CustomCakesSection";
 import LoosePacksHomeBanner from "@/components/LoosePacksHomeBanner";
 import { DEFAULT_SHOP_EXTERIOR_TEXT } from "@/lib/shopExteriorBanner";
@@ -156,6 +157,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
+      <HomeDoors />
       <CategoryNav rise />
       <CustomCakesSection />
       <div className="home-reveal">

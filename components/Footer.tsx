@@ -118,6 +118,9 @@ function MobileFooter() {
         <Link href="/categories" className={mobileLinkClass}>
           Categories
         </Link>
+        <Link href="/visit" className={mobileLinkClass}>
+          Visit Us
+        </Link>
         <a href="/#contact" className={mobileLinkClass}>
           Contact
         </a>
@@ -221,6 +224,12 @@ function DesktopFooter() {
                 <IconGrid />
               </span>
               Categories
+            </Link>
+            <Link href="/visit" className={desktopLinkClass}>
+              <span className="text-gold-400">
+                <IconPin size={16} />
+              </span>
+              Visit Us
             </Link>
             <a href="/#contact" className={desktopLinkClass}>
               <span className="text-gold-400">
