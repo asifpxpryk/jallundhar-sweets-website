@@ -83,7 +83,7 @@ function KitchenCard({ item, group, index }: { item: KitchenItem; group: Kitchen
           <div
             role="radiogroup"
             aria-label={`${item.name} size`}
-            className="mt-2 inline-flex w-fit rounded-full bg-black/30 p-0.5 ring-1 ring-white/10"
+            className="mt-2 flex w-full rounded-full bg-black/30 p-0.5 ring-1 ring-white/10"
           >
             {item.sizes.map((entry) => {
               const active = entry.key === sizeKey;
@@ -94,12 +94,11 @@ function KitchenCard({ item, group, index }: { item: KitchenItem; group: Kitchen
                   role="radio"
                   aria-checked={active}
                   onClick={() => setSizeKey(entry.key)}
-                  className={`rounded-full px-2.5 py-1 text-[0.7rem] font-semibold transition ${
+                  className={`min-w-0 flex-1 rounded-full px-1.5 py-1 text-center text-[0.7rem] font-semibold transition ${
                     active ? "bg-[#ff9d3c] text-[#2a0f08] shadow" : "text-[#fff3e2]/70 hover:text-white"
                   }`}
                 >
                   {entry.label}
-                  {entry.note ? <span className="ml-1 hidden font-normal opacity-70 min-[420px]:inline">{entry.note}</span> : null}
                 </button>
               );
             })}

@@ -25,11 +25,44 @@ export default function CartDrawer() {
     notes: "",
   });
 
+  // GPS pin for the rider: only offered where the phone can actually give one.
+  const [canLocate, setCanLocate] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [locateError, setLocateError] = useState<string | null>(null);
+  useEffect(() => {
+    setCanLocate(typeof navigator !== "undefined" && "geolocation" in navigator && window.isSecureContext);
+  }, []);
+
+  function shareLocation() {
+    setLocateError(null);
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setForm((f) => ({
+          ...f,
+          location: `https://maps.google.com/?q=${latitude.toFixed(6)},${longitude.toFixed(6)}`,
+        }));
+        setLocating(false);
+      },
+      (problem) => {
+        setLocating(false);
+        setLocateError(
+          problem.code === problem.PERMISSION_DENIED
+            ? "Location is blocked for this site. You can still order with your address."
+            : "Could not get your location. You can still order with your address."
+        );
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
+  }
+
   const opened = useRef({ isOpen, entry });
   if (opened.current.isOpen !== isOpen || opened.current.entry !== entry) {
     opened.current = { isOpen, entry };
     if (isOpen) {
-      const next: Step = entry === "checkout" && lines.length > 0 ? "checkout" : "cart";
+      // One screen: the items and the delivery form together. The bare cart is only for an empty cart.
+      const next: Step = lines.length > 0 ? "checkout" : "cart";
       if (step !== next) setStep(next);
     }
   }
@@ -66,7 +99,6 @@ export default function CartDrawer() {
       customer_name: f.customer_name || profile.name,
       phone: f.phone || profile.phone,
       address: f.address || profile.address,
-      location: f.location || profile.location,
     }));
   }, [isOpen]);
 
@@ -90,7 +122,6 @@ export default function CartDrawer() {
       `📞 Number: ${form.phone.trim()}`,
       `📍 Address: ${form.address.trim()}`,
       form.location.trim() ? `📌 Location: ${form.location.trim()}` : null,
-      `💳 Payment: ${form.payment_method === "cod" ? "Cash on Delivery" : "Advance Payment"}`,
       "",
       "*Items:*",
       itemsList,
@@ -212,16 +243,18 @@ export default function CartDrawer() {
           onClick={handleClose}
         />
       )}
+      {/* The clipping frame keeps the parked drawer from making the page wider than the screen. */}
+      <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
       <aside
         aria-hidden={!isOpen}
-        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md transform flex-col bg-cream shadow-2xl transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "pointer-events-none invisible translate-x-full"
+        className={`absolute right-0 top-0 flex h-full w-full max-w-md transform flex-col bg-cream shadow-2xl transition-transform duration-300 ${
+          isOpen ? "pointer-events-auto translate-x-0" : "invisible translate-x-full"
         }`}
       >
         <div className="royal-header flex items-center justify-between border-b border-gold-500/40 px-5 py-4">
           <h2 className="font-royal text-xl font-bold text-gold-200">
             {step === "cart" && "Your Cart"}
-            {step === "checkout" && "Checkout"}
+            {step === "checkout" && "Your Order"}
             {step === "success" && "Order Confirmed"}
           </h2>
           <button onClick={handleClose} className="text-cream/80 hover:text-white" aria-label="Close">
@@ -301,7 +334,6 @@ export default function CartDrawer() {
                   </li>
                 ))}
               </ul>
-              <p className="rounded-lg bg-gold-50 px-3 py-2 text-sm text-maroon-800">{DELIVERY_NOTE}</p>
               <div>
                 <label className="text-sm font-medium text-maroon-800">Name (optional)</label>
                 <input
@@ -330,48 +362,33 @@ export default function CartDrawer() {
                   placeholder="Full home/office address, Rahim Yar Khan"
                 />
               </div>
-              <div>
-                <label className="text-sm font-medium text-maroon-800">Location (optional)</label>
-                <input
-                  className="mt-1 w-full rounded-lg border border-gold-200 px-3 py-2 focus:border-maroon-600 focus:outline-none"
-                  value={form.location}
-                  onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                  placeholder="Area or GPS"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-maroon-800">Payment Method</label>
-                <div className="mt-2 flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setForm((f) => ({ ...f, payment_method: "cod" }))}
-                    className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium ${
-                      form.payment_method === "cod"
-                        ? "border-maroon-700 bg-maroon-700 text-white"
-                        : "border-gold-200 text-maroon-700"
-                    }`}
-                  >
-                    Cash on Delivery
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setForm((f) => ({ ...f, payment_method: "advance" }))}
-                    className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium ${
-                      form.payment_method === "advance"
-                        ? "border-maroon-700 bg-maroon-700 text-white"
-                        : "border-gold-200 text-maroon-700"
-                    }`}
-                  >
-                    Advance Payment
-                  </button>
+              {canLocate ? (
+                <div>
+                  {form.location ? (
+                    <div className="flex items-center justify-between gap-3 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800 ring-1 ring-emerald-200">
+                      <span className="font-medium">✓ Your location will be sent with the order</span>
+                      <button
+                        type="button"
+                        onClick={() => setForm((f) => ({ ...f, location: "" }))}
+                        className="shrink-0 text-xs font-semibold underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={shareLocation}
+                      disabled={locating}
+                      className="flex w-full items-center justify-center gap-2 rounded-lg border border-gold-300 bg-white px-3 py-2.5 text-sm font-semibold text-maroon-800 transition hover:bg-gold-50 disabled:opacity-60"
+                    >
+                      <span aria-hidden>📍</span>
+                      {locating ? "Finding your location…" : "Send my current location (optional)"}
+                    </button>
+                  )}
+                  {locateError ? <p className="mt-1 text-xs text-maroon-700/70">{locateError}</p> : null}
                 </div>
-                {form.payment_method === "advance" && (
-                  <p className="mt-2 rounded-lg bg-gold-50 p-3 text-xs text-maroon-700">
-                    After you confirm, our team will send JazzCash / EasyPaisa / bank details on
-                    WhatsApp or call so you can pay in advance.
-                  </p>
-                )}
-              </div>
+              ) : null}
               <div>
                 <label className="text-sm font-medium text-maroon-800">Notes (optional)</label>
                 <input
@@ -428,25 +445,18 @@ export default function CartDrawer() {
                 Checkout
               </button>
             ) : (
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setStep("cart")}
-                  className="rounded-full border border-gold-300 px-4 py-3 text-sm font-semibold text-maroon-700"
-                >
-                  Back
-                </button>
-                <button
-                  onClick={placeOrder}
-                  disabled={submitting}
-                  className="flex-1 rounded-full bg-gold-500 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-400 disabled:opacity-50"
-                >
-                  {submitting ? "Preparing your order..." : "Place Order on WhatsApp"}
-                </button>
-              </div>
+              <button
+                onClick={placeOrder}
+                disabled={submitting}
+                className="w-full rounded-full bg-gold-500 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-400 disabled:opacity-50"
+              >
+                {submitting ? "Preparing your order..." : "Place Order on WhatsApp"}
+              </button>
             )}
           </div>
         )}
       </aside>
+      </div>
     </>
   );
 }
