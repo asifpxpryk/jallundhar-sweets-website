@@ -61,8 +61,7 @@ export default function CartDrawer() {
   if (opened.current.isOpen !== isOpen || opened.current.entry !== entry) {
     opened.current = { isOpen, entry };
     if (isOpen) {
-      // One screen: the items and the delivery form together. The bare cart is only for an empty cart.
-      const next: Step = lines.length > 0 ? "checkout" : "cart";
+      const next: Step = entry === "checkout" && lines.length > 0 ? "checkout" : "cart";
       if (step !== next) setStep(next);
     }
   }
@@ -254,7 +253,7 @@ export default function CartDrawer() {
         <div className="royal-header flex items-center justify-between border-b border-gold-500/40 px-5 py-4">
           <h2 className="font-royal text-xl font-bold text-gold-200">
             {step === "cart" && "Your Cart"}
-            {step === "checkout" && "Your Order"}
+            {step === "checkout" && "Checkout"}
             {step === "success" && "Order Confirmed"}
           </h2>
           <button onClick={handleClose} className="text-cream/80 hover:text-white" aria-label="Close">
@@ -445,13 +444,21 @@ export default function CartDrawer() {
                 Checkout
               </button>
             ) : (
-              <button
-                onClick={placeOrder}
-                disabled={submitting}
-                className="w-full rounded-full bg-gold-500 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-400 disabled:opacity-50"
-              >
-                {submitting ? "Preparing your order..." : "Place Order on WhatsApp"}
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setStep("cart")}
+                  className="rounded-full border border-gold-300 px-4 py-3 text-sm font-semibold text-maroon-700"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={placeOrder}
+                  disabled={submitting}
+                  className="flex-1 rounded-full bg-gold-500 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-400 disabled:opacity-50"
+                >
+                  {submitting ? "Preparing your order..." : "Place Order on WhatsApp"}
+                </button>
+              </div>
             )}
           </div>
         )}
