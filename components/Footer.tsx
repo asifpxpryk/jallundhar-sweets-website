@@ -9,6 +9,20 @@ function GoldLine() {
   return <span className="h-px w-8 bg-gold-400/80" aria-hidden />;
 }
 
+function FooterLogo({ className }: { className: string }) {
+  return (
+    <span
+      role="img"
+      aria-label="Jallundhar Sweets logo, since 1959"
+      className={`block aspect-[4158/4470] bg-gold-400 ${className}`}
+      style={{
+        WebkitMask: "url(/jallundhar-logo-mark.svg) center / contain no-repeat",
+        mask: "url(/jallundhar-logo-mark.svg) center / contain no-repeat",
+      }}
+    />
+  );
+}
+
 function Ornament() {
   return (
     <div className="flex items-center justify-center gap-2 text-gold-400" aria-hidden>
@@ -89,14 +103,10 @@ const mobileLinkClass =
 function MobileFooter() {
   return (
     <div className="relative mx-auto flex max-w-lg flex-col items-center px-5 py-8 text-center sm:px-8 md:hidden">
-      <div className="flex items-center gap-3 text-gold-400" aria-hidden>
-        <span className="h-px w-8 bg-gold-400/70" />
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M6 8h12l-1 11H7L6 8Z" />
-          <path d="M9 8V7a3 3 0 0 1 6 0v1" />
-          <path d="M6 8H4M20 8h-2" />
-        </svg>
-        <span className="h-px w-8 bg-gold-400/70" />
+      <div className="flex items-center gap-3 text-gold-400">
+        <span className="h-px w-8 bg-gold-400/70" aria-hidden />
+        <FooterLogo className="w-16" />
+        <span className="h-px w-8 bg-gold-400/70" aria-hidden />
       </div>
 
       <p className="mt-3 font-display text-3xl font-bold tracking-tight text-cream">Jallundhar</p>
@@ -176,12 +186,9 @@ function DesktopFooter() {
     <div className="relative mx-auto hidden max-w-6xl px-5 py-8 sm:px-8 md:block lg:px-12 lg:py-10">
       <div className="grid grid-cols-3 gap-0">
         <div className="flex flex-col items-center px-6 text-center">
-          <div className="flex items-center gap-3" aria-hidden>
+          <div className="flex items-center gap-3">
             <GoldLine />
-            <svg width="22" height="18" viewBox="0 0 24 20" fill="none" className="text-gold-400">
-              <path d="M4 8h16l-1.2 9.2A2 2 0 0 1 16.82 19H7.18a2 2 0 0 1-1.98-1.8L4 8Z" stroke="currentColor" strokeWidth="1.4" />
-              <path d="M8 8V6.2A4 4 0 0 1 12 2a4 4 0 0 1 4 4.2V8" stroke="currentColor" strokeWidth="1.4" />
-            </svg>
+            <FooterLogo className="w-[4.5rem]" />
             <GoldLine />
           </div>
           <p className="mt-3 font-display text-3xl font-bold tracking-tight text-cream sm:text-4xl">
@@ -202,11 +209,6 @@ function DesktopFooter() {
               <br />
               Rahim Yar Khan
             </span>
-          </p>
-          <p className="mt-4 flex items-center gap-2 text-xs italic text-gold-300">
-            <span className="h-px w-6 bg-gold-400/70" aria-hidden />
-            Making Life Sweeter
-            <span className="h-px w-6 bg-gold-400/70" aria-hidden />
           </p>
         </div>
 
