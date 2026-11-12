@@ -1,5 +1,6 @@
 import CategoryNav from "@/components/CategoryNav";
 import BackLink from "@/components/BackLink";
+import HomeDoors from "@/components/HomeDoors";
 
 export const metadata = {
   title: "All Categories – Bakery, Sweets & More in Rahim Yar Khan | Jallundhar Sweets & Bakers",
@@ -18,6 +19,7 @@ export default function CategoriesPage() {
         <BackLink />
       </div>
       <CategoryNav />
+      <HomeDoors />
     </div>
   );
 }
