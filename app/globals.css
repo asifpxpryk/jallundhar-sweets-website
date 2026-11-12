@@ -9,6 +9,17 @@ html {
 html,
 body {
   max-width: 100%;
+}
+
+/* Phones must never slide the page sideways. "hidden" on the root is the rule every phone
+   browser obeys (older ones ignore "clip" altogether); the body keeps "clip" so the sticky
+   header still works. */
+html {
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
+body {
   overflow-x: clip;
 }
 
