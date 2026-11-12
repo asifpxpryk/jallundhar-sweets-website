@@ -243,10 +243,8 @@ export default function CustomCakesSection() {
         </picture>
         <div className="flex flex-col justify-center px-4 py-4 lg:absolute lg:inset-y-0 lg:left-0 lg:w-[44%] lg:px-8 lg:py-5 xl:px-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gold-600">CUSTOM CAKES, MADE FOR YOU</p>
-          <h2 id={titleId} className="mt-1.5 font-display text-[27px] font-bold leading-[1.12] text-maroon-900 lg:mt-2 lg:text-[1.85rem] lg:leading-[1.08] xl:text-[2.15rem]">
-            Your Celebration, Your
-            <br />
-            Cake
+          <h2 id={titleId} className="mt-1.5 font-display text-[27px] font-bold [text-wrap:balance] leading-[1.12] text-maroon-900 lg:mt-2 lg:text-[1.85rem] lg:leading-[1.08] xl:text-[2.15rem]">
+            Your Celebration, Your Cake
           </h2>
           <p className="mt-2 text-sm leading-snug text-maroon-800/90">
             From birthdays to weddings, let us create a cake around your favourite theme.
