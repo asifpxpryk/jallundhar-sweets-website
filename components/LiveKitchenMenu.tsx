@@ -218,8 +218,7 @@ export default function LiveKitchenMenu({
               </span>
             </h1>
             <p className="lk-rise mt-3 max-w-md text-sm leading-relaxed text-[#fff3e2]/70 sm:text-base" style={{ animationDelay: "160ms" }}>
-              Straight off the flame and onto your plate. Fresh dough, bold desi flavours and melting cheese,
-              ready in minutes.
+              Straight off the flame and onto your plate. Bold desi flavours and melting cheese.
             </p>
             <div className="lk-rise mt-4 flex flex-wrap items-center gap-2 text-xs sm:text-sm" style={{ animationDelay: "240ms" }}>
               <span
