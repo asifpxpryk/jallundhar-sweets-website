@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const SPARKLES = [
@@ -15,26 +14,30 @@ export default function Hero() {
     <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 sm:pt-6">
       <section
         id="top"
-        className="relative isolate min-h-[23rem] overflow-hidden rounded-[2rem] bg-[#1e080a] text-cream shadow-xl shadow-maroon-900/20 sm:min-h-[26rem]"
+        className="relative isolate min-h-[29rem] overflow-hidden rounded-[2rem] bg-[#1e080a] text-cream shadow-xl shadow-maroon-900/20 sm:min-h-[26rem]"
       >
-        <div className="absolute inset-0 sm:left-[38%]">
+        <div className="absolute inset-x-0 top-0 h-[60%] sm:inset-0 sm:left-[38%] sm:h-auto">
           <div className="hero-photo absolute -inset-[4%]">
-            <Image
-              src="/hero.webp"
-              alt="Jallundhar mithai tray"
-              fill
-              priority
-              unoptimized
-              sizes="(min-width: 1152px) 720px, 100vw"
-              className="object-cover object-[64%_center]"
-            />
+            {/* One download per device: the basket on phones, the tray on wider screens. */}
+            <picture>
+              <source media="(min-width: 640px)" srcSet="/hero.webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/hero-mobile.webp"
+                alt="Jallundhar mithai"
+                fetchPriority="high"
+                decoding="async"
+                draggable={false}
+                className="absolute inset-0 h-full w-full object-cover object-[center_58%] sm:object-[64%_center]"
+              />
+            </picture>
           </div>
         </div>
         <div
           className="pointer-events-none absolute inset-0 sm:hidden"
           style={{
             background:
-              "linear-gradient(180deg, rgba(30,8,10,0.15) 0%, rgba(30,8,10,0.7) 34%, rgba(30,8,10,0.97) 72%)",
+              "linear-gradient(180deg, rgba(30,8,10,0) 0%, rgba(30,8,10,0.05) 40%, rgba(30,8,10,0.85) 55%, rgba(30,8,10,1) 60%)",
           }}
         />
         <div
@@ -50,7 +53,7 @@ export default function Hero() {
           ))}
         </div>
 
-        <div className="relative flex min-h-[23rem] flex-col justify-end gap-3 px-5 pb-6 pt-28 sm:min-h-[26rem] sm:max-w-[60%] sm:justify-center sm:px-10 sm:py-10">
+        <div className="relative flex min-h-[29rem] flex-col justify-end gap-3 px-5 pb-6 pt-60 sm:min-h-[26rem] sm:max-w-[60%] sm:justify-center sm:px-10 sm:py-10">
           <div className="lk-rise">
             <span className="inline-block w-fit rounded-full border border-gold-300/30 bg-gold-500/15 px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-gold-200 backdrop-blur sm:text-xs">
               Tradition in Every Bite · Since 1959
@@ -71,14 +74,14 @@ export default function Hero() {
           <div className="lk-rise flex flex-wrap items-center gap-2.5 pt-1" style={{ animationDelay: "270ms" }}>
             <Link
               href="/sweets"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-maroon-900 shadow-lg shadow-gold-900/30 transition hover:-translate-y-0.5 hover:bg-gold-400"
+              className="hidden items-center justify-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-maroon-900 shadow-lg shadow-gold-900/30 transition hover:-translate-y-0.5 hover:bg-gold-400 sm:inline-flex"
             >
               Shop Sweets &amp; Bakery
               <span aria-hidden>→</span>
             </Link>
             <Link
               href="/live-kitchen"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#ff9d3c]/60 bg-[#ff7a1a]/15 px-4 py-2.5 text-sm font-semibold text-[#ffd9a8] backdrop-blur transition hover:-translate-y-0.5 hover:bg-[#ff7a1a]/30"
+              className="hidden items-center justify-center gap-2 rounded-full border border-[#ff9d3c]/60 bg-[#ff7a1a]/15 px-4 py-2.5 text-sm font-semibold text-[#ffd9a8] backdrop-blur transition hover:-translate-y-0.5 hover:bg-[#ff7a1a]/30 sm:inline-flex"
             >
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff7a1a] opacity-75" />

@@ -67,6 +67,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [lines, ready]);
 
+  // The phone's back button closes the drawer instead of leaving the page.
+  useEffect(() => {
+    if (!isOpen) return;
+    const openedAt = window.location.href;
+    let closedByBack = false;
+    window.history.pushState(window.history.state, "");
+    const onBack = () => {
+      closedByBack = true;
+      setIsOpen(false);
+    };
+    window.addEventListener("popstate", onBack);
+    return () => {
+      window.removeEventListener("popstate", onBack);
+      // Closed some other way: drop the extra history step, unless the visitor already moved on.
+      if (!closedByBack && window.location.href === openedAt) window.history.back();
+    };
+  }, [isOpen]);
+
   function add(item: MenuItem) {
     setLines((prev) => {
       const existing = prev.find((l) => l.id === item.id);
