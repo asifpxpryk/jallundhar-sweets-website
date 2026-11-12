@@ -3,7 +3,6 @@
 import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "./CartContext";
-import { supabase } from "@/lib/supabase";
 import { DELIVERY_NOTE } from "@/lib/site";
 import type { PaymentMethod } from "@/lib/types";
 import { loadProfile, saveLocalOrder, saveProfile } from "@/lib/customerStore";
@@ -145,30 +144,28 @@ export default function CartDrawer() {
       location: form.location.trim(),
     });
 
+    // The order record goes through our own rate-limited route, never straight to the database.
     try {
-      const { error: orderError } = await supabase
-        .from("orders")
-        .insert({
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           id: orderId,
-          customer_name: form.customer_name.trim() || null,
+          customer_name: form.customer_name.trim(),
           phone: form.phone.trim(),
           address: form.address.trim(),
-          location: form.location.trim() || null,
+          location: form.location.trim(),
           payment_method: form.payment_method,
-          notes: [form.notes.trim(), `Ref ${orderCode}`].filter(Boolean).join("\n") || null,
-          subtotal,
-          total: subtotal,
-        });
-
-      if (!orderError) {
-        const itemRows = lines.map((l) => ({
-          order_id: orderId,
-          item_name: l.name,
-          quantity: l.quantity,
-          unit_price: l.price,
-          line_total: l.price * l.quantity,
-        }));
-        await supabase.from("order_items").insert(itemRows);
+          notes: [form.notes.trim(), `Ref ${orderCode}`].filter(Boolean).join("\n"),
+          items: lines.map((l) => ({ name: l.name, quantity: l.quantity, unit_price: l.price })),
+        }),
+      });
+      if (response.status === 429) {
+        const result = (await response.json().catch(() => null)) as { error?: string } | null;
+        waWindow?.close();
+        setError(result?.error || "Too many orders in a short time. Please try again shortly.");
+        setSubmitting(false);
+        return;
       }
     } catch (e) {
       // Order record save fail bhi ho jaye to bhi WhatsApp order aage bhejna hai,
@@ -221,13 +218,13 @@ export default function CartDrawer() {
           isOpen ? "translate-x-0" : "pointer-events-none invisible translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-gold-200 px-5 py-4">
-          <h2 className="font-display text-lg font-bold text-maroon-800">
+        <div className="royal-header flex items-center justify-between border-b border-gold-500/40 px-5 py-4">
+          <h2 className="font-royal text-xl font-bold text-gold-200">
             {step === "cart" && "Your Cart"}
             {step === "checkout" && "Checkout"}
             {step === "success" && "Order Confirmed"}
           </h2>
-          <button onClick={handleClose} className="text-maroon-700 hover:text-maroon-900" aria-label="Close">
+          <button onClick={handleClose} className="text-cream/80 hover:text-white" aria-label="Close">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>

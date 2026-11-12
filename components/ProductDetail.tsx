@@ -38,7 +38,7 @@ export default function ProductDetail({
         <span className="text-maroon-900">{shownName}</span>
       </nav>
 
-      <div className="grid gap-8 rounded-3xl bg-white p-4 shadow-md sm:p-8 md:grid-cols-2 md:gap-10">
+      <div className="grid gap-8 lk-rise rounded-3xl bg-white p-4 shadow-xl shadow-maroon-900/10 ring-1 ring-gold-200 sm:p-8 md:grid-cols-2 md:gap-10">
         <div className="relative aspect-square overflow-hidden rounded-2xl bg-gold-50">
           <ProductImage
             src={item.image_url || ""}

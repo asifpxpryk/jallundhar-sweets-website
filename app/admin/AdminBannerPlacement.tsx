@@ -131,9 +131,6 @@ export default function AdminBannerPlacement({
       <ShopExteriorBannerEditor initialText={shopExteriorText} />
       <div className="mt-6">
         <h1 className="font-display text-2xl font-bold text-maroon-800">Banner pages</h1>
-        <p className="mt-1 text-sm text-maroon-700/70">
-          Add a banner to several pages, or remove it from one page. Save each banner after changing its pages.
-        </p>
         <input
           type="search"
           value={query}

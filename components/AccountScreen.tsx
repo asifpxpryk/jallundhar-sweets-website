@@ -144,7 +144,7 @@ export default function AccountScreen() {
         <BackLink />
       </div>
       <p className="mt-2 text-sm text-maroon-700/70">
-        Log in with your phone. Shop owners can enter the PIN to open admin.
+        Log in with your phone.
       </p>
       <form action={action} className="mt-6 max-w-md space-y-3 rounded-2xl border border-gold-200 bg-white p-5">
         <input type="hidden" name="name" value={form.name} />

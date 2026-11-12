@@ -6,6 +6,7 @@ import Header from "./Header";
 import CartDrawer from "./CartDrawer";
 import Footer from "./Footer";
 import BottomNav from "./BottomNav";
+import CartFly from "./CartFly";
 import { AdminSessionProvider } from "./AdminSessionContext";
 import {
   CategoryCatalogProvider,
@@ -38,11 +39,12 @@ export default function StorefrontShell({
       <AdminSessionProvider>
         <CategoryCatalogProvider sections={catalogSections} aisles={catalogAisles}>
           <Header hiddenSections={hiddenSections} navSections={navSections} />
-          <div className="w-full max-w-[100vw] overflow-x-clip pb-[5rem] xl:pb-0">
+          <div className="storefront w-full max-w-[100vw] overflow-x-clip pb-[5rem] xl:pb-0">
             {children}
             {pathname.startsWith("/account") ? null : <Footer />}
           </div>
           <CartDrawer />
+          <CartFly />
           <BottomNav sectionSlugs={sectionSlugs} />
         </CategoryCatalogProvider>
       </AdminSessionProvider>

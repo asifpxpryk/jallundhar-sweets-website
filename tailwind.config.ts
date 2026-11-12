@@ -36,7 +36,8 @@ const config: Config = {
         cream: "#fff8f0",
       },
       fontFamily: {
-        display: ["Poppins", "system-ui", "sans-serif"],
+        display: ["var(--font-poppins)", "Poppins", "system-ui", "sans-serif"],
+        royal: ["var(--font-royal)", "Georgia", "serif"],
       },
     },
   },

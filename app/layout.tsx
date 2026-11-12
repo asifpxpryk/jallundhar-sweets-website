@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import VisitBeacon from "@/components/VisitBeacon";
@@ -9,7 +10,11 @@ import StorefrontShell from "@/components/StorefrontShell";
 import LocalBusinessJsonLd from "@/components/LocalBusinessJsonLd";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { loadStoreVisibility, visibleSections } from "@/lib/storeVisibility";
+import { isNestedSection } from "@/lib/sections";
 import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-poppins", display: "swap" });
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-royal", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -74,13 +79,13 @@ export default async function RootLayout({
     }))
   );
   return (
-    <html lang="en">
+    <html lang="en" className={`${poppins.variable} ${playfair.variable}`}>
       <body className="font-display text-maroon-900 antialiased">
         <LocalBusinessJsonLd />
         <ProtectImages />
         <StorefrontShell
           hiddenSections={visibility.hiddenSections}
-          navSections={visibleSections(visibility).map((section) => ({
+          navSections={visibleSections(visibility).filter((section) => !isNestedSection(section.slug)).map((section) => ({
             href: `/${section.slug}`,
             label: section.name,
           }))}

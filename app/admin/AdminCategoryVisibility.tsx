@@ -145,9 +145,6 @@ export default function AdminCategoryVisibility({
       <AdminNav active="categories" />
       <div className="mt-4">
         <h2 className="font-display text-xl font-bold text-maroon-800">Categories</h2>
-        <p className="text-sm text-maroon-700/70">
-          Add a category, change its photo, rename it, or hide it. Hidden categories leave the shop. Their products stay saved.
-        </p>
       </div>
       {message ? <p className="mt-3 rounded-xl bg-maroon-700 px-3 py-2 text-sm text-white">{message}</p> : null}
 

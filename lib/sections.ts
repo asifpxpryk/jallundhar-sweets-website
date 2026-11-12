@@ -5,10 +5,21 @@ export const SECTIONS = [
   { slug: "bakery", name: "Bakery", emoji: "🥐", image: "/category-icons/icon-bakery.webp?v=7" },
   { slug: "snacks", name: "Snacks", emoji: "🍕", image: "/category-icons/icon-snacks.webp?v=7" },
   { slug: "dairy", name: "Dairy", emoji: "🥛", image: "/category-icons/icon-dairy.webp?v=7" },
-  { slug: "beverage", name: "Beverage", emoji: "🥤", image: "/category-icons/icon-baverages.webp?v=7" },
+  { slug: "beverage", name: "Beverages", emoji: "🥤", image: "/category-icons/icon-baverages.webp?v=7" },
   { slug: "general", name: "General", emoji: "🛒", image: "/category-icons/icon-general.webp?v=7" },
   { slug: "celebrations", name: "Celebrations", emoji: "🎁", image: "/category-icons/icon-baby-celebrations.webp?v=1" },
 ] as const;
+
+/**
+ * Sections that are shown inside another section instead of at the top level.
+ * They keep their own URL (/beverage), but the header, home circles and the Categories page skip them,
+ * and the parent section lists them as one of its aisles.
+ */
+export const NESTED_SECTIONS: Record<string, string> = { beverage: "general" };
+
+export function isNestedSection(slug: string): boolean {
+  return slug in NESTED_SECTIONS;
+}
 
 export type SectionSlug = (typeof SECTIONS)[number]["slug"];
 

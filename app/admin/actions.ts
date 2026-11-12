@@ -41,6 +41,7 @@ import {
   verifyAdminPin,
 } from "@/lib/adminAuth";
 import type { AdminOrder, PaymentMethod } from "@/lib/types";
+import { clearPinAttempts, pinLockMessage, recordWrongPin } from "@/lib/pinGuard";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 import { refreshMenuCache } from "@/lib/loadMenu";
 import { storeProductPhoto } from "@/lib/storeProductPhoto";
@@ -178,9 +179,12 @@ function photoPayload(formData: FormData, photoUrl?: string) {
 
 export async function loginAdmin(_prev: { error?: string } | null, formData: FormData) {
   const pin = String(formData.get("pin") || "");
+  const locked = await pinLockMessage();
+  if (locked) return { error: locked };
   if (!verifyAdminPin(pin)) {
-    return { error: "Wrong PIN. Please try again." };
+    return { error: await recordWrongPin() };
   }
+  await clearPinAttempts();
   const token = adminCookieValue();
   if (!token) {
     return { error: "ADMIN_PIN is not set in .env.local." };

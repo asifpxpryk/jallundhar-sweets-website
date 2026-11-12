@@ -20,7 +20,11 @@ const nextConfig = {
     return [
       {
         source: "/:dir(products|images|icons|category-icons|custom-cakes|homepage-banners|homepage-banners-v2|general-aisles|bakery-aisles|beverage-aisles|sweets-aisles)/:path*",
-        headers: [{ key: "Cache-Control", value: assets }],
+        headers: [
+          { key: "Cache-Control", value: assets },
+          // Browsers refuse to show these photos when another website embeds them (hotlinking).
+          { key: "Cross-Origin-Resource-Policy", value: "same-site" },
+        ],
       },
     ];
   },

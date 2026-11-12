@@ -41,7 +41,7 @@ export default function CategoryProducts({
         <span className="block sm:inline">Actual product may vary.</span>
       </p>
       <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="royal-band lk-rise flex items-center gap-3 rounded-3xl px-4 py-4 sm:gap-4 sm:px-6 sm:py-5">
           {image && (
             <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full bg-[#fff8f0] shadow-md ring-2 ring-gold-200">
               <Image
@@ -54,7 +54,7 @@ export default function CategoryProducts({
               />
             </span>
           )}
-          <h1 className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1 font-display text-2xl font-bold leading-tight text-maroon-800 sm:text-3xl">
+          <h1 className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1 text-2xl font-bold leading-tight text-cream sm:text-3xl">
             <span className="min-w-0">{name}</span>
             <CategoryProductCount count={counted} />
           </h1>

@@ -7,7 +7,7 @@ import { logoutAdmin } from "./actions";
 export default function AdminNav({
   active,
 }: {
-  active: "menu" | "categories" | "banners";
+  active: "menu" | "categories" | "banners" | "kitchen";
 }) {
   const tab =
     "rounded-xl px-3 py-2 text-sm font-medium";
@@ -39,6 +39,9 @@ export default function AdminNav({
         </Link>
         <Link href="/account/banners" className={active === "banners" ? on : off}>
           Banners
+        </Link>
+        <Link href="/account/kitchen" className={active === "kitchen" ? on : off}>
+          Live Kitchen
         </Link>
       </div>
       <div className="flex flex-wrap items-center gap-3">
