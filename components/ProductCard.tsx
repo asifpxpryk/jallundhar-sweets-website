@@ -62,7 +62,9 @@ export default function ProductCard({
     aisleSection || item.category_id
   );
   const unit = orderUnit(selected ? `${item.name} ${selected.label}` : item.name);
-  const unitInName = Boolean(unit && shownName.includes(`— ${unit}`));
+  // "600 ml" and "600ml" are the same size: no chip when the name already says it.
+  const squash = (text: string) => text.toLowerCase().replace(/[\s.]+/g, "");
+  const unitInName = Boolean(unit && squash(shownName).includes(squash(unit)));
   const inStock = selected ? selected.is_available !== false : item.is_available !== false;
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);

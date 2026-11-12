@@ -157,8 +157,8 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <HomeDoors />
       <CategoryNav rise />
+      <HomeDoors />
       <CustomCakesSection />
       <div className="home-reveal">
         <BestsellerScroller items={bestsellers.items} viewAllHref={bestsellers.href} />
