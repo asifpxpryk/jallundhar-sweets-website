@@ -8,7 +8,8 @@ import { orderUnit } from "@/lib/priceUnit";
 import { ONE_KG_STEPS, isWeighedSweet, weighedCartLine } from "@/lib/sweetWeight";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
-import ProductQuantity, { productLine } from "./ProductQuantity";
+import { productLine } from "@/lib/cartLine";
+import ProductQuantity from "./ProductQuantity";
 
 export default function SweetProductActions({
   item,

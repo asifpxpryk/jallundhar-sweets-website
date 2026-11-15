@@ -65,13 +65,3 @@ export function mergeCartLine(existing: CartLine, incoming: CartLine): CartLine 
   const extraSteps = Math.max(1, Math.round((incoming.price * incoming.quantity) / existing.price));
   return { ...existing, quantity: Math.min(MAX_WEIGHT_STEPS, existing.quantity + extraSteps) };
 }
-
-/** The line as the shop reads it on the order: "Badam Barfi — 1.5 kg", one line, full price. */
-export function orderLine(line: CartLine): { name: string; quantity: number; unit_price: number } {
-  if (!line.weighed) return { name: line.name, quantity: line.quantity, unit_price: line.price };
-  return {
-    name: `${line.name} — ${weightLabel(line.quantity)}`,
-    quantity: 1,
-    unit_price: line.price * line.quantity,
-  };
-}

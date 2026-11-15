@@ -4,14 +4,26 @@ import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "./CartContext";
 import { DELIVERY_NOTE } from "@/lib/site";
-import { ONE_KG_STEPS, lineAmountLabel, orderLine, weightLabel } from "@/lib/sweetWeight";
-import type { PaymentMethod } from "@/lib/types";
+import { ONE_KG_STEPS, lineAmountLabel, weightLabel } from "@/lib/sweetWeight";
+import type { CartChange } from "@/lib/orderPricing";
+import type { CartLine, PaymentMethod } from "@/lib/types";
 import { loadProfile, saveLocalOrder, saveProfile } from "@/lib/customerStore";
 
 type Step = "cart" | "checkout" | "success";
 
+/** "Cham Cham: now Rs. 1,200 / kg" per changed line, shown above the order button. */
+function changesMessage(changes: CartChange[], lines: CartLine[]): string {
+  const rows = changes.map((change) => {
+    if (change.removed || change.price == null) return `${change.name}: not available, removed`;
+    const weighed = lines.find((line) => line.id === change.id)?.weighed;
+    const price = weighed ? change.price * ONE_KG_STEPS : change.price;
+    return `${change.name}: now Rs. ${price.toLocaleString()}${weighed ? " / kg" : ""}`;
+  });
+  return ["Your cart was updated:", ...rows].join("\n");
+}
+
 export default function CartDrawer() {
-  const { lines, adjust, remove, subtotal, isOpen, entry, close, clear } = useCart();
+  const { lines, adjust, remove, applyChanges, subtotal, isOpen, entry, close, clear } = useCart();
   const [step, setStep] = useState<Step>("cart");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -154,6 +166,48 @@ export default function CartDrawer() {
 
     const orderId = crypto.randomUUID();
     const orderCode = orderId.slice(0, 8).toUpperCase();
+
+    // The order record goes through our own rate-limited route, never straight to the database.
+    // The route prices every line again; if anything changed, the cart is fixed and nothing is sent.
+    try {
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: orderId,
+          customer_name: form.customer_name.trim(),
+          phone: form.phone.trim(),
+          address: form.address.trim(),
+          location: form.location.trim(),
+          payment_method: form.payment_method,
+          notes: [form.notes.trim(), `Ref ${orderCode}`].filter(Boolean).join("\n"),
+          items: lines.map((l) => ({
+            id: l.id,
+            name: l.name,
+            quantity: l.quantity,
+            unit_price: l.price,
+            weighed: Boolean(l.weighed),
+          })),
+        }),
+      });
+      if (response.status === 409 || response.status === 429) {
+        const result = (await response.json().catch(() => null)) as
+          | { error?: string; changes?: CartChange[] }
+          | null;
+        waWindow?.close();
+        if (result?.changes?.length) {
+          applyChanges(result.changes);
+          setError(changesMessage(result.changes, lines));
+        } else {
+          setError(result?.error || "Too many orders in a short time. Please try again shortly.");
+        }
+        setSubmitting(false);
+        return;
+      }
+    } catch (e) {
+      // Still send the WhatsApp order even if saving the record fails.
+    }
+
     saveLocalOrder({
       id: orderId,
       created_at: new Date().toISOString(),
@@ -178,34 +232,6 @@ export default function CartDrawer() {
       address: form.address.trim(),
       location: form.location.trim(),
     });
-
-    // The order record goes through our own rate-limited route, never straight to the database.
-    try {
-      const response = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: orderId,
-          customer_name: form.customer_name.trim(),
-          phone: form.phone.trim(),
-          address: form.address.trim(),
-          location: form.location.trim(),
-          payment_method: form.payment_method,
-          notes: [form.notes.trim(), `Ref ${orderCode}`].filter(Boolean).join("\n"),
-          items: lines.map(orderLine),
-        }),
-      });
-      if (response.status === 429) {
-        const result = (await response.json().catch(() => null)) as { error?: string } | null;
-        waWindow?.close();
-        setError(result?.error || "Too many orders in a short time. Please try again shortly.");
-        setSubmitting(false);
-        return;
-      }
-    } catch (e) {
-      // Order record save fail bhi ho jaye to bhi WhatsApp order aage bhejna hai,
-      // Still send the WhatsApp order even if saving the record fails.
-    }
 
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
       buildWhatsappMessage(orderCode)
@@ -405,7 +431,7 @@ export default function CartDrawer() {
                   placeholder="Any special instructions"
                 />
               </div>
-              {error && <p className="text-sm text-red-600">{error}</p>}
+              {error && <p className="whitespace-pre-line text-sm text-red-600">{error}</p>}
             </form>
           )}
 
