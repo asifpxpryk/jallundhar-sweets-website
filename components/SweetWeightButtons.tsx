@@ -14,7 +14,7 @@ import { useCart } from "./CartContext";
 type Appearance = "card" | "detail" | "inline";
 
 const BUTTON_STYLE: Record<Appearance, string> = {
-  card: "min-h-11 rounded-xl text-[13px] sm:text-sm",
+  card: "h-9 rounded-lg text-[13px] sm:text-sm",
   detail: "min-h-12 rounded-xl px-5 text-sm",
   inline: "rounded-full px-2.5 py-1 text-xs",
 };
