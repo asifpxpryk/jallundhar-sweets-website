@@ -4,6 +4,7 @@ import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "./CartContext";
 import { DELIVERY_NOTE } from "@/lib/site";
+import { ONE_KG_STEPS, lineAmountLabel, orderLine, weightLabel } from "@/lib/sweetWeight";
 import type { PaymentMethod } from "@/lib/types";
 import { loadProfile, saveLocalOrder, saveProfile } from "@/lib/customerStore";
 
@@ -112,7 +113,10 @@ export default function CartDrawer() {
 
   function buildWhatsappMessage(orderRef: string) {
     const itemsList = lines
-      .map((l) => `• ${l.name} x${l.quantity} — Rs. ${(l.price * l.quantity).toLocaleString()}`)
+      .map((l) => {
+        const amount = l.weighed ? weightLabel(l.quantity) : `x${l.quantity}`;
+        return `• ${l.name} ${amount} — Rs. ${(l.price * l.quantity).toLocaleString()}`;
+      })
       .join("\n");
 
     return [
@@ -165,6 +169,7 @@ export default function CartDrawer() {
         name: l.name,
         quantity: l.quantity,
         unit_price: l.price,
+        ...(l.weighed ? { weighed: true } : {}),
       })),
     });
     saveProfile({
@@ -187,7 +192,7 @@ export default function CartDrawer() {
           location: form.location.trim(),
           payment_method: form.payment_method,
           notes: [form.notes.trim(), `Ref ${orderCode}`].filter(Boolean).join("\n"),
-          items: lines.map((l) => ({ name: l.name, quantity: l.quantity, unit_price: l.price })),
+          items: lines.map(orderLine),
         }),
       });
       if (response.status === 429) {
@@ -274,7 +279,10 @@ export default function CartDrawer() {
                     <li key={l.id} className="flex items-center justify-between gap-3">
                       <div className="flex-1">
                         <p className="font-medium text-maroon-800">{l.name}</p>
-                        <p className="text-sm text-maroon-700/60">Rs. {l.price.toLocaleString()}</p>
+                        <p className="text-sm text-maroon-700/60">
+                          Rs. {(l.weighed ? l.price * ONE_KG_STEPS : l.price).toLocaleString()}
+                          {l.weighed ? " / kg" : ""}
+                        </p>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -283,7 +291,7 @@ export default function CartDrawer() {
                         >
                           −
                         </button>
-                        <span className="w-5 text-center">{l.quantity}</span>
+                        <span className="min-w-5 whitespace-nowrap text-center">{lineAmountLabel(l)}</span>
                         <button
                           onClick={() => adjust(l.id, 1)}
                           className="h-7 w-7 rounded-full border border-gold-300 text-maroon-700"
@@ -319,7 +327,7 @@ export default function CartDrawer() {
                       >
                         −
                       </button>
-                      <span className="w-5 text-center">{l.quantity}</span>
+                      <span className="min-w-5 whitespace-nowrap text-center">{lineAmountLabel(l)}</span>
                       <button
                         type="button"
                         onClick={() => adjust(l.id, 1)}

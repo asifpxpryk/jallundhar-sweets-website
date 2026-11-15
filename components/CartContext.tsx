@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { MAX_WEIGHT_STEPS, cartItemCount, mergeCartLine } from "@/lib/sweetWeight";
 import type { CartLine, MenuItem } from "@/lib/types";
 
 const STORAGE_KEY = "jallundhar-cart-v1";
@@ -104,9 +105,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (!line.id || line.quantity <= 0) continue;
         const index = next.findIndex((existing) => existing.id === line.id);
         if (index >= 0) {
-          next[index] = { ...next[index], quantity: next[index].quantity + line.quantity };
+          next[index] = mergeCartLine(next[index], line);
         } else {
-          next.push({ id: line.id, name: line.name, price: line.price, quantity: line.quantity });
+          next.push({
+            id: line.id,
+            name: line.name,
+            price: line.price,
+            quantity: line.quantity,
+            ...(line.weighed ? { weighed: true } : {}),
+          });
         }
       }
       return next;
@@ -142,7 +149,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setLines((prev) => {
       const current = prev.find((line) => line.id === id);
       if (!current) return prev;
-      const next = current.quantity + delta;
+      const next = Math.min(current.weighed ? MAX_WEIGHT_STEPS : Infinity, current.quantity + delta);
       if (next <= 0) return prev.filter((line) => line.id !== id);
       return prev.map((line) => (line.id === id ? { ...line, quantity: next } : line));
     });
@@ -152,7 +159,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setLines([]);
   }
 
-  const count = useMemo(() => lines.reduce((sum, l) => sum + l.quantity, 0), [lines]);
+  const count = useMemo(() => lines.reduce((sum, l) => sum + cartItemCount(l), 0), [lines]);
   const subtotal = useMemo(
     () => lines.reduce((sum, l) => sum + l.quantity * l.price, 0),
     [lines]
