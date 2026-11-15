@@ -1,13 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { SECTIONS } from "@/lib/sections";
-import { GENERAL_AISLES } from "@/lib/generalAisles";
-import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
-import { BAKERY_AISLES } from "@/lib/bakeryAisles";
-import { SWEETS_AISLES } from "@/lib/sweetsAisles";
 import {
   aisleSlugTaken,
   categoryKey,
@@ -26,7 +20,6 @@ import {
   applyVisibilityToggle,
   itemVisibilitySlug,
   loadStoreVisibilityUncached,
-  refreshStoreVisibility,
   visibilityConfigRow,
   writeStoreVisibilityFallback,
   type CategoryKind,
@@ -43,44 +36,9 @@ import {
 import type { AdminOrder, PaymentMethod } from "@/lib/types";
 import { clearPinAttempts, pinLockMessage, recordWrongPin } from "@/lib/pinGuard";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
-import { refreshMenuCache } from "@/lib/loadMenu";
+import { refreshStorefront } from "@/lib/storefrontRefresh";
 import { storeProductPhoto } from "@/lib/storeProductPhoto";
 import { bannerOptions, bannerPageOptions } from "@/lib/bannerCatalog";
-
-async function refreshStorefront() {
-  refreshMenuCache();
-  refreshStoreVisibility();
-  revalidatePath("/account");
-  revalidatePath("/account/categories");
-  revalidatePath("/account/banners");
-  revalidatePath("/", "layout");
-  revalidatePath("/categories");
-  revalidatePath("/general");
-  for (const section of SECTIONS) {
-    revalidatePath(`/${section.slug}`);
-  }
-  for (const aisle of GENERAL_AISLES) {
-    revalidatePath(`/general/${aisle.slug}`);
-  }
-  for (const aisle of BEVERAGE_AISLES) {
-    revalidatePath(`/beverage/${aisle.slug}`);
-  }
-  for (const aisle of BAKERY_AISLES) {
-    revalidatePath(`/bakery/${aisle.slug}`);
-  }
-  for (const aisle of SWEETS_AISLES) {
-    revalidatePath(`/sweets/${aisle.slug}`);
-  }
-  try {
-    const vis = await loadStoreVisibilityUncached();
-    for (const section of listSections(vis)) {
-      revalidatePath(section.href);
-      for (const aisle of listAisles(vis, section.slug)) revalidatePath(aisle.href);
-    }
-  } catch {
-    /* Builtin paths above are already refreshed. */
-  }
-}
 
 async function requireAdmin() {
   if (!(await isAdminSession())) {
