@@ -3,7 +3,7 @@
 import { dealPrice } from "@/lib/dealPrice";
 import { customerProductName } from "@/lib/productName";
 import { orderUnit } from "@/lib/priceUnit";
-import { isWeighedSweet } from "@/lib/sweetWeight";
+import { isWeighedSweet, lineAmountLabel } from "@/lib/sweetWeight";
 import { useRef, useState } from "react";
 import Link from "next/link";
 import type { MenuItem } from "@/lib/types";
@@ -54,7 +54,9 @@ export default function ProductCard({
   const [selectedId, setSelectedId] = useState(defaultVariant?.id ?? item.id);
   const selected = variants?.find((v) => v.id === selectedId);
   const lineId = selected?.id ?? item.id;
-  const cartQty = lines.find((entry) => entry.id === lineId)?.quantity ?? 0;
+  const cartLine = lines.find((entry) => entry.id === lineId);
+  const cartQty = cartLine?.quantity ?? 0;
+  const cartAmount = cartLine ? lineAmountLabel(cartLine) : "";
   const price = selected?.price ?? item.price;
   const sale = !selected && item.is_deal ? dealPrice(item.deal_label) : null;
   const showSale = sale != null && sale !== price;
@@ -180,10 +182,10 @@ export default function ProductCard({
         {!isAdmin && cartQty > 0 ? (
           <span
             aria-live="polite"
-            aria-label={`${shownName}, ${cartQty} in cart`}
-            className="pointer-events-none absolute right-2.5 top-2.5 z-[2] flex h-8 min-w-8 items-center justify-center rounded-full bg-gold-500 px-1.5 text-sm font-bold leading-none text-maroon-900 shadow-[0_6px_14px_-4px_rgba(74,21,26,0.55)] ring-2 ring-white"
+            aria-label={`${shownName}, ${cartAmount} in cart`}
+            className="pointer-events-none absolute right-2.5 top-2.5 z-[2] flex h-8 min-w-8 items-center justify-center whitespace-nowrap rounded-full bg-gold-500 px-1.5 text-sm font-bold leading-none text-maroon-900 shadow-[0_6px_14px_-4px_rgba(74,21,26,0.55)] ring-2 ring-white"
           >
-            {cartQty}
+            {cartAmount}
           </span>
         ) : null}
       </div>

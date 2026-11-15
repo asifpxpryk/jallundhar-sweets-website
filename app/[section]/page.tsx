@@ -61,9 +61,21 @@ export default async function SectionPage({ params }: { params: { section: strin
           visibility.bestsellerIds,
           homeShelf(visibility)
         );
+  // Beverage aisle products carry the admin's price, stock and hide, same as on their aisle pages.
+  const beverageCatalog =
+    meta.slug === "beverage"
+      ? applyMenuOverrides(
+          beverageAisleCatalogItems(),
+          overrides,
+          false,
+          visibility.hiddenItemIds,
+          visibility.bestsellerIds,
+          homeShelf(visibility)
+        )
+      : [];
   const items = meta.slug === "beverage"
     ? beveragePreviewItems(
-        tagBeverageItems([...beverageAisleCatalogItems(), ...sectionItems]),
+        tagBeverageItems([...beverageCatalog, ...sectionItems]),
         undefined,
         [...overrides, ...beverageAisleCatalogItems()]
       )
