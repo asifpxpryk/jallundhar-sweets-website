@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { sendOrderEmail } from "@/lib/orderEmail";
 import { clientIp, rateHit, waitMessage } from "@/lib/rateLimit";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 
@@ -92,19 +93,35 @@ export async function POST(request: Request) {
   if (!supabase) return reject(503, "Order saving is not configured.");
 
   const notes = text(body.notes, 1000);
+  const customerName = text(body.customer_name, 120);
+  const location = text(body.location, 300);
   const { error } = await supabase.from("orders").insert({
     id,
-    customer_name: text(body.customer_name, 120) || null,
+    customer_name: customerName || null,
     phone,
     address,
-    location: text(body.location, 300) || null,
+    location: location || null,
     payment_method: paymentMethod,
     notes: notes || null,
     subtotal: total,
     total,
   });
-  if (error) return reject(502, "Could not save the order.");
-  await supabase.from("order_items").insert(items.map((item) => ({ order_id: id, ...item })));
+  if (!error) await supabase.from("order_items").insert(items.map((item) => ({ order_id: id, ...item })));
 
+  // The shop gets the order by email too, even when the database save failed.
+  await sendOrderEmail({
+    ref: id.slice(0, 8).toUpperCase(),
+    customerName,
+    phone,
+    address,
+    location,
+    paymentMethod,
+    notes,
+    items,
+    total,
+    saved: !error,
+  });
+
+  if (error) return reject(502, "Could not save the order.");
   return NextResponse.json({ ok: true });
 }
