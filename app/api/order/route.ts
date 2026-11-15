@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { loadOrderCatalog } from "@/lib/orderCatalog";
 import { sendOrderEmail } from "@/lib/orderEmail";
+import { parseOrderLines, priceOrderLines, unpricedOrderLines, type OrderLineInput } from "@/lib/orderPricing";
 import { clientIp, rateHit, waitMessage } from "@/lib/rateLimit";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 
@@ -24,6 +26,20 @@ function text(value: unknown, max: number) {
 
 function reject(status: number, error: string) {
   return NextResponse.json({ ok: false, error }, { status });
+}
+
+/**
+ * Prices the cart from the shop's catalogue. If the catalogue itself can't be read, the order is
+ * still taken at the browser's prices and marked unchecked, so a shop-side outage never loses it.
+ */
+async function priceFromCatalog(lines: OrderLineInput[]) {
+  try {
+    const catalog = await loadOrderCatalog(lines.map((line) => line.id));
+    return { ...priceOrderLines(lines, catalog), checked: true };
+  } catch (error) {
+    console.error("Order pricing: catalogue unavailable", error);
+    return { lines: unpricedOrderLines(lines), changes: [], checked: false };
+  }
 }
 
 function orderClient() {
@@ -56,20 +72,8 @@ export async function POST(request: Request) {
   if (phoneDigits.length < 7 || phoneDigits.length > 15) return reject(400, "Please enter a valid phone number.");
   if (!address) return reject(400, "Address is required.");
 
-  const rawItems = Array.isArray(body.items) ? body.items : [];
-  if (rawItems.length === 0 || rawItems.length > 150) return reject(400, "Bad request.");
-  const items: { item_name: string; quantity: number; unit_price: number; line_total: number }[] = [];
-  for (const raw of rawItems) {
-    if (!raw || typeof raw !== "object") return reject(400, "Bad request.");
-    const row = raw as Record<string, unknown>;
-    const name = text(row.name, 200);
-    const quantity = Number(row.quantity);
-    const price = Number(row.unit_price);
-    if (!name || !Number.isInteger(quantity) || quantity < 1 || quantity > 500) return reject(400, "Bad request.");
-    if (!Number.isFinite(price) || price < 0 || price > 1_000_000) return reject(400, "Bad request.");
-    items.push({ item_name: name, quantity, unit_price: price, line_total: price * quantity });
-  }
-  const total = items.reduce((sum, item) => sum + item.line_total, 0);
+  const cartLines = parseOrderLines(body.items);
+  if (!cartLines) return reject(400, "Bad request.");
 
   const ip = clientIp(request.headers);
   const limits = await Promise.all([
@@ -89,6 +93,16 @@ export async function POST(request: Request) {
     );
   }
 
+  const priced = await priceFromCatalog(cartLines);
+  if (priced.changes.length) {
+    return NextResponse.json(
+      { ok: false, changes: priced.changes, error: "Some items in your cart changed." },
+      { status: 409 }
+    );
+  }
+  const items = priced.lines;
+  const total = items.reduce((sum, item) => sum + item.line_total, 0);
+
   const supabase = orderClient();
   if (!supabase) return reject(503, "Order saving is not configured.");
 
@@ -105,6 +119,7 @@ export async function POST(request: Request) {
     notes: notes || null,
     subtotal: total,
     total,
+    prices_checked: priced.checked,
   });
   if (!error) await supabase.from("order_items").insert(items.map((item) => ({ order_id: id, ...item })));
 
@@ -120,6 +135,7 @@ export async function POST(request: Request) {
     items,
     total,
     saved: !error,
+    pricesChecked: priced.checked,
   });
 
   if (error) return reject(502, "Could not save the order.");

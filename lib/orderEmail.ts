@@ -18,6 +18,8 @@ export type OrderEmail = {
   items: { item_name: string; quantity: number; unit_price: number; line_total: number }[];
   total: number;
   saved: boolean;
+  /** False when the catalogue could not be read and the browser's prices were taken. */
+  pricesChecked: boolean;
 };
 
 function escapeHtml(value: string): string {
@@ -54,6 +56,7 @@ export function orderEmailHtml(order: OrderEmail): string {
     `<div style="font-family:Arial,sans-serif;font-size:14px;color:#3b1418">`,
     `<h2 style="margin:0 0 12px">New order ${escapeHtml(order.ref)}</h2>`,
     order.saved ? "" : `<p style="color:#b00020;font-weight:bold">Not saved in the website database.</p>`,
+    order.pricesChecked ? "" : `<p style="color:#b00020;font-weight:bold">Prices not checked.</p>`,
     `<table style="border-collapse:collapse;margin-bottom:12px">`,
     row("Name", order.customerName),
     row("Phone", order.phone),

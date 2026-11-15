@@ -214,3 +214,8 @@ export function beveragePreviewItems(existing: MenuItem[], aisle?: string, known
   });
   return [...pricedExisting, ...previews];
 }
+
+/** The POS price a beverage card shows instead of the catalogue price (see beveragePreviewItems). */
+export function posPreviewPrice(name: string): number | undefined {
+  return posPriceByName.get(normalized(name));
+}

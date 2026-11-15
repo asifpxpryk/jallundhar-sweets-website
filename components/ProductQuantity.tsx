@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { dealPrice } from "@/lib/dealPrice";
-import { customerProductName } from "@/lib/productName";
+import { productLine } from "@/lib/cartLine";
 import { trackAddToCart } from "@/lib/metaPixel";
 import { isWeighedSweet } from "@/lib/sweetWeight";
 import type { MenuItem } from "@/lib/types";
@@ -12,28 +11,6 @@ import SweetWeightButtons from "./SweetWeightButtons";
 type Variant = NonNullable<MenuItem["variants"]>[number];
 
 const MAX_QTY = 99;
-
-function withDealPrice(item: MenuItem): MenuItem {
-  if (!item.is_deal) return item;
-  const sale = dealPrice(item.deal_label);
-  if (sale == null || sale === item.price) return item;
-  return { ...item, price: sale };
-}
-
-export function productLine(item: MenuItem, selected?: Variant): MenuItem {
-  const name = customerProductName(
-    selected ? `${item.name} (${selected.label})` : item.name,
-    item.category_id
-  );
-  if (!selected) return { ...withDealPrice(item), name };
-  return {
-    ...item,
-    id: selected.id,
-    name,
-    price: selected.price,
-    is_available: selected.is_available !== false,
-  };
-}
 
 export default function ProductQuantity({
   item,

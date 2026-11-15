@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { MAX_WEIGHT_STEPS, cartItemCount, mergeCartLine } from "@/lib/sweetWeight";
+import type { CartChange } from "@/lib/orderPricing";
 import type { CartLine, MenuItem } from "@/lib/types";
 
 const STORAGE_KEY = "jallundhar-cart-v1";
@@ -16,6 +17,7 @@ type CartContextValue = {
   setQuantity: (id: string, quantity: number) => void;
   setLine: (item: MenuItem, quantity: number) => void;
   adjust: (id: string, delta: number) => void;
+  applyChanges: (changes: CartChange[]) => void;
   clear: () => void;
   count: number;
   subtotal: number;
@@ -155,6 +157,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
+  /** Takes the shop's answer to an order: new prices in, lines it can't sell out. */
+  function applyChanges(changes: CartChange[]) {
+    const byId = new Map(changes.map((change) => [change.id, change]));
+    setLines((prev) =>
+      prev.flatMap((line) => {
+        const change = byId.get(line.id);
+        if (!change) return [line];
+        if (change.removed || change.price == null) return [];
+        return [{ ...line, price: change.price }];
+      })
+    );
+  }
+
   function clear() {
     setLines([]);
   }
@@ -175,6 +190,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setQuantity,
         setLine,
         adjust,
+        applyChanges,
         clear,
         count,
         subtotal,
