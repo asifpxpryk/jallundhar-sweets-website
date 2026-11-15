@@ -7,6 +7,9 @@ import HashScroll from "./HashScroll";
 import CategoryProductGrid from "./CategoryProductGrid";
 import { CategoryProductCount } from "./CategoryCatalogBar";
 
+/** Sections shot in our own shop: their photos are the real product, so no "illustration" note. */
+const OWN_PHOTO_SECTIONS = new Set(["sweets", "bakery"]);
+
 export default function CategoryProducts({
   name,
   items,
@@ -36,10 +39,12 @@ export default function CategoryProducts({
   return (
     <section className="pb-10">
       <HashScroll />
-      <p className="px-4 pt-2.5 text-center text-[11px] font-medium leading-4 text-maroon-700/60 sm:px-6 sm:text-xs">
-        Images are for illustration purposes only.{" "}
-        <span className="block sm:inline">Actual product may vary.</span>
-      </p>
+      {aisleSection && OWN_PHOTO_SECTIONS.has(aisleSection) ? null : (
+        <p className="px-4 pt-2.5 text-center text-[11px] font-medium leading-4 text-maroon-700/60 sm:px-6 sm:text-xs">
+          Images are for illustration purposes only.{" "}
+          <span className="block sm:inline">Actual product may vary.</span>
+        </p>
+      )}
       <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
         <div className="royal-band lk-rise flex items-center gap-3 rounded-3xl px-4 py-4 sm:gap-4 sm:px-6 sm:py-5">
           {image && (
