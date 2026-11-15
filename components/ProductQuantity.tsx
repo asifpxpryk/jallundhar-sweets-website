@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { dealPrice } from "@/lib/dealPrice";
 import { customerProductName } from "@/lib/productName";
 import { trackAddToCart } from "@/lib/metaPixel";
+import { isWeighedSweet } from "@/lib/sweetWeight";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
+import SweetWeightButtons from "./SweetWeightButtons";
 
 type Variant = NonNullable<MenuItem["variants"]>[number];
 
@@ -92,6 +94,8 @@ export default function ProductQuantity({
       contents: [{ id: String(line.id), quantity: 1, item_price: line.price }],
     });
   }
+
+  if (!selected && isWeighedSweet(item)) return <SweetWeightButtons line={line} appearance={appearance} />;
 
   if (appearance === "card") {
     if (!inStock) {

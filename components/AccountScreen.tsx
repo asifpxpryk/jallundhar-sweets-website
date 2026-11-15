@@ -11,6 +11,7 @@ import {
   saveProfile,
   type CustomerProfile,
 } from "@/lib/customerStore";
+import { weightLabel } from "@/lib/sweetWeight";
 import type { SavedOrder } from "@/lib/types";
 import { useCart } from "@/components/CartContext";
 
@@ -47,6 +48,7 @@ export default function AccountScreen() {
         name: item.name,
         price: item.unit_price,
         quantity: item.quantity,
+        ...(item.weighed ? { weighed: true } : {}),
       }))
     );
     open();
@@ -118,7 +120,7 @@ export default function AccountScreen() {
                 <ul className="mt-2 text-maroon-700">
                   {order.items.map((item, i) => (
                     <li key={i}>
-                      {item.name} × {item.quantity}
+                      {item.name} {item.weighed ? weightLabel(item.quantity) : `× ${item.quantity}`}
                     </li>
                   ))}
                 </ul>

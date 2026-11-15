@@ -5,6 +5,7 @@ import { trackAddToCart, trackViewContent } from "@/lib/metaPixel";
 import { dealPrice } from "@/lib/dealPrice";
 import { customerProductName } from "@/lib/productName";
 import { orderUnit } from "@/lib/priceUnit";
+import { ONE_KG_STEPS, isWeighedSweet, weighedCartLine } from "@/lib/sweetWeight";
 import type { MenuItem } from "@/lib/types";
 import { useCart } from "./CartContext";
 import ProductQuantity, { productLine } from "./ProductQuantity";
@@ -16,7 +17,7 @@ export default function SweetProductActions({
   item: MenuItem;
   showSizeNote?: boolean;
 }) {
-  const { setLine, openCheckout } = useCart();
+  const { setLine, addMany, lines, openCheckout } = useCart();
   const variants = item.variants;
   const defaultVariant =
     variants?.find((variant) => variant.label === "Medium") ??
@@ -31,7 +32,8 @@ export default function SweetProductActions({
     selected ? `${item.name} (${selected.label})` : item.name,
     item.category_id
   );
-  const unit = orderUnit(selected ? `${item.name} ${selected.label}` : item.name);
+  const weighed = !selected && isWeighedSweet(item);
+  const unit = weighed ? "1 kg" : orderUnit(selected ? `${item.name} ${selected.label}` : item.name);
   const unitInName = Boolean(unit && shownName.includes(`— ${unit}`));
   const inStock = selected ? selected.is_available !== false : item.is_available !== false;
   const line = productLine(item, selected);
@@ -47,6 +49,11 @@ export default function SweetProductActions({
 
   function buyNow() {
     if (!inStock) return;
+    if (weighed) {
+      if (!lines.some((entry) => entry.id === line.id)) addMany([weighedCartLine(line, ONE_KG_STEPS)]);
+      openCheckout();
+      return;
+    }
     const quantity = Math.max(orderQty, 1);
     setLine(line, quantity);
     trackAddToCart({

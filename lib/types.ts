@@ -33,8 +33,12 @@ export type MenuCategory = {
 export type CartLine = {
   id: string;
   name: string;
+  /** Price of one quantity step; for a weighed sweet that is 500 g. */
   price: number;
+  /** Pieces, or 500 g steps when `weighed` is set. */
   quantity: number;
+  /** Loose mithai sold by weight (see lib/sweetWeight). */
+  weighed?: boolean;
 };
 
 export type PaymentMethod = "cod" | "advance";
@@ -49,7 +53,7 @@ export type SavedOrder = {
   payment_method: PaymentMethod;
   notes: string;
   total: number;
-  items: { id?: string; name: string; quantity: number; unit_price: number }[];
+  items: { id?: string; name: string; quantity: number; unit_price: number; weighed?: boolean }[];
 };
 
 export type AdminOrder = SavedOrder & {

@@ -3,6 +3,7 @@
 import { dealPrice } from "@/lib/dealPrice";
 import { customerProductName } from "@/lib/productName";
 import { orderUnit } from "@/lib/priceUnit";
+import { isWeighedSweet } from "@/lib/sweetWeight";
 import { useRef, useState } from "react";
 import Link from "next/link";
 import type { MenuItem } from "@/lib/types";
@@ -61,7 +62,7 @@ export default function ProductCard({
     selected ? `${item.name} (${selected.label})` : item.name,
     aisleSection || item.category_id
   );
-  const unit = orderUnit(selected ? `${item.name} ${selected.label}` : item.name);
+  const unit = !selected && isWeighedSweet(item) ? "1 kg" : orderUnit(selected ? `${item.name} ${selected.label}` : item.name);
   // "600 ml" and "600ml" are the same size: no chip when the name already says it.
   const squash = (text: string) => text.toLowerCase().replace(/[\s.]+/g, "");
   const unitInName = Boolean(unit && squash(shownName).includes(squash(unit)));
