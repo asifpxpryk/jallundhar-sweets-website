@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { dealPrice } from "@/lib/dealPrice";
+import { dealFor } from "@/lib/posDeal";
 import { customerProductName } from "@/lib/productName";
 import BestsellerScroller from "@/components/BestsellerScroller";
 import ProductImage from "@/components/ProductImage";
@@ -23,6 +24,7 @@ export default function ProductDetail({
   const browseHref = aisle?.href ?? section.href;
   const browseName = aisle?.name ?? section.name;
   const shownName = customerProductName(item.name, item.category_id || section.slug);
+  const dealLabel = dealFor(item).label;
 
   return (
     <main className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6 sm:pt-10">
@@ -54,8 +56,8 @@ export default function ProductDetail({
             {aisle ? `${section.name} · ${aisle.name}` : section.name}
           </p>
           <h1 className="font-display text-3xl font-bold leading-tight text-maroon-900 sm:text-4xl">{shownName}</h1>
-          {item.is_deal && item.deal_label && dealPrice(item.deal_label) == null ? (
-            <p className="mt-2 text-sm font-semibold text-gold-800">{item.deal_label}</p>
+          {dealLabel && dealPrice(dealLabel) == null ? (
+            <p className="mt-2 text-sm font-semibold text-gold-800">{dealLabel}</p>
           ) : null}
           {item.description ? <p className="mt-4 whitespace-pre-line text-maroon-700/80">{item.description}</p> : null}
           <SweetProductActions

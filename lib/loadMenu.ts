@@ -7,6 +7,8 @@ import { isAdminSession } from "@/lib/adminAuth";
 import { loadStoreVisibilityUncached, isVisibilityConfigId, shelfFlagsFor, EMPTY_HOME_SHELF, type HomeShelf } from "@/lib/storeVisibility";
 import localMenu from "@/data/menu-items.json";
 import aisleCatalog from "@/data/aisle-items.json";
+import { selectWithColumnFallback } from "@/lib/menuColumns";
+import { posFields } from "@/lib/posDeal";
 
 type StoredMenuItem = MenuItem & {
   woo_category_slugs?: string[];
@@ -18,8 +20,19 @@ const AISLE_ITEM_IDS = new Set(
   )
 );
 
+/** category_id may be "section" or "section:aisle" (rows the POS bridge adds). */
+function categorySection(categoryId: string): string {
+  return categoryId.split(":")[0] ?? categoryId;
+}
+
+/** The shop POS decides hide for linked rows, so the website hide list doesn't apply to them. */
+function hiddenByList(item: MenuItem, hiddenIds: Set<string>): boolean {
+  return !item.pos_linked && hiddenIds.has(item.id);
+}
+
 function sectionForItem(item: StoredMenuItem): SectionSlug {
-  if (isSectionSlug(item.category_id)) return item.category_id;
+  const section = categorySection(item.category_id);
+  if (isSectionSlug(section)) return section;
   const slugs =
     item.woo_category_slugs?.length
       ? item.woo_category_slugs
@@ -46,11 +59,12 @@ function groupItems(
   items.forEach((item) => {
     if (AISLE_ITEM_IDS.has(item.id)) return;
     if (isVisibilityConfigId(item.id)) return;
-    const hidden = Boolean(item.is_hidden) || hiddenIds.has(item.id);
+    const hidden = Boolean(item.is_hidden) || hiddenByList(item, hiddenIds);
     if (hidden && !includeHidden) return;
     if (isHiddenMenuItem(item.name)) return;
     if (normalizeName(item.name) === "chicken leg piece" && item.category_id === "general") return;
-    const slug = extraSlugs.has(item.category_id) ? item.category_id : sectionForItem(item);
+    const ownSection = categorySection(item.category_id);
+    const slug = extraSlugs.has(ownSection) ? ownSection : sectionForItem(item);
     grouped.get(slug)?.push({
       id: item.id,
       category_id: slug,
@@ -62,6 +76,7 @@ function groupItems(
       is_hidden: hidden,
       is_bestseller: Boolean(item.is_bestseller) || bestIds.has(item.id),
       sort_order: item.sort_order,
+      ...posFields(item),
       ...shelfFlagsFor([item.id], shelf),
     });
   });
@@ -75,7 +90,7 @@ function groupItems(
       ...item,
       is_hidden:
         Boolean(item.is_hidden) ||
-        hiddenIds.has(item.id) ||
+        hiddenByList(item, hiddenIds) ||
         Boolean(item.variants?.length && item.variants.every((variant) => hiddenIds.has(variant.id))),
       is_bestseller:
         Boolean(item.is_bestseller) ||
@@ -99,10 +114,6 @@ function loadFromLocal(
 }
 
 const MENU_PAGE_SIZE = 1000;
-const MENU_COLUMNS =
-  "id, category_id, name, description, price, image_url, is_available, is_hidden, sort_order";
-const MENU_COLUMNS_WITHOUT_HIDDEN =
-  "id, category_id, name, description, price, image_url, is_available, sort_order";
 
 /**
  * Reads every menu row from Supabase (paged in 1000-row chunks).
@@ -128,29 +139,24 @@ async function loadFromSupabaseOnce(url: string, key: string): Promise<MenuItem[
   const supabase = createClient(url, key);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
-  let columns = MENU_COLUMNS;
+  let columnSet = 0;
 
   try {
     const rows: MenuItem[] = [];
     for (let from = 0; ; from += MENU_PAGE_SIZE) {
-      let { data, error } = await supabase
-        .from("menu_items")
-        .select(columns)
-        .order("sort_order", { ascending: true })
-        .order("id", { ascending: true })
-        .range(from, from + MENU_PAGE_SIZE - 1)
-        .abortSignal(controller.signal);
-
-      if (error && columns === MENU_COLUMNS) {
-        columns = MENU_COLUMNS_WITHOUT_HIDDEN;
-        ({ data, error } = await supabase
-          .from("menu_items")
-          .select(columns)
-          .order("sort_order", { ascending: true })
-          .order("id", { ascending: true })
-          .range(from, from + MENU_PAGE_SIZE - 1)
-          .abortSignal(controller.signal));
-      }
+      const page = await selectWithColumnFallback<unknown[]>(
+        (columns) =>
+          supabase
+            .from("menu_items")
+            .select(columns)
+            .order("sort_order", { ascending: true })
+            .order("id", { ascending: true })
+            .range(from, from + MENU_PAGE_SIZE - 1)
+            .abortSignal(controller.signal),
+        columnSet
+      );
+      columnSet = page.columnSet;
+      const { data, error } = page;
       if (error || !data) return null;
       rows.push(...(data as unknown as MenuItem[]));
       if (data.length < MENU_PAGE_SIZE) return rows;
@@ -193,7 +199,7 @@ function withHiddenFlags(
     .map((item) => ({
       ...item,
       price: Number(item.price),
-      is_hidden: Boolean(item.is_hidden) || hiddenIds.has(item.id),
+      is_hidden: Boolean(item.is_hidden) || hiddenByList(item, hiddenIds),
       is_bestseller: Boolean(item.is_bestseller) || bestIds.has(item.id),
       ...shelfFlagsFor([item.id], shelf),
     }));

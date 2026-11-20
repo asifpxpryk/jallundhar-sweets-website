@@ -1,5 +1,6 @@
 import type { MenuItem } from "@/lib/types";
 import aisleItems from "@/data/aisle-items.json";
+import { posFields } from "@/lib/posDeal";
 import { EMPTY_HOME_SHELF, shelfFlagsFor, type HomeShelf } from "@/lib/storeVisibility";
 
 type AisleCatalog = Record<string, MenuItem[]>;
@@ -27,7 +28,8 @@ export function applyMenuOverrides(
   const bestIds = new Set(bestsellerIds);
   const merged = items.map((item) => {
     const override = byId.get(item.id);
-    const hidden = Boolean(override?.is_hidden) || hiddenIds.has(item.id);
+    // A row linked to the shop POS takes hide from the POS only, not the website hide list.
+    const hidden = Boolean(override?.is_hidden) || (!override?.pos_linked && hiddenIds.has(item.id));
     const best = Boolean(override?.is_bestseller) || bestIds.has(item.id);
     const flags = shelfFlagsFor([item.id], shelf);
     if (!override) {
@@ -41,6 +43,7 @@ export function applyMenuOverrides(
       is_hidden: hidden,
       is_bestseller: best,
       image_url: override.image_url !== undefined ? override.image_url : item.image_url,
+      ...posFields(override),
       ...flags,
     };
   });

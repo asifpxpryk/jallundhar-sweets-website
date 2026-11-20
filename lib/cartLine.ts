@@ -1,11 +1,14 @@
 import { dealPrice } from "@/lib/dealPrice";
+import { activePosDeal } from "@/lib/posDeal";
 import { customerProductName } from "@/lib/productName";
 import type { MenuItem } from "@/lib/types";
 
 type Variant = NonNullable<MenuItem["variants"]>[number];
 
-/** A deal whose label is only a number sells at that number. */
-export function withDealPrice(item: MenuItem): MenuItem {
+/** A running shop (POS) deal sells at its price; otherwise a deal whose label is only a number sells at that number. */
+export function withDealPrice(item: MenuItem, now: number = Date.now()): MenuItem {
+  const pos = activePosDeal(item, now);
+  if (pos) return pos.price === item.price ? item : { ...item, price: pos.price };
   if (!item.is_deal) return item;
   const sale = dealPrice(item.deal_label);
   if (sale == null || sale === item.price) return item;
