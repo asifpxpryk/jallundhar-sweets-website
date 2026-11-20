@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 import { loadOrderCatalog } from "@/lib/orderCatalog";
 import { sendOrderEmail } from "@/lib/orderEmail";
+import { savedOrderNumber } from "@/lib/orderTracking";
 import { parseOrderLines, priceOrderLines, unpricedOrderLines, type OrderLineInput } from "@/lib/orderPricing";
 import { clientIp, rateHit, waitMessage } from "@/lib/rateLimit";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
@@ -139,5 +140,5 @@ export async function POST(request: Request) {
   });
 
   if (error) return reject(502, "Could not save the order.");
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, order_number: await savedOrderNumber(supabase, id) });
 }
