@@ -28,6 +28,10 @@ export default function AdminItemForm({
   );
   const [error, setError] = useState<string | null>(null);
   const placement = parsePlacement(placementKey || defaultPlacementKey(item));
+  const posLocked = Boolean(item.pos_linked);
+  const posTag = posLocked ? (
+    <span className="ml-1 rounded bg-maroon-800 px-1 text-[10px] font-bold text-white">POS</span>
+  ) : null;
 
   return (
     <form
@@ -65,14 +69,15 @@ export default function AdminItemForm({
         />
       </label>
       <label className="text-sm text-maroon-800">
-        Price
+        Price {posTag}
         <input
           name="price"
           type="number"
           min="0"
           step="1"
           defaultValue={item.price}
-          className="mt-1 w-full rounded-xl border border-gold-200 px-3 py-2"
+          readOnly={posLocked}
+          className={`mt-1 w-full rounded-xl border border-gold-200 px-3 py-2 ${posLocked ? "bg-gold-50" : ""}`}
         />
       </label>
       <PlacementFields defaultSection={placement.section} defaultAisle={placement.aisle} />
@@ -91,18 +96,20 @@ export default function AdminItemForm({
             name="is_hidden"
             type="checkbox"
             defaultChecked={Boolean(item.is_hidden)}
+            disabled={posLocked}
             className="h-4 w-4"
           />
-          Hide
+          Hide {posTag}
         </label>
         <label className="flex items-center gap-2">
           <input
             name="is_out_of_stock"
             type="checkbox"
             defaultChecked={!item.is_available}
+            disabled={posLocked}
             className="h-4 w-4"
           />
-          Out of stock
+          Out of stock {posTag}
         </label>
       </div>
       <button

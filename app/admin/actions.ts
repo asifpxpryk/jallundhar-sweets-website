@@ -37,6 +37,7 @@ import type { AdminOrder, PaymentMethod } from "@/lib/types";
 import { clearPinAttempts, pinLockMessage, recordWrongPin } from "@/lib/pinGuard";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 import { refreshStorefront } from "@/lib/storefrontRefresh";
+import { linkedMenuIds, posSafePayload } from "@/lib/posLink";
 import { storeProductPhoto } from "@/lib/storeProductPhoto";
 import { bannerOptions, bannerPageOptions } from "@/lib/bannerCatalog";
 
@@ -74,12 +75,17 @@ async function syncItemHiddenFlag(
   is_bestseller = false,
   catalogId = id,
   relatedIds: string[] = [],
-  shelf?: { is_new_arrival?: boolean; is_deal?: boolean; deal_label?: string }
+  shelf?: { is_new_arrival?: boolean; is_deal?: boolean; deal_label?: string },
+  posLinkedIds: Set<string> = new Set()
 ) {
-  const ids = [...new Set([id, catalogId, ...relatedIds].filter(Boolean))];
+  // Hide for POS-linked rows belongs to the shop POS; the website hide list leaves them alone.
+  const ids = [...new Set([id, catalogId, ...relatedIds].filter(Boolean))].filter(
+    (itemId) => !posLinkedIds.has(itemId)
+  );
+  const hideWritten = ids.length > 0 && hidden;
   let vis = await loadStoreVisibilityUncached();
   for (const itemId of ids) {
-    vis = applyVisibilityToggle(vis, "aisle", itemVisibilitySlug(itemId), hidden);
+    vis = applyVisibilityToggle(vis, "aisle", itemVisibilitySlug(itemId), hideWritten);
   }
   vis = applyBestsellerToggle(vis, catalogId, is_bestseller);
   if (shelf && typeof shelf.is_new_arrival === "boolean") {
@@ -92,7 +98,7 @@ async function syncItemHiddenFlag(
   if (!columnExists) {
     for (const itemId of ids) {
       const { error } = await supabase.from("store_visibility").upsert(
-        { kind: "aisle", slug: itemVisibilitySlug(itemId), hidden },
+        { kind: "aisle", slug: itemVisibilitySlug(itemId), hidden: hideWritten },
         { onConflict: "kind,slug" }
       );
       if (error && !isMissingVisibilityTable(error.message)) {
@@ -102,7 +108,7 @@ async function syncItemHiddenFlag(
   }
 
   const written = await writeVisibilityConfig(supabase, vis);
-  if (written.error && (hidden || is_bestseller || shelf?.is_new_arrival || shelf?.is_deal)) {
+  if (written.error && (hideWritten || is_bestseller || shelf?.is_new_arrival || shelf?.is_deal)) {
     throw new Error(written.error.message);
   }
 }
@@ -194,18 +200,23 @@ export async function saveMenuItem(formData: FormData) {
   if (placementProblem) return { error: placementProblem };
 
   const supabase = createSupabaseAdmin();
+  const linked = await linkedMenuIds(supabase, [id]);
+  if (linked.error) return { error: linked.error };
   const photo = await storeProductPhoto(formData);
   if (photo.error) return { error: photo.error };
 
-  const payload: Record<string, unknown> = {
-    name,
-    price,
-    is_available,
-    is_hidden,
-    description,
-    category_id,
-    ...photoPayload(formData, photo.url),
-  };
+  const payload: Record<string, unknown> = posSafePayload(
+    {
+      name,
+      price,
+      is_available,
+      is_hidden,
+      description,
+      category_id,
+      ...photoPayload(formData, photo.url),
+    },
+    linked.ids.has(id)
+  );
   let columnExists = true;
   let { error } = await supabase.from("menu_items").update(payload).eq("id", id);
 
@@ -218,7 +229,7 @@ export async function saveMenuItem(formData: FormData) {
 
   if (error) return { error: error.message };
   try {
-    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists);
+    await syncItemHiddenFlag(supabase, id, is_hidden, columnExists, false, id, [], undefined, linked.ids);
     await persistItemPlacement(supabase, [id], category_id, aisle_slug);
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Could not hide this item." };
@@ -261,19 +272,24 @@ export async function saveStorefrontItem(formData: FormData) {
   if (placementProblem) return { error: placementProblem };
 
   const supabase = createSupabaseAdmin();
+  const linked = await linkedMenuIds(supabase, [id, catalogId, ...relatedIds]);
+  if (linked.error) return { error: linked.error };
   const photo = await storeProductPhoto(formData);
   if (photo.error) return { error: photo.error };
   const imageFields = photoPayload(formData, photo.url);
 
-  const payload: Record<string, unknown> = {
-    name,
-    price,
-    is_available,
-    is_hidden,
-    description,
-    category_id,
-    ...imageFields,
-  };
+  const payload: Record<string, unknown> = posSafePayload(
+    {
+      name,
+      price,
+      is_available,
+      is_hidden,
+      description,
+      category_id,
+      ...imageFields,
+    },
+    linked.ids.has(id)
+  );
 
   let columnExists = true;
   let { data, error } = await supabase.from("menu_items").update(payload).eq("id", id).select("id");
@@ -304,7 +320,9 @@ export async function saveStorefrontItem(formData: FormData) {
     if (inserted.error) return { error: inserted.error.message };
   }
 
-  const siblingIds = [...new Set([catalogId, ...relatedIds].filter((itemId) => itemId !== id))];
+  const siblingIds = [...new Set([catalogId, ...relatedIds].filter((itemId) => itemId !== id))].filter(
+    (itemId) => !linked.ids.has(itemId)
+  );
   if (columnExists && siblingIds.length) {
     await Promise.all(
       siblingIds.map((itemId) =>
@@ -322,7 +340,8 @@ export async function saveStorefrontItem(formData: FormData) {
       is_bestseller,
       catalogId,
       relatedIds,
-      { is_new_arrival, is_deal, deal_label }
+      { is_new_arrival, is_deal, deal_label },
+      linked.ids
     );
     await persistItemPlacement(
       supabase,

@@ -1,6 +1,6 @@
 "use client";
 
-import { dealPrice } from "@/lib/dealPrice";
+import { dealShown } from "@/lib/posDeal";
 import { customerProductName } from "@/lib/productName";
 import { orderUnit } from "@/lib/priceUnit";
 import { isWeighedSweet, lineAmountLabel } from "@/lib/sweetWeight";
@@ -16,8 +16,16 @@ import ProductQuantity from "./ProductQuantity";
 import PlacementFields from "@/app/admin/PlacementFields";
 import { withCompressedPhoto } from "@/lib/compressImage";
 
+/** Marks the fields the shop POS controls on a linked item. */
+function PosTag() {
+  return (
+    <span className="ml-1 rounded bg-maroon-800 px-1 py-px text-[9px] font-bold tracking-wide text-white">POS</span>
+  );
+}
+
 function itemSection(item: MenuItem) {
-  if (isSectionSlug(item.category_id)) return item.category_id;
+  const section = item.category_id.split(":")[0] ?? item.category_id;
+  if (isSectionSlug(section)) return section;
   return assignSection(item.name, item.category_id.split(",").filter(Boolean));
 }
 
@@ -58,8 +66,9 @@ export default function ProductCard({
   const cartQty = cartLine?.quantity ?? 0;
   const cartAmount = cartLine ? lineAmountLabel(cartLine) : "";
   const price = selected?.price ?? item.price;
-  const sale = !selected && item.is_deal ? dealPrice(item.deal_label) : null;
-  const showSale = sale != null && sale !== price;
+  const deal = selected ? { sale: null, label: "" } : dealShown(item, price);
+  const sale = deal.sale;
+  const showSale = sale != null;
   const shownName = customerProductName(
     selected ? `${item.name} (${selected.label})` : item.name,
     aisleSection || item.category_id
@@ -69,6 +78,7 @@ export default function ProductCard({
   const squash = (text: string) => text.toLowerCase().replace(/[\s.]+/g, "");
   const unitInName = Boolean(unit && squash(shownName).includes(squash(unit)));
   const inStock = selected ? selected.is_available !== false : item.is_available !== false;
+  const posLocked = !isNew && Boolean(item.pos_linked);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const photoRef = useRef<HTMLInputElement>(null);
@@ -269,7 +279,7 @@ export default function ProductCard({
               </div>
             ) : null}
             <label className="mt-2 block text-[11px] text-maroon-800">
-              Price
+              Price {posLocked ? <PosTag /> : null}
               <input
                 name="price"
                 type="number"
@@ -278,7 +288,8 @@ export default function ProductCard({
                 defaultValue={isNew ? "" : price}
                 placeholder="0"
                 required={isNew}
-                className="mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm"
+                readOnly={posLocked}
+                className={`mt-0.5 w-full rounded-lg border border-gold-200 px-2 py-1 text-sm ${posLocked ? "bg-gold-50 text-maroon-700/70" : ""}`}
               />
             </label>
             <PlacementFields
@@ -292,6 +303,7 @@ export default function ProductCard({
                   name="is_hidden"
                   type="checkbox"
                   defaultChecked={Boolean(item.is_hidden)}
+                  disabled={posLocked}
                   className="h-3.5 w-3.5"
                 />
                 Hide
@@ -301,10 +313,12 @@ export default function ProductCard({
                   name="is_out_of_stock"
                   type="checkbox"
                   defaultChecked={!inStock}
+                  disabled={posLocked}
                   className="h-3.5 w-3.5"
                 />
                 Out of stock
               </label>
+              {posLocked ? <PosTag /> : null}
               <label className="flex items-center gap-1.5 text-[11px] text-maroon-800">
                 <input
                   name="is_bestseller"
@@ -375,8 +389,8 @@ export default function ProductCard({
           </form>
         ) : (
           <>
-            {item.is_deal && item.deal_label && !showSale ? (
-              <p className="mb-1 line-clamp-1 text-[11px] font-semibold text-gold-800">{item.deal_label}</p>
+            {deal.label ? (
+              <p className="mb-1 line-clamp-1 text-[11px] font-semibold text-gold-800">{deal.label}</p>
             ) : null}
             <h3 className="line-clamp-2 min-h-[2.5rem] font-display text-sm font-semibold leading-snug tracking-tight text-maroon-900">
               {productHref ? (

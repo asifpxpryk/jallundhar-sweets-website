@@ -16,6 +16,7 @@ import { loadSearchCatalog } from "@/lib/searchCatalog";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
 import { hasCatalogPhoto } from "@/lib/catalogPhoto";
 import type { MenuCategory, MenuItem } from "@/lib/types";
+import { activePosDeal } from "@/lib/posDeal";
 
 export const revalidate = 604800;
 
@@ -139,7 +140,7 @@ export default async function Home() {
   const bestsellerNames = new Set(bestsellers.items.map((item) => shelfName(item.name)));
   const deals = pickFlaggedShelf(
     catalog,
-    (item) => Boolean(item.is_deal),
+    (item) => Boolean(item.is_deal) || activePosDeal(item) !== null,
     bestsellerIds,
     bestsellerNames,
     8

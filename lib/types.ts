@@ -13,6 +13,13 @@ export type MenuItem = {
   /** Short shop-written line, shown when is_deal is set. The price stays the saved price. */
   deal_label?: string;
   sort_order: number;
+  /** Price, stock and hide come from the shop POS (menu_items.pos_linked); admin can't edit them. */
+  pos_linked?: boolean;
+  pos_product_id?: string | null;
+  /** Shop POS deal, read from menu_items.deal_price / deal_label / deal_ends_at (see lib/posDeal). */
+  pos_deal_price?: number | null;
+  pos_deal_label?: string | null;
+  pos_deal_ends_at?: string | null;
   /** Set on search results so general-store items open the right aisle. */
   search_aisle?: string;
   company?: string;
