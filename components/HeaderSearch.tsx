@@ -215,6 +215,7 @@ export default function HeaderSearch() {
                             alt={customerProductName(hit.name, hit.section)}
                             sizes="40px"
                             className="object-cover"
+                            small
                           />
                         </span>
                         <span className="min-w-0">

@@ -130,6 +130,7 @@ export default function ProductCard({
             sizes={compact ? "176px" : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"}
             className={item.preview_only && shownPhoto ? "object-contain p-4" : "object-cover"}
             priority={priority}
+            small
           />
         )}
         {item.preview_only && item.image_is_illustrative && shownPhoto ? (
