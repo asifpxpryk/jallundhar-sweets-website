@@ -11645,16 +11645,6 @@
       "sort_order": 89
     },
     {
-      "id": "soft-drinks-red-bull-sugar-free-250ml",
-      "category_id": "beverage",
-      "name": "Red Bull, Sugar Free, 250ml",
-      "description": null,
-      "price": 500,
-      "image_url": "/products/soft-drinks/red-bull-sugar-free-250ml.jpg",
-      "is_available": true,
-      "sort_order": 90
-    },
-    {
       "id": "soft-drinks-muree-brewery-s-bigg-lychee-can-250ml",
       "category_id": "beverage",
       "name": "Muree Brewery`S Bigg Lychee Can 250ml",
@@ -12095,6 +12085,16 @@
       "image_url": "/products/energy-drinks/sting-berry-blast-energy-drink-250ml.jpg",
       "is_available": false,
       "sort_order": 22
+    },
+    {
+      "id": "soft-drinks-red-bull-sugar-free-250ml",
+      "category_id": "beverage",
+      "name": "Red Bull, Sugar Free, 250ml",
+      "description": null,
+      "price": 500,
+      "image_url": "/products/soft-drinks/red-bull-sugar-free-250ml.jpg",
+      "is_available": true,
+      "sort_order": 90
     }
   ],
   "beverage:drinking-water": [
