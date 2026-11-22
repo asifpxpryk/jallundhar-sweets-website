@@ -60,7 +60,7 @@ export default function Hero() {
             </span>
             <span className="hero-since-line mt-2 block h-px w-16 bg-gold-300" aria-hidden />
             <h1 className="mt-3 max-w-md text-sm font-semibold leading-snug text-gold-100 sm:text-base">
-              Bakery &amp; Sweets in Rahim Yar Khan – Jallundhar Sweets &amp; Bakers
+              Best Bakery &amp; Sweets in Rahim Yar Khan
             </h1>
           </div>
           <p

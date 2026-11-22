@@ -8,6 +8,7 @@ import { ONE_KG_STEPS, lineAmountLabel, weightLabel } from "@/lib/sweetWeight";
 import type { CartChange } from "@/lib/orderPricing";
 import type { CartLine, PaymentMethod } from "@/lib/types";
 import { loadProfile, saveLocalOrder, saveProfile } from "@/lib/customerStore";
+import { orderTrackingPath, orderTrackingUrl, parseOrderNumber } from "@/lib/orderTracking";
 
 type Step = "cart" | "checkout" | "success";
 
@@ -28,6 +29,7 @@ export default function CartDrawer() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [orderRef, setOrderRef] = useState<string | null>(null);
+  const [orderNumber, setOrderNumber] = useState<number | null>(null);
 
   const [form, setForm] = useState({
     customer_name: "",
@@ -123,7 +125,7 @@ export default function CartDrawer() {
 
   const WHATSAPP_NUMBER = "923001538440";
 
-  function buildWhatsappMessage(orderRef: string) {
+  function buildWhatsappMessage(orderRef: string, savedNumber: number | null) {
     const itemsList = lines
       .map((l) => {
         const amount = l.weighed ? weightLabel(l.quantity) : `x${l.quantity}`;
@@ -144,6 +146,7 @@ export default function CartDrawer() {
       `*Subtotal: Rs. ${subtotal.toLocaleString()}*`,
       "Delivery: Rahim Yar Khan. Charge confirmed on this chat.",
       form.notes.trim() ? `\n📝 Notes: ${form.notes.trim()}` : null,
+      savedNumber ? `\nTrack: ${orderTrackingUrl(savedNumber)}` : null,
     ]
       .filter((line) => line !== null)
       .join("\n");
@@ -169,6 +172,7 @@ export default function CartDrawer() {
 
     // The order record goes through our own rate-limited route, never straight to the database.
     // The route prices every line again; if anything changed, the cart is fixed and nothing is sent.
+    let savedNumber: number | null = null;
     try {
       const response = await fetch("/api/order", {
         method: "POST",
@@ -204,6 +208,10 @@ export default function CartDrawer() {
         setSubmitting(false);
         return;
       }
+      if (response.ok) {
+        const saved = (await response.json().catch(() => null)) as { order_number?: unknown } | null;
+        savedNumber = parseOrderNumber(saved?.order_number);
+      }
     } catch (e) {
       // Still send the WhatsApp order even if saving the record fails.
     }
@@ -234,7 +242,7 @@ export default function CartDrawer() {
     });
 
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-      buildWhatsappMessage(orderCode)
+      buildWhatsappMessage(orderCode, savedNumber)
     )}`;
 
     if (waWindow) {
@@ -260,6 +268,7 @@ export default function CartDrawer() {
       { eventID: orderId }
     );
     setOrderRef(orderCode);
+    setOrderNumber(savedNumber);
     setStep("success");
     clear();
     setSubmitting(false);
@@ -445,6 +454,14 @@ export default function CartDrawer() {
               </p>
               {orderRef ? (
                 <p className="text-sm font-semibold text-maroon-800">Order {orderRef}</p>
+              ) : null}
+              {orderNumber ? (
+                <a
+                  href={orderTrackingPath(orderNumber)}
+                  className="rounded-full bg-maroon-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-maroon-800"
+                >
+                  Track order #{orderNumber}
+                </a>
               ) : null}
               <p className="text-base leading-relaxed text-maroon-700/80">
                 Contact us on WhatsApp for more details and delivery charges.

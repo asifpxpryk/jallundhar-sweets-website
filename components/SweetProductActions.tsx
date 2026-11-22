@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { trackAddToCart, trackViewContent } from "@/lib/metaPixel";
-import { dealPrice } from "@/lib/dealPrice";
+import { dealShown } from "@/lib/posDeal";
 import { customerProductName } from "@/lib/productName";
 import { orderUnit } from "@/lib/priceUnit";
 import { ONE_KG_STEPS, isWeighedSweet, weighedCartLine } from "@/lib/sweetWeight";
@@ -25,8 +25,8 @@ export default function SweetProductActions({
   const [selectedId, setSelectedId] = useState(defaultVariant?.id ?? item.id);
   const selected = variants?.find((variant) => variant.id === selectedId);
   const price = selected?.price ?? item.price;
-  const sale = !selected && item.is_deal ? dealPrice(item.deal_label) : null;
-  const showSale = sale != null && sale !== price;
+  const sale = selected ? null : dealShown(item, price).sale;
+  const showSale = sale != null;
   const shownName = customerProductName(
     selected ? `${item.name} (${selected.label})` : item.name,
     item.category_id

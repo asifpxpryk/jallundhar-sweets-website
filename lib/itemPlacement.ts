@@ -36,6 +36,8 @@ for (const [key, items] of Object.entries(catalog)) {
 export function defaultPlacementKey(item: MenuItem): string {
   const fromCatalog = defaultPlacementById.get(item.id);
   if (fromCatalog) return fromCatalog;
+  // Rows the POS bridge adds may name their aisle directly: "general:snacks".
+  if (/^[a-z0-9-]+:[a-z0-9-]+$/.test(item.category_id)) return item.category_id;
   const section = isSectionSlug(item.category_id)
     ? item.category_id
     : assignSection(item.name, item.category_id.split(",").filter(Boolean));
