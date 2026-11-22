@@ -6,6 +6,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Light only: stops phone browsers' forced dark mode from repainting the site (see viewport colorScheme). */
+:root {
+  color-scheme: only light;
+}
+
 html,
 body {
   max-width: 100%;

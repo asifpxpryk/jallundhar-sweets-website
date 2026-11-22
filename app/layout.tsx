@@ -60,6 +60,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#7a1f25",
+  // The design is light only. Without this, phone browsers with a dark mode (Chrome "Darken websites",
+  // Samsung Internet) repaint the cream/maroon colours themselves and the pages look muddy.
+  colorScheme: "only light",
   width: "device-width",
   initialScale: 1,
 };
