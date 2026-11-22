@@ -20,3 +20,29 @@ export function isBeverageAisle(value: string): boolean {
 export function getBeverageAisle(slug: string) {
   return BEVERAGE_AISLES.find((aisle) => aisle.slug === slug) ?? null;
 }
+
+function beverageKey(name: string) {
+  return name
+    .toLowerCase()
+    .replace(
+      /(\d+(?:\.\d+)?)\s*(ltr|liter|litre|litres|liters|l|ml)\b/g,
+      (_match, amount: string, unit: string) => `${amount}${unit === "ml" ? "ml" : "l"}`
+    )
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/** The beverage aisle a drink belongs in, read from its name (used for POS rows that come without an aisle). */
+export function beverageAisleFor(name: string): BeverageAisleSlug {
+  const value = beverageKey(name);
+  if (/\b(water|watter|aquafina)\b/.test(value) && !/coconut/.test(value)) return "drinking-water";
+  if (/\b(red bull|monster|sting|gatorade|predator|booster|blitz|blits)\b/.test(value)) return "energy-drinks";
+  if (/\b(coffee|coffe|caffee|cafe|latte|mocha|cappuccino|nescafe)\b/.test(value)) return "tea-coffee";
+  if (/\b(milk|chocolate|milo|hazelnut|badam zafran|pista zafraan|malai qulfi|kulfa)\b/.test(value)) return "chocolate-drinks";
+  if (/\b(stevia|sweetener)\b/.test(value)) return "whiteners-sweetener";
+  if (/\b(tang|powder)\b/.test(value)) return "powdered-drinks";
+  if (/\b(squash|syrup|sharbat)\b/.test(value)) return "squash-syrup";
+  if (/\b(boba|basil seed|smoothie)\b/.test(value)) return "smoothies";
+  if (/\b(juice|nectar|nector|fruit|mango|guava|lychee|peach|pineapple|apple|grape|anaar|annar|strawberry|chaunsa|coconut)\b/.test(value) && !/\b(fanta|mirinda|sprite|7up|pepsi|coca cola|mountain dew|gourmet cola)\b/.test(value)) return "juices";
+  return "soft-drinks";
+}

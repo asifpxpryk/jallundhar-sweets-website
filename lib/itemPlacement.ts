@@ -4,6 +4,7 @@ import { assignSection, isSectionSlug } from "@/lib/sections";
 import { isGeneralAisle } from "@/lib/generalAisles";
 import { bakeryAisleForItem } from "@/lib/bakeryAisles";
 import { sweetsAisleForItem } from "@/lib/sweetsAisles";
+import { beverageAisleFor } from "@/lib/beverageAisles";
 import aisleItems from "@/data/aisle-items.json";
 import type { StoreVisibility } from "@/lib/storeVisibility";
 import { placementKey, parsePlacement, isValidPlacement, aislesForSection, SECTION_OPTIONS } from "@/lib/placementOptions";
@@ -46,6 +47,8 @@ export function defaultPlacementKey(item: MenuItem): string {
     return aisle ? `bakery:${aisle}` : "bakery";
   }
   if (section === "sweets") return `sweets:${sweetsAisleForItem(item.name)}`;
+  // A drink from the POS comes with only "beverage"; without an aisle it showed on no aisle page.
+  if (section === "beverage") return `beverage:${beverageAisleFor(item.name)}`;
   return section;
 }
 

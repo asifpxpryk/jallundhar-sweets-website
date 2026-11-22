@@ -1,6 +1,6 @@
 import rawProducts from "@/data/pos-beverages-raw.json";
 import aisleCatalog from "@/data/aisle-items.json";
-import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
+import { BEVERAGE_AISLES, beverageAisleFor } from "@/lib/beverageAisles";
 import { normalizedBeverageName, posPreviewPrice } from "@/lib/posBeveragePrice";
 import type { MenuItem } from "@/lib/types";
 
@@ -49,19 +49,7 @@ function photoBrand(name: string) {
   return normalized(name).startsWith("7up") ? "7UP" : companyFor(name);
 }
 
-function aisleFor(name: string) {
-  const value = normalized(name);
-  if (/\b(water|watter|aquafina)\b/.test(value) && !/coconut/.test(value)) return "drinking-water";
-  if (/\b(red bull|monster|sting|gatorade|predator|booster|blitz|blits)\b/.test(value)) return "energy-drinks";
-  if (/\b(coffee|coffe|caffee|cafe|latte|mocha|cappuccino|nescafe)\b/.test(value)) return "tea-coffee";
-  if (/\b(milk|chocolate|milo|hazelnut|badam zafran|pista zafraan|malai qulfi|kulfa)\b/.test(value)) return "chocolate-drinks";
-  if (/\b(stevia|sweetener)\b/.test(value)) return "whiteners-sweetener";
-  if (/\b(tang|powder)\b/.test(value)) return "powdered-drinks";
-  if (/\b(squash|syrup|sharbat)\b/.test(value)) return "squash-syrup";
-  if (/\b(boba|basil seed|smoothie)\b/.test(value)) return "smoothies";
-  if (/\b(juice|nectar|nector|fruit|mango|guava|lychee|peach|pineapple|apple|grape|anaar|annar|strawberry|chaunsa|coconut)\b/.test(value) && !/\b(fanta|mirinda|sprite|7up|pepsi|coca cola|mountain dew|gourmet cola)\b/.test(value)) return "juices";
-  return "soft-drinks";
-}
+const aisleFor = beverageAisleFor;
 
 const localBeverages = Object.entries(aisleCatalog as Record<string, MenuItem[]>)
   .filter(([key]) => key.startsWith("beverage:"))
