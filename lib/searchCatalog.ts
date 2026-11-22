@@ -42,8 +42,17 @@ export async function loadSearchCatalog(): Promise<MenuCategory[]> {
         }
       }
 
+      // Products placed on the section page itself (not in an aisle), e.g. the Celebrations gift boxes.
+      const sectionPlaced = applyMenuOverrides(
+        itemsForPlacement(section.slug, visibility, []),
+        overrides,
+        false,
+        visibility.hiddenItemIds,
+        visibility.bestsellerIds,
+        homeShelf(visibility)
+      );
       const menuItems = categories.find((category) => category.slug === section.slug)?.items ?? [];
-      let items = dedupe([...placed, ...menuItems]);
+      let items = dedupe([...placed, ...sectionPlaced, ...menuItems]);
       if (section.slug === "beverage") {
         items = beveragePreviewItems(tagBeverageItems(items), undefined, overrides);
       }

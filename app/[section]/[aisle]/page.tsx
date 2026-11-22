@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { applyMenuOverrides } from "@/lib/loadAisleItems";
 import { itemsForPlacement } from "@/lib/itemPlacement";
@@ -72,6 +73,8 @@ export default async function NestedAislePage({
     ? beveragePreviewItems(tagBeverageItems(aisleItems, aisle.slug), aisle.slug, overrides)
     : aisleItems;
   return (
+    <>
+    <BreadcrumbJsonLd crumbs={[{ name: section.name, path: section.href }, { name: aisle.name, path: aisle.href }]} />
     <CategoryProducts
       name={aisle.name}
       items={items}
@@ -81,5 +84,6 @@ export default async function NestedAislePage({
       aisleSection={section.slug}
       aisleSlug={aisle.slug}
     />
+    </>
   );
 }

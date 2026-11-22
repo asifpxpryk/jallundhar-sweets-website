@@ -3,7 +3,7 @@ import { productLine } from "@/lib/cartLine";
 import { kitchenLineId, kitchenLineName, visibleKitchenGroups, type KitchenGroup } from "@/lib/liveKitchen";
 import { loadKitchenConfig } from "@/lib/liveKitchenStore";
 import type { CatalogPrice } from "@/lib/orderPricing";
-import { posPreviewPrice } from "@/lib/posBeveragePreview";
+import { posPreviewPrice } from "@/lib/posBeveragePrice";
 import { loadProduct } from "@/lib/product";
 import { isWeighedSweet, weighedCartLine } from "@/lib/sweetWeight";
 import type { MenuItem } from "@/lib/types";
@@ -45,15 +45,13 @@ function kitchenEntries(groups: KitchenGroup[]): Map<string, CatalogPrice> {
 /** One entry per id; null means the shop no longer sells it online. Throws when the catalogue can't be read. */
 export async function loadOrderCatalog(ids: string[]): Promise<Map<string, CatalogPrice | null>> {
   const kitchen = kitchenEntries((await loadKitchenConfig()).groups);
-  const catalog = new Map<string, CatalogPrice | null>();
-  for (const id of ids) {
-    const fromKitchen = kitchen.get(id);
-    if (fromKitchen) {
-      catalog.set(id, fromKitchen);
-      continue;
-    }
-    const found = await loadProduct(id);
-    catalog.set(id, found ? menuEntry(found.item) : null);
-  }
-  return catalog;
+  const entries = await Promise.all(
+    ids.map(async (id): Promise<[string, CatalogPrice | null]> => {
+      const fromKitchen = kitchen.get(id);
+      if (fromKitchen) return [id, fromKitchen];
+      const found = await loadProduct(id);
+      return [id, found ? menuEntry(found.item) : null];
+    })
+  );
+  return new Map(entries);
 }

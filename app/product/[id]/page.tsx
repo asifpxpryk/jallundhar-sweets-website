@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { cache } from "react";
 import ProductDetail from "@/components/ProductDetail";
 import { loadProduct } from "@/lib/product";
 import { customerProductName } from "@/lib/productName";
-import { canonicalProductId, displayOffer, returnPolicyFor, schemaBrand, productDescription, productImage, productPath, productTitle, absoluteUrl, jsonLdString, nonAlcoholicOverride, OG_DEFAULTS } from "@/lib/seo";
+import { canonicalProductId, displayOffer, returnPolicyFor, schemaBrand, productDescription, productMetaDescription, productPageDescription, productImage, productTitle, absoluteUrl, jsonLdString, nonAlcoholicOverride, OG_DEFAULTS, clampText } from "@/lib/seo";
+import { canonicalSlugFor, resolveProductParam } from "@/lib/productSlugIndex";
 import { SITE_URL } from "@/lib/site";
 import { feedGtin, gtinProperty, loadBrandLookup } from "@/lib/merchantFeed";
 
@@ -16,16 +18,36 @@ export function generateStaticParams() {
 
 type Props = { params: { id: string } };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const result = await loadProduct(params.id);
+/**
+ * The URL segment is a slug ("akhroti-sohan-halwa-1-kg"). Old ids still open the product but are sent to the
+ * slug with a permanent redirect (middleware.ts answers the known ones with a 301 before this runs).
+ */
+const loadProductPage = cache(async (param: string) => {
+  let segment = param;
+  try {
+    segment = decodeURIComponent(param);
+  } catch {
+    // keep the raw segment
+  }
+  const id = await resolveProductParam(segment);
+  const result = await loadProduct(id);
   if (!result) notFound();
-  const { item, section } = result;
+  const slug = await canonicalSlugFor(result.item);
+  if (slug !== segment) permanentRedirect(`/product/${slug}`);
+  // A duplicate listing (e.g. "Plain Bread Full") points search engines at the main product's URL.
+  const primaryId = canonicalProductId(result.item.id);
+  const canonical = primaryId === result.item.id ? slug : await canonicalSlugFor({ id: primaryId, name: "", category_id: "" });
+  return { ...result, path: `/product/${canonical}` };
+});
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { item, section, path } = await loadProductPage(params.id);
   const named = { ...item, name: customerProductName(item.name, item.category_id || section.slug) };
   // Non-alcoholic malt / "Brewery" drinks: say so in search snippets, matching the Merchant Center feed.
   const safe = nonAlcoholicOverride(item, section.slug);
   const title = safe ? productTitle({ ...named, name: safe.title }) : productTitle(named);
-  const description = safe?.description ?? productDescription(named, section.slug);
-  const url = productPath(canonicalProductId(item.id));
+  const description = clampText(safe?.description ?? productMetaDescription(named, section.slug));
+  const url = path;
   const image = productImage(item);
   return {
     title,
@@ -42,13 +64,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const result = await loadProduct(params.id);
-  if (!result) notFound();
-  const { item, section, aisle, related } = result;
+  const { item, section, aisle, related, path } = await loadProductPage(params.id);
   const named = { ...item, name: customerProductName(item.name, item.category_id || section.slug) };
   const { price, inStock } = displayOffer(item);
   const image = productImage(item);
-  const url = absoluteUrl(productPath(canonicalProductId(item.id)));
+  const url = absoluteUrl(path);
   const safe = nonAlcoholicOverride(item, section.slug);
   const brandLookup = await loadBrandLookup();
   const brand = safe?.brand ?? (brandLookup.has(item.id) ? brandLookup.get(item.id) : schemaBrand(item, section.slug)) ?? null;
@@ -92,7 +112,7 @@ export default async function ProductPage({ params }: Props) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(productJsonLd) }} />
       ) : null}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbJsonLd) }} />
-      <ProductDetail item={item} section={section} aisle={aisle} related={related} />
+      <ProductDetail item={item} section={section} aisle={aisle} related={related} description={productPageDescription(item) ?? undefined} />
     </>
   );
 }

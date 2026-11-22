@@ -13,6 +13,7 @@ export default function HomePromoCard({
   cta,
   desktopSrc,
   mobileSrc,
+  imageAlt,
   className = "",
 }: {
   id: string;
@@ -23,6 +24,8 @@ export default function HomePromoCard({
   cta: string;
   desktopSrc: string;
   mobileSrc: string;
+  /** Describes the banner photo; defaults to the label. */
+  imageAlt?: string;
   className?: string;
 }) {
   return (
@@ -34,7 +37,7 @@ export default function HomePromoCard({
         <source media="(min-width: 1024px)" srcSet={desktopSrc} width={1800} height={600} />
         <img
           src={mobileSrc}
-          alt=""
+          alt={imageAlt ?? `Jallundhar Sweets & Bakers ${label.toLowerCase()}`}
           width={900}
           height={1200}
           loading="lazy"

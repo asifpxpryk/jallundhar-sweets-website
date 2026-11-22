@@ -13,10 +13,8 @@ import ProductQuantity from "./ProductQuantity";
 
 export default function SweetProductActions({
   item,
-  showSizeNote = false,
 }: {
   item: MenuItem;
-  showSizeNote?: boolean;
 }) {
   const { setLine, addMany, lines, openCheckout } = useCart();
   const variants = item.variants;
@@ -102,11 +100,6 @@ export default function SweetProductActions({
           {unit && !unitInName ? <span className="ml-2 text-base font-semibold text-maroon-700/70">for {unit}</span> : null}
         </p>
       )}
-      {showSizeNote && !unit ? (
-        <p className="mt-3 rounded-xl bg-gold-50 px-3 py-2 text-sm font-medium text-maroon-800">
-          Size is not listed on this item. Confirm the pack size on WhatsApp before we dispatch.
-        </p>
-      ) : null}
       <p className={`mt-1 text-sm ${inStock ? "text-emerald-700" : "text-red-700"}`}>
         {inStock ? "Available" : "Out of stock"}
       </p>

@@ -3,8 +3,8 @@ import LoosePackBanner from "@/components/LoosePackBanner";
 import { LOOSE_PACK_SECTION } from "@/lib/loosePacks";
 import { OG_DEFAULTS } from "@/lib/seo";
 
-const title = "Dry Fruits & Masala Jaat";
-const description = "250g packs of dry fruits, nuts and spices from Jallundhar Sweets & Bakers.";
+const title = "Dry Fruits & Masala Jaat in Rahim Yar Khan | Jallundhar Sweets & Bakers";
+const description = "250g packs of dry fruits, nuts and spices in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.";
 
 export const metadata: Metadata = {
   title,
@@ -16,7 +16,9 @@ export const metadata: Metadata = {
 export default function DryFruitsMasalaPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
-      <h1 className="font-display text-3xl font-bold text-maroon-900">Dry Fruits & Masala Jaat</h1>
+      <h1 className="font-display text-3xl font-bold text-maroon-900">
+        Dry Fruits &amp; Masala Jaat <span className="text-lg font-semibold text-maroon-700/70">in Rahim Yar Khan</span>
+      </h1>
       <div className="mt-5 grid gap-5">
         <LoosePackBanner
           href="/dry-fruits-masala/dry-fruits"

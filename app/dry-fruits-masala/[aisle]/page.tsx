@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { loosePackAisle, LOOSE_PACK_SECTION } from "@/lib/loosePacks";
 import { OG_DEFAULTS } from "@/lib/seo";
 
@@ -13,8 +14,8 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const aisle = loosePackAisle(params.aisle);
   if (!aisle) return {};
-  const title = `${aisle.name} — 250g packs`;
-  const description = `${aisle.name} in 250g packs from Jallundhar Sweets & Bakers.`;
+  const title = `${aisle.name} 250g Packs in Rahim Yar Khan | Jallundhar Sweets & Bakers`;
+  const description = `${aisle.name} in 250g packs in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.`;
   return {
     title,
     description,
@@ -27,6 +28,8 @@ export default function LoosePackAislePage({ params }: Props) {
   const aisle = loosePackAisle(params.aisle);
   if (!aisle) notFound();
   return (
+    <>
+    <BreadcrumbJsonLd crumbs={[{ name: LOOSE_PACK_SECTION.name, path: LOOSE_PACK_SECTION.href }, { name: aisle.name, path: aisle.href }]} />
     <CategoryProducts
       name={aisle.name}
       items={[...aisle.items]}
@@ -34,5 +37,6 @@ export default function LoosePackAislePage({ params }: Props) {
       aisleSection={LOOSE_PACK_SECTION.slug}
       aisleSlug={aisle.slug}
     />
+    </>
   );
 }

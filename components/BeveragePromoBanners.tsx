@@ -32,7 +32,7 @@ const themes: Record<Tone, { background: string; color: string; foreground: stri
 
 export const beverageHighlights: Record<string, [Banner, Banner]> = {
   juices: [
-    { title: "Mango Nectar", description: "A fruity favorite for every day.", image: "/products/juices/aylo-mango-nectar-1000ml-bottle.jpg", alt: "Aylo mango nectar bottle", tone: "mango" },
+    { title: "Mango Nectar", description: "A fruity favourite for every day.", image: "/products/juices/aylo-mango-nectar-1000ml-bottle.jpg", alt: "Aylo mango nectar bottle", tone: "mango" },
     { title: "Coconut Water", description: "A light and refreshing sip.", image: "/products/juices/aqua-coco-100-natural-coconut-water-330ml.jpg", alt: "Aqua Coco coconut water", tone: "mint" },
   ],
   "powdered-drinks": [
@@ -44,12 +44,12 @@ export const beverageHighlights: Record<string, [Banner, Banner]> = {
     { title: "Lemon Squash", description: "A citrus refreshment to share.", image: "/products/squash-syrup/mitchell-s-lemon-squash-800ml.jpg", alt: "Mitchell's lemon squash", tone: "lemon" },
   ],
   "drinking-water": [
-    { title: "Jallundhar Water", description: "Pure drinking water for every day.", image: "/images/jallundhar-water-banner.jpg", alt: "Jallundhar pure drinking water bottles", tone: "ice", fullImage: true },
+    { title: "Jallundhar Water", description: "Pure drinking water for every day.", image: "/images/jallundhar-water-banner.webp", alt: "Jallundhar pure drinking water bottles", tone: "ice", fullImage: true },
     { title: "Family Size Water", description: "Stay stocked up on hydration.", image: "/products/drinking-water/nestle-pure-life-drinking-water-5-litres.jpg", alt: "Nestle Pure Life five litre water bottle", tone: "blue" },
   ],
   "soft-drinks": [
     { title: "Classic Cola", description: "Chilled refreshment for any moment.", image: "/products/soft-drinks/coca-cola-bottle-500ml.jpg", alt: "Coca-Cola 500ml bottle", tone: "cola" },
-    { title: "Cream Soda", description: "A sweet, fizzy local favorite.", image: "/products/soft-drinks/pakola-creme-soda-can-250ml.jpg", alt: "Pakola cream soda can", tone: "green" },
+    { title: "Cream Soda", description: "A sweet, fizzy local favourite.", image: "/products/soft-drinks/pakola-creme-soda-can-250ml.jpg", alt: "Pakola cream soda can", tone: "green" },
   ],
   "energy-drinks": [
     { title: "Red Bull", description: "Pick up an energy drink on the go.", image: "/products/energy-drinks/red-bull-energy-drink-250ml.jpg", alt: "Red Bull energy drink can", tone: "slate" },

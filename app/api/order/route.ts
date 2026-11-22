@@ -77,6 +77,8 @@ export async function POST(request: Request) {
   if (!cartLines) return reject(400, "Bad request.");
 
   const ip = clientIp(request.headers);
+  // Pricing runs alongside the rate checks; its answer is only used once they pass.
+  const pricing = priceFromCatalog(cartLines);
   const limits = await Promise.all([
     rateHit(`order:ip:${ip}`, PER_IP),
     rateHit(`order:phone:${phoneDigits}`, PER_PHONE),
@@ -94,7 +96,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const priced = await priceFromCatalog(cartLines);
+  const priced = await pricing;
   if (priced.changes.length) {
     return NextResponse.json(
       { ok: false, changes: priced.changes, error: "Some items in your cart changed." },
@@ -122,22 +124,30 @@ export async function POST(request: Request) {
     total,
     prices_checked: priced.checked,
   });
-  if (!error) await supabase.from("order_items").insert(items.map((item) => ({ order_id: id, ...item })));
-
-  // The shop gets the order by email too, even when the database save failed.
-  await sendOrderEmail({
-    ref: id.slice(0, 8).toUpperCase(),
-    customerName,
-    phone,
-    address,
-    location,
-    paymentMethod,
-    notes,
-    items,
-    total,
-    saved: !error,
-    pricesChecked: priced.checked,
-  });
+  // Lines are saved while the email goes out; the shop gets the email even when the save failed.
+  const saveLines = async () => {
+    if (error) return;
+    const { error: linesError } = await supabase
+      .from("order_items")
+      .insert(items.map((item) => ({ order_id: id, ...item })));
+    if (linesError) console.error("Order lines not saved", id, linesError.message);
+  };
+  await Promise.all([
+    saveLines(),
+    sendOrderEmail({
+      ref: id.slice(0, 8).toUpperCase(),
+      customerName,
+      phone,
+      address,
+      location,
+      paymentMethod,
+      notes,
+      items,
+      total,
+      saved: !error,
+      pricesChecked: priced.checked,
+    }),
+  ]);
 
   if (error) return reject(502, "Could not save the order.");
   return NextResponse.json({ ok: true, order_number: await savedOrderNumber(supabase, id) });

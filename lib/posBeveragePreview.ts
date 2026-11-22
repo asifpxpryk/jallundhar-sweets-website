@@ -1,6 +1,7 @@
 import rawProducts from "@/data/pos-beverages-raw.json";
 import aisleCatalog from "@/data/aisle-items.json";
 import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
+import { normalizedBeverageName, posPreviewPrice } from "@/lib/posBeveragePrice";
 import type { MenuItem } from "@/lib/types";
 
 type RawProduct = {
@@ -24,10 +25,7 @@ const companyNames = [
   "Heaven", "Revive", "Rani", "Quice", "Tops", "Joiner", "Fresher",
 ];
 
-function normalized(name: string) {
-  return name.toLowerCase().replace(/(\d+(?:\.\d+)?)\s*(ltr|liter|litre|litres|liters|l|ml)\b/g, (_match, amount: string, unit: string) => `${amount}${unit === "ml" ? "ml" : "l"}`)
-    .replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
-}
+const normalized = normalizedBeverageName;
 
 function companyFor(name: string) {
   const value = normalized(name);
@@ -167,12 +165,6 @@ const previewRows = previewDraftRows.map((item) =>
     : item
 );
 
-const posPriceByName = new Map<string, number>();
-for (const item of previewRows) {
-  const key = normalized(item.name);
-  if (!posPriceByName.has(key)) posPriceByName.set(key, Number(item.price));
-}
-
 /** Flat aisle beverage catalog — used to seed /beverage with real clickable SKUs. */
 export function beverageAisleCatalogItems(): MenuItem[] {
   return localBeverages.map((item) => ({
@@ -197,7 +189,7 @@ export function tagBeverageItems(items: MenuItem[], aisle?: string): MenuItem[] 
  */
 export function beveragePreviewItems(existing: MenuItem[], aisle?: string, knownProducts: MenuItem[] = existing): MenuItem[] {
   const pricedExisting = existing.map((item) => {
-    const posPrice = posPriceByName.get(normalized(item.name));
+    const posPrice = posPreviewPrice(item.name);
     return posPrice !== undefined && Number(item.price) !== posPrice
       ? { ...item, price: posPrice }
       : item;
@@ -213,9 +205,4 @@ export function beveragePreviewItems(existing: MenuItem[], aisle?: string, known
     return true;
   });
   return [...pricedExisting, ...previews];
-}
-
-/** The POS price a beverage card shows instead of the catalogue price (see beveragePreviewItems). */
-export function posPreviewPrice(name: string): number | undefined {
-  return posPriceByName.get(normalized(name));
 }

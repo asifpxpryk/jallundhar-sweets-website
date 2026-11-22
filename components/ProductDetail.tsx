@@ -15,7 +15,9 @@ export default function ProductDetail({
   section,
   aisle,
   related,
+  description,
 }: {
+  description?: string;
   item: MenuItem;
   section: Crumb;
   aisle: { name: string; href: string } | null;
@@ -59,11 +61,10 @@ export default function ProductDetail({
           {dealLabel && dealPrice(dealLabel) == null ? (
             <p className="mt-2 text-sm font-semibold text-gold-800">{dealLabel}</p>
           ) : null}
-          {item.description ? <p className="mt-4 whitespace-pre-line text-maroon-700/80">{item.description}</p> : null}
-          <SweetProductActions
-            item={item}
-            showSizeNote={section.slug === "sweets" || section.slug === "bakery" || section.slug === "celebrations"}
-          />
+          {item.description || description ? (
+            <p className="mt-4 whitespace-pre-line text-maroon-700/80">{item.description || description}</p>
+          ) : null}
+          <SweetProductActions item={item} />
           <Link href={browseHref} className="mt-8 text-sm font-semibold text-maroon-700 underline underline-offset-4 hover:text-maroon-900">
             Browse more {browseName}
           </Link>

@@ -28,6 +28,8 @@ function hasShownItems(section: string, aisle: string, visibility: StoreVisibili
   );
 }
 
+const FIXED_ORDER_SECTIONS = new Set(["sweets"]);
+
 export default async function SectionAisleNav({
   section,
   columns = 3,
@@ -43,9 +45,11 @@ export default async function SectionAisleNav({
     aisles = aisles.filter((aisle) => hasShownItems(section, aisle.slug, visibility, menu));
   }
   const extra = section === "general" ? [LOOSE_PACK_TILE] : [];
-  const items = [...aisles, ...nested, ...extra].sort((a, b) =>
-    a.name.localeCompare(b.name, "en", { sensitivity: "base", numeric: true })
-  );
+  const all = [...aisles, ...nested, ...extra];
+  // Sweets keep the shop's own order (lib/sweetsAisles.ts); other sections are alphabetical.
+  const items = FIXED_ORDER_SECTIONS.has(section)
+    ? all
+    : all.sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base", numeric: true }));
   return (
     <CategoryCircleGrid
       flush

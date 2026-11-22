@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { smallPhotoSrc } from "@/lib/smallPhoto";
+import { preferWebp } from "@/lib/webpSrc";
 
 export const IMAGE_COMING_SOON = "/products/image-coming-soon.jpg";
 
@@ -44,11 +45,13 @@ export default function ProductImage({
   const full = directImageSrc(src);
   const shown = small && !smallFailed ? smallPhotoSrc(full) : full;
   const showsSmall = shown !== full;
+  // Local photos that have a lighter WebP copy (lib/webpVersions.json) use it.
+  const finalSrc = showsSmall ? shown : preferWebp(full);
 
   return (
     <Image
-      src={missing ? IMAGE_COMING_SOON : shown}
-      alt={missing ? "Image coming soon" : alt}
+      src={missing ? IMAGE_COMING_SOON : finalSrc}
+      alt={missing ? "Image coming soon" : alt || "Image coming soon"}
       fill
       sizes={sizes}
       unoptimized

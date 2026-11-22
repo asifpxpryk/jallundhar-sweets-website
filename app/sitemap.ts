@@ -5,13 +5,16 @@ import { loadSearchCatalog } from "@/lib/searchCatalog";
 import { SITE_URL } from "@/lib/site";
 import { PRODUCT_CANONICAL_ALIASES } from "@/lib/seo";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
+import { loadSlugIndex } from "@/lib/productSlugIndex";
+import { loadEmptySectionSlugs } from "@/lib/emptySections";
 
 export const revalidate = 604800;
 
 type Entry = { priority: number; changeFrequency: "daily" | "weekly" };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const visibility = await loadStoreVisibility();
+  const [visibility, emptySections] = await Promise.all([loadStoreVisibility(), loadEmptySectionSlugs()]);
+  const empty = new Set(emptySections);
   const paths = new Map<string, Entry>([
     ["/", { priority: 1, changeFrequency: "daily" }],
     ["/categories", { priority: 0.6, changeFrequency: "weekly" }],
@@ -21,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   for (const section of listSections(visibility)) {
-    if (section.hidden) continue;
+    if (section.hidden || empty.has(section.slug)) continue;
     const key = section.slug === "bakery" || section.slug === "sweets";
     paths.set(section.href, { priority: key ? 0.9 : 0.8, changeFrequency: "daily" });
     for (const aisle of listAisles(visibility, section.slug)) {
@@ -35,12 +38,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     paths.set(aisle.href, { priority: 0.7, changeFrequency: "daily" });
   }
 
-  const catalog = await loadSearchCatalog();
+  const [catalog, slugs] = await Promise.all([loadSearchCatalog(), loadSlugIndex()]);
   for (const category of catalog) {
     const key = category.slug === "bakery" || category.slug === "sweets";
     for (const item of category.items) {
       if (!item.id || item.preview_only || item.is_hidden || PRODUCT_CANONICAL_ALIASES[item.id]) continue;
-      const path = `/product/${encodeURIComponent(item.id)}`;
+      const slug = slugs.byId[item.id];
+      if (!slug) continue;
+      const path = `/product/${slug}`;
       if (paths.has(path)) continue;
       paths.set(path, { priority: key ? 0.7 : 0.5, changeFrequency: "weekly" });
     }

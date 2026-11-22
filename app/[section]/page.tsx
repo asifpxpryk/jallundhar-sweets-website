@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { loadAllMenuItemsCached, loadMenu } from "@/lib/loadMenu";
 import BeverageAisleNav from "@/components/BeverageAisleNav";
@@ -11,6 +12,7 @@ import { homeShelf, loadStoreVisibility } from "@/lib/storeVisibility";
 import { itemsForPlacement } from "@/lib/itemPlacement";
 import { applyMenuOverrides } from "@/lib/loadAisleItems";
 import { OG_DEFAULTS, sectionSeo } from "@/lib/seo";
+import { loadEmptySectionSlugs } from "@/lib/emptySections";
 import { beverageAisleCatalogItems, beveragePreviewItems, tagBeverageItems } from "@/lib/posBeveragePreview";
 
 export const revalidate = 604800;
@@ -27,7 +29,10 @@ export async function generateMetadata({ params }: { params: { section: string }
   const meta = listSections(visibility).find((section) => section.slug === params.section);
   if (!meta || meta.hidden) notFound();
   const seo = sectionSeo(meta.slug, meta.name);
+  const empty = (await loadEmptySectionSlugs()).includes(meta.slug);
   return {
+    // A section with no products yet stays out of search results until something is listed.
+    ...(empty ? { robots: { index: false, follow: true } } : {}),
     title: seo.title,
     description: seo.description,
     alternates: { canonical: `/${params.section}` },
@@ -83,6 +88,8 @@ export default async function SectionPage({ params }: { params: { section: strin
   const visibleAisleCount = listAisles(visibility, meta.slug).filter((aisle) => !aisle.hidden).length;
 
   return (
+    <>
+    <BreadcrumbJsonLd crumbs={[{ name: meta.name, path: meta.href }]} />
     <CategoryProducts
       name={meta.name}
       items={items}
@@ -106,5 +113,6 @@ export default async function SectionPage({ params }: { params: { section: strin
       menuSlug={meta.slug}
       aisleSection={meta.slug}
     />
+    </>
   );
 }

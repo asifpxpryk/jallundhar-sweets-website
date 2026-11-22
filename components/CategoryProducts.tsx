@@ -59,10 +59,13 @@ export default function CategoryProducts({
               />
             </span>
           )}
-          <h1 className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1 text-2xl font-bold leading-tight text-cream sm:text-3xl">
-            <span className="min-w-0">{name}</span>
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
+            <h1 className="min-w-0 text-2xl font-bold leading-tight text-cream sm:text-3xl">
+              {name}
+              <span className="text-base font-semibold text-cream/75 sm:text-lg"> in Rahim Yar Khan</span>
+            </h1>
             <CategoryProductCount count={counted} />
-          </h1>
+          </div>
           <BackLink />
         </div>
         {extra}

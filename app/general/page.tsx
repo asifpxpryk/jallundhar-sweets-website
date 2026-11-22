@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import GeneralAisleNav from "@/components/GeneralAisleNav";
 import PromoBannersForPage from "@/components/PromoBannersForPage";
 import { listSections } from "@/lib/categoryCatalog";
@@ -28,6 +29,8 @@ export default async function GeneralPage() {
   const category = categories.find((c) => c.slug === "general");
 
   return (
+    <>
+    <BreadcrumbJsonLd crumbs={[{ name: meta?.name ?? "General", path: "/general" }]} />
     <CategoryProducts
       name={meta?.name ?? "General"}
       items={category?.items ?? []}
@@ -44,5 +47,6 @@ export default async function GeneralPage() {
       }
       menuSlug="general"
     />
+    </>
   );
 }

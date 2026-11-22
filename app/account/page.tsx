@@ -8,6 +8,7 @@ import { loadAdminOrders } from "@/app/admin/actions";
 
 export const metadata = {
   title: "Account | Jallundhar Sweets & Bakers",
+  alternates: { canonical: "/account" },
   robots: { index: false, follow: false },
 };
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { CAKE_DESIGNS, CAKE_WHATSAPP, cakeDesign } from "@/lib/customCakes";
+import { trackLead } from "@/lib/metaPixel";
 
 const OCCASIONS = ["Birthday", "Wedding", "Other"] as const;
 const STANDARD_FLAVOURS = ["Pineapple", "Chocolate", "Caramel", "Coffee", "Pistache", "Strawberry", "Black Forest", "Red Velvet"] as const;
@@ -225,6 +226,7 @@ export default function CustomCakesSection() {
       document.getElementById(first)?.focus();
       return;
     }
+    trackLead(`Custom cake – ${form.occasion}`);
     closeInquiry();
   }
 
@@ -235,9 +237,11 @@ export default function CustomCakesSection() {
           <source media="(min-width: 1024px)" srcSet="/custom-cakes/banner-desktop.webp" width={1800} height={600} />
           <img
             src="/custom-cakes/banner-mobile.webp"
-            alt=""
+            alt="Custom celebration cakes from Jallundhar Sweets & Bakers"
             width={900}
             height={600}
+            loading="lazy"
+            decoding="async"
             className="block h-auto w-full"
           />
         </picture>

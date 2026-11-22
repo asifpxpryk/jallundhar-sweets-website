@@ -1,5 +1,8 @@
-import { SITE_BRAND, SITE_CITY, SITE_NAME, SITE_PHONE_DISPLAY, SITE_URL } from "@/lib/site";
+import { OG_IMAGE, SITE_BRAND, SITE_CITY, SITE_NAME, SITE_PHONE_DISPLAY, SITE_URL } from "@/lib/site";
 import type { MenuItem } from "@/lib/types";
+import generatedDescriptions from "@/data/product-descriptions.json";
+
+const GENERATED_DESCRIPTIONS = generatedDescriptions as Record<string, string>;
 
 /** JSON for a <script type="application/ld+json"> tag, safe against "</script>" in product text. */
 export function jsonLdString(data: unknown) {
@@ -11,7 +14,7 @@ export const OG_DEFAULTS = {
   type: "website" as const,
   locale: "en_PK",
   siteName: SITE_NAME,
-  images: [{ url: "/og-share.webp", width: 1200, height: 630, alt: SITE_NAME }],
+  images: [OG_IMAGE],
 };
 
 /** Absolute https URL for a site-relative or remote asset. */
@@ -146,19 +149,48 @@ const SECTION_PHRASE: Record<string, string> = {
   celebrations: "celebration gift",
 };
 
+/** "Akhroti Sohan Halwa 1 kg – Rs. 2,100 | Jallundhar Sweets Rahim Yar Khan" */
 export function productTitle(item: MenuItem) {
   const { price } = displayOffer(item);
-  const pricePart = price > 0 ? ` – ${formatRs(price)}` : "";
-  return `${item.name}${pricePart} | ${SITE_BRAND} ${SITE_CITY}`;
+  const name = item.name.replace(/ — /g, " ");
+  const pricePart = price > 0 ? ` – Rs. ${Math.round(price).toLocaleString("en-US")}` : "";
+  return `${name}${pricePart} | ${SITE_BRAND} ${SITE_CITY}`;
 }
 
+/** Shop-written description, else the reviewed generated one (data/product-descriptions.json), else a short template (structured data only). */
 export function productDescription(item: MenuItem, sectionSlug?: string) {
   const own = item.description?.replace(/\s+/g, " ").trim();
   if (own) return own;
+  const generated = GENERATED_DESCRIPTIONS[item.id];
+  if (generated) return generated;
   const { price } = displayOffer(item);
   const kind = (sectionSlug && SECTION_PHRASE[sectionSlug]) || "item";
   const pricePart = price > 0 ? ` for ${formatRs(price)}` : "";
-  return `Buy ${item.name}${pricePart} – ${kind} from ${SITE_NAME}, Shahi Road, ${SITE_CITY}. Order online or on WhatsApp ${SITE_PHONE_DISPLAY} for home delivery in ${SITE_CITY}.`;
+  return `${item.name}${pricePart} – ${kind} from ${SITE_NAME}, Shahi Road, ${SITE_CITY}.`;
+}
+
+/** Text shown on the product page: shop-written, else the generated one; nothing for anything else. */
+export function productPageDescription(item: MenuItem): string | null {
+  return item.description?.trim() || GENERATED_DESCRIPTIONS[item.id] || null;
+}
+
+/** Cut to at most `max` characters on a word boundary. */
+export function clampText(text: string, max = 155) {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max - 1);
+  const space = cut.lastIndexOf(" ");
+  return `${(space > 80 ? cut.slice(0, space) : cut).replace(/[\s,;:–-]+$/, "")}…`;
+}
+
+/** Search-snippet description, always 155 characters or fewer. */
+export function productMetaDescription(item: MenuItem, sectionSlug?: string) {
+  const own = item.description?.replace(/\s+/g, " ").trim();
+  if (own) return clampText(own);
+  const { price } = displayOffer(item);
+  const name = item.name.replace(/ — /g, " ");
+  const pricePart = price > 0 ? ` – Rs. ${Math.round(price).toLocaleString("en-US")}` : "";
+  return clampText(`${name}${pricePart} at ${SITE_NAME}, Shahi Road, ${SITE_CITY}.`);
 }
 
 type SectionSeo = { title: string; description: string };
@@ -167,22 +199,22 @@ const SECTION_SEO: Record<string, SectionSeo> = {
   bakery: {
     title: "Bakery in Rahim Yar Khan – Bread, Cake Rusk, Fruit Cake & Biscuits | Jallundhar Sweets",
     description:
-      "Buy fresh bakery items in Rahim Yar Khan: bread, cake rusk, fruit cake, dry cakes, cream cakes, biscuits and pastries from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.",
+      "Fresh bread, cake rusk, fruit cake, cream cakes, biscuits and pastries in Rahim Yar Khan from Jallundhar Sweets & Bakers. Order online or on WhatsApp.",
   },
   sweets: {
     title: "Sweets & Mithai in Rahim Yar Khan – Order Online | Jallundhar Sweets & Bakers",
     description:
-      "Traditional mithai and sweets in Rahim Yar Khan since 1959: gulab jaman, barfi, sohan halwa, laddu, sugar-free and seasonal sweets from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.",
+      "Mithai in Rahim Yar Khan since 1959: gulab jamun, barfi, sohan halwa, laddu and seasonal sweets from Jallundhar Sweets. Order online or on WhatsApp.",
   },
   snacks: {
     title: "Pizza, Burgers & Snacks in Rahim Yar Khan | Jallundhar Sweets & Bakers",
     description:
-      "Fresh pizza, burgers, sandwiches, patties and rolls in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp for home delivery.",
+      "Pizza, burgers, sandwiches, patties and rolls in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.",
   },
   dairy: {
     title: "Fresh Dairy in Rahim Yar Khan | Jallundhar Sweets & Bakers",
     description:
-      "Fresh yogurt, desi ghee, bread and dairy in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp for home delivery.",
+      "Fresh yogurt, desi ghee, bread and dairy in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.",
   },
   beverage: {
     title: "Cold Drinks, Juices & Beverages in Rahim Yar Khan | Jallundhar Sweets & Bakers",
@@ -192,25 +224,31 @@ const SECTION_SEO: Record<string, SectionSeo> = {
   general: {
     title: "General Store & Grocery in Rahim Yar Khan | Jallundhar Sweets & Bakers",
     description:
-      "Groceries, biscuits, chocolates, cooking essentials and household items in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.",
+      "Groceries, biscuits, chocolates, cooking essentials and household items in Rahim Yar Khan from Jallundhar Sweets & Bakers. Order online or on WhatsApp.",
   },
   celebrations: {
     title: "Celebration Gift Boxes in Rahim Yar Khan | Jallundhar Sweets & Bakers",
     description:
-      "Baby celebration and gift boxes with sweets in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.",
+      "Celebration and gift boxes with sweets in Rahim Yar Khan from Jallundhar Sweets & Bakers, Shahi Road. Order online or on WhatsApp.",
   },
 };
 
 export function sectionSeo(slug: string, name: string): SectionSeo {
-  return (
+  const seo = (
     SECTION_SEO[slug] ?? {
       title: `${name} in Rahim Yar Khan | ${SITE_NAME}`,
       description: `Shop ${name.toLowerCase()} in Rahim Yar Khan from ${SITE_NAME}, Shahi Road. Order online or on WhatsApp ${SITE_PHONE_DISPLAY}.`,
     }
   );
+  return { ...seo, description: clampText(seo.description) };
 }
 
 export function aisleSeo(sectionSlug: string, sectionName: string, aisleName: string): SectionSeo {
+  const seo = aisleSeoRaw(sectionSlug, sectionName, aisleName);
+  return { ...seo, description: clampText(seo.description) };
+}
+
+function aisleSeoRaw(sectionSlug: string, sectionName: string, aisleName: string): SectionSeo {
   if (sectionSlug === "bakery") {
     return {
       title: `${aisleName} – Bakery in Rahim Yar Khan | ${SITE_NAME}`,

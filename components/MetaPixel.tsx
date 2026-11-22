@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
-import { META_PIXEL_ID, trackPageView } from "@/lib/metaPixel";
+import { META_PIXEL_ID, trackContact, trackPageView } from "@/lib/metaPixel";
 
 function MetaPixelTracker() {
   const pathname = usePathname();
@@ -17,6 +17,18 @@ function MetaPixelTracker() {
     }
     trackPageView();
   }, [pathname, searchParams]);
+
+  // One listener for every WhatsApp / phone link on the site, so new links are tracked automatically.
+  useEffect(() => {
+    function onClick(event: MouseEvent) {
+      const link = (event.target as Element | null)?.closest?.("a[href]");
+      const href = link?.getAttribute("href") ?? "";
+      if (/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href)) trackContact("whatsapp");
+      else if (href.startsWith("tel:")) trackContact("phone");
+    }
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, []);
 
   return null;
 }
