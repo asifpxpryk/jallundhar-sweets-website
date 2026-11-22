@@ -72,7 +72,7 @@ export default function Hero() {
             to Your Moments
           </p>
           <p className="lk-rise max-w-md text-sm leading-relaxed text-cream/80 sm:text-base" style={{ animationDelay: "180ms" }}>
-            Premium mithai and fresh bakery, a full General Store, and Live Kitchen.
+            Premium mithai and fresh bakery, a full General Store and a Live Kitchen.
           </p>
           <div className="lk-rise flex flex-wrap items-center gap-2.5 pt-1" style={{ animationDelay: "270ms" }}>
             <Link

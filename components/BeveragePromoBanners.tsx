@@ -37,7 +37,7 @@ export const beverageHighlights: Record<string, [Banner, Banner]> = {
   ],
   "powdered-drinks": [
     { title: "Chocolate Malt", description: "Mix up a comforting cocoa drink.", image: "/products/powdered-drinks/nestle-milo-powder-pouch-500g.jpg", alt: "Nestle Milo chocolate malt powder", tone: "cocoa" },
-    { title: "Fruit Drink Mixes", description: "Bright flavor ready to stir.", image: "/products/powdered-drinks/tang-orange-tub-750g.jpg", alt: "Tang orange powdered drink mix", tone: "gold" },
+    { title: "Fruit Drink Mixes", description: "Bright flavour ready to stir.", image: "/products/powdered-drinks/tang-orange-tub-750g.jpg", alt: "Tang orange powdered drink mix", tone: "gold" },
   ],
   "squash-syrup": [
     { title: "Classic Sharbat", description: "A cool glass for warm days.", image: "/products/squash-syrup/qarshi-jam-e-shirin-1500ml.jpg", alt: "Qarshi Jam-e-Shirin sharbat", tone: "rose" },
@@ -53,7 +53,7 @@ export const beverageHighlights: Record<string, [Banner, Banner]> = {
   ],
   "energy-drinks": [
     { title: "Red Bull", description: "Pick up an energy drink on the go.", image: "/products/energy-drinks/red-bull-energy-drink-250ml.jpg", alt: "Red Bull energy drink can", tone: "slate" },
-    { title: "Monster Mango", description: "Tropical flavor with a bold kick.", image: "/products/energy-drinks/monster-mango-loco-blue-energy-juice-500ml.jpg", alt: "Monster Mango Loco energy drink", tone: "orange" },
+    { title: "Monster Mango", description: "Tropical flavour with a bold kick.", image: "/products/energy-drinks/monster-mango-loco-blue-energy-juice-500ml.jpg", alt: "Monster Mango Loco energy drink", tone: "orange" },
   ],
 };
 
@@ -109,7 +109,7 @@ export default function BeveragePromoBanners({
                   />
                   <div className="relative z-10 flex w-[62%] flex-col items-start px-5 py-5 sm:w-[55%] sm:px-7 sm:py-6">
                     <div>
-                      <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] opacity-85">Jallundhar Beverage</p>
+                      <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] opacity-85">Jallundhar Beverages</p>
                       <h3 className="font-display text-xl font-bold leading-tight sm:text-2xl">{banner.title}</h3>
                       <p className="mt-2 max-w-xs text-xs leading-relaxed opacity-90 sm:text-sm">{banner.description}</p>
                     </div>

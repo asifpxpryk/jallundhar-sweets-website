@@ -75,15 +75,15 @@ export default function SweetsPromoBanners({
       button: "bg-white text-[#714437]",
     },
     {
-      title: "Sugarfree Sweets",
-      description: "Explore our sugarfree favourites.",
-      cta: "Explore Sugarfree",
+      title: "Sugar-Free Sweets",
+      description: "Explore our sugar-free favourites.",
+      cta: "Explore Sugar-Free",
       href: "/sweets/sugarfree",
       image: productPhoto(
         "item-1788974716263",
         `${productPhotoBase}1788974880744-44f2dd6e-f5da-4612-8cef-88c6ebb92e11.jpg`
       ),
-      imageAlt: "Burfi from the Sugarfree sweets category",
+      imageAlt: "Barfi from the Sugar-Free sweets category",
       background: "bg-[#dce8d7]",
       color: "#dce8d7",
       foreground: "text-[#2d4c38]",

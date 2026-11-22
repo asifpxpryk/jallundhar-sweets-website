@@ -5,9 +5,9 @@ import { CAKE_DESIGNS, CAKE_WHATSAPP, cakeDesign } from "@/lib/customCakes";
 import { trackLead } from "@/lib/metaPixel";
 
 const OCCASIONS = ["Birthday", "Wedding", "Other"] as const;
-const STANDARD_FLAVOURS = ["Pineapple", "Chocolate", "Caramel", "Coffee", "Pistache", "Strawberry", "Black Forest", "Red Velvet"] as const;
-const SPECIAL_FLAVOURS = ["Kit Kat", "Dairy milk", "Lotus Sunday", "Chocolate fudge", "Three milk", "Ferraro cake", "OREO cake", "Raffaello cake", "Honey cake"] as const;
-const SIZES = ["2 Pond", "3 Pond", "4 Pond", "Custome"] as const;
+const STANDARD_FLAVOURS = ["Pineapple", "Chocolate", "Caramel", "Coffee", "Pistachio", "Strawberry", "Black Forest", "Red Velvet"] as const;
+const SPECIAL_FLAVOURS = ["Kit Kat", "Dairy Milk", "Lotus Sundae", "Chocolate fudge", "Three milk", "Ferrero cake", "OREO cake", "Raffaello cake", "Honey cake"] as const;
+const SIZES = ["2 Pound", "3 Pound", "4 Pound", "Custom"] as const;
 
 type FormState = {
   occasion: string;
@@ -63,7 +63,7 @@ function validate(form: FormState, today: string): FieldErrors {
   else if (today && form.date < today) errors.date = "Choose today or a later date.";
   const sizeKnown = (SIZES as readonly string[]).includes(form.size);
   if (!form.size || !sizeKnown) errors.size = "Choose a size.";
-  else if (form.size === "Custome" && !form.sizeCustom.trim()) errors.size = "Tell us the custom size.";
+  else if (form.size === "Custom" && !form.sizeCustom.trim()) errors.size = "Tell us the custom size.";
   const standardKnown = (STANDARD_FLAVOURS as readonly string[]).includes(form.standardFlavour);
   const specialKnown = (SPECIAL_FLAVOURS as readonly string[]).includes(form.specialFlavour);
   if ((form.standardFlavour && !standardKnown) || (form.specialFlavour && !specialKnown) || (form.standardFlavour && form.specialFlavour) || (!form.standardFlavour && !form.specialFlavour)) {
@@ -81,7 +81,7 @@ function inquiryMessage(form: FormState, designId: string | null) {
     `Occasion: ${occasion}`,
     `Date needed: ${formatLocalDate(form.date)}`,
   ];
-  if (form.size === "Custome") lines.push(`Size: Custome — ${form.sizeCustom.trim()}`);
+  if (form.size === "Custom") lines.push(`Size: Custom — ${form.sizeCustom.trim()}`);
   else if (form.size) lines.push(`Size: ${form.size}`);
   if (form.standardFlavour) lines.push(`Standard flavour: ${form.standardFlavour}`);
   if (form.specialFlavour) lines.push(`Special flavour: ${form.specialFlavour}`);
@@ -221,7 +221,7 @@ export default function CustomCakesSection() {
     if (Object.keys(nextErrors).length > 0) {
       event.preventDefault();
       setErrors(nextErrors);
-      const sizeTarget = form.size === "Custome" && !form.sizeCustom.trim() ? "cake-size-custom" : "cake-size";
+      const sizeTarget = form.size === "Custom" && !form.sizeCustom.trim() ? "cake-size-custom" : "cake-size";
       const first = nextErrors.occasion ? "cake-occasion" : nextErrors.date ? "cake-date" : nextErrors.size ? sizeTarget : "cake-flavour-standard";
       document.getElementById(first)?.focus();
       return;
@@ -424,7 +424,7 @@ export default function CustomCakesSection() {
                         </option>
                       ))}
                     </select>
-                    {form.size === "Custome" ? (
+                    {form.size === "Custom" ? (
                       <input
                         id="cake-size-custom"
                         value={form.sizeCustom}

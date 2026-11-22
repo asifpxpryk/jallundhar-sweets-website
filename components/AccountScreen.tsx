@@ -23,7 +23,7 @@ function Submit() {
       disabled={pending}
       className="w-full rounded-xl bg-maroon-700 px-4 py-3 font-semibold text-white hover:bg-maroon-800 disabled:opacity-60"
     >
-      {pending ? "Please wait..." : "Login"}
+      {pending ? "Please wait…" : "Log in"}
     </button>
   );
 }
@@ -103,7 +103,7 @@ export default function AccountScreen() {
             onClick={logoutCustomer}
             className="mt-4 rounded-xl border border-gold-200 px-3 py-2 text-sm font-medium text-maroon-800"
           >
-            Logout
+            Log out
           </button>
         </div>
 
