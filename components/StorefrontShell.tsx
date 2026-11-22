@@ -1,6 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import { usePathname } from "next/navigation";
+import NavigationProgress from "./NavigationProgress";
 import { CartProvider } from "./CartContext";
 import Header from "./Header";
 import CartDrawer from "./CartDrawer";
@@ -38,6 +40,9 @@ export default function StorefrontShell({
     <CartProvider>
       <AdminSessionProvider>
         <CategoryCatalogProvider sections={catalogSections} aisles={catalogAisles}>
+          <Suspense fallback={null}>
+            <NavigationProgress />
+          </Suspense>
           <Header hiddenSections={hiddenSections} navSections={navSections} />
           <div className="storefront w-full max-w-[100vw] overflow-x-clip pb-[5rem] xl:pb-0">
             {children}

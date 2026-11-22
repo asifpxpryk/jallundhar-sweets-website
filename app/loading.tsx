@@ -1,3 +1,7 @@
 export default function Loading() {
-  return <div className="h-1 w-full animate-pulse bg-gold-300" aria-hidden />;
+  return (
+    <div className="nav-progress" role="progressbar" aria-label="Loading page" aria-busy="true">
+      <span />
+    </div>
+  );
 }
