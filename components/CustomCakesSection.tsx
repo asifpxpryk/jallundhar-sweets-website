@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { CAKE_DESIGNS, CAKE_WHATSAPP, cakeDesign } from "@/lib/customCakes";
+import { trackLead } from "@/lib/metaPixel";
 
 const OCCASIONS = ["Birthday", "Wedding", "Other"] as const;
 const STANDARD_FLAVOURS = ["Pineapple", "Chocolate", "Caramel", "Coffee", "Pistache", "Strawberry", "Black Forest", "Red Velvet"] as const;
@@ -225,6 +226,7 @@ export default function CustomCakesSection() {
       document.getElementById(first)?.focus();
       return;
     }
+    trackLead(`Custom cake – ${form.occasion}`);
     closeInquiry();
   }
 

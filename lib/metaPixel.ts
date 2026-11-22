@@ -62,6 +62,16 @@ export function trackPurchase(
   trackMetaPixel("Purchase", { currency: "PKR", ...params }, options);
 }
 
+/** A tap on any WhatsApp or phone link: the visitor is reaching out to the shop. */
+export function trackContact(channel: "whatsapp" | "phone") {
+  trackMetaPixel("Contact", { content_name: channel });
+}
+
+/** A completed inquiry form handed over to WhatsApp (custom cakes). */
+export function trackLead(name: string) {
+  trackMetaPixel("Lead", { content_name: name });
+}
+
 function toNumber(v: unknown): number | undefined {
   const n = typeof v === "number" ? v : Number(String(v ?? "").replace(/[^0-9.\-]/g, ""));
   return Number.isFinite(n) ? n : undefined;
