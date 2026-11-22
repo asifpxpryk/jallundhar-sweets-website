@@ -5,7 +5,7 @@ export const SWEETS_AISLES: { slug: string; name: string; image?: string }[] = [
   // Shown in this order on /sweets (the shop's choice), not alphabetically.
   { slug: "traditional", name: "Traditional", image: "/sweets-aisles/traditional.webp?v=1" },
   { slug: "special", name: "Special", image: "/sweets-aisles/special.webp?v=1" },
-  { slug: "sugarfree", name: "Sugarfree", image: "/sweets-aisles/sugarfree.webp?v=1" },
+  { slug: "sugarfree", name: "Sugar-Free", image: "/sweets-aisles/sugarfree.webp?v=1" },
   { slug: "seasonal", name: "Seasonal", image: "/sweets-aisles/seasonal.webp?v=1" },
 ];
 

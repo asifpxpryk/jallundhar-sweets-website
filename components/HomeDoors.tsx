@@ -44,7 +44,7 @@ export default async function HomeDoors() {
               Since 1959
             </span>
             <span className="relative mt-1 text-2xl font-bold leading-tight">Sweets &amp; Bakery</span>
-            <span className="relative mt-1 text-sm text-cream/75">Mithai, cakes, biscuits, rusk and gift packs.</span>
+            <span className="relative mt-1 text-sm text-cream/75">Mithai, cakes, biscuits, rusks and gift packs.</span>
             <span className="relative mt-3 inline-flex w-fit items-center gap-2 rounded-full bg-gold-500 px-4 py-1.5 text-sm font-semibold text-maroon-900">
               Shop sweets <span className="door-arrow" aria-hidden>→</span>
             </span>

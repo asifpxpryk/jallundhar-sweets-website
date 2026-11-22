@@ -8,7 +8,7 @@ export const BEVERAGE_AISLES: { slug: string; name: string; image?: string }[] =
   { slug: "soft-drinks", name: "Soft Drinks", image: "/beverage-aisles/soft-drinks.webp?v=5" },
   { slug: "energy-drinks", name: "Energy Drinks", image: "/beverage-aisles/energy-drinks.webp?v=5" },
   { slug: "smoothies", name: "Smoothies", image: "/beverage-aisles/smoothies.png?v=1" },
-  { slug: "whiteners-sweetener", name: "Whiteners & Sweetener", image: "/beverage-aisles/whiteners-sweetener.png?v=1" },
+  { slug: "whiteners-sweetener", name: "Whiteners & Sweeteners", image: "/beverage-aisles/whiteners-sweetener.png?v=1" },
 ];
 
 export type BeverageAisleSlug = (typeof BEVERAGE_AISLES)[number]["slug"];

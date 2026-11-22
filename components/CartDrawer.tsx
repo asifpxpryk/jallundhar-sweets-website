@@ -507,7 +507,7 @@ export default function CartDrawer() {
                   disabled={submitting}
                   className="flex-1 rounded-full bg-gold-500 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-400 disabled:opacity-50"
                 >
-                  {submitting ? "Preparing your order..." : "Place Order on WhatsApp"}
+                  {submitting ? "Preparing your order…" : "Place Order on WhatsApp"}
                 </button>
               </div>
             )}

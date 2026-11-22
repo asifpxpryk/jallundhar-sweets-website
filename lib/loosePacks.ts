@@ -12,7 +12,8 @@ export const LOOSE_PACK_SECTION = {
   href: "/dry-fruits-masala",
 };
 
-type Rate = { name: string; perKg: number; grams?: number };
+// label: the name customers see when it differs from name (name builds the id and photo path, so it stays).
+type Rate = { name: string; label?: string; perKg: number; grams?: number };
 
 const SPICES: Rate[] = [
   { name: "Coriander (Dhaniya)", perKg: 620 },
@@ -45,7 +46,7 @@ const DRY_FRUITS: Rate[] = [
   { name: "Cashews, Salted", perKg: 3500 },
   { name: "Almond Kernels", perKg: 3300 },
   { name: "Basra Dates", perKg: 400 },
-  { name: "Muzafati Dates", perKg: 650 },
+  { name: "Muzafati Dates", label: "Mazafati Dates", perKg: 650 },
   { name: "Iranian Dates", perKg: 460 },
   { name: "Raisins (Kishmish)", perKg: 1020 },
   { name: "Raisins, Kandhari", perKg: 1000 },
@@ -92,7 +93,7 @@ function toItems(aisle: string, rows: Rate[]): MenuItem[] {
   return rows.map((row, index) => ({
     id: `pack-${aisle}-${slug(row.name)}`,
     category_id: LOOSE_PACK_SECTION.slug,
-    name: `${row.name} — ${row.grams ?? 250} g`,
+    name: `${row.label ?? row.name} — ${row.grams ?? 250} g`,
     description: null,
     price: loosePackPrice(row.perKg, row.grams ?? 250),
     image_url: `/products/loose-packs/${aisle}/${slug(row.name)}-v3.webp`,

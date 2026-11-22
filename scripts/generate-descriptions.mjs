@@ -64,6 +64,10 @@ const AISLE_LABEL = {
   "baking-desserts": "baking and desserts",
   "packaged-cakes": "packaged cakes",
   "masala-jaat": "masala jaat",
+  "personal-care": "personal care",
+  "baby-care": "baby care",
+  "pest-control": "pest control",
+  "ice-cream": "ice cream",
   "dry-fruits": "dry fruits",
   "dry-fruit": "dry fruits",
 };
@@ -117,24 +121,42 @@ function pick(id, options) {
   return options[h % options.length];
 }
 
+// Bakery shelves, as "a premium ___" and "our ___ range".
+const BAKERY_ONE = {
+  breads: "bread",
+  rusks: "rusk",
+  "dry-cakes": "dry cake",
+  "cream-cakes": "cream cake",
+  pastries: "pastry",
+  biscuits: "biscuit",
+};
+// Sweets shelves, as "one of our premium ___".
+const SWEETS_MANY = {
+  special: "special sweets",
+  seasonal: "seasonal sweets",
+  sugarfree: "sugar-free sweets",
+  traditional: "traditional sweets",
+};
+// Aisles whose products are not eaten: no "taste" wording.
+const NON_FOOD = new Set(["personal-care", "baby-care", "pest-control"]);
+
 function describe(row) {
   const name = tidyName(row.display || row.name);
-  const aisle = row.aisle ? aisleLabel(row.aisle) : null;
   switch (row.section) {
     case "sweets": {
-      const kind = aisle ?? "traditional mithai";
+      const kind = SWEETS_MANY[row.aisle] ?? "traditional sweets";
       return pick(row.id, [
-        `${name} from ${SHOP}: premium ${kind} with the finest taste, a Rahim Yar Khan favourite since 1959.`,
+        `${name} from ${SHOP} is one of our premium ${kind}, with the finest taste. A Rahim Yar Khan favourite since 1959.`,
         `Enjoy the best taste of ${name}, one of our finest ${kind}. Made the Jallundhar way at ${SHOP}, ${PLACE}.`,
-        `${name} is premium ${kind} from ${SHOP}, loved for its rich, authentic taste. Perfect for family, guests and celebrations.`,
+        `${name} is one of the premium ${kind} from ${SHOP}, loved for its rich, authentic taste. Perfect for family, guests and celebrations.`,
       ]);
     }
     case "bakery": {
-      const kind = aisle ?? "bakery item";
+      const one = BAKERY_ONE[row.aisle];
       return pick(row.id, [
-        `${name}, fresh from the ${SHOP} bakery. A premium ${kind} baked for the best taste, every day on ${PLACE}.`,
-        `Freshly baked ${name} from our bakery, made with care for the best taste. A premium pick from our ${kind} range in Rahim Yar Khan.`,
-        `${name} is a premium ${kind} from ${SHOP}, baked fresh for the best taste with your tea, breakfast or celebrations.`,
+        `${name}, fresh from the ${SHOP} bakery. A premium ${one ?? "bake"}, made for the best taste every day on ${PLACE}.`,
+        `Freshly baked ${name} from our bakery, made with care for the best taste. A premium pick from our ${one ? `${one} range` : "bakery"} in Rahim Yar Khan.`,
+        `${name} is a premium ${one ?? "bake"} from ${SHOP}, baked fresh for the best taste with your tea, breakfast or celebrations.`,
       ]);
     }
     case "snacks":
@@ -154,9 +176,9 @@ function describe(row) {
     }
     case "beverage":
       return pick(row.id, [
-        `${name}, served chilled and refreshing from ${SHOP}, ${PLACE}.`,
-        `Refresh yourself with ${name}, available at ${SHOP}. The best taste, always in stock for you.`,
-        `${name} from ${SHOP}: a premium drink choice for meals, guests and celebrations.`,
+        `${name}, a refreshing drink from ${SHOP}, ${PLACE}.`,
+        `Refresh yourself with ${name}, available at ${SHOP}. Enjoy the best taste with every sip.`,
+        `${name} from ${SHOP}: a premium drink for meals, guests and celebrations.`,
       ]);
     case "dairy":
       return pick(row.id, [
@@ -165,11 +187,15 @@ function describe(row) {
         `${name} from ${SHOP}, a premium choice for your daily kitchen needs.`,
       ]);
     default: {
-      const kind = aisle ?? "grocery";
+      const where = row.aisle ? `our ${aisleLabel(row.aisle)} aisle` : "our general store";
+      // Without an aisle we cannot tell food from household goods, so no taste wording either.
+      const food = Boolean(row.aisle) && !NON_FOOD.has(row.aisle);
       return pick(row.id, [
-        `${name}: a premium pick from the ${kind} aisle of the ${SHOP} general store, ${PLACE}.`,
-        `Shop ${name} at ${SHOP}, one of the finest picks in our ${kind} aisle, trusted by families in Rahim Yar Khan.`,
-        `${name} from ${SHOP}: premium quality for your home from our ${kind} aisle, with the best taste and value.`,
+        `${name}: a premium pick from ${where} at ${SHOP}, ${PLACE}.`,
+        `Shop ${name}, one of the finest picks in ${where} at ${SHOP}, trusted by families in Rahim Yar Khan.`,
+        food
+          ? `${name} from ${SHOP}: premium quality from ${where}, chosen for the best taste.`
+          : `${name} from ${SHOP}: premium quality for your home, from ${where}.`,
       ]);
     }
   }

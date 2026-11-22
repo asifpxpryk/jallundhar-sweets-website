@@ -180,7 +180,7 @@ export default function HeaderSearch() {
                 ref={inputRef}
                 type="search"
                 value={query}
-                placeholder="Search menu..."
+                placeholder="Search menu…"
                 autoComplete="off"
                 aria-label="Search menu"
                 onChange={(e) => setQuery(e.target.value)}
@@ -195,9 +195,9 @@ export default function HeaderSearch() {
               />
             </div>
             {!loaded ? (
-              <p className="px-4 py-3 text-sm text-maroon-700/70">Products loading...</p>
+              <p className="px-4 py-3 text-sm text-maroon-700/70">Products loading…</p>
             ) : query.trim().length === 0 ? (
-              <p className="px-4 py-3 text-sm text-maroon-700/70">Type mithai, pizza, bread...</p>
+              <p className="px-4 py-3 text-sm text-maroon-700/70">Type mithai, pizza, bread…</p>
             ) : results.length === 0 ? (
               <p className="px-4 py-3 text-sm text-maroon-700/70">No items found</p>
             ) : (

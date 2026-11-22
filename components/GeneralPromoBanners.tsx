@@ -33,11 +33,11 @@ export const generalHighlights: Record<string, Banner[]> = {
   chocolates: [
     { title: "Chocolate Bars", description: "A favourite treat for any day.", image: "/products/chocolates/twix-xtra-chocolate-72gm.jpg", alt: "Twix Xtra chocolate bar", tone: "cocoa" },
     { title: "Chocolate Gifts", description: "A sweet surprise to share.", image: "/products/chocolates/ferry-rose-chocolate-100gm-t-8.jpg", alt: "Ferry Rose chocolate box", tone: "gold" },
-    { title: "Dubai Kunafa", description: "Pistachio filled chocolate to savor.", image: "/products/chocolates/besto-dubai-kunafa-chocolate-pistachio-100gm.jpg", alt: "Besto Dubai Kunafa pistachio chocolate", tone: "slate" },
+    { title: "Dubai Kunafa", description: "Pistachio-filled chocolate to savour.", image: "/products/chocolates/besto-dubai-kunafa-chocolate-pistachio-100gm.jpg", alt: "Besto Dubai Kunafa pistachio chocolate", tone: "slate" },
     { title: "Dark Chocolate", description: "Rich cocoa for a deeper treat.", image: "/products/chocolates/lals-chocolate-56-cocoa-pure-dark-gluten-free-85g.jpg", alt: "Lals 56 percent cocoa dark chocolate", tone: "gold" },
   ],
   cooking: [
-    { title: "Biryani Masala", description: "Bring bold flavor to the table.", image: "/products/cooking/national-masala-biryani.webp", alt: "National Biryani Masala", tone: "saffron" },
+    { title: "Biryani Masala", description: "Bring bold flavour to the table.", image: "/products/cooking/national-masala-biryani.webp", alt: "National Biryani Masala", tone: "saffron" },
     { title: "Kitchen Favourites", description: "Everyday essentials for every meal.", image: "/products/cooking/national-foods-tomato-ketchup-800gm.webp", alt: "National tomato ketchup", tone: "tomato" },
     { title: "BBQ Sauces", description: "Add a smoky finish to every bite.", image: "/products/cooking/national-drizzl-american-bbq-sauce-315g.jpg", alt: "National Drizzl American BBQ sauce", tone: "tomato" },
     { title: "Spice Essentials", description: "The finishing touch for home cooking.", image: "/products/cooking/national-garam-masala-powder.webp", alt: "National garam masala powder", tone: "saffron" },
@@ -50,9 +50,9 @@ export const generalHighlights: Record<string, Banner[]> = {
   ],
   snacks: [
     { title: "Classic Chips", description: "A satisfying salty crunch.", image: "/products/snacks/shahi-chips-salted-100-rs.webp", alt: "Shahi salted chips", tone: "cream" },
-    { title: "Pepper Chips", description: "A little more flavor in every bite.", image: "/products/snacks/shahi-chips-black-pepper-100-rs.webp", alt: "Shahi black pepper chips", tone: "slate" },
+    { title: "Pepper Chips", description: "A little more flavour in every bite.", image: "/products/snacks/shahi-chips-black-pepper-100-rs.webp", alt: "Shahi black pepper chips", tone: "slate" },
     { title: "Toffee Popcorn", description: "A sweet crunch for snack time.", image: "/products/snacks/korneez-toffee-popcorn-120-rs-1.webp", alt: "Korneez toffee popcorn", tone: "saffron" },
-    { title: "Nachos", description: "Crunchy bites with bold flavor.", image: "/products/snacks/noms-nachos-cream-herb-80g.webp", alt: "Noms cream and herb nachos", tone: "blue" },
+    { title: "Nachos", description: "Crunchy bites with bold flavour.", image: "/products/snacks/noms-nachos-cream-herb-80g.webp", alt: "Noms cream and herb nachos", tone: "blue" },
   ],
   "personal-care": [
     { title: "Rosy Glow", description: "An everyday bath time favourite.", image: "/products/personal-care/lux-soap-rosy-glow-105gm.webp", alt: "Lux Rosy Glow soap", tone: "rose" },

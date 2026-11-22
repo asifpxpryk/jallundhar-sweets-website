@@ -366,7 +366,7 @@ export default function CategoryProductGrid({
       </div>
     );
   }
-  if (loading) return <p className="mt-8 text-maroon-700/70">Products loading...</p>;
+  if (loading) return <p className="mt-8 text-maroon-700/70">Products loading…</p>;
   return (
     <div className="mt-2">
       <BestsellerScroller items={bestsellers} embedded aisleSection={aisleSection} />
