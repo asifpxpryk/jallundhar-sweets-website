@@ -76,7 +76,7 @@ export default function SweetsPromoBanners({
     },
     {
       title: "Sugarfree Sweets",
-      description: "Explore our sugarfree favorites.",
+      description: "Explore our sugarfree favourites.",
       cta: "Explore Sugarfree",
       href: "/sweets/sugarfree",
       image: productPhoto(
@@ -91,9 +91,9 @@ export default function SweetsPromoBanners({
     },
     {
       title: "Akhroti Sohan Halwa",
-      description: "A Jallundhar favorite to enjoy and share.",
+      description: "A Jallundhar favourite to enjoy and share.",
       cta: "View Sohan Halwa",
-      href: "/product/4661",
+      href: "/product/akhroti-sohan-halwa-1-kg",
       image: productPhoto("4661", "/products/4661.webp"),
       imageAlt: "Akhroti Sohan Halwa from the Special sweets category",
       background: "bg-[#30232c]",

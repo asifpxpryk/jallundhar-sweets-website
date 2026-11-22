@@ -27,7 +27,7 @@ export default function PromoBanner({
     <section className="relative overflow-hidden rounded-3xl">
       {nativeImage ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={image} alt={alt} className={`absolute inset-0 h-full w-full ${imageClass}`} style={imageStyle} />
+        <img src={image} alt={alt} loading="lazy" decoding="async" className={`absolute inset-0 h-full w-full ${imageClass}`} style={imageStyle} />
       ) : (
         <Image
           src={image}

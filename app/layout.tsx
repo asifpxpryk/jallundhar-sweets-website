@@ -11,7 +11,8 @@ import LocalBusinessJsonLd from "@/components/LocalBusinessJsonLd";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { loadStoreVisibility, visibleSections } from "@/lib/storeVisibility";
 import { isNestedSection } from "@/lib/sections";
-import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { loadEmptySectionSlugs } from "@/lib/emptySections";
+import { OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-poppins", display: "swap" });
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-royal", display: "swap" });
@@ -20,7 +21,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
-  keywords: SITE_KEYWORDS,
   applicationName: SITE_NAME,
   category: "food",
   formatDetection: { telephone: true },
@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [{ url: "/og-share.webp", width: 1200, height: 630, alt: SITE_NAME }],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: ["/og-share.webp"],
+    images: [OG_IMAGE.url],
   },
   icons: {
     icon: [
@@ -69,7 +69,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const visibility = await loadStoreVisibility();
+  const [visibility, emptySections] = await Promise.all([loadStoreVisibility(), loadEmptySectionSlugs()]);
+  const empty = new Set(emptySections);
   const sections = listSections(visibility);
   const aisles = sections.flatMap((section) =>
     listAisles(visibility, section.slug).map((aisle) => ({
@@ -84,8 +85,8 @@ export default async function RootLayout({
         <LocalBusinessJsonLd />
         <ProtectImages />
         <StorefrontShell
-          hiddenSections={visibility.hiddenSections}
-          navSections={visibleSections(visibility).filter((section) => !isNestedSection(section.slug)).map((section) => ({
+          hiddenSections={[...visibility.hiddenSections, ...emptySections]}
+          navSections={visibleSections(visibility).filter((section) => !isNestedSection(section.slug) && !empty.has(section.slug)).map((section) => ({
             href: `/${section.slug}`,
             label: section.name,
           }))}

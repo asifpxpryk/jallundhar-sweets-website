@@ -10,7 +10,7 @@ import { loadKitchenConfig } from "@/lib/liveKitchenStore";
 export default async function HomeDoors() {
   const kitchen = await loadKitchenConfig();
   const kitchenGroups = visibleKitchenGroups(kitchen.groups);
-  const ticker = kitchenGroups.flatMap((group) => group.items.map((item) => item.name));
+  const ticker = [...new Set(kitchenGroups.flatMap((group) => group.items.map((item) => item.name.trim())))];
   const kitchenLine = kitchenGroups.map((group) => group.name.toLowerCase()).join(", ");
   return (
     <section aria-labelledby="home-doors-title" className="mx-auto max-w-6xl px-4 pb-2 pt-8 sm:px-6 sm:pt-10">
@@ -29,7 +29,7 @@ export default async function HomeDoors() {
           >
             <Image
               src="/hero.webp"
-              alt=""
+              alt="Tray of Jallundhar mithai"
               fill
               unoptimized
               sizes="(min-width: 768px) 380px, 100vw"
@@ -58,7 +58,7 @@ export default async function HomeDoors() {
           >
             <Image
               src="/homepage-banners-v2/general-desktop-v2.webp"
-              alt=""
+              alt="Groceries and household items from the Jallundhar general store"
               fill
               unoptimized
               sizes="(min-width: 768px) 380px, 100vw"
@@ -99,7 +99,7 @@ export default async function HomeDoors() {
             </span>
             <span className="door-photo absolute -right-6 -top-6 h-40 w-40 md:-right-8 md:-top-4 md:h-56 md:w-56" aria-hidden>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/live-kitchen-pizza.webp?v=2" alt="" width={720} height={720} className="kitchen-spin h-full w-full drop-shadow-2xl kitchen-photo-pop" />
+              <img src="/images/live-kitchen-pizza.webp?v=2" alt="Live Kitchen pizza" width={720} height={720} loading="lazy" decoding="async" className="kitchen-spin h-full w-full drop-shadow-2xl kitchen-photo-pop" />
             </span>
             <span className="relative inline-flex w-fit items-center gap-2 rounded-full bg-[#ff7a1a] px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#2a0f08]">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#2a0f08]" />
@@ -119,14 +119,22 @@ export default async function HomeDoors() {
       <Reveal className="mt-4">
         <Link
           href="/live-kitchen"
-          aria-label="Live Kitchen menu"
           className="block overflow-hidden rounded-full bg-[#150907] py-2 text-xs font-medium text-[#ffd9a8] sm:text-sm"
         >
-          <span className="marquee-track" aria-hidden>
-            {[...ticker, ...ticker].map((name, index) => (
-              <span key={`${name}-${index}`} className="flex items-center gap-3 px-3">
-                <span className="h-1 w-1 rounded-full bg-[#ff7a1a]" />
+          <span className="sr-only">Live Kitchen menu: </span>
+          {/* Each name is in the page once. The second copy that makes the loop seamless is drawn by CSS
+              from data-name, so search engines and screen readers do not read every item twice. */}
+          <span className="marquee-track">
+            {ticker.map((name) => (
+              <span key={name} className="flex items-center gap-3 px-3">
+                <span className="h-1 w-1 rounded-full bg-[#ff7a1a]" aria-hidden />
                 {name}
+              </span>
+            ))}
+            {ticker.map((name) => (
+              <span key={`copy-${name}`} className="flex items-center gap-3 px-3" aria-hidden>
+                <span className="h-1 w-1 rounded-full bg-[#ff7a1a]" />
+                <span className="marquee-ghost" data-name={name} />
               </span>
             ))}
           </span>

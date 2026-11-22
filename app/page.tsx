@@ -14,6 +14,7 @@ import { DEFAULT_SHOP_EXTERIOR_TEXT } from "@/lib/shopExteriorBanner";
 import { loadMenu } from "@/lib/loadMenu";
 import { loadSearchCatalog } from "@/lib/searchCatalog";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
+import { loadEmptySectionSlugs } from "@/lib/emptySections";
 import { hasCatalogPhoto } from "@/lib/catalogPhoto";
 import type { MenuCategory, MenuItem } from "@/lib/types";
 
@@ -129,10 +130,11 @@ function pickFlaggedShelf(
 }
 
 export default async function Home() {
-  const [categories, visibility, catalog] = await Promise.all([
+  const [categories, visibility, catalog, emptySections] = await Promise.all([
     loadMenu(),
     loadStoreVisibility(),
     loadSearchCatalog(),
+    loadEmptySectionSlugs(),
   ]);
   const bestsellers = pickBestsellers(catalog);
   const bestsellerIds = new Set(bestsellers.items.map((item) => item.id));
@@ -173,7 +175,8 @@ export default async function Home() {
         <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-6 sm:grid-cols-2 sm:px-6">
           <PromoBannersForPage page="/" visibility={visibility} categories={categories} compact />
         </div>
-        <GiftPromoCard />
+        {/* Gift packs live in Celebrations: no card while that section has no products. */}
+        {emptySections.includes("celebrations") ? null : <GiftPromoCard />}
         <div className="mx-auto max-w-6xl space-y-6 px-4 pb-6 sm:px-6">
           <GheePromoBanner />
           <WaterPromoBanner />

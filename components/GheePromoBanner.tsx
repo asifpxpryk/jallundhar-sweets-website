@@ -13,7 +13,7 @@ export default function GheePromoBanner() {
         </>
       }
       description="Rich aroma. Traditional taste."
-      href="/product/4728"
+      href="/product/special-desi-ghee-400-g"
       cta="Explore Desi Ghee"
       desktopSrc="/homepage-banners-v2/ghee-desktop-v2.webp"
       mobileSrc="/homepage-banners-v2/ghee-mobile-v2.webp"

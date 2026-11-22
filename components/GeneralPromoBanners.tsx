@@ -31,14 +31,14 @@ const themes: Record<Tone, { background: string; color: string; foreground: stri
 
 export const generalHighlights: Record<string, Banner[]> = {
   chocolates: [
-    { title: "Chocolate Bars", description: "A favorite treat for any day.", image: "/products/chocolates/twix-xtra-chocolate-72gm.jpg", alt: "Twix Xtra chocolate bar", tone: "cocoa" },
+    { title: "Chocolate Bars", description: "A favourite treat for any day.", image: "/products/chocolates/twix-xtra-chocolate-72gm.jpg", alt: "Twix Xtra chocolate bar", tone: "cocoa" },
     { title: "Chocolate Gifts", description: "A sweet surprise to share.", image: "/products/chocolates/ferry-rose-chocolate-100gm-t-8.jpg", alt: "Ferry Rose chocolate box", tone: "gold" },
     { title: "Dubai Kunafa", description: "Pistachio filled chocolate to savor.", image: "/products/chocolates/besto-dubai-kunafa-chocolate-pistachio-100gm.jpg", alt: "Besto Dubai Kunafa pistachio chocolate", tone: "slate" },
     { title: "Dark Chocolate", description: "Rich cocoa for a deeper treat.", image: "/products/chocolates/lals-chocolate-56-cocoa-pure-dark-gluten-free-85g.jpg", alt: "Lals 56 percent cocoa dark chocolate", tone: "gold" },
   ],
   cooking: [
     { title: "Biryani Masala", description: "Bring bold flavor to the table.", image: "/products/cooking/national-masala-biryani.webp", alt: "National Biryani Masala", tone: "saffron" },
-    { title: "Kitchen Favorites", description: "Everyday essentials for every meal.", image: "/products/cooking/national-foods-tomato-ketchup-800gm.webp", alt: "National tomato ketchup", tone: "tomato" },
+    { title: "Kitchen Favourites", description: "Everyday essentials for every meal.", image: "/products/cooking/national-foods-tomato-ketchup-800gm.webp", alt: "National tomato ketchup", tone: "tomato" },
     { title: "BBQ Sauces", description: "Add a smoky finish to every bite.", image: "/products/cooking/national-drizzl-american-bbq-sauce-315g.jpg", alt: "National Drizzl American BBQ sauce", tone: "tomato" },
     { title: "Spice Essentials", description: "The finishing touch for home cooking.", image: "/products/cooking/national-garam-masala-powder.webp", alt: "National garam masala powder", tone: "saffron" },
   ],
@@ -46,7 +46,7 @@ export const generalHighlights: Record<string, Banner[]> = {
     { title: "Spicy Ramen", description: "A quick meal with a kick.", image: "/products/noodles/samyang-ramen-extra-spicy-soup-type-instant-noodles-korean-noodles-halal-120g.webp", alt: "Samyang spicy ramen", tone: "orange" },
     { title: "Cup Noodles", description: "Ready whenever hunger strikes.", image: "/products/noodles/mr-noodles-chicken-flavour-cup-60gm.png", alt: "Mr. Noodles chicken cup", tone: "blue" },
     { title: "Family Packs", description: "Enough noodles for everyone.", image: "/products/noodles/knorr-noodles-chicken-party-pack-6-packs-inside.jpg", alt: "Knorr chicken noodles party pack", tone: "blue" },
-    { title: "Classic Noodles", description: "A quick and tasty pantry favorite.", image: "/products/noodles/indomie-chicken-flavour-instant-noodles-70g.webp", alt: "Indomie chicken instant noodles", tone: "orange" },
+    { title: "Classic Noodles", description: "A quick and tasty pantry favourite.", image: "/products/noodles/indomie-chicken-flavour-instant-noodles-70g.webp", alt: "Indomie chicken instant noodles", tone: "orange" },
   ],
   snacks: [
     { title: "Classic Chips", description: "A satisfying salty crunch.", image: "/products/snacks/shahi-chips-salted-100-rs.webp", alt: "Shahi salted chips", tone: "cream" },
@@ -55,7 +55,7 @@ export const generalHighlights: Record<string, Banner[]> = {
     { title: "Nachos", description: "Crunchy bites with bold flavor.", image: "/products/snacks/noms-nachos-cream-herb-80g.webp", alt: "Noms cream and herb nachos", tone: "blue" },
   ],
   "personal-care": [
-    { title: "Rosy Glow", description: "An everyday bath time favorite.", image: "/products/personal-care/lux-soap-rosy-glow-105gm.webp", alt: "Lux Rosy Glow soap", tone: "rose" },
+    { title: "Rosy Glow", description: "An everyday bath time favourite.", image: "/products/personal-care/lux-soap-rosy-glow-105gm.webp", alt: "Lux Rosy Glow soap", tone: "rose" },
     { title: "Daily Hair Care", description: "Find your daily care essentials.", image: "/products/personal-care/dove-shampoo-daily-care-2-in-1-200-ml.webp", alt: "Dove Daily Care shampoo", tone: "ice" },
     { title: "Face Care", description: "Refresh your daily routine.", image: "/products/personal-care/ponds-face-wash-bright-beauty-50-gm.webp", alt: "Pond's Bright Beauty face wash", tone: "rose" },
     { title: "Body Lotion", description: "Care for your skin every day.", image: "/products/personal-care/nivea-body-lotion-extra-bright-repair-protect-vc-380-ml.webp", alt: "Nivea Extra Bright body lotion", tone: "ice" },

@@ -8,7 +8,7 @@ export type ShopExteriorText = {
 export const DEFAULT_SHOP_EXTERIOR_TEXT: ShopExteriorText = {
   eyebrow: "Shahi Road · Rahim Yar Khan",
   heading: "Come experience Jallundhar",
-  description: "Sweets, bakery and café favorites, all under one roof.",
+  description: "Sweets, bakery and café favourites, all under one roof.",
   buttonLabel: "Visit our shop",
 };
 

@@ -87,7 +87,7 @@ export default function BakeryPromoBanners({
     },
     {
       title: "Breads",
-      description: "Fresh favorites for every day.",
+      description: "Fresh favourites for every day.",
       href: "/bakery/breads",
       image: "/products/4740.webp",
       imageAlt: "Jallundhar plain bread",

@@ -104,10 +104,11 @@ export default function Header({
           </button>
           <Link
             href="/account"
-            aria-label="Account"
+            title="My account"
             className="hidden h-11 w-11 items-center justify-center rounded-full border border-gold-300/50 text-gold-200 xl:flex"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <span className="sr-only">My account</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
               <circle cx="12" cy="8" r="4" />
               <path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5" />
             </svg>

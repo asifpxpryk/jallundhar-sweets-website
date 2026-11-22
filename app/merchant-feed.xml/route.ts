@@ -15,6 +15,8 @@ import { feedDescription, feedGtin, feedProductType, feedTitle, loadBrandLookup 
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 // Rebuilt from the live catalog (aisle items + Supabase menu overrides) at most once an hour.
+import { loadSlugIndex } from "@/lib/productSlugIndex";
+
 export const revalidate = 604800;
 // Regeneration reads Supabase (12s timeout) plus ~2,200 items; give it headroom so a slow fetch never 500s.
 export const maxDuration = 60;
@@ -34,7 +36,7 @@ function clip(value: string, max: number) {
 }
 
 export async function GET() {
-  const [catalog, visibility] = await Promise.all([loadSearchCatalog(), loadStoreVisibility()]);
+  const [catalog, visibility, slugs] = await Promise.all([loadSearchCatalog(), loadStoreVisibility(), loadSlugIndex()]);
   const aisleNames = new Map<string, string>();
   for (const category of catalog) {
     for (const aisle of listAisles(visibility, category.slug)) aisleNames.set(`${category.slug}:${aisle.slug}`, aisle.name);
@@ -105,7 +107,7 @@ export async function GET() {
         `      <g:id>${xml(feedId(item.id))}</g:id>`,
         `      <title>${xml(clip(title, 150))}</title>`,
         `      <description>${xml(clip(safe?.description ?? feedDescription(item, title, category.slug, productType, brand), 5000))}</description>`,
-        `      <link>${xml(absoluteUrl(productPath(item.id)))}</link>`,
+        `      <link>${xml(absoluteUrl(slugs.byId[item.id] ? `/product/${slugs.byId[item.id]}` : productPath(item.id)))}</link>`,
         `      <g:image_link>${xml(image)}</g:image_link>`,
         `      <g:price>${price.toFixed(2)} PKR</g:price>`,
         `      <g:availability>${inStock ? "in_stock" : "out_of_stock"}</g:availability>`,

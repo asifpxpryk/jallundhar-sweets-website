@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { preferWebp } from "@/lib/webpSrc";
 
 export const IMAGE_COMING_SOON = "/products/image-coming-soon.jpg";
 
@@ -35,8 +36,8 @@ export default function ProductImage({
 
   return (
     <Image
-      src={missing ? IMAGE_COMING_SOON : directImageSrc(src)}
-      alt={missing ? "Image coming soon" : alt}
+      src={missing ? IMAGE_COMING_SOON : preferWebp(directImageSrc(src))}
+      alt={alt || "Image coming soon"}
       fill
       sizes={sizes}
       unoptimized

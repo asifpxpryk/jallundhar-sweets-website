@@ -24,7 +24,7 @@ export default function Hero() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/hero-mobile.webp"
-                alt="Jallundhar mithai"
+                alt="Tray of Jallundhar mithai and sweets"
                 fetchPriority="high"
                 decoding="async"
                 draggable={false}
@@ -59,6 +59,9 @@ export default function Hero() {
               Tradition in Every Bite · Since 1959
             </span>
             <span className="hero-since-line mt-2 block h-px w-16 bg-gold-300" aria-hidden />
+            <h1 className="mt-3 max-w-md text-sm font-semibold leading-snug text-gold-100 sm:text-base">
+              Bakery &amp; Sweets in Rahim Yar Khan – Jallundhar Sweets &amp; Bakers
+            </h1>
           </div>
           <p
             className="lk-rise font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl"

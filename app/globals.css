@@ -276,6 +276,10 @@ canvas {
   animation: marquee-x 28s linear infinite;
 }
 
+.marquee-ghost::after {
+  content: attr(data-name);
+}
+
 /* ---------- Live Kitchen ---------- */
 
 @keyframes ember-up {
@@ -571,13 +575,47 @@ h2.royal-title::after {
 }
 
 .page-in {
-  animation: page-in 0.45s ease backwards;
+  animation: page-in 0.2s ease backwards;
+}
+
+/* Top-of-screen loading bar (NavigationProgress, app/loading.tsx). */
+@keyframes nav-progress {
+  0% {
+    transform: translateX(-100%) scaleX(0.3);
+  }
+  50% {
+    transform: translateX(10%) scaleX(0.6);
+  }
+  100% {
+    transform: translateX(100%) scaleX(0.3);
+  }
+}
+
+.nav-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 3px;
+  overflow: hidden;
+  background: rgba(212, 175, 55, 0.25);
+  pointer-events: none;
+}
+
+.nav-progress > span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  background: #e0b64a;
+  box-shadow: 0 0 8px rgba(224, 182, 74, 0.8);
+  animation: nav-progress 1s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .royal-band::after,
   .cart-bump,
-  .page-in {
+  .page-in,
+  .nav-progress > span {
     animation: none;
   }
 

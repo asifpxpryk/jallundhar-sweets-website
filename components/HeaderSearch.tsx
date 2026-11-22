@@ -9,6 +9,7 @@ import { bakeryAisleForItem, getBakeryAisle } from "@/lib/bakeryAisles";
 import { sweetsAisleForItem, getSweetsAisle } from "@/lib/sweetsAisles";
 import { BEVERAGE_AISLES } from "@/lib/beverageAisles";
 import { customerProductName } from "@/lib/productName";
+import { productHref } from "@/lib/productSlug";
 import { orderUnit } from "@/lib/priceUnit";
 import ProductImage from "./ProductImage";
 import ProductQuantity from "./ProductQuantity";
@@ -75,7 +76,7 @@ function flatten(categories: MenuCategory[]): Hit[] {
 }
 
 function hitHref(hit: Hit) {
-  if (!hit.item.preview_only) return `/product/${encodeURIComponent(hit.id)}`;
+  if (!hit.item.preview_only) return productHref(hit.item);
   if (hit.section === "beverage") return `/beverage#item-${hit.cardId}`;
   const path = hit.aisle ? `/${hit.section}/${hit.aisle}` : `/${hit.section}`;
   return `${path}#item-${hit.cardId}`;

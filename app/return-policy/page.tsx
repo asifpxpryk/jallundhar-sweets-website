@@ -4,7 +4,7 @@ import { OG_DEFAULTS } from "@/lib/seo";
 import { SITE_CITY, SITE_NAME, SITE_PHONE_DISPLAY, SITE_STREET_ADDRESS } from "@/lib/site";
 
 const TITLE = `Return & Refund Policy | ${SITE_NAME}, ${SITE_CITY}`;
-const DESCRIPTION = `Returns, refunds and cancellations at ${SITE_NAME}, ${SITE_STREET_ADDRESS}, ${SITE_CITY}. Report damaged, spoiled or wrong items within 24 hours on WhatsApp ${SITE_PHONE_DISPLAY} for a replacement or refund.`;
+const DESCRIPTION = `Returns and refunds at ${SITE_NAME}, ${SITE_CITY}. Report damaged or wrong items within 24 hours on WhatsApp for a replacement or refund.`;
 const WHATSAPP_URL = "https://wa.me/923001538440";
 
 export const metadata: Metadata = {

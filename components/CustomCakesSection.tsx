@@ -237,9 +237,11 @@ export default function CustomCakesSection() {
           <source media="(min-width: 1024px)" srcSet="/custom-cakes/banner-desktop.webp" width={1800} height={600} />
           <img
             src="/custom-cakes/banner-mobile.webp"
-            alt=""
+            alt="Custom celebration cakes from Jallundhar Sweets & Bakers"
             width={900}
             height={600}
+            loading="lazy"
+            decoding="async"
             className="block h-auto w-full"
           />
         </picture>

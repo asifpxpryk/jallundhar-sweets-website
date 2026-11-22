@@ -2,6 +2,7 @@
 
 import { dealPrice } from "@/lib/dealPrice";
 import { customerProductName } from "@/lib/productName";
+import { productHref as buildProductHref } from "@/lib/productSlug";
 import { orderUnit } from "@/lib/priceUnit";
 import { isWeighedSweet, lineAmountLabel } from "@/lib/sweetWeight";
 import { useRef, useState } from "react";
@@ -45,7 +46,7 @@ export default function ProductCard({
   const isAdmin = useIsAdmin() && !compact;
   const { lines } = useCart();
   const productHref =
-    !isNew && !item.preview_only ? `/product/${encodeURIComponent(item.id)}` : null;
+    !isNew && !item.preview_only ? buildProductHref(item) : null;
   const variants = item.variants;
   const defaultVariant =
     variants?.find((v) => v.label === "Medium") ??
