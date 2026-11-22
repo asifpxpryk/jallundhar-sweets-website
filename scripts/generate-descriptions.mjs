@@ -1,9 +1,9 @@
 // Writes a plain 2–3 sentence description for every product that has none.
-// Usage: node scripts/generate-descriptions.mjs <catalog-dump.json>
+// Usage: node scripts/generate-descriptions.mjs <catalog-dump.json | descriptions-review.csv>
 // The dump is { rows: [{ id, name, display, section, aisle, description }] } (from the dev-only slug dump route).
 // Output: data/product-descriptions.json (used by the site) and descriptions-review.csv (for review).
-// Only facts the catalogue already holds are used: the name, its size/weight and where it is sold. No ingredient,
-// health or quality claims.
+// Uses the name and where it is sold, in the shop's own warm wording ("finest", "premium", "best taste").
+// No ingredient or health claims (desi ghee, sugar-free) and no size line.
 import fs from "node:fs";
 import path from "node:path";
 
@@ -13,7 +13,28 @@ if (!dumpPath) {
   process.exit(1);
 }
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
-const { rows } = JSON.parse(fs.readFileSync(dumpPath, "utf8"));
+function parseCsv(text) {
+  const lines = [];
+  let row = [], cell = "", quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else cell += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ",") { row.push(cell); cell = ""; }
+    else if (ch === "\n") { row.push(cell.replace(/\r$/, "")); lines.push(row); row = []; cell = ""; }
+    else cell += ch;
+  }
+  if (cell || row.length) { row.push(cell); lines.push(row); }
+  const [head, ...body] = lines.filter((line) => line.length > 1);
+  const col = (key) => head.indexOf(key);
+  return body.map((line) => ({ id: line[col("id")], section: line[col("section")], aisle: line[col("aisle")] || null, name: line[col("name")], display: line[col("name")] }));
+}
+// Input: the catalogue dump (JSON) or, to reword what is already there, descriptions-review.csv.
+const raw = fs.readFileSync(dumpPath, "utf8").replace(/^\uFEFF/, "");
+const rows = dumpPath.endsWith(".csv") ? parseCsv(raw) : JSON.parse(raw).rows;
 
 const SHOP = "Jallundhar Sweets & Bakers";
 const PLACE = "Shahi Road, Rahim Yar Khan";
@@ -89,27 +110,68 @@ function sizeOf(name) {
   return { label: `${amount} ${unit}` };
 }
 
+// A few wordings per section so neighbouring products don't read the same; picked by the product id.
+function pick(id, options) {
+  let h = 0;
+  for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return options[h % options.length];
+}
+
 function describe(row) {
   const name = tidyName(row.display || row.name);
-  const size = sizeOf(row.name) ?? sizeOf(row.display || "");
   const aisle = row.aisle ? aisleLabel(row.aisle) : null;
-  const sizeText = size?.perKg ? " The price shown is per kg." : size?.label ? ` Size: ${size.label}.` : "";
   switch (row.section) {
-    case "sweets":
-      return `${name} is one of the ${aisle ?? "traditional sweets"} sold by ${SHOP} on ${PLACE}.${sizeText}`;
-    case "bakery":
-      return `${name} is sold by the ${SHOP} bakery on ${PLACE}${aisle ? ` as part of our ${aisle} range` : ""}.${sizeText}`;
+    case "sweets": {
+      const kind = aisle ?? "traditional mithai";
+      return pick(row.id, [
+        `${name} from ${SHOP}: premium ${kind} with the finest taste, a Rahim Yar Khan favourite since 1959.`,
+        `Enjoy the best taste of ${name}, one of our finest ${kind}. Made the Jallundhar way at ${SHOP}, ${PLACE}.`,
+        `${name} is premium ${kind} from ${SHOP}, loved for its rich, authentic taste. Perfect for family, guests and celebrations.`,
+      ]);
+    }
+    case "bakery": {
+      const kind = aisle ?? "bakery item";
+      return pick(row.id, [
+        `${name}, fresh from the ${SHOP} bakery. A premium ${kind} baked for the best taste, every day on ${PLACE}.`,
+        `Freshly baked ${name} from our bakery, made with care for the best taste. A premium pick from our ${kind} range in Rahim Yar Khan.`,
+        `${name} is a premium ${kind} from ${SHOP}, baked fresh for the best taste with your tea, breakfast or celebrations.`,
+      ]);
+    }
     case "snacks":
-      return `${name} is served at the ${SHOP} snack counter on ${PLACE}.${sizeText}`;
+      return pick(row.id, [
+        `${name}, made fresh at the ${SHOP} snack counter for the best taste. A favourite on ${PLACE}.`,
+        `Enjoy hot and tasty ${name} from ${SHOP}, prepared fresh with our finest recipe.`,
+        `${name} from ${SHOP}: a premium snack with the best taste, perfect for tea time.`,
+      ]);
     case "dry-fruits":
-    case "masala-jaat":
-      return `${name} is sold at the ${aisleLabel(row.section)} counter of ${SHOP}, ${PLACE}.${sizeText}`;
+    case "masala-jaat": {
+      const kind = aisleLabel(row.section);
+      return pick(row.id, [
+        `${name}: premium ${kind} from ${SHOP}, selected for the finest quality and best taste.`,
+        `Choose the finest ${name} from ${SHOP}, ${PLACE}. Premium ${kind}, carefully selected.`,
+        `${name} from the ${kind} counter at ${SHOP}: premium quality for your kitchen, gifts and guests.`,
+      ]);
+    }
     case "beverage":
-      return `${name} is available in the drinks section at ${SHOP}, ${PLACE}${aisle ? ` (${aisle})` : ""}.${sizeText}`;
+      return pick(row.id, [
+        `${name}, served chilled and refreshing from ${SHOP}, ${PLACE}.`,
+        `Refresh yourself with ${name}, available at ${SHOP}. The best taste, always in stock for you.`,
+        `${name} from ${SHOP}: a premium drink choice for meals, guests and celebrations.`,
+      ]);
     case "dairy":
-      return `${name} is available in the dairy section at ${SHOP}, ${PLACE}.${sizeText}`;
-    default:
-      return `${name} is available at the ${SHOP} general store, ${PLACE}${aisle ? `, in the ${aisle} aisle` : ""}.${sizeText}`;
+      return pick(row.id, [
+        `${name}: premium dairy from ${SHOP}, kept fresh for the best taste.`,
+        `Fresh ${name} from the dairy section at ${SHOP}, ${PLACE}.`,
+        `${name} from ${SHOP}, a premium choice for your daily kitchen needs.`,
+      ]);
+    default: {
+      const kind = aisle ?? "grocery";
+      return pick(row.id, [
+        `${name}: a premium pick from the ${kind} aisle of the ${SHOP} general store, ${PLACE}.`,
+        `Shop ${name} at ${SHOP}, one of the finest picks in our ${kind} aisle, trusted by families in Rahim Yar Khan.`,
+        `${name} from ${SHOP}: premium quality for your home from our ${kind} aisle, with the best taste and value.`,
+      ]);
+    }
   }
 }
 
