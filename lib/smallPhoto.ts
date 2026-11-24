@@ -1,7 +1,7 @@
 /**
  * Small copies of product photos for lists. A photo in the shop's own photo bucket is shown from
  * /small-photo/p/<file name>.webp. The build makes that copy and ships it as a plain file
- * (scripts/build-small-photos.mjs), so no server function runs for it. A photo added after the build
+ * (build-tools/small-photos.mjs), so no server function runs for it. A photo added after the build
  * has no file yet: the image then asks /api/small-photo/<file name>, which makes the copy on request
  * (components/ProductImage.tsx). Any other photo (a file in /public, a blob, a foreign address) is
  * shown as it is.
@@ -13,7 +13,7 @@
 export const PHOTO_BUCKET_PATH = "/storage/v1/object/public/product-photos/";
 export const SMALL_PHOTO_PATH = "/small-photo/p/";
 export const SMALL_PHOTO_ROUTE = "/api/small-photo/";
-/** Wide enough for a card on a phone at twice the pixel density. Keep scripts/build-small-photos.mjs equal. */
+/** Wide enough for a card on a phone at twice the pixel density. Keep build-tools/small-photos.mjs equal. */
 export const SMALL_PHOTO_WIDTH = 400;
 export const SMALL_PHOTO_QUALITY = 72;
 
