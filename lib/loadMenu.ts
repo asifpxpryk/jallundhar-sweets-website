@@ -175,8 +175,29 @@ async function loadFromSupabaseOnce(url: string, key: string): Promise<MenuItem[
   }
 }
 
+const BUILDING = process.env.NEXT_PHASE === "phase-production-build";
+
+/**
+ * While the site is built the menu does not change, yet each build worker and each cache key asked
+ * Supabase for it again (about 160 page reads, some 30 copies of the whole menu, per build). During a
+ * build every page of rows is read once per worker and shared. A failed read is dropped so it is retried.
+ */
+const pagesReadThisBuild = new Map<number, Promise<MenuItem[]>>();
+
 /** One 1000-row page of menu rows; throws on a failed read so a bad page is never cached. */
-async function loadMenuRowsPage(from: number): Promise<MenuItem[]> {
+function loadMenuRowsPage(from: number): Promise<MenuItem[]> {
+  if (!BUILDING) return loadMenuRowsPageFromSupabase(from);
+  let page = pagesReadThisBuild.get(from);
+  if (!page) {
+    page = loadMenuRowsPageFromSupabase(from);
+    pagesReadThisBuild.set(from, page);
+    page.catch(() => pagesReadThisBuild.delete(from));
+  }
+  // Each caller gets its own copy, so nothing one page does to the rows reaches another.
+  return page.then((rows) => structuredClone(rows));
+}
+
+async function loadMenuRowsPageFromSupabase(from: number): Promise<MenuItem[]> {
   if (process.env.JALLUNDHAR_LOCAL_PREVIEW === "1") return [];
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -236,8 +257,6 @@ async function loadMenuRow(id: string): Promise<{ row: MenuItem | null }> {
   return { row: (data as MenuItem | null) ?? null };
 }
 
-const BUILDING = process.env.NEXT_PHASE === "phase-production-build";
-
 /**
  * A product's own row, cached under its own tag so a POS change to it rebuilds only its page.
  * While the site is being built the rows were all just read, so `known` is used instead of
@@ -254,6 +273,12 @@ function loadMenuRowCached(id: string, known: MenuItem | null) {
 /** Each copy's rows are read (and parsed) once per request. */
 const readSnapshotRows = cache(() => readRowPages(loadMenuRowsPageForProductPages));
 const readListingRows = cache(() => readRowPages(loadMenuRowsPageCached));
+
+/**
+ * The listings' copy of the rows: refreshed by every POS refresh and storefront refresh (MENU_TAG), so it
+ * is current, and read from Supabase only once after each refresh however many pages ask for it.
+ */
+export const loadListingRows = readListingRows;
 
 /**
  * Whether a product no longer fits the build-time snapshot: it is not in it (a new product, or a page
@@ -383,8 +408,8 @@ export const loadMenuIncludingHidden = scopedMemo(() => groupedFromCache(true));
  * The catalogue as the storefront groups it, built from rows just read from Supabase (no cache):
  * what the POS refresh and a rebuilt "related" strip compare the cached pages against.
  */
-export async function catalogFromRows(rows: MenuItem[]) {
-  const visibility = await loadStoreVisibilityUncached();
+export async function catalogFromRows(rows: MenuItem[], settings: "fresh" | "cached" = "fresh") {
+  const visibility = settings === "cached" ? await loadStoreVisibility() : await loadStoreVisibilityUncached();
   const extras = extraSections(visibility);
   const overrides = withHiddenFlags(
     rows.length ? rows : (localMenu as StoredMenuItem[]),

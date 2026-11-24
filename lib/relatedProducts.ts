@@ -4,7 +4,7 @@ import { hasCatalogPhoto } from "@/lib/catalogPhoto";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { itemsForPlacement } from "@/lib/itemPlacement";
 import { applyMenuOverrides } from "@/lib/loadAisleItems";
-import { catalogFromRows, loadMenuRowsUncached } from "@/lib/loadMenu";
+import { catalogFromRows, loadListingRows } from "@/lib/loadMenu";
 import { BUILD_ID, PRODUCT_PAGES_TAG, PRODUCT_PAGE_SECONDS, relatedTag } from "@/lib/menuScope";
 import { homeShelf, type StoreVisibility } from "@/lib/storeVisibility";
 import type { MenuCategory, MenuItem } from "@/lib/types";
@@ -78,12 +78,14 @@ const BUILDING = process.env.NEXT_PHASE === "phase-production-build";
 
 /**
  * A shelf's strip for a product page that reads the build-time snapshot. While the site is being built
- * `known` (from the rows just read) is used; when the POS refresh drops the entry it is rebuilt from
- * Supabase, because the snapshot the page reads everything else from is older by then.
+ * `known` (from the rows just read) is used; when the POS refresh drops the entry it is rebuilt from the
+ * listings' copy of the rows, because the snapshot the page reads everything else from is older by then.
+ * That copy is refreshed by the same refresh, so it is current, and it is read from Supabase once for
+ * all shelves (reading the whole menu fresh here cost a full read per shelf after every refresh).
  */
 export function loadRelatedCandidates(key: string, known: MenuItem[]): Promise<MenuItem[]> {
   return unstable_cache(
-    async () => (BUILDING ? known : relatedCandidates(shelfItems(key, await catalogFromRows(await loadMenuRowsUncached())))),
+    async () => (BUILDING ? known : relatedCandidates(shelfItems(key, await catalogFromRows(await loadListingRows(), "cached")))),
     ["jallundhar-related-v1", BUILD_ID, key],
     { revalidate: PRODUCT_PAGE_SECONDS, tags: [relatedTag(key), PRODUCT_PAGES_TAG] }
   )();

@@ -267,7 +267,25 @@ export function visibilityConfigRow(vis: StoreVisibility) {
   };
 }
 
-export async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
+/**
+ * While the site is built the settings row (some 175 KB) does not change, yet it was read about 150 times
+ * per build. During a build it is read once per worker and each caller gets its own copy.
+ */
+let readThisBuild: Promise<StoreVisibility> | null = null;
+
+export function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
+  if (process.env.NEXT_PHASE !== "phase-production-build") return loadStoreVisibilityFresh();
+  if (!readThisBuild) {
+    const reading = loadStoreVisibilityFresh();
+    readThisBuild = reading;
+    reading.catch(() => {
+      if (readThisBuild === reading) readThisBuild = null;
+    });
+  }
+  return readThisBuild.then((vis) => structuredClone(vis));
+}
+
+async function loadStoreVisibilityFresh(): Promise<StoreVisibility> {
   const base = await loadFallback();
   if (process.env.JALLUNDHAR_LOCAL_PREVIEW === "1") return base;
   const config = await loadConfigFromMenuItems();
