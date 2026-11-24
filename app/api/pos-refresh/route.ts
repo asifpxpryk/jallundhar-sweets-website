@@ -1,5 +1,7 @@
 import { timingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
+import { loadMenuRowsUncached } from "@/lib/loadMenu";
+import { menuChanged, menuFingerprint, readMenuFingerprint, saveMenuFingerprint } from "@/lib/menuFingerprint";
 import { rateHit } from "@/lib/rateLimit";
 import { refreshStorefront } from "@/lib/storefrontRefresh";
 
@@ -13,6 +15,16 @@ function sameSecret(given: string, expected: string): boolean {
   const a = Buffer.from(given);
   const b = Buffer.from(expected);
   return a.length === b.length && timingSafeEqual(a, b);
+}
+
+/** Null when the rows can't be read or come back empty: the refresh then runs in full, as before. */
+async function currentFingerprint(): Promise<string | null> {
+  try {
+    const rows = await loadMenuRowsUncached();
+    return rows.length ? menuFingerprint(rows) : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function POST(request: Request) {
@@ -33,6 +45,15 @@ export async function POST(request: Request) {
     );
   }
 
+  // A refresh drops every cached page, so it only runs when the menu rows really differ from last time.
+  const fingerprint = await currentFingerprint();
+  if (fingerprint && !menuChanged(fingerprint, await readMenuFingerprint())) {
+    console.info("POS refresh: menu unchanged, cached pages kept");
+    return NextResponse.json({ ok: true, changed: false, refreshedAt: new Date().toISOString() });
+  }
+
   await refreshStorefront();
-  return NextResponse.json({ ok: true, refreshedAt: new Date().toISOString() });
+  if (fingerprint) await saveMenuFingerprint(fingerprint);
+  console.info("POS refresh: menu changed, storefront refreshed");
+  return NextResponse.json({ ok: true, changed: true, refreshedAt: new Date().toISOString() });
 }
