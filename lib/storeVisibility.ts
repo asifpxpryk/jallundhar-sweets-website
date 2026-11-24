@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { promises as fs } from "fs";
 import path from "path";
 import { unstable_cache, revalidateTag } from "next/cache";
-import { PRODUCT_PAGE_SECONDS, onProductPage } from "@/lib/menuScope";
+import { BUILD_ID, PRODUCT_PAGE_SECONDS, onProductPage } from "@/lib/menuScope";
 import { isSectionSlug } from "@/lib/sections";
 import { isGeneralAisle } from "@/lib/generalAisles";
 import { isBeverageAisle } from "@/lib/beverageAisles";
@@ -302,7 +302,7 @@ const loadStoreVisibilityWeekly = unstable_cache(
 /** Product pages keep their copy longer, so reading it doesn't shorten their own lifetime (see menuScope.ts). */
 const loadStoreVisibilityForProductPages = unstable_cache(
   loadStoreVisibilityUncached,
-  ["jallundhar-store-visibility-v11-product-pages"],
+  ["jallundhar-store-visibility-v11-product-pages", BUILD_ID],
   { revalidate: PRODUCT_PAGE_SECONDS, tags: ["store-visibility"] }
 );
 

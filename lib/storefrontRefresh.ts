@@ -9,11 +9,12 @@ import { loadStoreVisibilityUncached, refreshStoreVisibility } from "@/lib/store
 import { refreshMenuCache, refreshMenuProducts } from "@/lib/loadMenu";
 
 /**
- * Some products' rate, photo, description or stock changed. The listings are rebuilt, and those
- * products' own pages; every other product page stays cached (see menuScope.ts).
+ * Some products changed, were added or were removed. The listings are rebuilt, those products' own
+ * pages, and the product pages of each shelf in `shelves` (its "related" strip changed); every other
+ * product page stays cached (see menuScope.ts).
  */
-export function refreshProducts(ids: string[]) {
-  refreshMenuProducts(ids);
+export function refreshProducts(ids: string[], shelves: string[] = []) {
+  refreshMenuProducts(ids, shelves);
 }
 
 /** Drops every cached menu read and storefront page, so the next visitor sees the saved catalogue. */

@@ -1,26 +1,28 @@
-import { cache } from "react";
-import { hasCatalogPhoto } from "@/lib/catalogPhoto";
+import { scopedMemo } from "@/lib/scopedMemo";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { applyMenuOverrides } from "@/lib/loadAisleItems";
 import { itemsForPlacement, placementsForItem } from "@/lib/itemPlacement";
 import { loadAllMenuItemsCached, loadMenu } from "@/lib/loadMenu";
 import { homeShelf, loadStoreVisibility } from "@/lib/storeVisibility";
 import { findLoosePack } from "@/lib/loosePacks";
+import { onProductPage } from "@/lib/menuScope";
+import { loadRelatedCandidates, menuShelfKey, relatedCandidates, relatedFrom } from "@/lib/relatedProducts";
 import type { MenuItem } from "@/lib/types";
 
 function relatedItems(items: MenuItem[], id: string) {
-  return items
-    .filter(
-      (entry) =>
-        entry.id !== id &&
-        entry.is_available !== false &&
-        !entry.preview_only &&
-        hasCatalogPhoto(entry)
-    )
-    .slice(0, 8);
+  return relatedFrom(relatedCandidates(items), id);
 }
 
-export const loadProduct = cache(async (id: string) => {
+/**
+ * The strip of other products from the same shelf. A page reading the build-time snapshot takes it
+ * from the shelf's own cache entry, which the POS refresh keeps current (see relatedProducts.ts).
+ */
+async function shelfRelated(shelf: string, items: MenuItem[], id: string) {
+  if (!onProductPage()) return relatedItems(items, id);
+  return relatedFrom(await loadRelatedCandidates(shelf, relatedCandidates(items)), id);
+}
+
+export const loadProduct = scopedMemo(async (id: string) => {
   const loose = findLoosePack(id);
   if (loose) {
     return {
@@ -54,7 +56,7 @@ export const loadProduct = cache(async (id: string) => {
         homeShelf(visibility)
       );
       const item = items.find((entry) => entry.id === id);
-      if (item) return { item, section, aisle, related: relatedItems(items, id) };
+      if (item) return { item, section, aisle, related: await shelfRelated(`${section.slug}:${aisle.slug}`, items, id) };
     }
 
     if (!placements.has(section.slug)) continue;
@@ -67,7 +69,7 @@ export const loadProduct = cache(async (id: string) => {
       homeShelf(visibility)
     );
     const item = items.find((entry) => entry.id === id);
-    if (item) return { item, section, aisle: null, related: relatedItems(items, id) };
+    if (item) return { item, section, aisle: null, related: await shelfRelated(section.slug, items, id) };
   }
 
   const categories = await loadMenu(id);
@@ -87,7 +89,7 @@ export const loadProduct = cache(async (id: string) => {
             variants: undefined,
           }
         : entry;
-      return { item, section, aisle: null, related: relatedItems(category.items, item.id) };
+      return { item, section, aisle: null, related: await shelfRelated(menuShelfKey(category.slug), category.items, item.id) };
     }
   }
 

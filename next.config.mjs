@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    // One value per build: the product pages' snapshot of the menu is kept under it (lib/menuScope.ts).
+    MENU_BUILD_ID: process.env.VERCEL_DEPLOYMENT_ID || String(Date.now()),
+  },
   images: {
     // Product and banner assets are already compressed. Serve them directly to
     // avoid spending Vercel Image Optimization transformations on each variant.
@@ -19,7 +23,7 @@ const nextConfig = {
     const assets = "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=604800";
     return [
       {
-        source: "/:dir(products|images|icons|category-icons|custom-cakes|homepage-banners|homepage-banners-v2|general-aisles|bakery-aisles|beverage-aisles|sweets-aisles)/:path*",
+        source: "/:dir(products|small-photo|images|icons|category-icons|custom-cakes|homepage-banners|homepage-banners-v2|general-aisles|bakery-aisles|beverage-aisles|sweets-aisles)/:path*",
         headers: [
           { key: "Cache-Control", value: assets },
           // Browsers refuse to show these photos when another website embeds them (hotlinking).

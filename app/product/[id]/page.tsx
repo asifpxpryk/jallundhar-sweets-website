@@ -3,6 +3,10 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
 import ProductDetail from "@/components/ProductDetail";
 import { loadProduct } from "@/lib/product";
+import { productLeftSnapshot } from "@/lib/loadMenu";
+import { findLoosePack } from "@/lib/loosePacks";
+import { readListingsCopy } from "@/lib/menuScope";
+import { rememberMenuAtBuild } from "@/lib/posRefreshState";
 import { customerProductName } from "@/lib/productName";
 import { canonicalProductId, displayOffer, returnPolicyFor, schemaBrand, productDescription, productMetaDescription, productPageDescription, productImage, productTitle, absoluteUrl, jsonLdString, nonAlcoholicOverride, OG_DEFAULTS, clampText } from "@/lib/seo";
 import { canonicalSlugFor, loadSlugIndex, resolveProductParam } from "@/lib/productSlugIndex";
@@ -19,6 +23,9 @@ export const dynamicParams = true;
  */
 export async function generateStaticParams() {
   if (process.env.PREBUILD_PRODUCTS === "0") return [];
+  // Before anything is read for the pages: the first POS refresh this deployment answers then
+  // compares the menu with what the pages were built from, and rebuilds whatever moved meanwhile.
+  await rememberMenuAtBuild();
   try {
     const index = await loadSlugIndex();
     return [...new Set(Object.values(index.byId))].map((id) => ({ id }));
@@ -41,7 +48,14 @@ const loadProductPage = cache(async (param: string) => {
   } catch {
     // keep the raw segment
   }
-  const id = await resolveProductParam(segment);
+  // The build-time snapshot answers first. A product it can't describe any more (new, renamed, moved,
+  // hidden or removed since) is read from the listings' copy instead; see menuScope.ts.
+  const snapshotId = await resolveProductParam(segment);
+  let id = snapshotId;
+  if (!findLoosePack(snapshotId) && (await productLeftSnapshot(snapshotId))) {
+    readListingsCopy();
+    id = await resolveProductParam(segment, snapshotId);
+  }
   const result = await loadProduct(id);
   if (!result) notFound();
   const slug = await canonicalSlugFor(result.item);

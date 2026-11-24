@@ -1,5 +1,5 @@
-import { cache } from "react";
 import { menuScopedCache } from "@/lib/menuScope";
+import { scopedMemo } from "@/lib/scopedMemo";
 import { loadSearchCatalog } from "@/lib/searchCatalog";
 import { productSlug } from "@/lib/productSlug";
 import legacySlugs from "@/data/product-legacy-slugs.json";
@@ -49,12 +49,16 @@ async function buildSlugIndex(): Promise<SlugIndex> {
 }
 
 /** Rebuilt with the menu (admin save / POS refresh revalidate these tags). */
-export const loadSlugIndex = cache(menuScopedCache(buildSlugIndex, "product-slug-index-v2", ["store-visibility"]));
+export const loadSlugIndex = scopedMemo(menuScopedCache(buildSlugIndex, "product-slug-index-v2", ["store-visibility"]));
 
-/** Stored id for a URL segment: a current slug, a slug a product had before it was renamed, or an old id. */
-export async function resolveProductParam(param: string): Promise<string> {
+/**
+ * Stored id for a URL segment: a current slug, a slug a product had before it was renamed, or an old id.
+ * `otherwise` is the id an older copy of the index gave for the segment (a product renamed since the
+ * site was built): the page then redirects to the product's new address instead of answering 404.
+ */
+export async function resolveProductParam(param: string, otherwise?: string): Promise<string> {
   const index = await loadSlugIndex();
-  return index.bySlug[param] ?? LEGACY_BY_SLUG[param] ?? param;
+  return index.bySlug[param] ?? LEGACY_BY_SLUG[param] ?? otherwise ?? param;
 }
 
 export async function canonicalSlugFor(item: { id: string; name: string; category_id?: string }) {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { smallPhotoSrc } from "@/lib/smallPhoto";
+import { smallPhotoRouteSrc, smallPhotoSrc } from "@/lib/smallPhoto";
 import { preferWebp } from "@/lib/webpSrc";
 
 export const IMAGE_COMING_SOON = "/products/image-coming-soon.jpg";
@@ -35,15 +35,16 @@ export default function ProductImage({
   small?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  // The small copy could not be made or read: the photo itself is shown instead.
-  const [smallFailed, setSmallFailed] = useState(false);
+  // The small copy is tried as a built file, then from the route that makes it (a photo added since
+  // the last build), and if neither answers the photo itself is shown instead.
+  const [smallTries, setSmallTries] = useState(0);
   useEffect(() => {
     setFailed(false);
-    setSmallFailed(false);
+    setSmallTries(0);
   }, [src]);
   const missing = !src || failed;
   const full = directImageSrc(src);
-  const shown = small && !smallFailed ? smallPhotoSrc(full) : full;
+  const shown = !small || smallTries > 1 ? full : smallTries === 0 ? smallPhotoSrc(full) : smallPhotoRouteSrc(full);
   const showsSmall = shown !== full;
   // Local photos that have a lighter WebP copy (lib/webpVersions.json) use it.
   const finalSrc = showsSmall ? shown : preferWebp(full);
@@ -61,7 +62,7 @@ export default function ProductImage({
       onContextMenu={(event) => event.preventDefault()}
       onError={() => {
         if (missing) return;
-        if (showsSmall) setSmallFailed(true);
+        if (showsSmall) setSmallTries((tries) => tries + 1);
         else setFailed(true);
       }}
     />
