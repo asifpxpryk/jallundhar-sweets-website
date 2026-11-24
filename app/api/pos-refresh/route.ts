@@ -2,16 +2,17 @@ import { timingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
 import { loadMenuRowsUncached } from "@/lib/loadMenu";
 import {
+  changedShelves,
+  dropOldMenuStates,
   menuChange,
-  menuSignatures,
-  readMenuSignatures,
-  saveMenuSignatures,
+  readMenuState,
+  saveMenuState,
   type MenuChange,
-  type MenuSignatures,
+  type MenuState,
 } from "@/lib/menuFingerprint";
+import { menuStateFrom } from "@/lib/posRefreshState";
 import { rateHit } from "@/lib/rateLimit";
 import { refreshProducts, refreshStorefront } from "@/lib/storefrontRefresh";
-import { isVisibilityConfigId } from "@/lib/storeVisibility";
 
 export const dynamic = "force-dynamic";
 
@@ -25,11 +26,11 @@ function sameSecret(given: string, expected: string): boolean {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-/** Null when the rows can't be read or come back empty: the refresh then runs in full, as before. */
-async function currentSignatures(): Promise<MenuSignatures | null> {
+/** Null when the rows can't be read or come back empty: the refresh then runs in full. */
+async function currentState(): Promise<MenuState | null> {
   try {
     const rows = await loadMenuRowsUncached();
-    return rows.length ? menuSignatures(rows as unknown as Record<string, unknown>[], isVisibilityConfigId) : null;
+    return rows.length ? await menuStateFrom(rows) : null;
   } catch {
     return null;
   }
@@ -54,9 +55,10 @@ export async function POST(request: Request) {
   }
 
   // A full refresh drops every cached page, so only what really moved since the last call is refreshed.
-  const signatures = await currentSignatures();
-  const change: MenuChange = signatures
-    ? menuChange(signatures, await readMenuSignatures())
+  const state = await currentState();
+  const remembered = state ? await readMenuState() : null;
+  const change: MenuChange = state
+    ? menuChange(state.rows, remembered?.rows ?? null)
     : { kind: "all", reason: "menu rows could not be read" };
   const refreshedAt = new Date().toISOString();
 
@@ -65,14 +67,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, changed: false, refreshedAt });
   }
 
-  if (change.kind === "products") {
-    refreshProducts(change.ids);
-    console.info(`POS refresh: ${change.ids.length} product(s) changed, their pages and the listings refreshed`);
+  if (change.kind === "products" && state && remembered) {
+    const shelves = changedShelves(state.related, remembered.related);
+    refreshProducts(change.ids, shelves);
+    console.info(
+      `POS refresh: ${change.ids.length} product(s) changed; their pages, ${shelves.length} shelf strip(s) and the listings refreshed`
+    );
   } else {
     await refreshStorefront();
-    console.info(`POS refresh: whole storefront refreshed (${change.reason})`);
+    console.info(`POS refresh: whole storefront refreshed (${change.kind === "all" ? change.reason : "no earlier copy"})`);
   }
-  if (signatures) await saveMenuSignatures(signatures);
+  if (state) {
+    await saveMenuState(state);
+    await dropOldMenuStates();
+  }
   return NextResponse.json({
     ok: true,
     changed: true,

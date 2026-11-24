@@ -1,13 +1,14 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { bucketFileName, isBucketFileName, smallPhotoSrc } from "@/lib/smallPhoto";
+import { bucketFileName, isBucketFileName, smallPhotoRouteSrc, smallPhotoSrc } from "@/lib/smallPhoto";
 
 const BUCKET = "https://shop.supabase.co/storage/v1/object/public/product-photos/";
 
 describe("small copies of product photos", () => {
-  test("a bucket photo is shown through the small-photo route", () => {
-    assert.equal(smallPhotoSrc(`${BUCKET}pos-prd-cp-782-1795295402231.webp`), "/api/small-photo/pos-prd-cp-782-1795295402231.webp");
-    assert.equal(smallPhotoSrc(`${BUCKET}fb-12.jpg?v=3`), "/api/small-photo/fb-12.jpg");
+  test("a bucket photo is shown from its small copy", () => {
+    assert.equal(smallPhotoSrc(`${BUCKET}pos-prd-cp-782-1795295402231.webp`), "/small-photo/p/pos-prd-cp-782-1795295402231.webp.webp");
+    assert.equal(smallPhotoSrc(`${BUCKET}fb-12.jpg?v=3`), "/small-photo/p/fb-12.jpg.webp");
+    assert.equal(smallPhotoRouteSrc(`${BUCKET}fb-12.jpg?v=3`), "/api/small-photo/fb-12.jpg");
   });
 
   test("any other photo keeps its own address", () => {
@@ -20,7 +21,10 @@ describe("small copies of product photos", () => {
       `${BUCKET}..%2Fsecret`,
       "http://shop.supabase.co/storage/v1/object/public/product-photos/a.webp",
     ];
-    for (const src of others) assert.equal(smallPhotoSrc(src), src, src);
+    for (const src of others) {
+      assert.equal(smallPhotoSrc(src), src, src);
+      assert.equal(smallPhotoRouteSrc(src), src, src);
+    }
     assert.equal(bucketFileName(null), null);
     assert.equal(bucketFileName(`${BUCKET}%E0%A4%A`), null);
   });

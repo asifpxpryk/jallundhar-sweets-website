@@ -1,12 +1,11 @@
 import sharp from "sharp";
-import { PHOTO_BUCKET_PATH, SMALL_PHOTO_WIDTH, isBucketFileName } from "@/lib/smallPhoto";
+import { PHOTO_BUCKET_PATH, SMALL_PHOTO_QUALITY, SMALL_PHOTO_WIDTH, isBucketFileName } from "@/lib/smallPhoto";
 
 export const runtime = "nodejs";
 
 const FETCH_WAIT_MS = 10_000;
 /** The bucket's photos are well under this; anything larger is not a product photo. */
 const MAX_SOURCE_BYTES = 6 * 1024 * 1024;
-const QUALITY = 72;
 /** The copy never changes for a file name (a new photo gets a new name), so the CDN and the browser keep it. */
 const KEEP = "public, max-age=2592000, s-maxage=31536000, stale-while-revalidate=31536000";
 
@@ -14,7 +13,10 @@ function gone(status: number) {
   return new Response(null, { status, headers: { "Cache-Control": "public, max-age=60" } });
 }
 
-/** A product photo from the shop's own bucket, made small for lists. Only that bucket is ever read. */
+/**
+ * A product photo from the shop's own bucket, made small for lists. Only that bucket is ever read.
+ * The build ships these copies as files; this runs only for a photo added since (see lib/smallPhoto.ts).
+ */
 export async function GET(_request: Request, { params }: { params: { name: string } }) {
   const name = params.name;
   const base = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim().replace(/\/+$/, "");
@@ -38,7 +40,7 @@ export async function GET(_request: Request, { params }: { params: { name: strin
     const small = await sharp(Buffer.from(source))
       .rotate()
       .resize({ width: SMALL_PHOTO_WIDTH, height: SMALL_PHOTO_WIDTH, fit: "inside", withoutEnlargement: true })
-      .webp({ quality: QUALITY })
+      .webp({ quality: SMALL_PHOTO_QUALITY })
       .toBuffer();
     return new Response(new Uint8Array(small), {
       headers: { "Content-Type": "image/webp", "Cache-Control": KEEP, "Content-Length": String(small.length) },

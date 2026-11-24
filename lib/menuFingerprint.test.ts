@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { MAX_PRODUCTS_PER_REFRESH, menuChange, menuSignatures } from "@/lib/menuFingerprint";
+import { MAX_PRODUCTS_PER_REFRESH, changedShelves, menuChange, menuSignatures, parseMenuState } from "@/lib/menuFingerprint";
 
 const SETTINGS_ID = "__settings__";
 const isSettings = (id: string) => id === SETTINGS_ID;
@@ -31,17 +31,24 @@ describe("what a POS refresh rebuilds", () => {
     assert.deepEqual(change(edited("cham-cham", { is_available: false })), { kind: "products", ids: ["cham-cham"] });
   });
 
-  test("everything, when a product is renamed, moved, hidden, added or removed", () => {
-    assert.equal(change(edited("cham-cham", { name: "Cham Cham Special" })).kind, "all");
-    assert.equal(change(edited("cham-cham", { category_id: "bakery" })).kind, "all");
-    assert.equal(change(edited("cham-cham", { is_hidden: true })).kind, "all");
-    assert.equal(change([...ROWS, { id: "new", category_id: "sweets", name: "New", price: 10 }]).kind, "all");
-    assert.equal(change(ROWS.slice(1)).kind, "all");
-    assert.equal(change([{ ...ROWS[0], id: "swapped" }, ...ROWS.slice(1)]).kind, "all");
+  test("only the product, when it is renamed, moved or hidden", () => {
+    const only = { kind: "products", ids: ["cham-cham"] };
+    assert.deepEqual(change(edited("cham-cham", { name: "Cham Cham Special" })), only);
+    assert.deepEqual(change(edited("cham-cham", { category_id: "bakery" })), only);
+    assert.deepEqual(change(edited("cham-cham", { is_hidden: true })), only);
   });
 
-  test("everything, when the store settings row changes", () => {
+  test("only the product, when it is added or removed", () => {
+    assert.deepEqual(change([...ROWS, { id: "new", category_id: "sweets", name: "New", price: 10 }]), { kind: "products", ids: ["new"] });
+    assert.deepEqual(change(ROWS.slice(1)), { kind: "products", ids: ["cham-cham"] });
+    const swapped = change([{ ...ROWS[0], id: "swapped" }, ...ROWS.slice(1)]);
+    assert.deepEqual(swapped.kind === "products" && [...swapped.ids].sort(), ["cham-cham", "swapped"]);
+  });
+
+  test("everything, when the store settings row changes, appears or goes away", () => {
     assert.equal(change(edited(SETTINGS_ID, { description: '{"hiddenItemIds":["x"]}' })).kind, "all");
+    assert.equal(change(ROWS.slice(0, 2)).kind, "all");
+    assert.equal(menuChange(menuSignatures(ROWS, isSettings), menuSignatures(ROWS.slice(0, 2), isSettings)).kind, "all");
   });
 
   test("everything, when there is no earlier copy or too many products changed", () => {
@@ -49,6 +56,22 @@ describe("what a POS refresh rebuilds", () => {
     const many = Array.from({ length: MAX_PRODUCTS_PER_REFRESH + 1 }, (_, i) => ({ id: `p${i}`, name: `P${i}`, price: 1 }));
     const repriced = many.map((row) => ({ ...row, price: 2 }));
     assert.equal(menuChange(menuSignatures(repriced), menuSignatures(many)).kind, "all");
+  });
+
+  test("a shelf's strip is rebuilt when it changed, appeared or went away", () => {
+    const before = { "sweets:barfi": "a1", bakery: "b1", "menu:dairy": "c1" };
+    assert.deepEqual(changedShelves(before, { ...before }), []);
+    assert.deepEqual(changedShelves({ ...before, bakery: "b2" }, before), ["bakery"]);
+    assert.deepEqual(changedShelves({ ...before, snacks: "d1" }, before), ["snacks"]);
+    assert.deepEqual(changedShelves({ bakery: "b1", "menu:dairy": "c1" }, before), ["sweets:barfi"]);
+  });
+
+  test("a remembered copy in an older format is not used", () => {
+    const rows = menuSignatures(ROWS, isSettings);
+    assert.deepEqual(parseMenuState({ version: 3, rows, related: { bakery: "b1" } }), { rows, related: { bakery: "b1" } });
+    assert.equal(parseMenuState({ version: 2, rows }), null);
+    assert.equal(parseMenuState({ version: 3, rows }), null);
+    assert.equal(parseMenuState({ version: 3, rows: { x: ["only-one"] }, related: {} }), null);
   });
 
   test("the order of a row's columns does not matter", () => {

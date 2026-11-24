@@ -10,7 +10,9 @@ import localMenu from "@/data/menu-items.json";
 import aisleCatalog from "@/data/aisle-items.json";
 import { selectWithColumnFallback } from "@/lib/menuColumns";
 import { posFields } from "@/lib/posDeal";
-import { MENU_TAG, PRODUCT_PAGES_TAG, WEEK_SECONDS, onProductPage, productTag } from "@/lib/menuScope";
+import { BUILD_ID, MENU_TAG, PRODUCT_PAGES_TAG, PRODUCT_PAGE_SECONDS, WEEK_SECONDS, onProductPage, productTag, relatedTag } from "@/lib/menuScope";
+import { scopedMemo } from "@/lib/scopedMemo";
+import { PLACEMENT_FIELDS } from "@/lib/menuFingerprint";
 
 type StoredMenuItem = MenuItem & {
   woo_category_slugs?: string[];
@@ -214,9 +216,9 @@ const loadMenuRowsPageCached = unstable_cache(loadMenuRowsPage, ["jallundhar-men
   tags: [MENU_TAG],
 });
 
-/** The copy product pages read: refreshed only on a full storefront refresh (see menuScope.ts). */
-const loadMenuRowsPageForProductPages = unstable_cache(loadMenuRowsPage, ["jallundhar-menu-rows-page-products-v1"], {
-  revalidate: WEEK_SECONDS,
+/** The copy product pages read: this build's snapshot, refreshed only on a full storefront refresh (see menuScope.ts). */
+const loadMenuRowsPageForProductPages = unstable_cache(loadMenuRowsPage, ["jallundhar-menu-rows-page-products-v1", BUILD_ID], {
+  revalidate: PRODUCT_PAGE_SECONDS,
   tags: [PRODUCT_PAGES_TAG],
 });
 
@@ -234,12 +236,38 @@ async function loadMenuRow(id: string): Promise<{ row: MenuItem | null }> {
   return { row: (data as MenuItem | null) ?? null };
 }
 
-/** A product's own row, cached under its own tag so a POS change to it rebuilds only its page. */
-function loadMenuRowCached(id: string) {
-  return unstable_cache(() => loadMenuRow(id), ["jallundhar-menu-row-v1", id], {
-    revalidate: WEEK_SECONDS,
-    tags: [productTag(id)],
-  })();
+const BUILDING = process.env.NEXT_PHASE === "phase-production-build";
+
+/**
+ * A product's own row, cached under its own tag so a POS change to it rebuilds only its page.
+ * While the site is being built the rows were all just read, so `known` is used instead of
+ * asking Supabase 4,300 more times; the page still gets the product's tag.
+ */
+function loadMenuRowCached(id: string, known: MenuItem | null) {
+  return unstable_cache(
+    () => (BUILDING ? Promise.resolve({ row: known }) : loadMenuRow(id)),
+    ["jallundhar-menu-row-v1", BUILD_ID, id],
+    { revalidate: PRODUCT_PAGE_SECONDS, tags: [productTag(id)] }
+  )();
+}
+
+/** Each copy's rows are read (and parsed) once per request. */
+const readSnapshotRows = cache(() => readRowPages(loadMenuRowsPageForProductPages));
+const readListingRows = cache(() => readRowPages(loadMenuRowsPageCached));
+
+/**
+ * Whether a product no longer fits the build-time snapshot: it is not in it (a new product, or a page
+ * built from several rows such as a pizza and its sizes), it is gone, or it was renamed, moved or
+ * hidden/shown since. Its page then reads the listings' copy (see menuScope.ts).
+ */
+export async function productLeftSnapshot(id: string): Promise<boolean> {
+  const known = (await readSnapshotRows()).find((row) => row.id === id);
+  if (!known) return true;
+  const { row } = await loadMenuRowCached(id, known);
+  if (!row) return true;
+  const before = known as unknown as Record<string, unknown>;
+  const now = row as unknown as Record<string, unknown>;
+  return PLACEMENT_FIELDS.some((field) => (before[field] ?? null) !== (now[field] ?? null));
 }
 
 /** `rows` with one product's row swapped for `fresh` (dropped when the product no longer exists). */
@@ -249,20 +277,24 @@ export function withFreshRow(rows: MenuItem[], id: string, fresh: MenuItem | nul
 }
 
 /**
- * Every menu row, from the cached pages; read once per request. With `freshId` (a product page), that
- * product's row comes from its own cache entry, because the product pages' copy is allowed to be older.
+ * Every menu row, from the cached pages; read once per request. With `freshId` (a product page reading
+ * the snapshot), that product's row comes from its own cache entry, because the snapshot is older.
  */
-const loadMenuRowsCached = cache(async (freshId?: string): Promise<MenuItem[]> => {
-  const loadPage = onProductPage() ? loadMenuRowsPageForProductPages : loadMenuRowsPageCached;
+const loadMenuRowsCached = scopedMemo(async (freshId?: string): Promise<MenuItem[]> => {
+  if (!onProductPage()) return readListingRows();
+  const rows = await readSnapshotRows();
+  const known = freshId ? rows.find((row) => row.id === freshId) : undefined;
+  return freshId && known ? withFreshRow(rows, freshId, (await loadMenuRowCached(freshId, known)).row) : rows;
+});
+
+async function readRowPages(loadPage: (from: number) => Promise<MenuItem[]>): Promise<MenuItem[]> {
   const rows: MenuItem[] = [];
   for (let from = 0; ; from += MENU_PAGE_SIZE) {
     const page = await loadPage(from);
     rows.push(...page);
-    if (page.length < MENU_PAGE_SIZE) break;
+    if (page.length < MENU_PAGE_SIZE) return rows;
   }
-  if (!freshId || !rows.some((row) => row.id === freshId)) return rows;
-  return withFreshRow(rows, freshId, (await loadMenuRowCached(freshId)).row);
-});
+}
 
 function menuHasItems(categories: MenuCategory[]) {
   return categories.some((category) => category.items.length > 0);
@@ -345,7 +377,26 @@ async function groupedFromCache(includeHidden: boolean, freshId?: string): Promi
   return local.some((category) => category.items.length > 0) || includeHidden ? local : [];
 }
 
-export const loadMenuIncludingHidden = cache(() => groupedFromCache(true));
+export const loadMenuIncludingHidden = scopedMemo(() => groupedFromCache(true));
+
+/**
+ * The catalogue as the storefront groups it, built from rows just read from Supabase (no cache):
+ * what the POS refresh and a rebuilt "related" strip compare the cached pages against.
+ */
+export async function catalogFromRows(rows: MenuItem[]) {
+  const visibility = await loadStoreVisibilityUncached();
+  const extras = extraSections(visibility);
+  const overrides = withHiddenFlags(
+    rows.length ? rows : (localMenu as StoredMenuItem[]),
+    visibility.hiddenItemIds,
+    visibility.bestsellerIds,
+    visibility
+  );
+  const categories = rows.length
+    ? groupedFromDbOrLocal(rows, false, visibility.hiddenItemIds, visibility.bestsellerIds, extras, visibility)
+    : loadFromLocal(false, visibility.hiddenItemIds, visibility.bestsellerIds, extras, visibility);
+  return { visibility, overrides, categories };
+}
 
 export async function loadStorefrontMenu() {
   if (await isAdminSession()) return loadMenuIncludingHidden();
@@ -358,17 +409,21 @@ export function refreshMenuCache() {
   revalidateTag(PRODUCT_PAGES_TAG);
 }
 
-/** Some products changed (rate, photo, stock): the listings and those products' own pages, nothing else. */
-export function refreshMenuProducts(ids: string[]) {
+/**
+ * Some products changed: the listings, those products' own pages, and the product pages of every
+ * shelf whose "related" strip now shows something different. Nothing else.
+ */
+export function refreshMenuProducts(ids: string[], relatedKeys: string[] = []) {
   revalidateTag(MENU_TAG);
   for (const id of ids) revalidateTag(productTag(id));
+  for (const key of relatedKeys) revalidateTag(relatedTag(key));
 }
 
 /** `freshId`: the product a product page is showing, whose row is read from its own cache entry. */
-export const loadMenu = cache((freshId?: string) => groupedFromCache(false, freshId));
+export const loadMenu = scopedMemo((freshId?: string) => groupedFromCache(false, freshId));
 
 /** Storefront copy of loadAllMenuItems: the rows come from the cached pages (read again on an admin save or a POS refresh). */
-export const loadAllMenuItemsCached = cache(async (freshId?: string): Promise<MenuItem[]> => {
+export const loadAllMenuItemsCached = scopedMemo(async (freshId?: string): Promise<MenuItem[]> => {
   const vis = await loadStoreVisibility();
   const rows = await loadMenuRowsCached(freshId);
   return withHiddenFlags(rows.length ? rows : (localMenu as StoredMenuItem[]), vis.hiddenItemIds, vis.bestsellerIds, vis);
