@@ -76,6 +76,14 @@ async function main() {
   nextEnv.loadEnvConfig(root, false, { info() {}, error() {} });
   await rm(outRoot, { recursive: true, force: true });
   if (process.env.SMALL_PHOTOS === "0" || process.env.JALLUNDHAR_LOCAL_PREVIEW === "1") return;
+  // Only the production build downloads the photos. A preview or local build often starts with an
+  // empty cache and would pull the whole bucket (100+ MB) from Supabase, which counts against its
+  // egress allowance; there the route makes the few copies anyone actually looks at.
+  // SMALL_PHOTOS=1 forces a run anywhere.
+  if (process.env.VERCEL_ENV !== "production" && process.env.SMALL_PHOTOS !== "1") {
+    console.log("Small photos: skipped outside a production build; lists use /api/small-photo instead.");
+    return;
+  }
   const base = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim().replace(/\/+$/, "");
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!base.startsWith("https://") || !key) return;
