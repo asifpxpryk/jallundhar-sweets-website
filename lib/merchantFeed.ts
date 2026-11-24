@@ -1,4 +1,4 @@
-import { unstable_cache } from "next/cache";
+import { menuScopedCache } from "@/lib/menuScope";
 import gtinData from "@/data/pos-gtins.json";
 import { loadSearchCatalog } from "@/lib/searchCatalog";
 import { buildBrandIndex } from "@/lib/catalogBrand";
@@ -43,7 +43,7 @@ export function gtinProperty(gtin: string): "gtin8" | "gtin12" | "gtin13" | "gti
  * Brand per product id, computed once per render from the whole visible catalog (same rule as the feed:
  * ours for own sections, explicit company, or a brand detected from the aisle's product names).
  */
-const loadBrandRecord = unstable_cache(
+const loadBrandRecord = menuScopedCache(
   async () => {
   const catalog = await loadSearchCatalog();
   const seen = new Set<string>();
@@ -60,8 +60,8 @@ const loadBrandRecord = unstable_cache(
   for (const { item, section, aisle } of entries) record[item.id] = brandOf(item, section, aisle);
   return record;
   },
-  ["jallundhar-brand-lookup-v1"],
-  { revalidate: 604800, tags: ["menu", "store-visibility"] }
+  "jallundhar-brand-lookup-v1",
+  ["store-visibility"]
 );
 
 export async function loadBrandLookup() {
