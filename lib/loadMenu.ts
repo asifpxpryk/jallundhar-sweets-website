@@ -136,6 +136,9 @@ async function loadFromSupabase(): Promise<MenuItem[]> {
   throw new Error("Could not load the full menu from Supabase.");
 }
 
+/** The menu rows straight from Supabase, skipping the cache (the POS refresh compares these with its last read). */
+export const loadMenuRowsUncached = loadFromSupabase;
+
 async function loadFromSupabaseOnce(url: string, key: string): Promise<MenuItem[] | null> {
   const supabase = createClient(url, key);
   const controller = new AbortController();
