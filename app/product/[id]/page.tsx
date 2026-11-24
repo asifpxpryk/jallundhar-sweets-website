@@ -5,15 +5,27 @@ import ProductDetail from "@/components/ProductDetail";
 import { loadProduct } from "@/lib/product";
 import { customerProductName } from "@/lib/productName";
 import { canonicalProductId, displayOffer, returnPolicyFor, schemaBrand, productDescription, productMetaDescription, productPageDescription, productImage, productTitle, absoluteUrl, jsonLdString, nonAlcoholicOverride, OG_DEFAULTS, clampText } from "@/lib/seo";
-import { canonicalSlugFor, resolveProductParam } from "@/lib/productSlugIndex";
+import { canonicalSlugFor, loadSlugIndex, resolveProductParam } from "@/lib/productSlugIndex";
 import { SITE_URL } from "@/lib/site";
 import { feedGtin, gtinProperty, loadBrandLookup } from "@/lib/merchantFeed";
 
-export const revalidate = 604800;
+/** 30 days (PRODUCT_PAGE_SECONDS): a changed product is refreshed by its own tag, not by this timer. */
+export const revalidate = 2592000;
 export const dynamicParams = true;
-/** Rendered on first request, then cached for a week or until an admin save (2,000+ products are not prebuilt to keep deployments small). */
-export function generateStaticParams() {
-  return [];
+/**
+ * Every product page is built with the deployment. Rendering them on first request instead cost
+ * function CPU after each deployment, when crawlers reopened all 4,300 of them. If the catalogue
+ * can't be read at build time (or PREBUILD_PRODUCTS=0), pages fall back to being rendered on request.
+ */
+export async function generateStaticParams() {
+  if (process.env.PREBUILD_PRODUCTS === "0") return [];
+  try {
+    const index = await loadSlugIndex();
+    return [...new Set(Object.values(index.byId))].map((id) => ({ id }));
+  } catch (error) {
+    console.error("Product pages not prebuilt: catalogue unavailable", error);
+    return [];
+  }
 }
 
 type Props = { params: { id: string } };

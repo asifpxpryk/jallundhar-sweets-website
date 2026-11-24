@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { promises as fs } from "fs";
 import path from "path";
 import { unstable_cache, revalidateTag } from "next/cache";
+import { PRODUCT_PAGE_SECONDS, onProductPage } from "@/lib/menuScope";
 import { isSectionSlug } from "@/lib/sections";
 import { isGeneralAisle } from "@/lib/generalAisles";
 import { isBeverageAisle } from "@/lib/beverageAisles";
@@ -292,11 +293,22 @@ export async function loadStoreVisibilityUncached(): Promise<StoreVisibility> {
   return base;
 }
 
-export const loadStoreVisibility = unstable_cache(
+const loadStoreVisibilityWeekly = unstable_cache(
   loadStoreVisibilityUncached,
   ["jallundhar-store-visibility-v11"],
   { revalidate: 604800, tags: ["store-visibility"] }
 );
+
+/** Product pages keep their copy longer, so reading it doesn't shorten their own lifetime (see menuScope.ts). */
+const loadStoreVisibilityForProductPages = unstable_cache(
+  loadStoreVisibilityUncached,
+  ["jallundhar-store-visibility-v11-product-pages"],
+  { revalidate: PRODUCT_PAGE_SECONDS, tags: ["store-visibility"] }
+);
+
+export function loadStoreVisibility(): Promise<StoreVisibility> {
+  return onProductPage() ? loadStoreVisibilityForProductPages() : loadStoreVisibilityWeekly();
+}
 
 export function refreshStoreVisibility() {
   revalidateTag("store-visibility");

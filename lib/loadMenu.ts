@@ -10,7 +10,7 @@ import localMenu from "@/data/menu-items.json";
 import aisleCatalog from "@/data/aisle-items.json";
 import { selectWithColumnFallback } from "@/lib/menuColumns";
 import { posFields } from "@/lib/posDeal";
-import { MENU_TAG, PRODUCT_PAGES_TAG, WEEK_SECONDS, onProductPage, productTag } from "@/lib/menuScope";
+import { MENU_TAG, PRODUCT_PAGES_TAG, PRODUCT_PAGE_SECONDS, WEEK_SECONDS, onProductPage, productTag } from "@/lib/menuScope";
 
 type StoredMenuItem = MenuItem & {
   woo_category_slugs?: string[];
@@ -216,7 +216,7 @@ const loadMenuRowsPageCached = unstable_cache(loadMenuRowsPage, ["jallundhar-men
 
 /** The copy product pages read: refreshed only on a full storefront refresh (see menuScope.ts). */
 const loadMenuRowsPageForProductPages = unstable_cache(loadMenuRowsPage, ["jallundhar-menu-rows-page-products-v1"], {
-  revalidate: WEEK_SECONDS,
+  revalidate: PRODUCT_PAGE_SECONDS,
   tags: [PRODUCT_PAGES_TAG],
 });
 
@@ -234,12 +234,19 @@ async function loadMenuRow(id: string): Promise<{ row: MenuItem | null }> {
   return { row: (data as MenuItem | null) ?? null };
 }
 
-/** A product's own row, cached under its own tag so a POS change to it rebuilds only its page. */
-function loadMenuRowCached(id: string) {
-  return unstable_cache(() => loadMenuRow(id), ["jallundhar-menu-row-v1", id], {
-    revalidate: WEEK_SECONDS,
-    tags: [productTag(id)],
-  })();
+const BUILDING = process.env.NEXT_PHASE === "phase-production-build";
+
+/**
+ * A product's own row, cached under its own tag so a POS change to it rebuilds only its page.
+ * While the site is being built the rows were all just read, so `known` is used instead of
+ * asking Supabase 4,300 more times; the page still gets the product's tag.
+ */
+function loadMenuRowCached(id: string, known: MenuItem | null) {
+  return unstable_cache(
+    () => (BUILDING ? Promise.resolve({ row: known }) : loadMenuRow(id)),
+    ["jallundhar-menu-row-v1", id],
+    { revalidate: PRODUCT_PAGE_SECONDS, tags: [productTag(id)] }
+  )();
 }
 
 /** `rows` with one product's row swapped for `fresh` (dropped when the product no longer exists). */
@@ -253,16 +260,24 @@ export function withFreshRow(rows: MenuItem[], id: string, fresh: MenuItem | nul
  * product's row comes from its own cache entry, because the product pages' copy is allowed to be older.
  */
 const loadMenuRowsCached = cache(async (freshId?: string): Promise<MenuItem[]> => {
-  const loadPage = onProductPage() ? loadMenuRowsPageForProductPages : loadMenuRowsPageCached;
+  const forProductPage = onProductPage();
+  const rows = await readRowPages(forProductPage ? loadMenuRowsPageForProductPages : loadMenuRowsPageCached);
+  if (!freshId) return rows;
+  const known = rows.find((row) => row.id === freshId);
+  if (known) return withFreshRow(rows, freshId, (await loadMenuRowCached(freshId, known)).row);
+  // A page built from several rows (a pizza and its sizes) has no row of its own to follow, so it
+  // reads the listings' copy and is rebuilt on every change, like a listing page.
+  return forProductPage ? readRowPages(loadMenuRowsPageCached) : rows;
+});
+
+async function readRowPages(loadPage: (from: number) => Promise<MenuItem[]>): Promise<MenuItem[]> {
   const rows: MenuItem[] = [];
   for (let from = 0; ; from += MENU_PAGE_SIZE) {
     const page = await loadPage(from);
     rows.push(...page);
-    if (page.length < MENU_PAGE_SIZE) break;
+    if (page.length < MENU_PAGE_SIZE) return rows;
   }
-  if (!freshId || !rows.some((row) => row.id === freshId)) return rows;
-  return withFreshRow(rows, freshId, (await loadMenuRowCached(freshId)).row);
-});
+}
 
 function menuHasItems(categories: MenuCategory[]) {
   return categories.some((category) => category.items.length > 0);
