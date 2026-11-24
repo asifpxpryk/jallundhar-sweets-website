@@ -6,7 +6,15 @@ import { BAKERY_AISLES } from "@/lib/bakeryAisles";
 import { SWEETS_AISLES } from "@/lib/sweetsAisles";
 import { listAisles, listSections } from "@/lib/categoryCatalog";
 import { loadStoreVisibilityUncached, refreshStoreVisibility } from "@/lib/storeVisibility";
-import { refreshMenuCache } from "@/lib/loadMenu";
+import { refreshMenuCache, refreshMenuProducts } from "@/lib/loadMenu";
+
+/**
+ * Some products' rate, photo, description or stock changed. The listings are rebuilt, and those
+ * products' own pages; every other product page stays cached (see menuScope.ts).
+ */
+export function refreshProducts(ids: string[]) {
+  refreshMenuProducts(ids);
+}
 
 /** Drops every cached menu read and storefront page, so the next visitor sees the saved catalogue. */
 export async function refreshStorefront() {

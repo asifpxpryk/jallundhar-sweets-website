@@ -1,4 +1,4 @@
-import { unstable_cache } from "next/cache";
+import { menuScopedCache } from "@/lib/menuScope";
 import { loadSearchCatalog } from "@/lib/searchCatalog";
 
 /**
@@ -12,7 +12,4 @@ async function emptySectionSlugs(): Promise<string[]> {
     .map((category) => category.slug);
 }
 
-export const loadEmptySectionSlugs = unstable_cache(emptySectionSlugs, ["empty-section-slugs-v2"], {
-  revalidate: 604800,
-  tags: ["menu", "store-visibility"],
-});
+export const loadEmptySectionSlugs = menuScopedCache(emptySectionSlugs, "empty-section-slugs-v2", ["store-visibility"]);

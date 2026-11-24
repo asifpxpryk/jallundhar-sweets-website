@@ -33,7 +33,8 @@ export const loadProduct = cache(async (id: string) => {
 
   const visibility = await loadStoreVisibility();
   const sections = listSections(visibility);
-  const overrides = await loadAllMenuItemsCached();
+  // The product's own row is read from its own cache entry (see menuScope.ts).
+  const overrides = await loadAllMenuItemsCached(id);
   // Only build the item lists for placements that can hold this id; building
   // all ~45 of them for every product page was the main render cost.
   const placements = placementsForItem(id, visibility, overrides);
@@ -69,7 +70,7 @@ export const loadProduct = cache(async (id: string) => {
     if (item) return { item, section, aisle: null, related: relatedItems(items, id) };
   }
 
-  const categories = await loadMenu();
+  const categories = await loadMenu(id);
   for (const category of categories) {
     for (const entry of category.items) {
       const variant = entry.variants?.find((item) => item.id === id);

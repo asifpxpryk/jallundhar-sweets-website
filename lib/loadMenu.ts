@@ -10,6 +10,7 @@ import localMenu from "@/data/menu-items.json";
 import aisleCatalog from "@/data/aisle-items.json";
 import { selectWithColumnFallback } from "@/lib/menuColumns";
 import { posFields } from "@/lib/posDeal";
+import { MENU_TAG, PRODUCT_PAGES_TAG, WEEK_SECONDS, onProductPage, productTag } from "@/lib/menuScope";
 
 type StoredMenuItem = MenuItem & {
   woo_category_slugs?: string[];
@@ -209,18 +210,58 @@ async function loadMenuRowsPage(from: number): Promise<MenuItem[]> {
  * was not cached yet read all the rows from Supabase again (2 to 5 seconds a page).
  */
 const loadMenuRowsPageCached = unstable_cache(loadMenuRowsPage, ["jallundhar-menu-rows-page-v1"], {
-  revalidate: 604800,
-  tags: ["menu"],
+  revalidate: WEEK_SECONDS,
+  tags: [MENU_TAG],
 });
 
-/** Every menu row, from the cached pages; read once per request. */
-const loadMenuRowsCached = cache(async (): Promise<MenuItem[]> => {
+/** The copy product pages read: refreshed only on a full storefront refresh (see menuScope.ts). */
+const loadMenuRowsPageForProductPages = unstable_cache(loadMenuRowsPage, ["jallundhar-menu-rows-page-products-v1"], {
+  revalidate: WEEK_SECONDS,
+  tags: [PRODUCT_PAGES_TAG],
+});
+
+/** One product's row, read fresh from Supabase; throws on a failed read so an error is never cached. */
+async function loadMenuRow(id: string): Promise<{ row: MenuItem | null }> {
+  if (process.env.JALLUNDHAR_LOCAL_PREVIEW === "1") return { row: null };
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return { row: null };
+  const supabase = createClient(url, key);
+  const { data, error } = await selectWithColumnFallback<unknown>((columns) =>
+    supabase.from("menu_items").select(columns).eq("id", id).maybeSingle()
+  );
+  if (error) throw new Error("Could not load the product from Supabase.");
+  return { row: (data as MenuItem | null) ?? null };
+}
+
+/** A product's own row, cached under its own tag so a POS change to it rebuilds only its page. */
+function loadMenuRowCached(id: string) {
+  return unstable_cache(() => loadMenuRow(id), ["jallundhar-menu-row-v1", id], {
+    revalidate: WEEK_SECONDS,
+    tags: [productTag(id)],
+  })();
+}
+
+/** `rows` with one product's row swapped for `fresh` (dropped when the product no longer exists). */
+export function withFreshRow(rows: MenuItem[], id: string, fresh: MenuItem | null): MenuItem[] {
+  if (!rows.some((row) => row.id === id)) return rows;
+  return rows.flatMap((row) => (row.id !== id ? [row] : fresh ? [fresh] : []));
+}
+
+/**
+ * Every menu row, from the cached pages; read once per request. With `freshId` (a product page), that
+ * product's row comes from its own cache entry, because the product pages' copy is allowed to be older.
+ */
+const loadMenuRowsCached = cache(async (freshId?: string): Promise<MenuItem[]> => {
+  const loadPage = onProductPage() ? loadMenuRowsPageForProductPages : loadMenuRowsPageCached;
   const rows: MenuItem[] = [];
   for (let from = 0; ; from += MENU_PAGE_SIZE) {
-    const page = await loadMenuRowsPageCached(from);
+    const page = await loadPage(from);
     rows.push(...page);
-    if (page.length < MENU_PAGE_SIZE) return rows;
+    if (page.length < MENU_PAGE_SIZE) break;
   }
+  if (!freshId || !rows.some((row) => row.id === freshId)) return rows;
+  return withFreshRow(rows, freshId, (await loadMenuRowCached(freshId)).row);
 });
 
 function menuHasItems(categories: MenuCategory[]) {
@@ -295,10 +336,10 @@ export async function loadMenuIncludingHiddenUncached(): Promise<MenuCategory[]>
 }
 
 /** The grouped menu from the cached rows and the cached store settings (grouping itself takes milliseconds). */
-async function groupedFromCache(includeHidden: boolean): Promise<MenuCategory[]> {
+async function groupedFromCache(includeHidden: boolean, freshId?: string): Promise<MenuCategory[]> {
   const vis = await loadStoreVisibility();
   const extras = extraSections(vis);
-  const rows = await loadMenuRowsCached();
+  const rows = await loadMenuRowsCached(freshId);
   if (rows.length) return groupedFromDbOrLocal(rows, includeHidden, vis.hiddenItemIds, vis.bestsellerIds, extras, vis);
   const local = loadFromLocal(includeHidden, vis.hiddenItemIds, vis.bestsellerIds, extras, vis);
   return local.some((category) => category.items.length > 0) || includeHidden ? local : [];
@@ -311,15 +352,24 @@ export async function loadStorefrontMenu() {
   return loadMenu();
 }
 
+/** A full refresh: both copies of the rows and everything built from them. */
 export function refreshMenuCache() {
-  revalidateTag("menu");
+  revalidateTag(MENU_TAG);
+  revalidateTag(PRODUCT_PAGES_TAG);
 }
 
-export const loadMenu = cache(() => groupedFromCache(false));
+/** Some products changed (rate, photo, stock): the listings and those products' own pages, nothing else. */
+export function refreshMenuProducts(ids: string[]) {
+  revalidateTag(MENU_TAG);
+  for (const id of ids) revalidateTag(productTag(id));
+}
+
+/** `freshId`: the product a product page is showing, whose row is read from its own cache entry. */
+export const loadMenu = cache((freshId?: string) => groupedFromCache(false, freshId));
 
 /** Storefront copy of loadAllMenuItems: the rows come from the cached pages (read again on an admin save or a POS refresh). */
-export const loadAllMenuItemsCached = cache(async (): Promise<MenuItem[]> => {
+export const loadAllMenuItemsCached = cache(async (freshId?: string): Promise<MenuItem[]> => {
   const vis = await loadStoreVisibility();
-  const rows = await loadMenuRowsCached();
+  const rows = await loadMenuRowsCached(freshId);
   return withHiddenFlags(rows.length ? rows : (localMenu as StoredMenuItem[]), vis.hiddenItemIds, vis.bestsellerIds, vis);
 });

@@ -1,9 +1,17 @@
 import { timingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
 import { loadMenuRowsUncached } from "@/lib/loadMenu";
-import { menuChanged, menuFingerprint, readMenuFingerprint, saveMenuFingerprint } from "@/lib/menuFingerprint";
+import {
+  menuChange,
+  menuSignatures,
+  readMenuSignatures,
+  saveMenuSignatures,
+  type MenuChange,
+  type MenuSignatures,
+} from "@/lib/menuFingerprint";
 import { rateHit } from "@/lib/rateLimit";
-import { refreshStorefront } from "@/lib/storefrontRefresh";
+import { refreshProducts, refreshStorefront } from "@/lib/storefrontRefresh";
+import { isVisibilityConfigId } from "@/lib/storeVisibility";
 
 export const dynamic = "force-dynamic";
 
@@ -18,10 +26,10 @@ function sameSecret(given: string, expected: string): boolean {
 }
 
 /** Null when the rows can't be read or come back empty: the refresh then runs in full, as before. */
-async function currentFingerprint(): Promise<string | null> {
+async function currentSignatures(): Promise<MenuSignatures | null> {
   try {
     const rows = await loadMenuRowsUncached();
-    return rows.length ? menuFingerprint(rows) : null;
+    return rows.length ? menuSignatures(rows as unknown as Record<string, unknown>[], isVisibilityConfigId) : null;
   } catch {
     return null;
   }
@@ -45,15 +53,30 @@ export async function POST(request: Request) {
     );
   }
 
-  // A refresh drops every cached page, so it only runs when the menu rows really differ from last time.
-  const fingerprint = await currentFingerprint();
-  if (fingerprint && !menuChanged(fingerprint, await readMenuFingerprint())) {
+  // A full refresh drops every cached page, so only what really moved since the last call is refreshed.
+  const signatures = await currentSignatures();
+  const change: MenuChange = signatures
+    ? menuChange(signatures, await readMenuSignatures())
+    : { kind: "all", reason: "menu rows could not be read" };
+  const refreshedAt = new Date().toISOString();
+
+  if (change.kind === "none") {
     console.info("POS refresh: menu unchanged, cached pages kept");
-    return NextResponse.json({ ok: true, changed: false, refreshedAt: new Date().toISOString() });
+    return NextResponse.json({ ok: true, changed: false, refreshedAt });
   }
 
-  await refreshStorefront();
-  if (fingerprint) await saveMenuFingerprint(fingerprint);
-  console.info("POS refresh: menu changed, storefront refreshed");
-  return NextResponse.json({ ok: true, changed: true, refreshedAt: new Date().toISOString() });
+  if (change.kind === "products") {
+    refreshProducts(change.ids);
+    console.info(`POS refresh: ${change.ids.length} product(s) changed, their pages and the listings refreshed`);
+  } else {
+    await refreshStorefront();
+    console.info(`POS refresh: whole storefront refreshed (${change.reason})`);
+  }
+  if (signatures) await saveMenuSignatures(signatures);
+  return NextResponse.json({
+    ok: true,
+    changed: true,
+    products: change.kind === "products" ? change.ids.length : "all",
+    refreshedAt,
+  });
 }
