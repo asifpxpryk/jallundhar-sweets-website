@@ -5,6 +5,7 @@ import { sendOrderEmail } from "@/lib/orderEmail";
 import { savedOrderNumber } from "@/lib/orderTracking";
 import { parseOrderLines, priceOrderLines, unpricedOrderLines, type OrderLineInput } from "@/lib/orderPricing";
 import { clientIp, rateHit, waitMessage } from "@/lib/rateLimit";
+import { MIN_ORDER_TOTAL } from "@/lib/site";
 import { createSupabaseAdmin, hasSupabaseSecret } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
@@ -105,6 +106,9 @@ export async function POST(request: Request) {
   }
   const items = priced.lines;
   const total = items.reduce((sum, item) => sum + item.line_total, 0);
+  if (total < MIN_ORDER_TOTAL) {
+    return reject(422, `Minimum order is Rs. ${MIN_ORDER_TOTAL.toLocaleString()}. Please add more items.`);
+  }
 
   const supabase = orderClient();
   if (!supabase) return reject(503, "Order saving is not configured.");

@@ -28,6 +28,8 @@ export const SHOP_HOURS: { opens: string; closes: string } | null = { opens: "07
 export const SITE_FACEBOOK_URL = "https://www.facebook.com/jallundharshahiroad/";
 export const DELIVERY_NOTE =
   "Delivery charges vary by location and will be confirmed on WhatsApp";
-export const SHOP_MAP_URL = "https://maps.app.goo.gl/gTMMxVSkTRYwe5M49";
+/** Smallest cart (in rupees, before delivery) the site will take an order for. */
+export const MIN_ORDER_TOTAL = 500;
+export const SHOP_MAP_URL ="https://maps.app.goo.gl/gTMMxVSkTRYwe5M49";
 export const SHOP_MAP_EMBED_URL = "https://www.google.com/maps?q=28.422666,70.306229&output=embed";
 export const ADMIN_UI_COOKIE = "jallundhar_admin_ui";
