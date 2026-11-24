@@ -3,7 +3,7 @@
 import { trackInitiateCheckout, trackPurchase } from "@/lib/metaPixel";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "./CartContext";
-import { DELIVERY_NOTE } from "@/lib/site";
+import { DELIVERY_NOTE, MIN_ORDER_TOTAL } from "@/lib/site";
 import { ONE_KG_STEPS, lineAmountLabel, weightLabel } from "@/lib/sweetWeight";
 import type { CartChange } from "@/lib/orderPricing";
 import type { CartLine, PaymentMethod } from "@/lib/types";
@@ -71,6 +71,8 @@ export default function CartDrawer() {
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
     );
   }
+
+  const belowMinimum = lines.length > 0 && subtotal < MIN_ORDER_TOTAL;
 
   const opened = useRef({ isOpen, entry });
   if (opened.current.isOpen !== isOpen || opened.current.entry !== entry) {
@@ -162,6 +164,10 @@ export default function CartDrawer() {
       setError("Your cart is empty.");
       return;
     }
+    if (belowMinimum) {
+      setError(`Minimum order is Rs. ${MIN_ORDER_TOTAL.toLocaleString()}. Please add more items.`);
+      return;
+    }
 
     setSubmitting(true);
     // Open a blank tab synchronously (before any await) so browsers don't block it as a popup.
@@ -194,7 +200,7 @@ export default function CartDrawer() {
           })),
         }),
       });
-      if (response.status === 409 || response.status === 429) {
+      if (response.status === 409 || response.status === 422 || response.status === 429) {
         const result = (await response.json().catch(() => null)) as
           | { error?: string; changes?: CartChange[] }
           | null;
@@ -486,9 +492,15 @@ export default function CartDrawer() {
               <span>Subtotal</span>
               <span>Rs. {subtotal.toLocaleString()}</span>
             </div>
+            {belowMinimum ? (
+              <p role="status" className="mb-3 rounded-lg bg-gold-100 px-3 py-2 text-sm font-medium text-maroon-800">
+                Minimum order is Rs. {MIN_ORDER_TOTAL.toLocaleString()}. Add Rs.{" "}
+                {(MIN_ORDER_TOTAL - subtotal).toLocaleString()} more to place your order.
+              </p>
+            ) : null}
             {step === "cart" ? (
               <button
-                disabled={lines.length === 0}
+                disabled={lines.length === 0 || belowMinimum}
                 onClick={() => setStep("checkout")}
                 className="w-full rounded-full bg-maroon-700 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800 disabled:opacity-40"
               >
@@ -504,7 +516,7 @@ export default function CartDrawer() {
                 </button>
                 <button
                   onClick={placeOrder}
-                  disabled={submitting}
+                  disabled={submitting || belowMinimum}
                   className="flex-1 rounded-full bg-gold-500 py-3 text-sm font-semibold text-maroon-900 transition hover:bg-gold-400 disabled:opacity-50"
                 >
                   {submitting ? "Preparing your order…" : "Place Order on WhatsApp"}
