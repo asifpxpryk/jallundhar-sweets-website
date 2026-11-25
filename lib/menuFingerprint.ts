@@ -33,8 +33,11 @@ export const PLACEMENT_FIELDS = ["name", "category_id", "is_hidden", "pos_linked
 /** [placement, details]: two short hashes per row. */
 export type RowSignature = [string, string];
 export type MenuSignatures = Record<string, RowSignature>;
-/** `related`: a hash of each shelf's "related" strip (see relatedProducts.ts). */
-export type MenuState = { rows: MenuSignatures; related: Record<string, string> };
+/**
+ * `related`: a hash of each shelf's "related" strip (see relatedProducts.ts). `checkedAt`: when the whole
+ * menu was last compared (a refresh that names its rows compares only those, see posRefreshPartial.ts).
+ */
+export type MenuState = { rows: MenuSignatures; related: Record<string, string>; checkedAt?: string };
 
 export type MenuChange =
   | { kind: "none" }
@@ -102,7 +105,7 @@ function client() {
 
 export function parseMenuState(raw: unknown): MenuState | null {
   if (!raw || typeof raw !== "object") return null;
-  const saved = raw as { version?: unknown; rows?: unknown; related?: unknown };
+  const saved = raw as { version?: unknown; rows?: unknown; related?: unknown; checkedAt?: unknown; savedAt?: unknown };
   if (saved.version !== VERSION || !saved.rows || typeof saved.rows !== "object") return null;
   if (!saved.related || typeof saved.related !== "object") return null;
   const rows = saved.rows as Record<string, unknown>;
@@ -113,7 +116,9 @@ export function parseMenuState(raw: unknown): MenuState | null {
   }
   const related = saved.related as Record<string, unknown>;
   if (Object.values(related).some((value) => typeof value !== "string")) return null;
-  return { rows: rows as MenuSignatures, related: related as Record<string, string> };
+  // Copies saved before checkedAt existed were only ever saved after a full compare.
+  const checkedAt = typeof saved.checkedAt === "string" ? saved.checkedAt : typeof saved.savedAt === "string" ? saved.savedAt : undefined;
+  return { rows: rows as MenuSignatures, related: related as Record<string, string>, ...(checkedAt ? { checkedAt } : {}) };
 }
 
 /** What this build last compared the menu with; null when there is no usable copy. */

@@ -63,9 +63,13 @@ function shelfKeys({ visibility, categories }: Catalog): string[] {
   return keys;
 }
 
-/** A short hash of every shelf's strip, from rows just read: what the POS refresh remembers and compares. */
-export async function relatedSignatures(rows: MenuItem[]): Promise<Record<string, string>> {
-  const catalog = await catalogFromRows(rows);
+/**
+ * A short hash of every shelf's strip, from rows just read: what the POS refresh remembers and compares.
+ * `settings`: "cached" when the rows are the listings' copy (a refresh that names its rows), so the store
+ * settings row is not read again either.
+ */
+export async function relatedSignatures(rows: MenuItem[], settings: "fresh" | "cached" = "fresh"): Promise<Record<string, string>> {
+  const catalog = await catalogFromRows(rows, settings);
   const signatures: Record<string, string> = {};
   for (const key of shelfKeys(catalog)) {
     const candidates = relatedCandidates(shelfItems(key, catalog));
