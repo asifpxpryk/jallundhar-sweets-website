@@ -1,4 +1,5 @@
 import { recordVisit } from "@/lib/siteVisits";
+import { readCpuSaver } from "@/lib/cpuSaver";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ const BOT_UA = /bot|crawl|spider|slurp|lighthouse|headless|preview|facebookexter
 
 export async function POST(request: Request) {
   if (BOT_UA.test(request.headers.get("user-agent") || "")) return new Response(null, { status: 204 });
+  if ((await readCpuSaver()).on) return new Response(null, { status: 204 });
   const origin = request.headers.get("origin") || "";
   const local = origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:");
   if (!ALLOWED_ORIGINS.has(origin) && !local) return new Response(null, { status: 204 });

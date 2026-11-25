@@ -5,6 +5,7 @@ import { hasSupabaseSecret } from "@/lib/supabaseAdmin";
 import { loadAllMenuItems } from "@/lib/loadMenu";
 import { loadStoreVisibility } from "@/lib/storeVisibility";
 import { loadAdminOrders } from "@/app/admin/actions";
+import { readCpuSaverUncached } from "@/lib/cpuSaver";
 
 export const metadata = {
   title: "Account | Jallundhar Sweets & Bakers",
@@ -17,10 +18,11 @@ export const dynamic = "force-dynamic";
 export default async function AccountPage() {
   const owner = await isAdminSession();
   if (owner) {
-    const [items, orders, visibility] = await Promise.all([
+    const [items, orders, visibility, cpuSaver] = await Promise.all([
       loadAllMenuItems(),
       loadAdminOrders(),
       loadStoreVisibility(),
+      readCpuSaverUncached(),
     ]);
     return (
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -29,6 +31,7 @@ export default async function AccountPage() {
           orders={orders}
           needsSecret={!hasSupabaseSecret()}
           itemAisleKeys={visibility.itemAisleKeys}
+          cpuSaver={cpuSaver}
         />
       </section>
     );

@@ -39,7 +39,7 @@ type Props = { params: { id: string } };
 
 /**
  * The URL segment is a slug ("akhroti-sohan-halwa-1-kg"). Old ids still open the product but are sent to the
- * slug with a permanent redirect (middleware.ts answers the known ones with a 301 before this runs).
+ * slug with a permanent redirect.
  */
 const loadProductPage = cache(async (param: string) => {
   let segment = param;

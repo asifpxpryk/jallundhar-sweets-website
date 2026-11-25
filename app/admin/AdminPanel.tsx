@@ -8,6 +8,8 @@ import { useCategoryCatalog } from "@/components/CategoryCatalogContext";
 import { addMenuItem } from "./actions";
 import AdminItemForm from "./AdminItemForm";
 import AdminNav from "./AdminNav";
+import CpuSaverSwitch from "./CpuSaverSwitch";
+import type { CpuSaver } from "@/lib/cpuSaver";
 import PhotoPicker from "./PhotoPicker";
 import { defaultPlacementKey } from "@/lib/itemPlacement";
 import PlacementFields from "./PlacementFields";
@@ -23,11 +25,13 @@ export default function AdminPanel({
   orders,
   needsSecret,
   itemAisleKeys = {},
+  cpuSaver,
 }: {
   items: MenuItem[];
   orders: AdminOrder[];
   needsSecret: boolean;
   itemAisleKeys?: Record<string, string>;
+  cpuSaver?: CpuSaver;
 }) {
   const router = useRouter();
   const catalog = useCategoryCatalog();
@@ -63,6 +67,7 @@ export default function AdminPanel({
   return (
     <div className="mx-auto max-w-3xl">
       <AdminNav active="menu" />
+      {cpuSaver ? <CpuSaverSwitch initial={cpuSaver} /> : null}
       <div className="mt-4">
         <h2 className="font-display text-xl font-bold text-maroon-800">Manage menu</h2>
         <p className="text-sm text-maroon-700/70">{items.length} items</p>

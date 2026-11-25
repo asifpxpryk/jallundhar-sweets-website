@@ -10,7 +10,7 @@ import { customerProductName } from "@/lib/productName";
  *   so those URLs do not move.
  * - SLUG_OVERRIDES fixes readable ids that describe the wrong product.
  *
- * Old URLs keep working: middleware.ts sends them to the slug with a 301 (data/product-legacy-slugs.json),
+ * Old URLs keep working: the product page sends them to the slug with a permanent redirect (data/product-legacy-slugs.json),
  * and the product page redirects any other id it can still find.
  */
 
