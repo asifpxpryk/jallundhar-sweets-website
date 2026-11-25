@@ -23,6 +23,7 @@ import { relatedSignatures } from "@/lib/relatedProducts";
 import { isVisibilityConfigId } from "@/lib/storeVisibility";
 import type { MenuItem } from "@/lib/types";
 import { rateHit } from "@/lib/rateLimit";
+import { readCpuSaver } from "@/lib/cpuSaver";
 import { refreshProducts, refreshStorefront } from "@/lib/storefrontRefresh";
 
 export const dynamic = "force-dynamic";
@@ -136,6 +137,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Not allowed." }, { status: 401 });
   }
 
+  // CPU saver (lib/cpuSaver.ts, switched in /account): nothing is read or rebuilt. Answered as a
+  // success so the bridge does not retry.
+  const saver = await readCpuSaver();
+  if (saver.on) {
+    return NextResponse.json({ ok: true, changed: false, paused: true, refreshedAt: new Date().toISOString() });
+  }
+
   const limit = await rateHit("pos-refresh", RATE);
   if (!limit.allowed) {
     return NextResponse.json(
@@ -149,6 +157,10 @@ export async function POST(request: Request) {
   const ids = await namedIds(request);
   const remembered = await readMenuState();
   let why = ids ? partialBlocker(remembered, Date.now()) : "no ids named";
+  // Changes the bridge sent while the saver was on were dropped, so the first refresh after it compares everything.
+  if (!why && saver.changedAt && remembered?.checkedAt && Date.parse(saver.changedAt) > Date.parse(remembered.checkedAt)) {
+    why = "CPU saver was on";
+  }
   let outcome: Outcome | null = null;
   if (ids && remembered && !why) {
     const partial = await partialRefresh(ids, remembered);
