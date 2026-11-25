@@ -142,6 +142,41 @@ async function loadFromSupabase(): Promise<MenuItem[]> {
 /** The menu rows straight from Supabase, skipping the cache (the POS refresh compares these with its last read). */
 export const loadMenuRowsUncached = loadFromSupabase;
 
+/** Ids per request when reading named rows, so the request address stays short. */
+const IDS_PER_READ = 100;
+
+/**
+ * Only the named rows, straight from Supabase with the same columns as the whole-menu read (a POS refresh
+ * that names the rows it just wrote). A named row that is not returned no longer exists. Throws on any
+ * failed read, so the caller can fall back to reading the whole menu.
+ */
+export async function loadMenuRowsByIdsUncached(ids: readonly string[]): Promise<MenuItem[]> {
+  if (process.env.JALLUNDHAR_LOCAL_PREVIEW === "1") throw new Error("Local preview has no menu rows.");
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) throw new Error("Supabase is not configured.");
+  const supabase = createClient(url, key);
+  const rows: MenuItem[] = [];
+  let columnSet = 0;
+  for (let from = 0; from < ids.length; from += IDS_PER_READ) {
+    const chunk = ids.slice(from, from + IDS_PER_READ);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+    try {
+      const page = await selectWithColumnFallback<unknown[]>(
+        (columns) => supabase.from("menu_items").select(columns).in("id", chunk).abortSignal(controller.signal),
+        columnSet
+      );
+      columnSet = page.columnSet;
+      if (page.error || !page.data) throw new Error("Could not load the named menu rows from Supabase.");
+      rows.push(...(page.data as unknown as MenuItem[]));
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+  return rows;
+}
+
 async function loadFromSupabaseOnce(url: string, key: string): Promise<MenuItem[] | null> {
   const supabase = createClient(url, key);
   const controller = new AbortController();

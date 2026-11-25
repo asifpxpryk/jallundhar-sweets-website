@@ -1,15 +1,20 @@
 import { loadMenuRowsUncached } from "@/lib/loadMenu";
-import { menuSignatures, saveMenuState, type MenuState } from "@/lib/menuFingerprint";
+import { menuSignatures, saveMenuState, type MenuSignatures, type MenuState } from "@/lib/menuFingerprint";
 import { relatedSignatures } from "@/lib/relatedProducts";
 import { isVisibilityConfigId } from "@/lib/storeVisibility";
 import type { MenuItem } from "@/lib/types";
 
-/** What the POS refresh remembers about the menu: a signature per row and per shelf's "related" strip. */
-export async function menuStateFrom(rows: MenuItem[]): Promise<MenuState> {
-  return {
-    rows: menuSignatures(rows as unknown as Record<string, unknown>[], isVisibilityConfigId),
-    related: await relatedSignatures(rows),
-  };
+/** Each row's signature; the store settings row is judged as a whole. */
+export function rowSignatures(rows: MenuItem[]): MenuSignatures {
+  return menuSignatures(rows as unknown as Record<string, unknown>[], isVisibilityConfigId);
+}
+
+/**
+ * What the POS refresh remembers about the menu after reading all of it: a signature per row and per
+ * shelf's "related" strip, and when this full compare happened.
+ */
+export async function menuStateFrom(rows: MenuItem[], checkedAt = new Date().toISOString()): Promise<MenuState> {
+  return { rows: rowSignatures(rows), related: await relatedSignatures(rows), checkedAt };
 }
 
 /**
