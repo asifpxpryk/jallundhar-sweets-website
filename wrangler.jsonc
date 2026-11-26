@@ -13,7 +13,10 @@
     "binding": "ASSETS"
   },
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "jallundhar-sweets-website" }],
-  "r2_buckets": [{ "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "jallundhar-next-cache" }],
+  "r2_buckets": [
+    { "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "jallundhar-next-cache" },
+    { "binding": "PRODUCT_PHOTOS", "bucket_name": "jallundhar-product-photos" }
+  ],
   "d1_databases": [
     {
       "binding": "NEXT_TAG_CACHE_D1",

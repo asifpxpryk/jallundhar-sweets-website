@@ -1,0 +1,40 @@
+# Cloudflare Workers static assets: these files skip Next, so next.config.mjs headers() never reach them.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/small-photo/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=31536000
+  Cross-Origin-Resource-Policy: same-site
+
+/products/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/images/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/category-icons/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/custom-cakes/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/homepage-banners/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/homepage-banners-v2/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/general-aisles/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/bakery-aisles/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/beverage-aisles/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/sweets-aisles/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cross-Origin-Resource-Policy: same-site
+/loose-packs/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
