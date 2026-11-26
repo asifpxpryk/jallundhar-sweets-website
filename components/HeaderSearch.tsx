@@ -134,6 +134,8 @@ export default function HeaderSearch() {
     if (q.length < 1) return [];
     return catalog
       .filter((hit) => hit.section !== "general" || keepsComingSoonCards(hit.aisle) || hasCatalogPhoto(hit))
+      // Out-of-stock products stay on their aisle pages but not in search.
+      .filter((hit) => hit.item.is_available !== false)
       .filter((hit) => normalizeName(hit.name).includes(q))
       // A brand can have 20+ products (Vatika has 17); the list scrolls.
       .slice(0, 40);

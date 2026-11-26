@@ -179,12 +179,12 @@ export default function CategoryProductGrid({
       if (sortBy === "price-desc") return priceOf(b) - priceOf(a) || a.name.localeCompare(b.name);
       if (sortBy === "brand") return (brands.brandOf(a) ?? "\uffff").localeCompare(brands.brandOf(b) ?? "\uffff") || a.name.localeCompare(b.name);
       if (sortBy === "name") return a.name.localeCompare(b.name);
-      if (sortBy === "photo") return Number(hasCatalogPhoto(b)) - Number(hasCatalogPhoto(a)) || a.name.localeCompare(b.name);
-      if (sortBy === "default" && generalPage) return Number(hasCatalogPhoto(b)) - Number(hasCatalogPhoto(a));
+      if (sortBy === "default" && generalPage) return a.name.localeCompare(b.name);
       return 0;
     });
   const shown = filtered.slice(0, visible);
-  const bestsellers = generalHome
+  // No bestseller strip in the general store for now (owner's call, 2026-11-26).
+  const bestsellers = generalHome || generalPage
     ? []
     : list.filter(
         (item) =>
@@ -301,7 +301,7 @@ export default function CategoryProductGrid({
         setVisible(PAGE_SIZE);
       }}
       onClear={resetFilters}
-      defaultSortLabel={generalPage ? "Photos first" : "Shop order"}
+      defaultSortLabel={generalPage ? "Name A to Z" : "Shop order"}
       omitPhotoSort={generalPage}
       hideSearch={generalHome}
     />

@@ -178,8 +178,8 @@ export default function CategoryCatalogBar({
             { value: "brand", label: "Brand A to Z" },
             { value: "price-asc", label: "Price: low to high" },
             { value: "price-desc", label: "Price: high to low" },
-            { value: "name", label: "Name A to Z" },
-            ...(omitPhotoSort ? [] : [{ value: "photo" as const, label: "Photos first" }]),
+            // Where the default order already is A to Z (general store), it is not listed twice.
+            ...(omitPhotoSort ? [] : [{ value: "name" as const, label: "Name A to Z" }]),
           ]}
         />
         {showType ? (

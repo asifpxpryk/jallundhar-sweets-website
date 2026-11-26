@@ -43,7 +43,8 @@ function takeUnique(
 }
 
 function pickBestsellers(categories: MenuCategory[]): { items: MenuItem[]; href: string } {
-  const flagged = categories.flatMap((category) =>
+  // General-store bestsellers are off for now (owner's call, 2026-11-26).
+  const flagged = categories.filter((category) => category.slug !== "general").flatMap((category) =>
     category.items
       .filter((item) => item.is_bestseller && !item.preview_only && !item.is_hidden && item.is_available !== false)
       .map((item) => ({ item, slug: category.slug }))
