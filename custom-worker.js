@@ -19,6 +19,72 @@ export { DOQueueHandler } from "./.open-next/worker.js";
  * goes to the Next server unchanged.
  */
 
+/**
+ * Product photos come from R2 instead of Supabase Storage (whose egress the free plan caps).
+ * Pages, RSC payloads and JSON carry the Supabase public URL; it is swapped for a same-length URL on
+ * this site, so the RSC payload's length-prefixed rows stay valid and lib/smallPhoto.ts still finds
+ * the bucket path in it. A photo missing from R2 is fetched from Supabase once and kept.
+ */
+const SUPABASE_PHOTOS = "https://gyahtewnpgzswfumljoa.supabase.co/storage/v1/object/public/product-photos/";
+const PHOTO_ROUTE_START = "/img/";
+const PHOTO_PREFIX = (() => {
+  const head = `https://www.jallundharmain.com${PHOTO_ROUTE_START}`;
+  const tail = "/storage/v1/object/public/product-photos/";
+  return head + "r".repeat(SUPABASE_PHOTOS.length - head.length - tail.length) + tail;
+})();
+const PHOTO_PATH = PHOTO_PREFIX.slice("https://www.jallundharmain.com".length);
+const PHOTO_KEEP = "public, max-age=31536000, immutable";
+const REWRITE_TYPES = /^(text\/html|text\/x-component|application\/json)/i;
+
+async function servePhoto(request, env, ctx, url) {
+  let name;
+  try {
+    name = decodeURIComponent(url.pathname.slice(PHOTO_PATH.length));
+  } catch {
+    return new Response("Not found", { status: 404 });
+  }
+  if (!name || name.includes("/") || name.includes("..") || name.length > 200) {
+    return new Response("Not found", { status: 404 });
+  }
+  const cache = caches.default;
+  const cacheKey = new Request(`https://photo-cache.internal/${encodeURIComponent(name)}`);
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
+  const headers = { "Cache-Control": PHOTO_KEEP, "Cross-Origin-Resource-Policy": "same-site" };
+  const object = await env.PRODUCT_PHOTOS.get(name);
+  let response;
+  if (object) {
+    response = new Response(object.body, {
+      headers: { ...headers, "Content-Type": object.httpMetadata?.contentType || "image/webp", ETag: object.httpEtag },
+    });
+  } else {
+    const upstream = await fetch(SUPABASE_PHOTOS + encodeURIComponent(name));
+    if (!upstream.ok) {
+      return new Response("Not found", { status: upstream.status === 404 || upstream.status === 400 ? 404 : 502, headers: { "Cache-Control": "public, max-age=60" } });
+    }
+    const bytes = await upstream.arrayBuffer();
+    const contentType = upstream.headers.get("content-type") || "image/webp";
+    ctx.waitUntil(env.PRODUCT_PHOTOS.put(name, bytes, { httpMetadata: { contentType } }));
+    response = new Response(bytes, { headers: { ...headers, "Content-Type": contentType } });
+  }
+  ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  return response;
+}
+
+/** Swap Supabase photo URLs for the R2 route in a page, RSC payload or JSON body. */
+async function withR2Photos(response) {
+  const type = response.headers.get("content-type") || "";
+  if (!REWRITE_TYPES.test(type) || !response.body) return response;
+  const text = await response.text();
+  if (!text.includes(SUPABASE_PHOTOS)) {
+    return new Response(text, response);
+  }
+  const out = new Response(text.replaceAll(SUPABASE_PHOTOS, PHOTO_PREFIX), response);
+  out.headers.delete("content-length");
+  return out;
+}
+
 const SKIP = /^\/(api|account|admin|order|hisab|_next)(\/|$)/;
 // Old product ids are redirected by middleware.ts; keep them away from the fast path.
 const LEGACY_PRODUCT = /^\/product\/(pos-.+|item-.+|\d+|cream-cake-oreo-2-pound)$/;
@@ -147,6 +213,15 @@ function edgeCopy(response, ttl) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname.startsWith(PHOTO_PATH) && (request.method === "GET" || request.method === "HEAD")) {
+      return servePhoto(request, env, ctx, url);
+    }
+    return withR2Photos(await handlePage(request, env, ctx, url));
+  },
+};
+
+async function handlePage(request, env, ctx, url) {
+  {
     const rsc = request.headers.get("rsc") === "1";
     if (
       request.method !== "GET" ||
@@ -186,5 +261,5 @@ export default {
     const out = new Response(response.body, response);
     out.headers.set("x-edge-cache", `MISS-${source}`);
     return out;
-  },
-};
+  }
+}
