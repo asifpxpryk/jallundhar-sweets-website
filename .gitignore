@@ -16,3 +16,6 @@ data/live-kitchen.local.json
 .open-next/
 .wrangler/
 .dev.vars
+
+# Temporary: new POS refresh secret to paste into the POS bridge, delete after use
+pos-refresh-secret.local.txt
