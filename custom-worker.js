@@ -77,10 +77,17 @@ async function withR2Photos(response) {
   const type = response.headers.get("content-type") || "";
   if (!REWRITE_TYPES.test(type) || !response.body) return response;
   const text = await response.text();
+  // app/loading.tsx wraps every page in a Suspense boundary, so a page that calls notFound() has
+  // already sent 200 when it does; search engines then index "not found" pages. Fix the status here.
+  const status =
+    response.status === 200 && type.startsWith("text/html") && text.includes('data-dgst="NEXT_NOT_FOUND"')
+      ? 404
+      : response.status;
+  const init = { status, statusText: status === 404 ? "Not Found" : response.statusText, headers: response.headers };
   if (!text.includes(SUPABASE_PHOTOS)) {
-    return new Response(text, response);
+    return new Response(text, init);
   }
-  const out = new Response(text.replaceAll(SUPABASE_PHOTOS, PHOTO_PREFIX), response);
+  const out = new Response(text.replaceAll(SUPABASE_PHOTOS, PHOTO_PREFIX), init);
   out.headers.delete("content-length");
   return out;
 }

@@ -28,6 +28,8 @@ export const GENERAL_AISLES: { slug: string; name: string; image?: string }[] = 
   { slug: "household", name: "Household", image: "/general-aisles/household.webp?v=3" },
   { slug: "personal-care", name: "Personal Care", image: "/general-aisles/personal-care.webp?v=3" },
   { slug: "baby-care", name: "Baby Care", image: "/general-aisles/baby-care.webp?v=3" },
+  { slug: "stationery", name: "Stationery", image: "/general-aisles/stationery.webp" },
+  { slug: "party-supplies", name: "Party Supplies", image: "/general-aisles/party-supplies.webp" },
 ];
 
 export type GeneralAisleSlug = (typeof GENERAL_AISLES)[number]["slug"];

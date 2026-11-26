@@ -18,6 +18,8 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: "8mb",
     },
+    // BUILD_CPUS=4 caps the page-building workers when the build machine is short of memory.
+    ...(process.env.BUILD_CPUS ? { cpus: Number(process.env.BUILD_CPUS) } : {}),
   },
   async headers() {
     const assets = "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=604800";
