@@ -1,4 +1,3 @@
-import sharp from "sharp";
 import { PHOTO_BUCKET_PATH, SMALL_PHOTO_QUALITY, SMALL_PHOTO_WIDTH, isBucketFileName } from "@/lib/smallPhoto";
 
 export const runtime = "nodejs";
