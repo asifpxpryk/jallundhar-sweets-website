@@ -187,12 +187,12 @@ function describe(row) {
         `${name} from ${SHOP}, a premium choice for your daily kitchen needs.`,
       ]);
     default: {
-      const where = row.aisle ? `our ${aisleLabel(row.aisle)} aisle` : "our general store";
+      const where = row.aisle ? `our ${aisleLabel(row.aisle)} collection` : "our general store";
       // Without an aisle we cannot tell food from household goods, so no taste wording either.
       const food = Boolean(row.aisle) && !NON_FOOD.has(row.aisle);
       return pick(row.id, [
-        `${name}: a premium pick from ${where} at ${SHOP}, ${PLACE}.`,
-        `Shop ${name}, one of the finest picks in ${where} at ${SHOP}, trusted by families in Rahim Yar Khan.`,
+        `${name}: a premium pick from ${where}.`,
+        `Shop ${name}, one of the finest picks in ${where}.`,
         food
           ? `${name} from ${SHOP}: premium quality from ${where}, chosen for the best taste.`
           : `${name} from ${SHOP}: premium quality for your home, from ${where}.`,

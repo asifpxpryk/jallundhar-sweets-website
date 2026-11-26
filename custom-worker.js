@@ -86,6 +86,13 @@ async function withR2Photos(response) {
 }
 
 const SKIP = /^\/(api|account|admin|order|hisab|_next)(\/|$)/;
+/**
+ * The product lists the search box and lists load. Every POS refresh drops them (tag "menu"), and
+ * rebuilding one reads the whole menu from Supabase (4-7 s, ~1.5 MB). The last copy is served at once
+ * while a fresh one is built in the background, so search always answers right away.
+ */
+const STALE_OK = /^\/api\/(catalog|menu)$/;
+const STALE_EDGE_TTL_S = 60;
 // Old product ids are redirected by middleware.ts; keep them away from the fast path.
 const LEGACY_PRODUCT = /^\/product\/(pos-.+|item-.+|\d+|cream-cake-oreo-2-pound)$/;
 const VARY = "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Next-Url";
@@ -130,21 +137,28 @@ function cacheKeyPath(pathname) {
     .join("/");
 }
 
-/** The page from the OpenNext R2 cache, or null when Next has to answer. */
-async function fromR2(env, url, rsc) {
+/**
+ * The page (or cached route like /api/menu) from the OpenNext R2 cache, or null when Next has to
+ * answer. With allowStale, an outdated copy is returned too, marked stale.
+ */
+async function fromR2(env, url, rsc, allowStale = false, allowRoute = false) {
   const id = await buildId(env);
   if (!id) return null;
   const path = cacheKeyPath(url.pathname);
   const object = await env.NEXT_INC_CACHE_R2_BUCKET.get(`incremental-cache/${id}/${await sha256Hex(path)}.cache`);
   if (!object) return null;
   const value = await object.json().catch(() => null);
-  if (!value || value.type !== "app") return null;
+  if (!value || (value.type !== "app" && !(allowRoute && value.type === "route"))) return null;
+  let stale = false;
 
   const lastModified = object.uploaded.getTime();
   const revalidate = typeof value.revalidate === "number" ? value.revalidate : MAX_AGE_S;
   if (value.revalidate === 0) return null;
   const age = Math.round((Date.now() - lastModified) / 1000);
-  if (value.revalidate !== false && age >= Math.min(revalidate, MAX_AGE_S)) return null;
+  if (value.revalidate !== false && age >= Math.min(revalidate, MAX_AGE_S)) {
+    if (!allowStale) return null;
+    stale = true;
+  }
 
   const headers = { ...(value.meta?.headers ?? {}) };
   const tags = String(headers["x-next-cache-tags"] ?? "")
@@ -159,23 +173,28 @@ async function fromR2(env, url, rsc) {
     )
       .bind(...keys, lastModified)
       .raw();
-    if (hit.length) return null;
+    if (hit.length) {
+      if (!allowStale) return null;
+      stale = true;
+    }
   }
 
-  const body = rsc ? value.rsc : value.html;
+  const isRoute = value.type === "route";
+  if (isRoute && value.isBase64Encoded) return null;
+  const body = isRoute ? value.body : rsc ? value.rsc : value.html;
   if (typeof body !== "string") return null;
   const sMaxAge = value.revalidate === false ? 31536000 : Math.max(Math.min(revalidate, MAX_AGE_S) - age, 1);
   const response = new Response(body, {
     status: value.meta?.status ?? 200,
     headers: {
       "cache-control": `s-maxage=${sMaxAge}, stale-while-revalidate=${ONE_MONTH_S}`,
-      "content-type": rsc ? "text/x-component" : "text/html; charset=utf-8",
+      "content-type": isRoute ? "application/json" : rsc ? "text/x-component" : "text/html; charset=utf-8",
       ...headers,
       vary: VARY,
-      "x-opennext-cache": "HIT",
+      "x-opennext-cache": stale ? "STALE" : "HIT",
     },
   });
-  return response;
+  return { response, stale };
 }
 
 function edgeTtl(response) {
@@ -225,7 +244,7 @@ async function handlePage(request, env, ctx, url) {
     const rsc = request.headers.get("rsc") === "1";
     if (
       request.method !== "GET" ||
-      SKIP.test(url.pathname) ||
+      (SKIP.test(url.pathname) && !STALE_OK.test(url.pathname)) ||
       LEGACY_PRODUCT.test(url.pathname) ||
       (url.pathname !== "/" && url.pathname.endsWith("/")) ||
       request.headers.has("next-action") ||
@@ -248,11 +267,32 @@ async function handlePage(request, env, ctx, url) {
 
     let response = null;
     let source = "next";
+    let stale = false;
     try {
-      response = await fromR2(env, url, rsc);
-      if (response) source = "r2";
+      // Pages too: a POS refresh drops every product page at once, and rebuilding one takes 6-8 s, so
+      // the last copy is shown while the fresh one is built.
+      const found = await fromR2(env, url, rsc, true, STALE_OK.test(url.pathname));
+      if (found) {
+        response = found.response;
+        stale = found.stale;
+        source = stale ? "r2-stale" : "r2";
+      }
     } catch {
       response = null;
+    }
+    if (stale) {
+      // Build the fresh copy in the background (Next writes it to R2); this copy is kept briefly so
+      // other visitors here don't each start a rebuild.
+      ctx.waitUntil(
+        openNext
+          .fetch(new Request(url.toString(), { method: "GET" }), env, ctx)
+          .then((r) => r.arrayBuffer())
+          .catch(() => undefined)
+      );
+      ctx.waitUntil(cache.put(key, edgeCopy(response, STALE_EDGE_TTL_S)));
+      const out = new Response(response.body, response);
+      out.headers.set("x-edge-cache", `MISS-${source}`);
+      return out;
     }
     response ??= await openNext.fetch(request, env, ctx);
 
