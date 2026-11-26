@@ -138,6 +138,18 @@ export default function HeaderSearch() {
       .slice(0, 8);
   }, [catalog, query]);
 
+  // Load the top results' pages while the user is still reading the list, so a tap opens at once.
+  useEffect(() => {
+    if (!results.length) return;
+    const t = window.setTimeout(() => {
+      for (const hit of results.slice(0, 4)) {
+        const [path] = hitHref(hit).split("#");
+        if (path !== window.location.pathname) router.prefetch(path);
+      }
+    }, 250);
+    return () => window.clearTimeout(t);
+  }, [results, router]);
+
   function goTo(hit: Hit) {
     setOpen(false);
     setQuery("");

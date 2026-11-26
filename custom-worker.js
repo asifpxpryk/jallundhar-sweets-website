@@ -141,14 +141,14 @@ function cacheKeyPath(pathname) {
  * The page (or cached route like /api/menu) from the OpenNext R2 cache, or null when Next has to
  * answer. With allowStale, an outdated copy is returned too, marked stale.
  */
-async function fromR2(env, url, rsc, allowStale = false) {
+async function fromR2(env, url, rsc, allowStale = false, allowRoute = false) {
   const id = await buildId(env);
   if (!id) return null;
   const path = cacheKeyPath(url.pathname);
   const object = await env.NEXT_INC_CACHE_R2_BUCKET.get(`incremental-cache/${id}/${await sha256Hex(path)}.cache`);
   if (!object) return null;
   const value = await object.json().catch(() => null);
-  if (!value || (value.type !== "app" && !(allowStale && value.type === "route"))) return null;
+  if (!value || (value.type !== "app" && !(allowRoute && value.type === "route"))) return null;
   let stale = false;
 
   const lastModified = object.uploaded.getTime();
@@ -269,7 +269,9 @@ async function handlePage(request, env, ctx, url) {
     let source = "next";
     let stale = false;
     try {
-      const found = await fromR2(env, url, rsc, STALE_OK.test(url.pathname));
+      // Pages too: a POS refresh drops every product page at once, and rebuilding one takes 6-8 s, so
+      // the last copy is shown while the fresh one is built.
+      const found = await fromR2(env, url, rsc, true, STALE_OK.test(url.pathname));
       if (found) {
         response = found.response;
         stale = found.stale;
