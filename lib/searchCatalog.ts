@@ -53,6 +53,10 @@ export async function loadSearchCatalog(): Promise<MenuCategory[]> {
       );
       const menuItems = categories.find((category) => category.slug === section.slug)?.items ?? [];
       let items = dedupe([...placed, ...sectionPlaced, ...menuItems]);
+      // The menu joins sizes into one item (Milky Bread with Half/Full) while the aisles list each size
+      // on its own, so search showed every size twice. Keep the sizes when they are all listed.
+      const ids = new Set(items.map((item) => item.id));
+      items = items.filter((item) => !item.variants?.length || !item.variants.every((variant) => ids.has(variant.id)));
       if (section.slug === "beverage") {
         items = beveragePreviewItems(tagBeverageItems(items), undefined, overrides);
       }
