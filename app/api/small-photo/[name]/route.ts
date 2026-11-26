@@ -22,6 +22,16 @@ export async function GET(_request: Request, { params }: { params: { name: strin
   const base = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim().replace(/\/+$/, "");
   if (!base.startsWith("https://") || !isBucketFileName(name)) return gone(404);
 
+  // Cloudflare Workers have no sharp: send the browser to the full photo instead (briefly cached, so
+  // the next build's small copy takes over).
+  const sharp = await import("sharp").then((m) => m.default).catch(() => null);
+  if (!sharp) {
+    return new Response(null, {
+      status: 302,
+      headers: { Location: `${base}${PHOTO_BUCKET_PATH}${encodeURIComponent(name)}`, "Cache-Control": "public, max-age=3600" },
+    });
+  }
+
   let source: ArrayBuffer;
   try {
     const response = await fetch(`${base}${PHOTO_BUCKET_PATH}${encodeURIComponent(name)}`, {

@@ -101,7 +101,7 @@ export default async function RootLayout({
         </StorefrontShell>
         <MetaPixel />
         <ServiceWorkerRegister />
-        <Analytics />
+        {process.env.VERCEL ? <Analytics /> : null}
         <VisitBeacon />
       </body>
     </html>
