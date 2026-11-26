@@ -2,9 +2,9 @@
  * Runs before `next build`: makes the small copy of every product photo once and ships it as a plain
  * file (public/small-photo/p/<file name>.webp), so lists never wake a server function for a photo.
  *
- * The copies are kept in .next/cache/small-photos, which Vercel carries from one build to the next,
- * so a build only downloads and resizes photos it has not seen. A photo added after the build is
- * still made on request by /api/small-photo (see next.config.mjs) until the next build picks it up.
+ * The copies are kept in .next/cache/small-photos, which stays from one build to the next, so a
+ * build only downloads and resizes photos it has not seen. A photo added after the build is still made
+ * on request by /api/small-photo (see next.config.mjs) until the next build picks it up.
  *
  * Nothing here may fail the build: a photo that can't be made is simply left to that route.
  * Keep WIDTH and QUALITY equal to lib/smallPhoto.ts.
@@ -76,12 +76,12 @@ async function main() {
   nextEnv.loadEnvConfig(root, false, { info() {}, error() {} });
   await rm(outRoot, { recursive: true, force: true });
   if (process.env.SMALL_PHOTOS === "0" || process.env.JALLUNDHAR_LOCAL_PREVIEW === "1") return;
-  // Only the production build downloads the photos. A preview or local build often starts with an
-  // empty cache and would pull the whole bucket (100+ MB) from Supabase, which counts against its
-  // egress allowance; there the route makes the few copies anyone actually looks at.
-  // SMALL_PHOTOS=1 forces a run anywhere.
-  if (process.env.VERCEL_ENV !== "production" && process.env.SMALL_PHOTOS !== "1") {
-    console.log("Small photos: skipped outside a production build; lists use /api/small-photo instead.");
+  // Production builds now run on this machine (Cloudflare, `npm run cf:build`), where .next/cache
+  // keeps the copies between builds, so only new photos are downloaded. A Vercel preview build starts
+  // with an empty cache and would pull the whole bucket (100+ MB) from Supabase, so it skips this;
+  // there the route makes the few copies anyone actually looks at. SMALL_PHOTOS=1 forces a run.
+  if (process.env.VERCEL && process.env.VERCEL_ENV !== "production" && process.env.SMALL_PHOTOS !== "1") {
+    console.log("Small photos: skipped in a Vercel preview build; lists use /api/small-photo instead.");
     return;
   }
   const base = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim().replace(/\/+$/, "");
