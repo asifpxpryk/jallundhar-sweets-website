@@ -90,6 +90,8 @@ export default function HeaderSearch() {
   const [open, setOpen] = useState(false);
   const [catalog, setCatalog] = useState<Hit[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
     if (!open) return;
@@ -100,26 +102,39 @@ export default function HeaderSearch() {
   useEffect(() => {
     if (!open || loaded) return;
     let cancelled = false;
-    fetch("/api/catalog")
-      .then(async (res) => {
-        const type = res.headers.get("content-type") || "";
-        if (res.ok && type.includes("application/json")) return res.json();
-        const menu = await fetch("/api/menu");
-        return menu.json();
-      })
-      .then((data: MenuCategory[]) => {
-        if (!cancelled && Array.isArray(data)) {
-          setCatalog(flatten(data));
-          setLoaded(true);
+    async function load(): Promise<MenuCategory[]> {
+      const res = await fetch("/api/catalog");
+      const type = res.headers.get("content-type") || "";
+      if (res.ok && type.includes("application/json")) return res.json();
+      const menu = await fetch("/api/menu");
+      if (!menu.ok) throw new Error(`menu ${menu.status}`);
+      return menu.json();
+    }
+    // A dropped connection (some mobile and PTCL lines reset the first request) is tried again
+    // before search says it could not load, instead of showing "No items found".
+    (async () => {
+      setFailed(false);
+      for (const wait of [0, 1000, 3000]) {
+        if (wait) await new Promise((resolve) => window.setTimeout(resolve, wait));
+        if (cancelled) return;
+        try {
+          const data = await load();
+          if (cancelled) return;
+          if (Array.isArray(data) && data.length) {
+            setCatalog(flatten(data));
+            setLoaded(true);
+            return;
+          }
+        } catch {
+          // try again
         }
-      })
-      .catch(() => {
-        if (!cancelled) setLoaded(true);
-      });
+      }
+      if (!cancelled) setFailed(true);
+    })();
     return () => {
       cancelled = true;
     };
-  }, [open, loaded]);
+  }, [open, loaded, retry]);
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -209,7 +224,14 @@ export default function HeaderSearch() {
                 className="h-10 w-full rounded-xl border border-gold-200 px-3 text-sm text-maroon-800 outline-none placeholder:text-maroon-700/40 focus:border-maroon-500"
               />
             </div>
-            {!loaded ? (
+            {!loaded && failed ? (
+              <p className="px-4 py-3 text-sm text-maroon-700/70">
+                Products could not load.{" "}
+                <button type="button" onClick={() => setRetry((n) => n + 1)} className="font-semibold text-maroon-800 underline">
+                  Try again
+                </button>
+              </p>
+            ) : !loaded ? (
               <p className="px-4 py-3 text-sm text-maroon-700/70">Products loading…</p>
             ) : query.trim().length === 0 ? (
               <p className="px-4 py-3 text-sm text-maroon-700/70">Type mithai, pizza, bread…</p>
