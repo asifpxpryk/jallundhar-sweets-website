@@ -5,6 +5,7 @@ import { isGeneralAisle } from "@/lib/generalAisles";
 import { bakeryAisleForItem } from "@/lib/bakeryAisles";
 import { sweetsAisleForItem } from "@/lib/sweetsAisles";
 import { beverageAisleFor } from "@/lib/beverageAisles";
+import { buildBrandIndex, guessGeneralAisle } from "@/lib/generalAisleGuess";
 import aisleItems from "@/data/aisle-items.json";
 import type { StoreVisibility } from "@/lib/storeVisibility";
 import { placementKey, parsePlacement, isValidPlacement, aislesForSection, SECTION_OPTIONS } from "@/lib/placementOptions";
@@ -34,6 +35,20 @@ for (const [key, items] of Object.entries(catalog)) {
   }
 }
 
+let brandIndex: ReturnType<typeof buildBrandIndex> | null = null;
+function generalBrandIndex() {
+  brandIndex ??= buildBrandIndex(
+    (function* () {
+      for (const [key, items] of Object.entries(catalog)) {
+        const [sec, aisle] = catalogKeyToPlacement(key).split(":");
+        if (sec !== "general" || !aisle) continue;
+        for (const item of items ?? []) if (item?.name) yield { name: item.name, aisle };
+      }
+    })()
+  );
+  return brandIndex;
+}
+
 export function defaultPlacementKey(item: MenuItem): string {
   const fromCatalog = defaultPlacementById.get(item.id);
   if (fromCatalog) return fromCatalog;
@@ -49,6 +64,10 @@ export function defaultPlacementKey(item: MenuItem): string {
   if (section === "sweets") return `sweets:${sweetsAisleForItem(item.name)}`;
   // A drink from the POS comes with only "beverage"; without an aisle it showed on no aisle page.
   if (section === "beverage") return `beverage:${beverageAisleFor(item.name)}`;
+  if (section === "general") {
+    const aisle = guessGeneralAisle(item, generalBrandIndex());
+    return aisle ? `general:${aisle}` : section;
+  }
   return section;
 }
 

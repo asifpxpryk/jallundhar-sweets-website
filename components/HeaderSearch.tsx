@@ -135,7 +135,8 @@ export default function HeaderSearch() {
     return catalog
       .filter((hit) => hit.section !== "general" || keepsComingSoonCards(hit.aisle) || hasCatalogPhoto(hit))
       .filter((hit) => normalizeName(hit.name).includes(q))
-      .slice(0, 8);
+      // A brand can have 20+ products (Vatika has 17); the list scrolls.
+      .slice(0, 40);
   }, [catalog, query]);
 
   // Load the top results' pages while the user is still reading the list, so a tap opens at once.
@@ -186,7 +187,7 @@ export default function HeaderSearch() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-full z-50 mt-2 w-[min(calc(100vw-2rem),20rem)] overflow-hidden rounded-2xl border border-gold-200 bg-white shadow-xl">
+          <div className="absolute right-0 top-full z-50 mt-2 w-[min(calc(100vw-1.5rem),22rem)] overflow-hidden rounded-2xl border border-gold-200 bg-white shadow-xl">
             <div className="border-b border-gold-100 p-2">
               <input
                 ref={inputRef}
@@ -213,27 +214,27 @@ export default function HeaderSearch() {
             ) : results.length === 0 ? (
               <p className="px-4 py-3 text-sm text-maroon-700/70">No items found</p>
             ) : (
-              <ul className="max-h-80 overflow-y-auto py-1">
+              <ul className="max-h-[min(68vh,31rem)] overflow-y-auto py-1">
                 {results.map((hit) => (
                   <li key={`${hit.section}-${hit.id}`}>
-                    <div className="flex items-center gap-2 px-2 py-1.5 hover:bg-gold-50">
+                    <div className="flex items-center gap-2 px-2 py-1 hover:bg-gold-50">
                       <button
                         type="button"
                         onClick={() => goTo(hit)}
                         className="flex min-w-0 flex-1 items-center gap-2 text-left"
                       >
-                        <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+                        <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-md">
                           <ProductImage
                             src={hit.image_url || ""}
                             alt={customerProductName(hit.name, hit.section)}
-                            sizes="40px"
+                            sizes="36px"
                             className="object-cover"
                             small
                           />
                         </span>
                         <span className="min-w-0">
-                          <span className="block truncate text-sm font-semibold text-maroon-800">{customerProductName(hit.name, hit.section)}</span>
-                          <span className="text-xs text-maroon-700/60">
+                          <span className="block truncate text-[13px] font-semibold leading-tight text-maroon-800">{customerProductName(hit.name, hit.section)}</span>
+                          <span className="block truncate text-[11px] leading-tight text-maroon-700/60">
                             {hit.sectionName} · Rs. {hit.price.toLocaleString()}
                             {orderUnit(hit.name) && !customerProductName(hit.name, hit.section).includes(`— ${orderUnit(hit.name)}`)
                               ? ` · ${orderUnit(hit.name)}`
